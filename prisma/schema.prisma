@@ -1,0 +1,124 @@
+// JUDGE NOTE: PostgreSQL is ephemeral cache only.
+// Canonical ghost state lives on 0G Storage; ownership on 0G Chain.
+// Deleting this database does NOT destroy any GoalGhost identity.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GhostCache {
+  id             String   @id @default(cuid())
+  tokenId        Int      @unique
+  walletAddress  String   @unique
+  profileRoot    String
+  team           String
+  name           String
+  evolutionScore Int      @default(0)
+  confidence     Int      @default(50)
+  mood           String   @default("calm")
+  cachedAt       DateTime @default(now())
+  expiresAt      DateTime
+
+  memories MemoryIndex[]
+}
+
+model MemoryIndex {
+  id         String   @id @default(cuid())
+  tokenId    Int
+  eventId    String   @unique
+  type       String
+  title      String?
+  content    String?
+  emotionalTone String?
+  matchId    String?
+  rootHash   String
+  occurredAt DateTime
+  cachedAt   DateTime @default(now())
+
+  ghost GhostCache @relation(fields: [tokenId], references: [tokenId])
+
+  @@index([tokenId, occurredAt])
+}
+
+model MatchPollState {
+  matchId       String   @id
+  lastEventHash String
+  lastPolledAt  DateTime
+}
+
+model LegacyComment {
+  id              String          @id @default(cuid())
+  commentId       String          @unique
+  parentCommentId String?
+  walletAddress   String
+  text            String
+  signature       String
+  rootHash        String
+  mediaRootHash   String?
+  mediaType       String?
+  createdAt       DateTime
+  updatedAt       DateTime?
+  cachedAt        DateTime        @default(now())
+  parent          LegacyComment?  @relation("LegacyReplies", fields: [parentCommentId], references: [commentId], onDelete: Cascade)
+  replies         LegacyComment[] @relation("LegacyReplies")
+
+  @@index([createdAt])
+  @@index([walletAddress])
+  @@index([parentCommentId])
+}
+
+model NewsComment {
+  id              String        @id @default(cuid())
+  commentId       String        @unique
+  articleId       String
+  parentCommentId String?
+  walletAddress   String
+  text            String
+  signature       String
+  rootHash        String
+  mediaRootHash   String?
+  mediaType       String?
+  createdAt       DateTime
+  updatedAt       DateTime?
+  cachedAt        DateTime      @default(now())
+  parent          NewsComment?  @relation("NewsReplies", fields: [parentCommentId], references: [commentId], onDelete: Cascade)
+  replies         NewsComment[] @relation("NewsReplies")
+
+  @@index([articleId, createdAt])
+  @@index([walletAddress])
+  @@index([parentCommentId])
+}
+
+model CommentReaction {
+  id            String   @id @default(cuid())
+  scope         String
+  commentId     String
+  walletAddress String
+  emojiId       String
+  signature     String
+  createdAt     DateTime
+  cachedAt      DateTime @default(now())
+
+  @@unique([scope, commentId, walletAddress])
+  @@index([scope, commentId])
+}
+
+model MatchEmojiReaction {
+  id            String   @id @default(cuid())
+  matchId       String
+  walletAddress String
+  reactionId    String
+  signature     String
+  rootHash      String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  cachedAt      DateTime @default(now())
+
+  @@unique([matchId, walletAddress])
+  @@index([matchId])
+}

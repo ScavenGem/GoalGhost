@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: #0a1020;
+  --color-gold: #f4c542;
+  --color-surface: #111b2e;
+  --color-foreground: #f8fafc;
+  --color-muted: #94a3b8;
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-dm-serif);
+}
+
+* {
+  border-color: color-mix(in srgb, white 8%, transparent);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: #0a1020;
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in srgb, #f4c542 35%, transparent);
+  color: #f8fafc;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+@keyframes live-breathe {
+  0%,
+  100% {
+    border-color: color-mix(in srgb, #ef4444 28%, transparent);
+  }
+  50% {
+    border-color: color-mix(in srgb, #ef4444 48%, transparent);
+  }
+}
+
+.animate-live-breathe {
+  animation: live-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes pitch-parallax {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5px, -8px, 0) scale(1.012);
+  }
+}
+
+@keyframes pitch-parallax-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(10px, -14px, 0) scale(1.018);
+  }
+}
+
+.pitch-parallax {
+  animation: pitch-parallax 28s ease-in-out infinite;
+  will-change: transform;
+}
+
+.pitch-parallax-slow {
+  animation: pitch-parallax-slow 34s ease-in-out infinite;
+  will-change: transform;
+}

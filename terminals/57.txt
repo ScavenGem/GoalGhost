@@ -1,0 +1,312 @@
+---
+pid: 9392
+cwd: "C:\Users\samue\GoalGhost"
+command: "cmd /c \"cd /d C:\\Users\\samue\\GoalGhost && npm run dev\""
+started_at: 2026-06-20T18:25:22.831Z
+running_for_ms: 24385006 
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.143.133.136:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 2.4s
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling / ...
+ ✓ Compiled / in 10.3s
+ GET / 200 in 12197ms
+ GET / 200 in 494ms
+ GET / 200 in 1246ms
+ ○ Compiling /api/matches/live ...
+ HEAD / 200 in 1867ms
+ ✓ Compiled /api/matches/live in 3.2s
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-0%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-1%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-2%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-3%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-5 200 in 4287ms
+ GET /api/matches/live 200 in 5255ms
+ GET /api/matches/live 200 in 1423ms
+ GET /api/matches/live 200 in 457ms
+ ○ Compiling / ...
+ ✓ Compiled / in 617ms
+ GET / 200 in 1311ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-0%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-1%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-2%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-3%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-5 200 in 624ms
+ GET /api/matches/live 200 in 1091ms
+football-data.org error: [TypeError: fetch failed] {
+  [cause]: [Error: read ECONNRESET] {
+    errno: -4077,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+Match providers unavailable - serving last successful cache
+ ✓ Compiled in 4.2s
+ GET / 200 in 1759ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-0%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-1%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-2%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-3%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-5 200 in 506ms
+ HEAD / 200 in 776ms
+ ○ Compiling /ghost ...
+ ✓ Compiled /ghost in 11.8s
+ GET /ghost 200 in 12352ms
+ GET /ghost 200 in 618ms
+ GET /ghost 200 in 620ms
+ GET /ghost 200 in 620ms
+ GET /ghost 200 in 553ms
+ GET /ghost 200 in 534ms
+ GET / 200 in 576ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-0%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-1%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-2%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-3%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-5 200 in 444ms
+ GET /ghost 200 in 625ms
+ GET /api/matches/live 200 in 1900ms
+ ✓ Compiled in 713ms
+ GET / 200 in 1496ms
+ GET / 200 in 562ms
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 7.9s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.0e5zwsl1zr7'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.0e5zwsl1zr7'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.1g4n5g2zkiq'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.1g4n5g2zkiq'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.sem7zoeejz9'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.sem7zoeejz9'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.mxtpfnxwjen'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.mxtpfnxwjen'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.s22siieu9mn'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.s22siieu9mn'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.pku6h1z0ofi'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.pku6h1z0ofi'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.lsabcun2bza'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.lsabcun2bza'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.lxcil87x7h'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.lxcil87x7h'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.wkwpwxrgvff'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.wkwpwxrgvff'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.voj63cg752'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.voj63cg752'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.foxljy73j24'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.foxljy73j24'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.lz641cj6i5'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.lz641cj6i5'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.5psy7e7oxin'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.5psy7e7oxin'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.mnl5edbj1bh'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.mnl5edbj1bh'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.gtdwixwi34p'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.gtdwixwi34p'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}
+ ○ Compiling /how-it-works ...
+ ✓ Compiled /how-it-works in 10.3s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.o8zvttf24c'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.o8zvttf24c'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.o8zvttf24c'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.o8zvttf24c'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}

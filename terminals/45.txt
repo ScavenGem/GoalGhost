@@ -1,0 +1,131 @@
+---
+pid: 22884
+cwd: "C:\Users\samue\GoalGhost"
+command: "foreach ($port in 3000,3001,3002) { Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue } }; Set-Location C:\\Users\\samue\\GoalGhost; npm run dev"
+started_at: 2026-06-19T07:41:19.562Z
+running_for_ms: 86756470 
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.143.133.136:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1858ms
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling /matches ...
+ GET /matches 200 in 14903ms
+ ✓ Compiled /matches in 14.9s
+ GET / 200 in 4435ms
+ HEAD /matches 200 in 900ms
+ ○ Compiling /api/ghost/[wallet] ...
+ ✓ Compiled /api/ghost/[wallet] in 1098ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 2762ms
+ GET / 200 in 686ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 476ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 407ms
+ ✓ Compiled /api/matches/live in 419ms
+ GET /api/matches/live 200 in 4829ms
+ ✓ Compiled in 599ms
+ GET / 200 in 727ms
+ GET /api/matches/live 200 in 425ms
+ GET /api/matches/live 200 in 418ms
+ ✓ Compiled /matches in 210ms
+ GET /matches 200 in 1693ms
+ GET /api/matches/live 200 in 449ms
+ GET /api/matches/live 200 in 2171ms
+ GET /matches 200 in 608ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 549ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 416ms
+ GET /api/matches/live 200 in 5347ms
+ GET /api/matches/live 200 in 5021ms
+ GET /api/matches/live 200 in 1460ms
+ GET /api/matches/live 200 in 1739ms
+ GET /api/matches/live 200 in 463ms
+ GET /api/matches/live 200 in 368ms
+ ✓ Compiled in 1581ms
+ ○ Compiling /matches ...
+ ✓ Compiled in 8.4s
+ ✓ Compiled /matches in 2.6s
+ GET /matches 200 in 4271ms
+ GET /matches 200 in 3934ms
+ GET /api/matches/live 200 in 6513ms
+ ✓ Compiled in 826ms
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 6s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.5s522mgq6tq'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.5s522mgq6tq'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\api\matches\live\[__metadata_id__]\route\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\api\\matches\\live\\[__metadata_id__]\\route\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.lig95o819zn'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.lig95o819zn'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.siki70wofg'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.siki70wofg'
+}
+ ○ Compiling / ...
+ ✓ Compiled / in 731ms
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\server-reference-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\server-reference-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.mt1hx8jgvcn'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.mt1hx8jgvcn'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\server-reference-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\server-reference-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.crp0drq0z4c'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.crp0drq0z4c'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.kxittfqvavf'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.kxittfqvavf'
+}
+
+
+---
+exit_code: -1
+elapsed_ms: 86756470
+ended_at: 2026-06-20T07:47:18.465Z
+---

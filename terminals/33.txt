@@ -1,0 +1,8 @@
+---
+pid: 51024
+cwd: "C:\Users\samue\GoalGhost"
+command: "Set-Location C:\\Users\\samue\\GoalGhost; npx next dev --turbopack"
+started_at: 2026-06-18T19:17:53.562Z
+running_for_ms: 1134980  
+---
+npm warn exec The following package was not found and will be installed: next@16.2.9

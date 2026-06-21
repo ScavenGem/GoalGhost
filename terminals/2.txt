@@ -1,0 +1,30 @@
+---
+pid: 17100
+cwd: "C:\Users\samue\GoalGhost"
+command: "Set-Location \"C:\\Users\\samue\\GoalGhost\"; npm run build 2>&1"
+started_at: 2026-06-18T15:07:58.581Z
+running_for_ms: 16010010 
+---
+
+> goalghost@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.19
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 3.5min
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/lib/cache/ghost-cache.ts:23:7
+Type error: Object literal may only specify known properties, and 'confidence' does not exist in type '(Without<GhostCacheCreateInput, GhostCacheUncheckedCreateInput> & GhostCacheUncheckedCreateInput) | (Without<...> & GhostCacheCreateInput)'.
+
+  21 |       walletAddress: wallet,
+  22 |       evolutionScore: data.evolutionScore ?? 0,
+> 23 |       confidence: data.confidence ?? 50,
+     |       ^
+  24 |       mood: data.mood ?? "calm",
+  25 |       expiresAt,
+  26 |     },
+Next.js build worker exited with code: 1 and signal: null

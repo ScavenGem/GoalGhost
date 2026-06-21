@@ -1,0 +1,46 @@
+---
+pid: 2568
+cwd: "C:\Users\samue\GoalGhost"
+command: "Set-Location C:\\Users\\samue\\GoalGhost; npm run dev"
+started_at: 2026-06-18T17:35:58.629Z
+running_for_ms: 7250012  
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.87.95.136:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1304ms
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling /create ...
+ ✓ Compiled /create in 13.2s
+ GET /create 200 in 14276ms
+ ○ Compiling /memories ...
+ POST /api/compute/create-ghost 503 in 983ms
+ ✓ Compiled /memories in 2.5s
+ GET /memories 200 in 2773ms
+ ○ Compiling /legacy ...
+ ✓ Compiled /legacy in 1956ms
+ GET /legacy 200 in 2180ms
+ ○ Compiling /ghost ...
+ ✓ Compiled /ghost in 1740ms
+ GET /ghost 200 in 1992ms
+ ○ Compiling /matches ...
+ ✓ Compiled /matches in 1679ms
+ GET /matches 200 in 1948ms
+ POST /api/compute/create-ghost 200 in 308ms
+ ✓ Compiled /api/compute/legacy in 388ms
+ POST /api/compute/match-reaction 503 in 686ms
+ POST /api/compute/legacy 200 in 744ms
+ ✓ Compiled /api/matches/live in 107ms
+ GET /api/matches/live 200 in 381ms
+FOOTBALL_DATA_API_KEY missing — using structured mock
+ POST /api/compute/match-reaction 200 in 308ms

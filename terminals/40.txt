@@ -1,0 +1,351 @@
+---
+pid: 32336
+cwd: "C:\Users\samue\GoalGhost"
+command: "Set-Location \"C:\\Users\\samue\\GoalGhost\"; npx prisma generate 2>&1; foreach ($port in 3000,3001,3002) { Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue } }; Start-Sleep -Seconds 1; npm run dev"
+started_at: 2026-06-18T21:31:25.039Z
+running_for_ms: 115268495
+---
+Prisma schema loaded from prisma\schema.prisma
+Environment variables loaded from .env
+
+✔ Generated Prisma Client (v6.19.3) to .\node_modules\@prisma\client in 154ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.143.133.136:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 2.9s
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling /matches ...
+ ✓ Compiled /matches in 16.2s
+ GET /matches 200 in 18951ms
+ ○ Compiling / ...
+ ✓ Compiled / in 6.1s
+ GET / 200 in 11076ms
+ HEAD / 200 in 3396ms
+ ○ Compiling /api/matches/live ...
+ ✓ Compiled /api/matches/live in 2.7s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.a6i1fbxbgs'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.a6i1fbxbgs'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 3s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.kelkhn4s2i'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.kelkhn4s2i'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.a6i1fbxbgs'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.a6i1fbxbgs'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.i0t695qcn6'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.i0t695qcn6'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.413r835g3r6'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.413r835g3r6'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.13n82vfhpqe9'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.13n82vfhpqe9'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.ds5edwn9qzl'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.ds5edwn9qzl'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.vdtln8jle3'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.vdtln8jle3'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.z26qk8v0pc'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.z26qk8v0pc'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.pj9s8ddmuso'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.pj9s8ddmuso'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.jwgdvx8o6u'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.jwgdvx8o6u'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.6o0qow92ugk'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.6o0qow92ugk'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.no01pady89'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.no01pady89'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.qlldk2ynyc'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.qlldk2ynyc'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.75s0byre2z5'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.75s0byre2z5'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.ct2hy2up7jd'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.ct2hy2up7jd'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.838dsx9ha3x'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.838dsx9ha3x'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.c5vsduj92aq'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.c5vsduj92aq'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.k1xxirdrjsb'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.k1xxirdrjsb'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.ykzg1pzuf2'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.ykzg1pzuf2'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.rc3ry3nnmv'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.rc3ry3nnmv'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.8jlh6aj7ke6'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.8jlh6aj7ke6'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.0eae7wa1hiz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.0eae7wa1hiz'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.zlfevcvrmuf'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.zlfevcvrmuf'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.hw6hw1z4mh'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.hw6hw1z4mh'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.tfnpcmp5iq'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.tfnpcmp5iq'
+}
+ ○ Compiling /create ...
+ ✓ Compiled /create in 15.9s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.heb9fi685r'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.heb9fi685r'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.ivg0slv56tp'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.ivg0slv56tp'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.heb9fi685r'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.heb9fi685r'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.gemohs3ny0t'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.gemohs3ny0t'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.0z5ot34fk2s'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.0z5ot34fk2s'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\matches\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\matches\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.7x2whm8s37d'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.7x2whm8s37d'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\matches\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\matches\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.0nm1kdel9c5j'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.0nm1kdel9c5j'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.9ebc3hziiyl'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.9ebc3hziiyl'
+}
+
+
+---
+exit_code: -1
+elapsed_ms: 115268495
+ended_at: 2026-06-20T05:32:35.979Z
+---

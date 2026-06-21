@@ -1,0 +1,196 @@
+---
+pid: 10112
+cwd: "C:\Users\samue\GoalGhost"
+command: "cmd /c \"cd /d C:\\Users\\samue\\GoalGhost && npm run dev\""
+started_at: 2026-06-20T18:18:10.985Z
+running_for_ms: 24814983 
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.143.133.136:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 1639ms
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling /api/news/comments ...
+ GET /api/news/comments?articleIds=test-article-1 200 in 9404ms
+ ✓ Compiled /api/news/comments in 12.9s
+ GET / 200 in 13855ms
+ GET / 200 in 273ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fbrazil-haiti-odds-prediction-time-2026-world-cup-picks-best-bets%2F-0%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fworld-cup-red-cards-by-tournament-which-edition-saw-the-most-players-sent-off%2F-1%2Chttps%3A%2F%2Ftimesofindia.indiatimes.com%2Fcity%2Fdehradun%2Fbageshwar-cricketer-makes-it-to-india-squad-for-womens-t20-world-cup%2Farticleshow%2F131863570.cms-2%2Chttps%3A%2F%2Fwww.ibtimes.com.au%2Fusa-australia-world-cup-2026-seattle-1870939-3%2Chttps%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Ffrance-brazil-world-cup-stadium-1896369-4%2Chttp%3A%2F%2Fwww.billboard.com%2Fmusic%2Fchart-beat%2Ftaylor-swift-uk-number-one-single-i-knew-it-i-knew-you-1236276906%2F-5 200 in 552ms
+ ○ Compiling /api/ghost/[wallet] ...
+ ✓ Compiled /api/ghost/[wallet] in 565ms
+ ✓ Compiled /api/matches/live in 287ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1764ms
+ GET /api/matches/live 200 in 3184ms
+ GET / 200 in 522ms
+ ○ Compiling /api/news/world-cup ...
+ ✓ Compiled /api/news/world-cup in 806ms
+ GET /api/matches/live 200 in 1127ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1117ms
+ HEAD / 200 in 1290ms
+ GET /api/news/world-cup 200 in 6835ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-0%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-1%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-2%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-3%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-5 200 in 379ms
+Starting upload for file of size: 443 bytes
+Upload options: {
+  tags: '0x',
+  submitter: '',
+  finalityRequired: true,
+  taskSize: 1,
+  expectedReplica: 1,
+  fragmentSize: 4294967296,
+  skipTx: false,
+  skipIfFinalized: true,
+  fee: 0n,
+  nonce: undefined,
+  onProgress: undefined,
+  encryption: undefined
+}
+First selected node status : {
+  connectedPeers: 9,
+  logSyncHeight: 36639957,
+  logSyncBlock: '0xdae0b31b68f9fe6ae2aa9a51990778bdd6924f0f9644823da9770d7195de0870',
+  nextTxSeq: 130663,
+  networkIdentity: {
+    chainId: 16661,
+    flowAddress: '0x62d4144db0f0a6fbbaeb6296c785c71b3d57c526',
+    p2pProtocolVersion: { major: 0, minor: 4, build: 0 }
+  }
+}
+Selected nodes: [
+  StorageNode {
+    url: 'http://34.71.110.60:5678',
+    timeout: 30000,
+    retry: 3
+  },
+  StorageNode {
+    url: 'http://34.169.236.186:5678',
+    timeout: 30000,
+    retry: 3
+  }
+]
+Using splitable upload (handles both single and fragment cases)
+File details - size: 443, numSegments: 1, numChunks: 2
+Data prepared to upload root=0x09aed5f6cc6ccc7f96bcf98848f61157b362665971d8ba1ba101ea1a612a434b size=443 numSegments=1 numChunks=2
+Attempting to find existing file info by root hash...
+ POST /api/news/comments 200 in 3943ms
+0G public upload error: Error: missing provider (operation="call", code=UNSUPPORTED_OPERATION, version=6.13.1)
+    at makeError (../../src.ts/utils/errors.ts:694:21)
+    at assert (../../src.ts/utils/errors.ts:715:25)
+    at checkProvider (../../src.ts/providers/abstract-signer.ts:28:11)
+    at Wallet.call (../../src.ts/providers/abstract-signer.ts:221:16)
+    at async uploadPublicJsonFromServer (src\lib\0g\storage\upload-public-server.ts:38:29)
+    at async POST (src\app\api\news\comments\route.ts:74:26)
+  36 |     const signer = new Wallet(privateKey);
+  37 |     const indexer = getStorageIndexer();
+> 38 |     const [tx, uploadErr] = await indexer.upload(mem, getOgChainRpc(), signer);
+     |                             ^
+  39 |
+  40 |     if (uploadErr) {
+  41 |       console.warn("0G public upload failed:", uploadErr); {
+  code: 'UNSUPPORTED_OPERATION',
+  operation: 'call',
+  shortMessage: 'missing provider'
+}
+ GET /api/matches/live 200 in 4822ms
+ GET / 200 in 953ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-0%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-1%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-2%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-3%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-5 200 in 749ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 642ms
+ HEAD / 200 in 982ms
+football-data.org error: [TypeError: fetch failed] {
+  [cause]: [Error: read ECONNRESET] {
+    errno: -4077,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+ GET /api/matches/live 200 in 1708ms
+Match providers unavailable - serving last successful cache
+ GET / 200 in 1547ms
+ HEAD / 200 in 721ms
+ GET / 200 in 843ms
+ GET /api/matches/live 200 in 680ms
+ GET /api/news/world-cup 200 in 705ms
+ HEAD / 200 in 965ms
+ GET / 200 in 1510ms
+ GET /api/matches/live 200 in 643ms
+ GET /api/news/world-cup 200 in 663ms
+ HEAD / 200 in 835ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-0%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-1%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-2%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-3%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-5 200 in 1007ms
+ ✓ Compiled in 442ms
+ ✓ Compiled / in 222ms
+ GET / 200 in 604ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-0%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-1%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-2%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-3%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-5 200 in 396ms
+ GET /api/matches/live 200 in 1442ms
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 5s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.mzo7pix2l6g'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.mzo7pix2l6g'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.b168v22qvi'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.b168v22qvi'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.nkpdxaqqe6p'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.nkpdxaqqe6p'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.0yxa2sht9k8'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.0yxa2sht9k8'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.xr3wei5mubr'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.xr3wei5mubr'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.axnwjconakk'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.axnwjconakk'
+}

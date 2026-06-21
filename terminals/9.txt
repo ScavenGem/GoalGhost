@@ -1,0 +1,102 @@
+---
+pid: 24796
+cwd: "C:\Users\samue\GoalGhost"
+command: "Set-Location C:\\Users\\samue\\GoalGhost; Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }; npm run dev"
+started_at: 2026-06-18T16:04:49.687Z
+running_for_ms: 12714993 
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.203.78.136:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1735ms
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+ ○ Compiling /_not-found/page ...
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+ ✓ Compiled /_not-found/page in 41.8s
+ GET /apple-icon.svg 404 in 43802ms
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+   Reload env: .env.local
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+

@@ -1,0 +1,47 @@
+---
+pid: 49696
+cwd: "C:\Users\samue\GoalGhost"
+command: "Set-Location C:\\Users\\samue\\GoalGhost; npm run dev"
+started_at: 2026-06-18T16:24:17.966Z
+running_for_ms: 11550003 
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.203.78.136:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1519ms
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling /api/compute/create-ghost ...
+ ✓ Compiled /api/compute/create-ghost in 1799ms
+Detected testnet (chain ID: 16602)
+[DEBUG] 2026-06-18T16:24:34.542Z - Fetched service info from contract: Result(11) [
+  '0xa48f01287233509FD694a22Bf840225062E67836',
+  'chatbot',
+  'https://compute-network-6.integratenetwork.work',
+  648000000000n,
+  2590000000000n,
+  1781798549n,
+  'qwen/qwen2.5-omni-7b',
+  'TeeML',
+  '{"ImageDigest":"","ImageName":"","ProviderIdentity":"aliyun","ProviderType":"centralized","TEEVerifier":"dstack","TargetSeparated":true,"TargetTeeAddress":"","VerifierURL":"https://github.com/Dstack-TEE/dstack/releases/tag/verifier-v0.5.8"}',
+  '0x83df4B8EbA7c0B3B740019b8c9a77ffF77D508cF',
+  true
+]
+[DEBUG] 2026-06-18T16:24:34.813Z - [Auto-funding] Failed to fetch unsettled fee: Sub-account not found. Initialize it by transferring funds via "transfer-fund" (Address: 0xed3a4069933365a78C863e21626672e54dC8083f, Address: 0xa48f01287233509FD694a22Bf840225062E67836), using cachedFee fallback
+[DEBUG] 2026-06-18T16:24:34.813Z - [Auto-funding] Check: unsettledFee=0.000000 0G, requiredBalance=2.000000 0G
+sending tx with gas price 4000000007n
+[WARN] 2026-06-18T16:24:37.172Z - [Auto-funding] Failed to transfer 2.0000 0G to provider sub-account: Account does not exist. Please create an account first using "add-account". (Address: 0xed3a4069933365a78C863e21626672e54dC8083f)
+ POST /api/compute/create-ghost 503 in 7247ms
+ ○ Compiling /create ...
+ ✓ Compiled /create in 11s
+ GET /create 200 in 11696ms
+

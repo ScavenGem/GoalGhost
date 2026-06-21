@@ -1,0 +1,8 @@
+---
+pid: 2944
+cwd: "C:\Users\samue\GoalGhost"
+command: "try { (Invoke-WebRequest -Uri http://localhost:3000 -UseBasicParsing).StatusCode } catch { 'down' }"
+started_at: 2026-06-18T16:03:55.316Z
+running_for_ms: 12739983 
+---
+down

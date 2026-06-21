@@ -1,0 +1,12 @@
+---
+pid: 43648
+cwd: "C:\Users\samue\GoalGhost"
+command: "foreach ($p in @('/create','/memories','/legacy','/ghost','/matches')) { try { $r = Invoke-WebRequest -Uri \"http://localhost:3000$p\" -UseBasicParsing -TimeoutSec 30; Write-Output \"$p -> $($r.StatusCode)\" } catch { Write-Output \"$p -> ERROR $($_.Exception.Response.StatusCode.value__)\" } }"
+started_at: 2026-06-18T17:31:27.931Z
+running_for_ms: 7400006  
+---
+/create -> ERROR 
+/memories -> ERROR 
+/legacy -> ERROR 
+/ghost -> ERROR 
+/matches -> ERROR 

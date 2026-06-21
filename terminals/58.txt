@@ -1,0 +1,45 @@
+---
+pid: 15044
+cwd: "C:\Users\samue\GoalGhost"
+command: "cmd /c \"cd /d C:\\Users\\samue\\GoalGhost && npm run build\""
+started_at: 2026-06-20T18:39:47.828Z
+running_for_ms: 23399969 
+---
+
+> goalghost@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.19
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+   Linting and checking validity of types ...
+ ⚠ Compiled with warnings in 99s
+
+./src/app/how-it-works/page.tsx
+Attempted import error: 'Chain' is not exported from '__barrel_optimize__?names=ArrowLeft,Brain,Chain,Database,MessageSquare,Radio,Sparkles,TrendingUp,Trophy!=!lucide-react' (imported as 'Chain').
+
+Import trace for requested module:
+./src/app/how-it-works/page.tsx
+
+./src/app/how-it-works/page.tsx
+Attempted import error: 'Chain' is not exported from '__barrel_optimize__?names=ArrowLeft,Brain,Chain,Database,MessageSquare,Radio,Sparkles,TrendingUp,Trophy!=!lucide-react' (imported as 'Chain').
+
+Import trace for requested module:
+./src/app/how-it-works/page.tsx
+
+Failed to compile.
+
+./src/app/how-it-works/page.tsx:8:3
+Type error: Module '"lucide-react"' has no exported member 'Chain'.
+
+   6 |   ArrowLeft,
+   7 |   Brain,
+>  8 |   Chain,
+     |   ^
+   9 |   Database,
+  10 |   MessageSquare,
+  11 |   Radio,
+Next.js build worker exited with code: 1 and signal: null

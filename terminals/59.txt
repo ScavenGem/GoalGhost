@@ -1,0 +1,1343 @@
+---
+pid: 36484
+cwd: "C:\Users\samue\GoalGhost"
+command: "cmd /c \"cd /d C:\\Users\\samue\\GoalGhost && npm run dev\""
+started_at: 2026-06-20T18:44:16.316Z
+running_for_ms: 23250016 
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.143.133.136:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 2.6s
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling / ...
+ ✓ Compiled / in 21.7s
+ GET / 200 in 25178ms
+ ○ Compiling /how-it-works ...
+ ✓ Compiled /how-it-works in 6.2s
+ GET /how-it-works 200 in 6985ms
+ GET / 200 in 1014ms
+ ○ Compiling /api/matches/live ...
+ ✓ Compiled /api/matches/live in 631ms
+ ○ Compiling /matches ...
+ GET /api/matches/live 200 in 3358ms
+ ✓ Compiled /matches in 5.2s
+ GET /matches 200 in 5789ms
+ GET /matches 200 in 628ms
+ GET / 200 in 611ms
+ ○ Compiling /api/news/comments ...
+ ✓ Compiled /api/news/comments in 986ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-0%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-1%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-2%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-3%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-5 200 in 1901ms
+ GET /how-it-works 200 in 594ms
+ GET / 200 in 614ms
+ ✓ Compiled /api/news/world-cup in 373ms
+ GET /api/news/world-cup 200 in 837ms
+ GET / 200 in 869ms
+ GET /api/news/world-cup 200 in 787ms
+ HEAD / 200 in 1022ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fcryptobriefing.com%2Fsouth-korea-mexico-world-cup-cultural-ties%2F-0%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canada-crushes-qatar-6-0-to-chase-knockout-stage%2F-1%2Chttps%3A%2F%2Fcryptobriefing.com%2Fworld-cup-cooling-gear-adidas-climacool%2F-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fbetmgm-goal-rush-promo-receive-share-500k-bonus-bets-every-usa-goal-usa-vs-australia-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Farticle%2Fworld-cup-2026-elmo-learns-his-lesson-after-nba-finals-scandal-throws-support-behind-the-usmnt-183946332.html-4%2Chttps%3A%2F%2Fwww.journal-news.com%2Fsports%2Fworld-cup-how-to-watch-the-u-s-men-s-national-team-take-on-australia%2Farticle_2e398f62-a77f-52d7-9009-92387050b581.html-5 200 in 1195ms
+ ✓ Compiled /api/ghost/[wallet] in 300ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 2187ms
+ GET /api/matches/live 200 in 1366ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 554ms
+ GET /api/matches/live 200 in 2918ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 632ms
+ GET /api/matches/live 200 in 1686ms
+ ✓ Compiled / in 233ms
+ ✓ Compiled in 1127ms
+ GET / 200 in 969ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 679ms
+ GET / 200 in 2069ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fcryptobriefing.com%2Fsouth-korea-mexico-world-cup-cultural-ties%2F-0%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canada-crushes-qatar-6-0-to-chase-knockout-stage%2F-1%2Chttps%3A%2F%2Fcryptobriefing.com%2Fworld-cup-cooling-gear-adidas-climacool%2F-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fbetmgm-goal-rush-promo-receive-share-500k-bonus-bets-every-usa-goal-usa-vs-australia-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Farticle%2Fworld-cup-2026-elmo-learns-his-lesson-after-nba-finals-scandal-throws-support-behind-the-usmnt-183946332.html-4%2Chttps%3A%2F%2Fwww.journal-news.com%2Fsports%2Fworld-cup-how-to-watch-the-u-s-men-s-national-team-take-on-australia%2Farticle_2e398f62-a77f-52d7-9009-92387050b581.html-5 200 in 920ms
+ HEAD / 200 in 1015ms
+ GET /api/matches/live 200 in 2201ms
+ ○ Compiling /api/compute/match-reaction ...
+ ✓ Compiled /api/compute/match-reaction in 1661ms
+ POST /api/compute/match-reaction 200 in 2413ms
+ ○ Compiling /create ...
+ ✓ Compiled /create in 15.9s
+ GET /create 200 in 16622ms
+ GET /create 200 in 752ms
+ GET /api/matches/live 200 in 6815ms
+ GET /create 200 in 1045ms
+ HEAD /create 200 in 806ms
+ GET /create 200 in 807ms
+ HEAD /create 200 in 772ms
+ ○ Compiling /api/compute/create-ghost ...
+ ✓ Compiled /api/compute/create-ghost in 938ms
+ POST /api/compute/create-ghost 200 in 1395ms
+ ✓ Compiled /api/ghost/register in 481ms
+ POST /api/ghost/register 200 in 1274ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 817ms
+ ✓ Compiled /api/memories/register in 496ms
+ POST /api/memories/register 200 in 1074ms
+ ○ Compiling /ghost ...
+ GET /api/matches/live 200 in 1977ms
+ ✓ Compiled /ghost in 7s
+ GET /ghost 200 in 7772ms
+ GET /ghost 200 in 553ms
+ ○ Compiling /api/compute/evolve ...
+ ✓ Compiled /api/compute/evolve in 664ms
+ POST /api/compute/evolve 200 in 1118ms
+ POST /api/compute/evolve 200 in 508ms
+ GET /matches 200 in 733ms
+ ○ Compiling /memories ...
+ ✓ Compiled /memories in 5s
+ GET /memories 200 in 5559ms
+ GET /memories 200 in 664ms
+ GET /memories 200 in 584ms
+ ○ Compiling /legacy ...
+ ✓ Compiled /legacy in 5.2s
+ GET /legacy 200 in 5726ms
+ GET /legacy 200 in 646ms
+ GET /legacy 200 in 598ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 891ms
+ ✓ Compiled /api/legacy/comments in 475ms
+ GET /api/legacy/comments 200 in 906ms
+ ✓ Compiled /api/compute/legacy in 446ms
+ POST /api/compute/legacy 200 in 888ms
+ POST /api/memories/register 200 in 568ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 520ms
+ GET /legacy 200 in 847ms
+ HEAD /legacy 200 in 844ms
+ GET /api/legacy/comments 200 in 1178ms
+ POST /api/compute/legacy 200 in 446ms
+ POST /api/memories/register 200 in 475ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 625ms
+ GET /api/matches/live 200 in 1548ms
+ GET /api/news/world-cup 200 in 1388ms
+ GET / 200 in 754ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fcryptobriefing.com%2Fsouth-korea-mexico-world-cup-cultural-ties%2F-0%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canada-crushes-qatar-6-0-to-chase-knockout-stage%2F-1%2Chttps%3A%2F%2Fcryptobriefing.com%2Fworld-cup-cooling-gear-adidas-climacool%2F-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fbetmgm-goal-rush-promo-receive-share-500k-bonus-bets-every-usa-goal-usa-vs-australia-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Farticle%2Fworld-cup-2026-elmo-learns-his-lesson-after-nba-finals-scandal-throws-support-behind-the-usmnt-183946332.html-4%2Chttps%3A%2F%2Fwww.journal-news.com%2Fsports%2Fworld-cup-how-to-watch-the-u-s-men-s-national-team-take-on-australia%2Farticle_2e398f62-a77f-52d7-9009-92387050b581.html-5 200 in 500ms
+ GET /how-it-works 200 in 654ms
+ GET / 200 in 664ms
+ GET /api/matches/live 200 in 1199ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 554ms
+ ✓ Compiled in 2.6s
+ GET /legacy 200 in 1331ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1188ms
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.143.133.136:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 3.5s
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling /api/ghost/[wallet] ...
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 11009ms
+ GET /api/legacy/comments 200 in 3072ms
+ ✓ Compiled /api/ghost/[wallet] in 21.3s
+ HEAD /legacy 200 in 23055ms
+ GET /legacy 200 in 14379ms
+ HEAD /legacy 200 in 957ms
+ GET /api/legacy/comments 200 in 1247ms
+ ✓ Compiled /api/matches/live in 437ms
+ GET /api/matches/live 200 in 1752ms
+ ○ Compiling / ...
+ ✓ Compiled / in 6.4s
+ GET / 200 in 6928ms
+ GET / 200 in 595ms
+ GET / 200 in 629ms
+ GET / 200 in 560ms
+ GET / 200 in 570ms
+ GET / 200 in 560ms
+ ○ Compiling /create ...
+ GET /legacy 200 in 785ms
+ HEAD /legacy 200 in 853ms
+ GET /api/legacy/comments 200 in 1240ms
+ GET / 200 in 641ms
+ ✓ Compiled /create in 7.7s
+ GET / 200 in 947ms
+ GET /create 200 in 900ms
+ ○ Compiling /ghost ...
+ GET /matches 200 in 564ms
+ GET /legacy 200 in 665ms
+ GET / 200 in 642ms
+ GET / 200 in 549ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fcryptobriefing.com%2Fsouth-korea-mexico-world-cup-cultural-ties%2F-0%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canada-crushes-qatar-6-0-to-chase-knockout-stage%2F-1%2Chttps%3A%2F%2Fcryptobriefing.com%2Fworld-cup-cooling-gear-adidas-climacool%2F-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fbetmgm-goal-rush-promo-receive-share-500k-bonus-bets-every-usa-goal-usa-vs-australia-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Farticle%2Fworld-cup-2026-elmo-learns-his-lesson-after-nba-finals-scandal-throws-support-behind-the-usmnt-183946332.html-4%2Chttps%3A%2F%2Fwww.journal-news.com%2Fsports%2Fworld-cup-how-to-watch-the-u-s-men-s-national-team-take-on-australia%2Farticle_2e398f62-a77f-52d7-9009-92387050b581.html-5 200 in 4517ms
+ ✓ Compiled /ghost in 8.1s
+ GET /ghost 200 in 9326ms
+ GET /create 200 in 1435ms
+ GET /memories 200 in 8328ms
+ GET /matches 200 in 519ms
+ GET /ghost 200 in 598ms
+ GET / 200 in 581ms
+ GET /create 200 in 603ms
+ GET /ghost 200 in 561ms
+ GET /matches 200 in 571ms
+ GET /memories 200 in 587ms
+ GET /legacy 200 in 571ms
+ GET / 200 in 618ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fcryptobriefing.com%2Fsouth-korea-mexico-world-cup-cultural-ties%2F-0%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canada-crushes-qatar-6-0-to-chase-knockout-stage%2F-1%2Chttps%3A%2F%2Fcryptobriefing.com%2Fworld-cup-cooling-gear-adidas-climacool%2F-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fbetmgm-goal-rush-promo-receive-share-500k-bonus-bets-every-usa-goal-usa-vs-australia-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Farticle%2Fworld-cup-2026-elmo-learns-his-lesson-after-nba-finals-scandal-throws-support-behind-the-usmnt-183946332.html-4%2Chttps%3A%2F%2Fwww.journal-news.com%2Fsports%2Fworld-cup-how-to-watch-the-u-s-men-s-national-team-take-on-australia%2Farticle_2e398f62-a77f-52d7-9009-92387050b581.html-5%2Chttps%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fusmnt-pulisic-australia-world-cup-1896530-6%2Chttps%3A%2F%2Fohnotheydidnt.livejournal.com%2F132492856.html-7%2Chttps%3A%2F%2Fwww.forbes.com%2Fsites%2Ftimnewcomb%2F2026%2F06%2F19%2Fseattle-readies-food-and-drink-for-usa-australia-world-cup-clash%2F-8%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Flamine-yamal-says-hes-not-182505135.html-9%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fwhy-tyler-adams-suspended-yellow-card-usmnt-vs-australia-turkiye%2F85886ea4e968e3c7088be9cf-10%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fscotland-vs-morocco-world-cup-2026-preview-predictions-watch%2F-11%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fricardo-pepi-umsnt-pulisic-replacement-australia-world-cup%2F2dddf40fe77bacbcb3b0ef9f-12%2Chttps%3A%2F%2Ffootball-italia.net%2Fthe-feelings-are-good-pulisic-usa-vs-australia%2F-13%2Chttps%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-14%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-15%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-16%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-17%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-18%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-19 200 in 551ms
+ GET /api/matches/live 200 in 1059ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 569ms
+ GET /create 200 in 757ms
+ GET /ghost 200 in 662ms
+ GET /ghost 200 in 636ms
+ GET /ghost 200 in 559ms
+ GET /create 200 in 584ms
+ GET / 200 in 606ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fcryptobriefing.com%2Fsouth-korea-mexico-world-cup-cultural-ties%2F-0%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canada-crushes-qatar-6-0-to-chase-knockout-stage%2F-1%2Chttps%3A%2F%2Fcryptobriefing.com%2Fworld-cup-cooling-gear-adidas-climacool%2F-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fbetmgm-goal-rush-promo-receive-share-500k-bonus-bets-every-usa-goal-usa-vs-australia-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Farticle%2Fworld-cup-2026-elmo-learns-his-lesson-after-nba-finals-scandal-throws-support-behind-the-usmnt-183946332.html-4%2Chttps%3A%2F%2Fwww.journal-news.com%2Fsports%2Fworld-cup-how-to-watch-the-u-s-men-s-national-team-take-on-australia%2Farticle_2e398f62-a77f-52d7-9009-92387050b581.html-5 200 in 462ms
+ GET /ghost 200 in 596ms
+ GET /matches 200 in 567ms
+ GET /memories 200 in 597ms
+ GET /legacy 200 in 554ms
+ GET /api/legacy/comments 200 in 466ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 684ms
+ GET /api/matches/live 200 in 1357ms
+ GET / 200 in 670ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fcryptobriefing.com%2Fsouth-korea-mexico-world-cup-cultural-ties%2F-0%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canada-crushes-qatar-6-0-to-chase-knockout-stage%2F-1%2Chttps%3A%2F%2Fcryptobriefing.com%2Fworld-cup-cooling-gear-adidas-climacool%2F-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fbetmgm-goal-rush-promo-receive-share-500k-bonus-bets-every-usa-goal-usa-vs-australia-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Farticle%2Fworld-cup-2026-elmo-learns-his-lesson-after-nba-finals-scandal-throws-support-behind-the-usmnt-183946332.html-4%2Chttps%3A%2F%2Fwww.journal-news.com%2Fsports%2Fworld-cup-how-to-watch-the-u-s-men-s-national-team-take-on-australia%2Farticle_2e398f62-a77f-52d7-9009-92387050b581.html-5 200 in 490ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fcryptobriefing.com%2Fsouth-korea-mexico-world-cup-cultural-ties%2F-0%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canada-crushes-qatar-6-0-to-chase-knockout-stage%2F-1%2Chttps%3A%2F%2Fcryptobriefing.com%2Fworld-cup-cooling-gear-adidas-climacool%2F-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fbetmgm-goal-rush-promo-receive-share-500k-bonus-bets-every-usa-goal-usa-vs-australia-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Farticle%2Fworld-cup-2026-elmo-learns-his-lesson-after-nba-finals-scandal-throws-support-behind-the-usmnt-183946332.html-4%2Chttps%3A%2F%2Fwww.journal-news.com%2Fsports%2Fworld-cup-how-to-watch-the-u-s-men-s-national-team-take-on-australia%2Farticle_2e398f62-a77f-52d7-9009-92387050b581.html-5%2Chttps%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fusmnt-pulisic-australia-world-cup-1896530-6%2Chttps%3A%2F%2Fohnotheydidnt.livejournal.com%2F132492856.html-7%2Chttps%3A%2F%2Fwww.forbes.com%2Fsites%2Ftimnewcomb%2F2026%2F06%2F19%2Fseattle-readies-food-and-drink-for-usa-australia-world-cup-clash%2F-8%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Flamine-yamal-says-hes-not-182505135.html-9%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fwhy-tyler-adams-suspended-yellow-card-usmnt-vs-australia-turkiye%2F85886ea4e968e3c7088be9cf-10%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fscotland-vs-morocco-world-cup-2026-preview-predictions-watch%2F-11%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fricardo-pepi-umsnt-pulisic-replacement-australia-world-cup%2F2dddf40fe77bacbcb3b0ef9f-12%2Chttps%3A%2F%2Ffootball-italia.net%2Fthe-feelings-are-good-pulisic-usa-vs-australia%2F-13%2Chttps%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fbalogun-usmnt-eligibility-donald-trump-1896492-14%2Chttps%3A%2F%2Fwww.cbssports.com%2Fsoccer%2Fnews%2Fturkiye-vs-paraguay-world-cup-2026-preview-predictions-watch%2F-15%2Chttps%3A%2F%2Fwww.rediff.com%2Fsports%2Freport%2Ffifa-world-cup-2026-ruben-dias-backs-cristiano-ronaldo-amid-growing-scrutiny%2F20260619.htm-16%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fsoccer-swiss-wonderkid-manzambi-dazzles-in-world-cup-win%2Farticleshow%2F131864977.cms-17%2Chttps%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fdestination-tomorrow-hosts-annual-da-bronx-pride-festival-from-da-bronx-to-da-world-302805585.html-18%2Chttps%3A%2F%2Fwww.thebiglead.com%2F2026-fifa-world-cup-tv-schedule-games-today-june-19%2F-19 200 in 518ms
+ GET /api/matches/live 200 in 1240ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 739ms
+ GET /create 200 in 691ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 552ms
+ ○ Compiling /api/compute/create-ghost ...
+ ✓ Compiled /api/compute/create-ghost in 1941ms
+ POST /api/compute/create-ghost 200 in 2619ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 576ms
+ GET /api/matches/live 200 in 1192ms
+ GET /ghost 200 in 705ms
+ GET /ghost 200 in 1003ms
+ HEAD /ghost 200 in 840ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 1307ms
+ GET /memories 200 in 801ms
+ GET /matches 200 in 648ms
+ GET /create 200 in 768ms
+ GET /ghost 200 in 696ms
+ ✓ Compiled in 4.7s
+ GET /ghost 200 in 663ms
+ ✓ Compiled in 717ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 790ms
+ GET /ghost 200 in 2120ms
+ HEAD /ghost 200 in 756ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 1091ms
+ GET /api/matches/live 200 in 1596ms
+ ○ Compiling /api/news/world-cup ...
+ ✓ Compiled /api/news/world-cup in 759ms
+ ✓ Compiled / in 498ms
+ GET / 200 in 1249ms
+ GET /api/news/world-cup 200 in 2560ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.dailymail.com%2Ftvshowbiz%2Farticle-15914745%2FRomeo-Beckham-girlfriend-Kim-Turnbull-enjoy-pricey-picnic-Harrods-including-33-pack-cured-meats-10-olives-24-punnet-cherries.html-0%2Chttps%3A%2F%2Fwww.abc.net.au%2Fnews%2F2026-06-20%2Fblind-faith-in-the-internet-sent-ash-jurberg-to-the-world-cup%2F106822368-1%2Chttps%3A%2F%2Fconsent.yahoo.com%2Fv2%2FcollectConsent%3FsessionId%3D1_cc-session_4fa4f049-0c1c-4730-b09e-f3facb2bd887-2%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998206-3%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998196-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canadas-historic-win-marred-by-severe-injury-blow%2F-5 200 in 510ms
+ GET /api/matches/live 200 in 467ms
+ ✓ Compiled in 491ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 570ms
+ GET /api/matches/live 200 in 1196ms
+ ✓ Compiled in 318ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 504ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 603ms
+ GET /api/matches/live 200 in 1556ms
+ GET / 200 in 2063ms
+ HEAD / 200 in 891ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.dailymail.com%2Ftvshowbiz%2Farticle-15914745%2FRomeo-Beckham-girlfriend-Kim-Turnbull-enjoy-pricey-picnic-Harrods-including-33-pack-cured-meats-10-olives-24-punnet-cherries.html-0%2Chttps%3A%2F%2Fwww.abc.net.au%2Fnews%2F2026-06-20%2Fblind-faith-in-the-internet-sent-ash-jurberg-to-the-world-cup%2F106822368-1%2Chttps%3A%2F%2Fconsent.yahoo.com%2Fv2%2FcollectConsent%3FsessionId%3D1_cc-session_4fa4f049-0c1c-4730-b09e-f3facb2bd887-2%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998206-3%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998196-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canadas-historic-win-marred-by-severe-injury-blow%2F-5 200 in 1356ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 1238ms
+ ○ Compiling /how-it-works ...
+ ✓ Compiled /how-it-works in 13.2s
+ GET /how-it-works 200 in 13668ms
+ GET /how-it-works 200 in 558ms
+ GET / 200 in 610ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.dailymail.com%2Ftvshowbiz%2Farticle-15914745%2FRomeo-Beckham-girlfriend-Kim-Turnbull-enjoy-pricey-picnic-Harrods-including-33-pack-cured-meats-10-olives-24-punnet-cherries.html-0%2Chttps%3A%2F%2Fwww.abc.net.au%2Fnews%2F2026-06-20%2Fblind-faith-in-the-internet-sent-ash-jurberg-to-the-world-cup%2F106822368-1%2Chttps%3A%2F%2Fconsent.yahoo.com%2Fv2%2FcollectConsent%3FsessionId%3D1_cc-session_4fa4f049-0c1c-4730-b09e-f3facb2bd887-2%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998206-3%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998196-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canadas-historic-win-marred-by-severe-injury-blow%2F-5 200 in 626ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 621ms
+ GET /create 200 in 918ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 469ms
+ GET /ghost 200 in 518ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 470ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 461ms
+ GET /matches 200 in 861ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 465ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 449ms
+ GET /memories 200 in 575ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 465ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 599ms
+ GET /legacy 200 in 838ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 451ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 528ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 480ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 847ms
+ GET /memories 200 in 661ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 574ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 501ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 486ms
+ GET /api/matches/live 200 in 1282ms
+ GET /matches 200 in 602ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 449ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 504ms
+ GET / 200 in 593ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 535ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.dailymail.com%2Ftvshowbiz%2Farticle-15914745%2FRomeo-Beckham-girlfriend-Kim-Turnbull-enjoy-pricey-picnic-Harrods-including-33-pack-cured-meats-10-olives-24-punnet-cherries.html-0%2Chttps%3A%2F%2Fwww.abc.net.au%2Fnews%2F2026-06-20%2Fblind-faith-in-the-internet-sent-ash-jurberg-to-the-world-cup%2F106822368-1%2Chttps%3A%2F%2Fconsent.yahoo.com%2Fv2%2FcollectConsent%3FsessionId%3D1_cc-session_4fa4f049-0c1c-4730-b09e-f3facb2bd887-2%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998206-3%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998196-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fpodcast%2Fworld-cup-recap-canadas-historic-win-marred-by-severe-injury-blow%2F-5 200 in 523ms
+ GET /api/matches/live 200 in 1249ms
+ GET /api/matches/live 200 in 142ms
+ GET /api/matches/live 200 in 1182ms
+ GET /api/matches/live 200 in 1254ms
+ GET /api/matches/live 200 in 493ms
+ GET /api/matches/live 200 in 1154ms
+ GET /api/matches/live 200 in 1082ms
+ GET /api/matches/live 200 in 1456ms
+ GET /api/matches/live 200 in 464ms
+ GET /api/matches/live 200 in 1505ms
+ GET /api/matches/live 200 in 469ms
+ GET /api/matches/live 200 in 666ms
+ GET /api/matches/live 200 in 502ms
+ GET /api/matches/live 200 in 1265ms
+ GET /api/matches/live 200 in 1401ms
+ GET /api/matches/live 200 in 1174ms
+ GET /api/matches/live 200 in 646ms
+ GET /api/matches/live 200 in 1340ms
+ GET /create 200 in 746ms
+ POST /api/compute/create-ghost 200 in 505ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 655ms
+ GET /api/matches/live 200 in 1126ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 541ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 447ms
+ GET /ghost 200 in 680ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 538ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 510ms
+ GET /ghost 200 in 1022ms
+ HEAD /ghost 200 in 776ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 1256ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 485ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 548ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 521ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 487ms
+ GET /memories 200 in 651ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 480ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 524ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 514ms
+ GET /legacy 200 in 679ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 543ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 505ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 478ms
+ GET /memories 200 in 609ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 496ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 506ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 488ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 444ms
+ GET /api/news/world-cup 200 in 1353ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 513ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 501ms
+ ✓ Compiled in 1627ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 471ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 522ms
+ GET /memories 200 in 2084ms
+ HEAD /memories 200 in 737ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 1175ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 430ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 561ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 424ms
+ GET /api/matches/live 200 in 1676ms
+ GET /ghost 200 in 601ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 484ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 488ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 465ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 440ms
+ GET /matches 200 in 597ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 424ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 503ms
+ GET /api/matches/live 200 in 1393ms
+ GET /create 200 in 619ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 500ms
+ GET / 200 in 609ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fbusiness%2Fworld-cup-predicted-to-spark-45b-global-economic-boom-like-taylor-swift-effect-on-steroids%2F-0%2Chttps%3A%2F%2Fwww.cbc.ca%2Fnews%2Fcanada%2Fnewfoundland-labrador%2Fnl-canada-world-cup-win-reaction-9.7241892-1%2Chttps%3A%2F%2Fwww.foxnews.com%2Foutkick-sports%2Fsofia-vergara-turns-heads-world-cup-outfit-golfer-throws-tantrum-us-open-knicks-fan-vs-cops-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fkalshi-promo-code-foxsports-get-10-bonus-when-you-sign-up-ahead-usa-vs-australia-3%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998862-4%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998860-5 200 in 554ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 604ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 444ms
+ GET /how-it-works 200 in 565ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 513ms
+ GET / 200 in 580ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 476ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 494ms
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/0g/storage/upload-browser.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 2s
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/0g/storage/upload-browser.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/0g/storage/upload-browser.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET / 200 in 2155ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fbusiness%2Fworld-cup-predicted-to-spark-45b-global-economic-boom-like-taylor-swift-effect-on-steroids%2F-0%2Chttps%3A%2F%2Fwww.cbc.ca%2Fnews%2Fcanada%2Fnewfoundland-labrador%2Fnl-canada-world-cup-win-reaction-9.7241892-1%2Chttps%3A%2F%2Fwww.foxnews.com%2Foutkick-sports%2Fsofia-vergara-turns-heads-world-cup-outfit-golfer-throws-tantrum-us-open-knicks-fan-vs-cops-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fbetting%2Fkalshi-promo-code-foxsports-get-10-bonus-when-you-sign-up-ahead-usa-vs-australia-3%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998862-4%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D183998860-5 200 in 359ms
+ GET /api/matches/live 200 in 1454ms
+ GET /api/news/world-cup 200 in 1589ms
+ ✓ Compiled in 1268ms
+ ✓ Compiled in 197ms
+ ✓ Compiled in 275ms
+ GET /api/matches/live 200 in 1925ms
+ HEAD / 200 in 1904ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 2222ms
+ ✓ Compiled in 512ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 855ms
+ GET / 200 in 2898ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fusmnt-australia-live-player-ratings-grades%2Fb57feb715098f37f4fb5303d-0%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fusa-vs-australia-scotland-vs-morocco-brazil-vs-haiti-trkiye-vs-paraguay-netherlands-vs-sweden-fifa-world-cup-2026-today-match-schedule-20-june-fifa-world-cup-matches-today-india-time%2Farticleshow%2F131866485.cms-1%2Chttps%3A%2F%2Fwww.disneyfoodblog.com%2F2026%2F06%2F19%2Fsecurity-just-completely-changed-at-universal-hollywood%2F-2%2Chttps%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fusmnt-pochettino-messi-argentina-message-1896647-3%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fbrazil-vs-haiti-free-live-stream-watch-world-cup%2Ffff32a91200822d8f8787082-4%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Fbreaking-news%2Farticle%2Fworld-cup-2026-why-var-overturned-the-offside-call-ahead-of-alex-freemans-goal-for-the-united-states-195852188.html-5 200 in 821ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 758ms
+ HEAD / 200 in 907ms
+ GET /api/matches/live 200 in 2177ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 500ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 559ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 526ms
+ ✓ Compiled in 742ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 579ms
+ GET / 200 in 2112ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fusmnt-australia-live-player-ratings-grades%2Fb57feb715098f37f4fb5303d-0%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fusa-vs-australia-scotland-vs-morocco-brazil-vs-haiti-trkiye-vs-paraguay-netherlands-vs-sweden-fifa-world-cup-2026-today-match-schedule-20-june-fifa-world-cup-matches-today-india-time%2Farticleshow%2F131866485.cms-1%2Chttps%3A%2F%2Fwww.disneyfoodblog.com%2F2026%2F06%2F19%2Fsecurity-just-completely-changed-at-universal-hollywood%2F-2%2Chttps%3A%2F%2Fwww.alloutsoccer.com%2Fnews%2Fusmnt-pochettino-messi-argentina-message-1896647-3%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fbrazil-vs-haiti-free-live-stream-watch-world-cup%2Ffff32a91200822d8f8787082-4%2Chttps%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Fbreaking-news%2Farticle%2Fworld-cup-2026-why-var-overturned-the-offside-call-ahead-of-alex-freemans-goal-for-the-united-states-195852188.html-5 200 in 901ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 809ms
+ HEAD / 200 in 840ms
+ GET /api/matches/live 200 in 2130ms
+ GET /api/news/world-cup 200 in 2014ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 486ms
+ GET / 200 in 1010ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fhouston-rockets-take-aim-at-bbcs-world-cup-coverage-as-houston-landscape-goes-viral%2F-1%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fcanada-star-kone-miss-rest-202042607.html-2%2Chttps%3A%2F%2Fpypi.org%2Fproject%2Fsportiq-mcp%2F0.2.2%2F-3%2Chttps%3A%2F%2Fwww.dailymail.com%2Fsport%2Ffootball%2Farticle-15891231%2FThe-WAGs-World-Cup-Meet-Supreme-Court-lawyer-cancer-beating-inspiration-reality-TV-star-backing-boys-chase-glory.html-4%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fboston-scotland-world-cup-fans-201654390.html-5 200 in 645ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 567ms
+ HEAD / 200 in 929ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 1133ms
+ GET / 200 in 1020ms
+ HEAD / 200 in 910ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 1129ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 437ms
+ GET / 200 in 943ms
+ GET /api/news/world-cup 200 in 649ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 650ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fhouston-rockets-take-aim-at-bbcs-world-cup-coverage-as-houston-landscape-goes-viral%2F-1%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fcanada-star-kone-miss-rest-202042607.html-2%2Chttps%3A%2F%2Fpypi.org%2Fproject%2Fsportiq-mcp%2F0.2.2%2F-3%2Chttps%3A%2F%2Fwww.dailymail.com%2Fsport%2Ffootball%2Farticle-15891231%2FThe-WAGs-World-Cup-Meet-Supreme-Court-lawyer-cancer-beating-inspiration-reality-TV-star-backing-boys-chase-glory.html-4%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fboston-scotland-world-cup-fans-201654390.html-5 200 in 637ms
+ GET /api/matches/live 200 in 1594ms
+ HEAD / 200 in 914ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 463ms
+ GET /how-it-works 200 in 1053ms
+ ✓ Compiled in 387ms
+ GET /how-it-works 200 in 2054ms
+ HEAD /how-it-works 200 in 960ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 1249ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 599ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 469ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 474ms
+ GET /api/matches/live 200 in 2300ms
+ GET / 200 in 899ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fhouston-rockets-take-aim-at-bbcs-world-cup-coverage-as-houston-landscape-goes-viral%2F-1%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fcanada-star-kone-miss-rest-202042607.html-2%2Chttps%3A%2F%2Fpypi.org%2Fproject%2Fsportiq-mcp%2F0.2.2%2F-3%2Chttps%3A%2F%2Fwww.dailymail.com%2Fsport%2Ffootball%2Farticle-15891231%2FThe-WAGs-World-Cup-Meet-Supreme-Court-lawyer-cancer-beating-inspiration-reality-TV-star-backing-boys-chase-glory.html-4%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fboston-scotland-world-cup-fans-201654390.html-5 200 in 639ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 629ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 404 in 532ms
+ GET /create 200 in 971ms
+ POST /api/compute/create-ghost 200 in 817ms
+ ○ Compiling /api/ghost/register ...
+ ✓ Compiled /api/ghost/register in 2.4s
+ POST /api/ghost/register 200 in 2955ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 604ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 479ms
+ GET /api/matches/live 200 in 1188ms
+ GET /ghost 200 in 1083ms
+ GET /ghost 200 in 624ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 484ms
+ POST /api/ghost/register 200 in 480ms
+ ○ Compiling /api/memories/register ...
+ ✓ Compiled /api/memories/register in 796ms
+ POST /api/memories/register 200 in 1266ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 480ms
+ ○ Compiling /api/compute/evolve ...
+ GET /ghost 200 in 637ms
+ ✓ Compiled /api/compute/evolve in 2.7s
+ POST /api/compute/evolve 200 in 3079ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 488ms
+ GET /memories 200 in 683ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 522ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 598ms
+ GET /legacy 200 in 895ms
+ GET /api/legacy/comments 200 in 485ms
+ ○ Compiling /api/compute/legacy ...
+ ✓ Compiled /api/compute/legacy in 910ms
+ POST /api/compute/legacy 200 in 1334ms
+ POST /api/memories/register 200 in 575ms
+ GET /legacy 200 in 2155ms
+ HEAD /legacy 200 in 743ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 998ms
+ GET /api/legacy/comments 200 in 509ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 467ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 548ms
+ POST /api/legacy/comments 200 in 660ms
+ GET /api/legacy/comments 200 in 464ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 576ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 1652ms
+ GET /api/news/world-cup 200 in 2464ms
+ GET /api/matches/live 200 in 2644ms
+ GET /api/legacy/comments 200 in 734ms
+ ✓ Compiled in 2.3s
+ ✓ Compiled in 165ms
+ GET /legacy 200 in 558ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 755ms
+ GET /legacy 200 in 461ms
+ ✓ Compiled in 1152ms
+ ✓ Compiled /legacy in 208ms
+ GET /legacy 200 in 793ms
+ ✓ Compiled in 421ms
+ GET /api/legacy/comments 200 in 553ms
+ ✓ Compiled in 336ms
+ ○ Compiling /legacy ...
+ ✓ Compiled /legacy in 563ms
+ GET /legacy 200 in 927ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 875ms
+ ✓ Compiled in 148ms
+ GET /api/legacy/comments 200 in 386ms
+ ○ Compiling /api/legacy/share ...
+ GET /api/news/comments?articleIds=test-article-1 200 in 547ms
+ ✓ Compiled /api/legacy/share in 585ms
+ GET /api/legacy/share?tokenId=1 404 in 924ms
+ GET /api/ghost/0xf77f8cb39e1236ef05db1bf4a23b9a60e1e4c800 200 in 392ms
+Getting file locations for root hash: 0x51b44c3faf14f313a10582ac905ddff111ab79fdc8f0c710d30b5fe78006014f
+ GET /api/legacy/share?tokenId=152331443 500 in 2304ms
+Getting file locations for root hash: 0x51b44c3faf14f313a10582ac905ddff111ab79fdc8f0c710d30b5fe78006014f
+ GET /api/legacy/share?tokenId=152331443 200 in 2153ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 654ms
+ GET /legacy 200 in 2400ms
+ HEAD /legacy 200 in 861ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 1220ms
+ GET /api/legacy/comments 200 in 493ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 494ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 515ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 474ms
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 470ms
+ GET /api/matches/live 200 in 2122ms
+ GET / 200 in 890ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5 200 in 456ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5%2Chttps%3A%2F%2Fwww.hitc.com%2Fhouston-rockets-take-aim-at-bbcs-world-cup-coverage-as-houston-landscape-goes-viral%2F-6%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fcanada-star-kone-miss-rest-202042607.html-7%2Chttps%3A%2F%2Fpypi.org%2Fproject%2Fsportiq-mcp%2F0.2.2%2F-8%2Chttps%3A%2F%2Fwww.dailymail.com%2Fsport%2Ffootball%2Farticle-15891231%2FThe-WAGs-World-Cup-Meet-Supreme-Court-lawyer-cancer-beating-inspiration-reality-TV-star-backing-boys-chase-glory.html-9%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fboston-scotland-world-cup-fans-201654390.html-10%2Chttps%3A%2F%2Fwww.jsonline.com%2Fstory%2Fsports%2Fsoccer%2F2026%2F06%2F19%2Falex-freeman-antonio-freeman-son-scores-for-us-in-world-cup%2F90622841007%2F-11%2Chttps%3A%2F%2Fwww.southernsavers.com%2Fwalgreens-ad-coupons-621-627-2%2F-12%2Chttps%3A%2F%2Fwww.bbc.com%2Fsport%2Ffootball%2Flive%2Fcwy0e228196t%3Fxtor%3DAL-72-%255Bpartner%255D-%255Byahoo.north.america%255D-%255Bheadline%255D-%255Bsport%255D-%255Bbizdev%255D-%255Bisapi%255D-13%2Chttps%3A%2F%2Fwww.anfieldwatch.co.uk%2Fliverpool-fc%2Fnews%2Fgreedy-liverpool-want-deal-for-ps70m-midfielder-and-his-preferred-replacement%2F-14%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fusmnt-australia-live-player-ratings-grades%2Fb57feb715098f37f4fb5303d-15%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fusa-vs-australia-scotland-vs-morocco-brazil-vs-haiti-trkiye-vs-paraguay-netherlands-vs-sweden-fifa-world-cup-2026-today-match-schedule-20-june-fifa-world-cup-matches-today-india-time%2Farticleshow%2F131866485.cms-16%2Chttps%3A%2F%2Fwww.disneyfoodblog.com%2F2026%2F06%2F19%2Fsecurity-just-completely-changed-at-universal-hollywood%2F-17 200 in 484ms
+ GET /api/matches/live 200 in 1372ms
+Starting upload for file of size: 469 bytes
+Upload options: {
+  tags: '0x',
+  submitter: '',
+  finalityRequired: true,
+  taskSize: 1,
+  expectedReplica: 1,
+  fragmentSize: 4294967296,
+  skipTx: false,
+  skipIfFinalized: true,
+  fee: 0n,
+  nonce: undefined,
+  onProgress: undefined,
+  encryption: undefined
+}
+First selected node status : {
+  connectedPeers: 0,
+  logSyncHeight: 36650317,
+  logSyncBlock: '0xe605d39deb3333817751868a3fd6cb1174d52b13af75dbc0bca4e05bf497d87a',
+  nextTxSeq: 130702,
+  networkIdentity: {
+    chainId: 16661,
+    flowAddress: '0x62d4144db0f0a6fbbaeb6296c785c71b3d57c526',
+    p2pProtocolVersion: { major: 0, minor: 4, build: 0 }
+  }
+}
+Selected nodes: [
+  StorageNode {
+    url: 'http://34.66.131.173:5678',
+    timeout: 30000,
+    retry: 3
+  },
+  StorageNode {
+    url: 'http://34.169.236.186:5678',
+    timeout: 30000,
+    retry: 3
+  }
+]
+Using splitable upload (handles both single and fragment cases)
+File details - size: 469, numSegments: 1, numChunks: 2
+Data prepared to upload root=0x055df92895053fc2b52f06ea150eb4e870af11e531f9f69d51cb74e25fcb5dc7 size=469 numSegments=1 numChunks=2
+Attempting to find existing file info by root hash...
+ POST /api/news/comments 200 in 4434ms
+0G public upload error: Error: missing provider (operation="call", code=UNSUPPORTED_OPERATION, version=6.13.1)
+    at makeError (../../src.ts/utils/errors.ts:694:21)
+    at assert (../../src.ts/utils/errors.ts:715:25)
+    at checkProvider (../../src.ts/providers/abstract-signer.ts:28:11)
+    at Wallet.call (../../src.ts/providers/abstract-signer.ts:221:16)
+    at async uploadPublicJsonFromServer (src\lib\0g\storage\upload-public-server.ts:38:29)
+    at async POST (src\app\api\news\comments\route.ts:74:26)
+  36 |     const signer = new Wallet(privateKey);
+  37 |     const indexer = getStorageIndexer();
+> 38 |     const [tx, uploadErr] = await indexer.upload(mem, getOgChainRpc(), signer);
+     |                             ^
+  39 |
+  40 |     if (uploadErr) {
+  41 |       console.warn("0G public upload failed:", uploadErr); {
+  code: 'UNSUPPORTED_OPERATION',
+  operation: 'call',
+  shortMessage: 'missing provider'
+}
+ GET /api/ghost/0xF77F8cb39E1236Ef05dB1Bf4a23b9a60e1E4c800 200 in 570ms
+ GET /api/matches/live 200 in 491ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 511ms
+ GET / 200 in 1816ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5 200 in 678ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 579ms
+ HEAD / 200 in 834ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1054ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5%2Chttps%3A%2F%2Fwww.hitc.com%2Fhouston-rockets-take-aim-at-bbcs-world-cup-coverage-as-houston-landscape-goes-viral%2F-6%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fcanada-star-kone-miss-rest-202042607.html-7%2Chttps%3A%2F%2Fpypi.org%2Fproject%2Fsportiq-mcp%2F0.2.2%2F-8%2Chttps%3A%2F%2Fwww.dailymail.com%2Fsport%2Ffootball%2Farticle-15891231%2FThe-WAGs-World-Cup-Meet-Supreme-Court-lawyer-cancer-beating-inspiration-reality-TV-star-backing-boys-chase-glory.html-9%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fboston-scotland-world-cup-fans-201654390.html-10%2Chttps%3A%2F%2Fwww.jsonline.com%2Fstory%2Fsports%2Fsoccer%2F2026%2F06%2F19%2Falex-freeman-antonio-freeman-son-scores-for-us-in-world-cup%2F90622841007%2F-11%2Chttps%3A%2F%2Fwww.southernsavers.com%2Fwalgreens-ad-coupons-621-627-2%2F-12%2Chttps%3A%2F%2Fwww.bbc.com%2Fsport%2Ffootball%2Flive%2Fcwy0e228196t%3Fxtor%3DAL-72-%255Bpartner%255D-%255Byahoo.north.america%255D-%255Bheadline%255D-%255Bsport%255D-%255Bbizdev%255D-%255Bisapi%255D-13%2Chttps%3A%2F%2Fwww.anfieldwatch.co.uk%2Fliverpool-fc%2Fnews%2Fgreedy-liverpool-want-deal-for-ps70m-midfielder-and-his-preferred-replacement%2F-14%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fusmnt-australia-live-player-ratings-grades%2Fb57feb715098f37f4fb5303d-15%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fusa-vs-australia-scotland-vs-morocco-brazil-vs-haiti-trkiye-vs-paraguay-netherlands-vs-sweden-fifa-world-cup-2026-today-match-schedule-20-june-fifa-world-cup-matches-today-india-time%2Farticleshow%2F131866485.cms-16%2Chttps%3A%2F%2Fwww.disneyfoodblog.com%2F2026%2F06%2F19%2Fsecurity-just-completely-changed-at-universal-hollywood%2F-17 200 in 522ms
+ GET / 200 in 974ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5 200 in 860ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 857ms
+ HEAD / 200 in 942ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1086ms
+ GET /api/matches/live 200 in 2857ms
+ ✓ Compiled in 212ms
+ ✓ Compiled in 4.1s
+ GET /api/matches/live 200 in 1742ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5 200 in 1741ms
+ GET / 200 in 1756ms
+ GET /api/matches/live 200 in 348ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5 200 in 436ms
+ ✓ Compiled in 178ms
+ ✓ Compiled in 200ms
+ HEAD / 200 in 2348ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 2572ms
+ GET / 200 in 964ms
+ GET /api/matches/live 200 in 1437ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5 200 in 1449ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1338ms
+ GET / 200 in 1316ms
+ GET /api/matches/live 200 in 644ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5 200 in 635ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 578ms
+ HEAD / 200 in 974ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1222ms
+ GET /api/matches/live 200 in 1709ms
+ GET /api/matches/live 200 in 471ms
+ GET /api/matches/live 200 in 1490ms
+ GET /api/matches/live 200 in 1363ms
+ GET /api/matches/live 200 in 496ms
+ GET /api/matches/live 200 in 1279ms
+ GET /api/matches/live 200 in 542ms
+ GET /api/matches/live 200 in 524ms
+ GET /api/matches/live 200 in 1489ms
+ GET /api/matches/live 200 in 1460ms
+ GET /api/matches/live 200 in 1488ms
+ GET /api/matches/live 200 in 1447ms
+ GET /api/matches/live 200 in 1501ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5%2Chttps%3A%2F%2Fwww.hitc.com%2Fhouston-rockets-take-aim-at-bbcs-world-cup-coverage-as-houston-landscape-goes-viral%2F-6%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fcanada-star-kone-miss-rest-202042607.html-7%2Chttps%3A%2F%2Fpypi.org%2Fproject%2Fsportiq-mcp%2F0.2.2%2F-8%2Chttps%3A%2F%2Fwww.dailymail.com%2Fsport%2Ffootball%2Farticle-15891231%2FThe-WAGs-World-Cup-Meet-Supreme-Court-lawyer-cancer-beating-inspiration-reality-TV-star-backing-boys-chase-glory.html-9%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fboston-scotland-world-cup-fans-201654390.html-10%2Chttps%3A%2F%2Fwww.jsonline.com%2Fstory%2Fsports%2Fsoccer%2F2026%2F06%2F19%2Falex-freeman-antonio-freeman-son-scores-for-us-in-world-cup%2F90622841007%2F-11%2Chttps%3A%2F%2Fwww.southernsavers.com%2Fwalgreens-ad-coupons-621-627-2%2F-12%2Chttps%3A%2F%2Fwww.bbc.com%2Fsport%2Ffootball%2Flive%2Fcwy0e228196t%3Fxtor%3DAL-72-%255Bpartner%255D-%255Byahoo.north.america%255D-%255Bheadline%255D-%255Bsport%255D-%255Bbizdev%255D-%255Bisapi%255D-13%2Chttps%3A%2F%2Fwww.anfieldwatch.co.uk%2Fliverpool-fc%2Fnews%2Fgreedy-liverpool-want-deal-for-ps70m-midfielder-and-his-preferred-replacement%2F-14%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Fusmnt-australia-live-player-ratings-grades%2Fb57feb715098f37f4fb5303d-15%2Chttps%3A%2F%2Feconomictimes.indiatimes.com%2Fnews%2Fsports%2Fusa-vs-australia-scotland-vs-morocco-brazil-vs-haiti-trkiye-vs-paraguay-netherlands-vs-sweden-fifa-world-cup-2026-today-match-schedule-20-june-fifa-world-cup-matches-today-india-time%2Farticleshow%2F131866485.cms-16%2Chttps%3A%2F%2Fwww.disneyfoodblog.com%2F2026%2F06%2F19%2Fsecurity-just-completely-changed-at-universal-hollywood%2F-17 200 in 631ms
+ GET /api/matches/live 200 in 476ms
+ GET /api/matches/live 200 in 1559ms
+ GET /api/matches/live 200 in 1459ms
+ GET /api/matches/live 200 in 479ms
+ GET /api/matches/live 200 in 1392ms
+ GET /api/matches/live 200 in 499ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 556ms
+ GET / 200 in 1587ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fscotland-vs-morocco-live-confirmed-teams-full-line-ups-tv-channel-live-online-stream%2F-0%2Chttps%3A%2F%2Fwww.hitc.com%2Fusmnt-breaks-all-time-world-cup-record-11-minutes-into-usa-vs-australia%2F-1%2Chttps%3A%2F%2Fmondoweiss.net%2F2026%2F06%2Fin-gaza-even-enjoying-the-world-cup-has-been-marred-by-the-genocide%2F-2%2Chttps%3A%2F%2Fwww.nj.com%2Fopinion%2F2026%2F06%2Fworld-cups-biggest-opponent-isnt-a-team-its-extreme-heat-opinion.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fwatch-on-us-tv%2Fhow-to-watch-brazil-vs-haiti-in-the-usa-live-stream-and-tv-for-world-cup-2026%2F-4%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Fsports%2Ftyler-adams-wife-sarah-admits-pressure-usa-faces-with-home-world-cup%2F-5 200 in 1123ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 960ms
+ HEAD / 200 in 1102ms
+ GET /api/news/world-cup 200 in 2314ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1071ms
+ GET /api/matches/live 200 in 2438ms
+ GET /api/matches/live 200 in 480ms
+ GET / 200 in 1010ms
+ GET /api/matches/live 200 in 843ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Fbreaking-news%2Farticle%2Fworld-cup-2026-usa-defeats-australia-2-0-to-advance-to-knockout-round-despite-christian-pulisic-absence-210527424.html-0%2Chttps%3A%2F%2Fwww.dailyrecord.com%2Fstory%2Fsports%2Fsoccer%2F2026%2F06%2F19%2Fmorristown-nj-usa-vs-australia-match-world-cup%2F90604838007%2F-1%2Chttps%3A%2F%2Fonefootball.com%2Fen%2Fnews%2Fsurprise-package-united-states-on-6-points-through-43032891-2%2Chttps%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fusa-australia-report-result-goals%2F-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fu-advances-fifa-world-cup-210406512.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2Fhow-to-live-stream-scotland-vs-morocco-fifa-world-cup-2026-tv-channel%2F-5 200 in 917ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 850ms
+ HEAD / 200 in 960ms
+ ✓ Compiled in 1021ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 584ms
+ GET /api/matches/live 200 in 1706ms
+ GET /api/matches/live?t=1 200 in 1315ms
+ GET /api/matches/live?t=1781991387667 200 in 1025ms
+ GET /api/matches/live?t=1781991399667 200 in 1278ms
+ GET /api/matches/live?t=2 200 in 550ms
+football-data.org rate limited (429) - will use cache
+Match providers unavailable - serving last successful cache
+football-data.org rate limited (429) - will use cache
+ GET /api/matches/live?t=1781991411664 200 in 961ms
+Match providers unavailable - serving last successful cache
+football-data.org rate limited (429) - will use cache
+ GET /api/matches/live?t=1781991422672 200 in 1053ms
+Match providers unavailable - serving last successful cache
+ GET /api/matches/live?t=1781991434669 200 in 925ms
+football-data.org rate limited (429) - will use cache
+Match providers unavailable - serving last successful cache
+ GET /api/matches/live?t=3 200 in 1070ms
+ GET /api/matches/live?t=1781991445662 200 in 995ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 634ms
+ GET /api/matches/live?t=1781991455662 200 in 2917ms
+ GET /api/matches/live?t=1781991468610 200 in 1177ms
+ GET /api/matches/live?t=1781991479799 200 in 1798ms
+ GET /api/matches/live?t=1781991491617 200 in 1172ms
+ GET /api/matches/live?t=1781991502807 200 in 1245ms
+ GET /api/matches/live?t=1781991514068 200 in 1166ms
+ GET /api/matches/live?t=1781991525667 200 in 1227ms
+ GET /api/matches/live?t=1781991537666 200 in 1154ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 581ms
+ GET /api/matches/live?t=1781991542254 200 in 835ms
+ GET /api/matches/live?t=1781991553117 200 in 1133ms
+ GET /api/matches/live?t=1781991564262 200 in 1238ms
+ GET /api/matches/live?t=1781991575668 200 in 1099ms
+ GET /api/matches/live?t=1781991587671 200 in 1067ms
+ GET /api/matches/live?t=1781991599667 200 in 3763ms
+ GET /api/matches/live?t=1781991613672 200 in 1190ms
+ GET /api/matches/live?t=1781991625667 200 in 1310ms
+ GET /api/matches/live?t=1781991637666 200 in 991ms
+ GET /api/matches/live?t=1781991649664 200 in 966ms
+ GET /api/matches/live?t=1781991660661 200 in 2258ms
+ ✓ Compiled in 486ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 550ms
+ GET /api/matches/live?t=1781991668719 200 in 1447ms
+ GET /api/matches/live?t=1781991682665 200 in 1539ms
+ GET /api/matches/live?t=1781991696668 200 in 1270ms
+ GET /api/matches/live?t=1781991710666 200 in 1248ms
+ GET /api/matches/live?t=1781991724676 200 in 2406ms
+ GET /api/matches/live?t=1781991739671 200 in 1351ms
+ GET /api/matches/live?t=1781991753674 200 in 1194ms
+ GET /api/matches/live 200 in 535ms
+football-data.org rate limited (429) - will use cache
+Match providers unavailable - serving last successful cache
+ GET /api/matches/live?t=1781991767669 200 in 1152ms
+ GET /api/matches/live 200 in 1502ms
+ GET /api/matches/live?t=1781991781662 200 in 1484ms
+ GET /api/matches/live?t=1781991795672 200 in 1370ms
+football-data.org rate limited (429) - attempting live-only refresh
+ GET /api/matches/live?t=1781991809666 200 in 1679ms
+Match providers unavailable - serving last successful cache
+ GET /api/matches/live?t=1781991823679 200 in 1075ms
+ GET /api/matches/live?t=1781991837672 200 in 1006ms
+ GET /api/matches/live?t=1781991851666 200 in 1310ms
+ GET /api/matches/live?t=1781991865674 200 in 1052ms
+ GET /api/matches/live?t=1781991879671 200 in 1148ms
+ GET /api/matches/live 200 in 1139ms
+ GET /api/matches/live?t=1781991893671 200 in 998ms
+ GET /api/matches/live 200 in 721ms
+ GET /api/matches/live 200 in 724ms
+ GET /api/matches/live?t=1781991907673 200 in 2142ms
+ GET /api/matches/live?t=1781991922662 200 in 1059ms
+ GET /api/matches/live?t=1781991936673 200 in 1123ms
+ GET /api/matches/live?t=1781991950672 200 in 1064ms
+ GET /api/matches/live?t=1781991964667 200 in 1536ms
+ GET /api/matches/live?t=1781991978669 200 in 1125ms
+ GET /api/matches/live?t=1781991992669 200 in 1277ms
+ GET /api/matches/live?t=1781992006666 200 in 1108ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 651ms
+ GET /api/matches/live?t=1781992013798 200 in 1313ms
+ GET / 200 in 2550ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fsports.yahoo.com%2Fsoccer%2Fbreaking-news%2Farticle%2Fworld-cup-2026-usa-defeats-australia-2-0-to-advance-to-knockout-round-despite-christian-pulisic-absence-210527424.html-0%2Chttps%3A%2F%2Fwww.dailyrecord.com%2Fstory%2Fsports%2Fsoccer%2F2026%2F06%2F19%2Fmorristown-nj-usa-vs-australia-match-world-cup%2F90604838007%2F-1%2Chttps%3A%2F%2Fonefootball.com%2Fen%2Fnews%2Fsurprise-package-united-states-on-6-points-through-43032891-2%2Chttps%3A%2F%2Fwww.101greatgoals.com%2Ffootball%2Fworld-cup-news%2Fusa-australia-report-result-goals%2F-3%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Fu-advances-fifa-world-cup-210406512.html-4%2Chttps%3A%2F%2Fwww.thebiglead.com%2Fhow-to-live-stream-scotland-vs-morocco-fifa-world-cup-2026-tv-channel%2F-5 200 in 856ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 809ms
+ HEAD / 200 in 894ms
+ GET /api/news/world-cup 200 in 2025ms
+ GET /api/matches/live?t=1781992020728 200 in 2135ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 475ms
+ GET /api/matches/live?t=1781992034872 200 in 1147ms
+ GET /api/matches/live?t=1781992048030 200 in 1221ms
+ GET /api/matches/live?t=1781992061272 200 in 1164ms
+ GET /api/matches/live?t=1781992074454 200 in 1083ms
+ GET /api/matches/live?t=1781992087551 200 in 1306ms
+ GET /api/matches/live?t=1781992100873 200 in 1094ms
+ GET /api/matches/live?t=1781992113980 200 in 1075ms
+ GET /api/matches/live?t=1781992127073 200 in 1087ms
+ GET /api/matches/live?t=1781992140173 200 in 1989ms
+ GET /api/matches/live?t=1781992154175 200 in 1115ms
+ GET /api/matches/live?t=1781992167306 200 in 1247ms
+ GET /api/matches/live?t=1781992180573 200 in 1281ms
+ GET /api/matches/live?t=1781992193873 200 in 1329ms
+ GET /api/matches/live?t=1781992207223 200 in 2931ms
+ GET /api/matches/live?t=1781992222173 200 in 1269ms
+ GET /api/matches/live?t=1781992235456 200 in 1054ms
+ GET /api/matches/live?t=1781992248527 200 in 1193ms
+ GET /api/matches/live?t=1781992261736 200 in 1995ms
+ GET /api/matches/live?t=1781992275764 200 in 1188ms
+ GET /api/matches/live?t=1781992288965 200 in 1203ms
+ GET /api/matches/live?t=1781992302187 200 in 1384ms
+ GET /api/matches/live?t=1781992315589 200 in 1220ms
+ GET /api/matches/live?t=1781992328840 200 in 1127ms
+ GET /api/matches/live?t=1781992341991 200 in 1207ms
+ GET /api/matches/live?t=1781992355218 200 in 1138ms
+ GET /api/matches/live?t=1781992368367 200 in 1168ms
+ GET / 200 in 1023ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.cnet.com%2Ftech%2Fservices-and-software%2Fbrazil-vs-haiti-stream-fifa-world-cup-2026-group-c-match-live-for-free%2F-0%2Chttps%3A%2F%2Fwww.businessinsider.com%2Fguides%2Fstreaming%2Fwhere-to-watch-brazil-vs-haiti-world-cup-2026%23article-1%2Chttps%3A%2F%2Fwww.profootballnetwork.com%2Fworld-cup-contender-nfl-analysts-usmnt%2F%3Futm_medium%3Drss%26amp%3Butm_source%3Dnordot-2%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Firan-says-being-treated-unfairly-212721198.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fwhy-hakim-ziyech-is-missing-the-2026-world-cup-for-morocco%2F-4%2Chttps%3A%2F%2Fsbisoccer.com%2F2026%2F06%2Fusmnt-blanks-australia-to-seal-knockout-round-berth-5 200 in 710ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 694ms
+ GET /api/matches/live?t=1781992378225 200 in 1373ms
+ HEAD / 200 in 869ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1097ms
+ GET /api/matches/live?t=1781992391616 200 in 1273ms
+ GET /api/matches/live?t=1781992404906 200 in 1116ms
+ GET /api/matches/live?t=1781992418041 200 in 1213ms
+ GET /api/matches/live?t=1781992431273 200 in 1107ms
+ GET /api/matches/live?t=1781992444395 200 in 1379ms
+ GET /api/matches/live?t=1781992457790 200 in 1249ms
+ GET /api/matches/live?t=1781992471059 200 in 1154ms
+ GET /api/matches/live?t=1781992484235 200 in 1207ms
+ GET /api/matches/live?t=1781992497474 200 in 1271ms
+ GET /api/matches/live?t=1781992510764 200 in 1251ms
+ GET /api/matches/live?t=1781992524035 200 in 1273ms
+ GET /api/matches/live?t=1781992537327 200 in 1175ms
+ GET /api/matches/live?t=1781992550518 200 in 1191ms
+ GET /api/matches/live?t=1781992563725 200 in 1753ms
+ GET /api/matches/live?t=1781992577494 200 in 1683ms
+ GET /api/matches/live?t=1781992591208 200 in 1221ms
+ GET /api/matches/live?t=1781992604446 200 in 1356ms
+ GET /api/matches/live?t=1781992617817 200 in 1216ms
+ GET /api/matches/live?t=1781992631053 200 in 1104ms
+ GET /api/matches/live?t=1781992644173 200 in 1223ms
+ GET /api/matches/live?t=1781992657419 200 in 1194ms
+ GET /api/matches/live?t=1781992670633 200 in 1160ms
+ GET /api/matches/live?t=1781992683808 200 in 1191ms
+ GET /api/matches/live?t=1781992697013 200 in 1265ms
+ GET /api/matches/live?t=1781992710308 200 in 1154ms
+ GET /api/matches/live?t=1781992723475 200 in 1243ms
+ GET /api/matches/live?t=1781992736733 200 in 1293ms
+ GET /api/matches/live?t=1781992750043 200 in 1226ms
+ GET /api/matches/live?t=1781992763290 200 in 1211ms
+ GET /api/matches/live?t=1781992776523 200 in 1223ms
+ GET /api/matches/live?t=1781992789761 200 in 1307ms
+ GET /api/matches/live?t=1781992803084 200 in 3855ms
+ GET /api/matches/live?t=1781992818957 200 in 1826ms
+ GET /api/matches/live?t=1781992832808 200 in 1369ms
+ GET /api/matches/live?t=1781992846192 200 in 1132ms
+ GET /api/matches/live?t=1781992859341 200 in 2178ms
+ GET /api/matches/live?t=1781992873539 200 in 1285ms
+ GET /api/matches/live?t=1781992886840 200 in 1507ms
+ GET / 200 in 1064ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.cnet.com%2Ftech%2Fservices-and-software%2Fbrazil-vs-haiti-stream-fifa-world-cup-2026-group-c-match-live-for-free%2F-0%2Chttps%3A%2F%2Fwww.businessinsider.com%2Fguides%2Fstreaming%2Fwhere-to-watch-brazil-vs-haiti-world-cup-2026%23article-1%2Chttps%3A%2F%2Fwww.profootballnetwork.com%2Fworld-cup-contender-nfl-analysts-usmnt%2F%3Futm_medium%3Drss%26amp%3Butm_source%3Dnordot-2%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Firan-says-being-treated-unfairly-212721198.html-3%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fwhy-hakim-ziyech-is-missing-the-2026-world-cup-for-morocco%2F-4%2Chttps%3A%2F%2Fsbisoccer.com%2F2026%2F06%2Fusmnt-blanks-australia-to-seal-knockout-round-berth-5 200 in 807ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 774ms
+ HEAD / 200 in 887ms
+ GET /api/matches/live?t=1781992893231 200 in 1974ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 506ms
+ GET /api/matches/live?t=1781992907665 200 in 1259ms
+ GET /api/matches/live?t=1781992921674 200 in 1793ms
+ GET /api/matches/live?t=1781992935666 200 in 1327ms
+ GET /api/matches/live?t=1781992949665 200 in 1200ms
+ GET /api/matches/live?t=1781992963667 200 in 1066ms
+ GET /api/matches/live?t=1781992977663 200 in 1166ms
+ GET /api/matches/live?t=1781992991678 200 in 1215ms
+ GET /api/matches/live?t=1781993005666 200 in 1124ms
+ GET /api/matches/live?t=1781993019668 200 in 1121ms
+ GET /api/matches/live?t=1781993033660 200 in 1046ms
+ GET /api/matches/live?t=1781993047677 200 in 1327ms
+ GET /api/matches/live?t=1781993061666 200 in 1101ms
+ GET /api/matches/live?t=1781993075668 200 in 1026ms
+ GET /api/matches/live?t=1781993089672 200 in 1286ms
+ GET /api/matches/live?t=1781993103672 200 in 2476ms
+ GET /api/matches/live?t=1781993118675 200 in 1175ms
+ GET /api/matches/live?t=1781993132671 200 in 1262ms
+ GET /api/matches/live?t=1781993146667 200 in 1058ms
+ GET /api/matches/live?t=1781993160675 200 in 1591ms
+ GET /api/matches/live?t=1781993174667 200 in 1246ms
+ GET /api/matches/live?t=1781993188667 200 in 1131ms
+ GET /api/matches/live?t=1781993202668 200 in 1189ms
+ GET /api/matches/live?t=1781993216674 200 in 1439ms
+ GET /api/matches/live?t=1781993230674 200 in 1178ms
+ GET /api/matches/live?t=1781993244667 200 in 1250ms
+ GET /api/matches/live?t=1781993258670 200 in 1386ms
+ GET /api/matches/live?t=1781993272663 200 in 1042ms
+ GET /api/matches/live?t=1781993286674 200 in 1201ms
+ GET /api/matches/live?t=1781993300668 200 in 1076ms
+ GET /api/matches/live?t=1781993314663 200 in 1152ms
+ GET /api/matches/live?t=1781993328665 200 in 1210ms
+ GET /api/matches/live?t=1781993342673 200 in 1197ms
+ GET /api/matches/live?t=1781993356671 200 in 1108ms
+ GET /api/matches/live?t=1781993370675 200 in 1288ms
+ GET /api/matches/live?t=1781993384661 200 in 1192ms
+ GET /api/matches/live?t=1781993398668 200 in 1152ms
+ GET /api/matches/live?t=1781993412673 200 in 1217ms
+ GET /api/matches/live?t=1781993426664 200 in 1160ms
+ GET /api/matches/live?t=1781993440665 200 in 1194ms
+ GET /api/matches/live?t=1781993454672 200 in 1151ms
+ GET /api/matches/live?t=1781993468662 200 in 1127ms
+ GET /api/matches/live?t=1781993482665 200 in 1189ms
+ GET /api/matches/live?t=1781993496667 200 in 1191ms
+ GET /api/matches/live?t=1781993510665 200 in 1111ms
+ GET /api/matches/live?t=1781993524661 200 in 1380ms
+ GET /api/matches/live?t=1781993538670 200 in 1226ms
+ GET /api/matches/live?t=1781993552666 200 in 1158ms
+ GET /api/matches/live?t=1781993566665 200 in 1196ms
+ GET /api/matches/live?t=1781993580673 200 in 1195ms
+ GET /api/matches/live?t=1781993594671 200 in 1396ms
+ GET /api/matches/live?t=1781993608675 200 in 1207ms
+ GET /api/matches/live?t=1781993622665 200 in 1140ms
+ GET /api/matches/live?t=1781993636668 200 in 1130ms
+ GET /api/matches/live?t=1781993650665 200 in 1103ms
+ GET /api/matches/live?t=1781993664665 200 in 1197ms
+ GET /api/matches/live?t=1781993678668 200 in 1162ms
+ GET /api/matches/live?t=1781993692665 200 in 1268ms
+ GET /api/matches/live?t=1781993706665 200 in 1282ms
+ GET /api/matches/live?t=1781993720671 200 in 1251ms
+ GET /api/matches/live?t=1781993734672 200 in 1239ms
+ GET /api/matches/live?t=1781993748672 200 in 1160ms
+ GET /api/matches/live?t=1781993762675 200 in 1388ms
+ GET /api/matches/live?t=1781993776673 200 in 1108ms
+ GET /api/matches/live?t=1781993790675 200 in 1227ms
+ GET /api/matches/live?t=1781993804666 200 in 1124ms
+ GET /api/matches/live?t=1781993818676 200 in 1139ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 582ms
+ GET /api/matches/live?t=1781993832408 200 in 1302ms
+ GET /api/matches/live?t=1781993845728 200 in 1214ms
+ GET / 200 in 1205ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 610ms
+ GET /api/matches/live?t=1781993855658 200 in 1199ms
+ HEAD / 200 in 1288ms
+ GET /api/news/world-cup 200 in 2305ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1472ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Flifestyle%2Fus-states-with-highest-bed-bug-risk-revealed%2F-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-lineup-world-cup-scotland%2F-1%2Chttps%3A%2F%2Fwww.breitbart.com%2Fsports%2F2026%2F06%2F19%2Fseattle-times-claims-fans-have-mixed-feelings-about-displaying-patriotism-given-trumps-actions-pics-tell-different-story%2F-2%2Chttps%3A%2F%2Fwww.techradar.com%2Fhow-to-watch%2Ffootball%2Fbrazil-vs-haiti-world-cup-2026-free-3%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Ftrinity-rodman-had-usmnt-fans-buzzing-world-cup-win-over-australia%2F376b945d99bc405958135fa0-4%2Chttps%3A%2F%2Fwww.dailymail.com%2Ftvshowbiz%2Farticle-15915001%2FMegan-Pickford-idolised-Coleen-Rooney-KATIE-HIND-reveals.html-5 200 in 597ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Flifestyle%2Fus-states-with-highest-bed-bug-risk-revealed%2F-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-lineup-world-cup-scotland%2F-1%2Chttps%3A%2F%2Fwww.breitbart.com%2Fsports%2F2026%2F06%2F19%2Fseattle-times-claims-fans-have-mixed-feelings-about-displaying-patriotism-given-trumps-actions-pics-tell-different-story%2F-2%2Chttps%3A%2F%2Fwww.techradar.com%2Fhow-to-watch%2Ffootball%2Fbrazil-vs-haiti-world-cup-2026-free-3%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Ftrinity-rodman-had-usmnt-fans-buzzing-world-cup-win-over-australia%2F376b945d99bc405958135fa0-4%2Chttps%3A%2F%2Fwww.dailymail.com%2Ftvshowbiz%2Farticle-15915001%2FMegan-Pickford-idolised-Coleen-Rooney-KATIE-HIND-reveals.html-5%2Chttps%3A%2F%2Fwww.cnet.com%2Ftech%2Fservices-and-software%2Fbrazil-vs-haiti-stream-fifa-world-cup-2026-group-c-match-live-for-free%2F-6%2Chttps%3A%2F%2Fwww.businessinsider.com%2Fguides%2Fstreaming%2Fwhere-to-watch-brazil-vs-haiti-world-cup-2026%23article-7%2Chttps%3A%2F%2Fwww.profootballnetwork.com%2Fworld-cup-contender-nfl-analysts-usmnt%2F%3Futm_medium%3Drss%26amp%3Butm_source%3Dnordot-8%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Firan-says-being-treated-unfairly-212721198.html-9%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fwhy-hakim-ziyech-is-missing-the-2026-world-cup-for-morocco%2F-10%2Chttps%3A%2F%2Fsbisoccer.com%2F2026%2F06%2Fusmnt-blanks-australia-to-seal-knockout-round-berth-11%2Chttps%3A%2F%2Fsbisoccer.com%2F2026%2F06%2Fsbi-usmnt-man-of-the-match-alex-freeman-2-12%2Chttps%3A%2F%2Fwww.aljazeera.com%2Fsports%2F2026%2F6%2F19%2Fcanadas-kone-undergoes-major-leg-surgery-to-miss-rest-of-world-cup-13%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fsoccer%2Fusa-beats-australia-advance-world-cup-knockout-stage-4-takeaways-14%2Chttps%3A%2F%2Fcryptobriefing.com%2Fusa-advances-to-2026-world-cup-knockout-stage-with-win-over-australia%2F-15%2Chttps%3A%2F%2Fwww.snopes.com%2F%2Fnews%2F2026%2F06%2F19%2Furuguay-soccer-team-sniffer-dog%2F-16%2Chttps%3A%2F%2Fwww.snopes.com%2Fnews%2F2026%2F06%2F19%2Furuguay-soccer-team-sniffer-dog%2F-17 200 in 505ms
+ GET /api/matches/live?t=1781993868881 200 in 1054ms
+ GET /api/matches/live?t=1781993881950 200 in 1156ms
+ GET /api/matches/live?t=1781993895121 200 in 1210ms
+ GET /api/matches/live?t=1781993908352 200 in 1148ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 629ms
+ GET /api/matches/live?t=1781993915417 200 in 1241ms
+ GET /create 200 in 1655ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 498ms
+ GET /api/matches/live?t=1781993919322 200 in 744ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 538ms
+ GET /ghost 200 in 1129ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 567ms
+ GET /api/matches/live?t=1781993922681 200 in 896ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 546ms
+ GET /api/matches/live?t=1781993960048 200 in 1274ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 480ms
+ GET /api/matches/live?t=1781993991747 200 in 1234ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 517ms
+ GET /matches 200 in 1005ms
+ GET /api/matches/live?t=1781993994253 200 in 682ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 485ms
+ GET /api/matches/live?t=1781994006946 200 in 1445ms
+ GET /api/matches/live?t=1781994015872 200 in 1184ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 501ms
+ GET /api/matches/live?t=1781994029071 200 in 1202ms
+ GET /api/matches/live?t=1781994042296 200 in 1304ms
+ GET /api/matches/live?t=1781994055669 200 in 1095ms
+ GET /api/matches/live?t=1781994069668 200 in 1142ms
+ GET /api/matches/live?t=1781994083673 200 in 1156ms
+ GET /api/matches/live?t=1781994097672 200 in 1228ms
+ GET /api/matches/live?t=1781994111665 200 in 1213ms
+ GET /api/matches/live?t=1781994125673 200 in 1063ms
+ GET /api/matches/live?t=1781994139667 200 in 1368ms
+ GET /api/matches/live?t=1781994153679 200 in 3287ms
+ GET /api/matches/live?t=1781994169678 200 in 1171ms
+ GET /api/matches/live?t=1781994183661 200 in 1207ms
+ GET /api/matches/live?t=1781994197667 200 in 1278ms
+ GET /api/matches/live?t=1781994211662 200 in 1227ms
+ GET /api/matches/live?t=1781994225672 200 in 1165ms
+ GET /api/matches/live?t=1781994239672 200 in 1271ms
+ GET /api/matches/live?t=1781994253662 200 in 1148ms
+ GET /api/matches/live?t=1781994267665 200 in 1232ms
+ GET /api/matches/live?t=1781994281674 200 in 1197ms
+ GET /api/matches/live?t=1781994295667 200 in 1115ms
+ GET /api/matches/live?t=1781994309664 200 in 1429ms
+ GET /api/matches/live?t=1781994323675 200 in 1209ms
+ GET /api/matches/live?t=1781994337663 200 in 1153ms
+ GET /api/matches/live?t=1781994351666 200 in 1235ms
+ GET /api/matches/live?t=1781994365664 200 in 4572ms
+ GET /api/matches/live?t=1781994382666 200 in 1328ms
+ GET /api/matches/live?t=1781994396667 200 in 1209ms
+ GET /api/matches/live?t=1781994410661 200 in 1214ms
+ GET /api/matches/live?t=1781994424669 200 in 1311ms
+ GET /api/matches/live?t=1781994438667 200 in 1196ms
+ GET /api/matches/live?t=1781994452667 200 in 1425ms
+ GET /api/matches/live?t=1781994466666 200 in 1468ms
+ GET /api/matches/live?t=1781994480665 200 in 1186ms
+ GET /api/matches/live?t=1781994494675 200 in 1188ms
+ GET /api/matches/live?t=1781994508665 200 in 1383ms
+ GET /api/matches/live?t=1781994522661 200 in 1429ms
+ GET /api/matches/live?t=1781994536664 200 in 1348ms
+ GET /api/matches/live?t=1781994550666 200 in 1369ms
+ GET /api/matches/live?t=1781994564661 200 in 1397ms
+ GET /api/matches/live?t=1781994578664 200 in 1179ms
+ GET /api/matches/live?t=1781994592665 200 in 1239ms
+ GET /api/matches/live?t=1781994606670 200 in 1890ms
+ GET /api/matches/live?t=1781994620674 200 in 1286ms
+ GET /api/matches/live?t=1781994634674 200 in 1157ms
+ GET /api/matches/live?t=1781994648673 200 in 1257ms
+ GET /api/matches/live?t=1781994662666 200 in 1434ms
+ GET /api/matches/live?t=1781994676669 200 in 1248ms
+ GET /api/matches/live?t=1781994690671 200 in 1199ms
+ GET /api/matches/live?t=1781994704665 200 in 1203ms
+ GET /api/matches/live?t=1781994718669 200 in 1091ms
+ GET /api/matches/live?t=1781994732670 200 in 1165ms
+ GET /api/matches/live?t=1781994746663 200 in 1160ms
+ GET /api/matches/live?t=1781994760666 200 in 1191ms
+ GET /api/matches/live?t=1781994774664 200 in 1258ms
+ GET /api/matches/live?t=1781994788666 200 in 1041ms
+ GET /api/matches/live?t=1781994802674 200 in 1024ms
+ GET /api/matches/live?t=1781994816671 200 in 1141ms
+ GET /api/matches/live?t=1781994830666 200 in 1154ms
+ GET /api/matches/live?t=1781994844665 200 in 1199ms
+ GET /api/matches/live?t=1781994858669 200 in 1177ms
+ GET /api/matches/live?t=1781994872668 200 in 1337ms
+ GET /api/matches/live?t=1781994886668 200 in 1350ms
+ GET /api/matches/live?t=1781994900663 200 in 1239ms
+ GET /api/matches/live?t=1781994914677 200 in 1070ms
+ GET /api/matches/live?t=1781994928669 200 in 1322ms
+ GET /api/matches/live?t=1781994942668 200 in 1185ms
+ GET /api/matches/live?t=1781994956664 200 in 1401ms
+ GET /api/matches/live?t=1781994970672 200 in 1137ms
+ GET /api/matches/live?t=1781994984664 200 in 1170ms
+ GET /api/matches/live?t=1781994998676 200 in 1175ms
+ GET /api/matches/live?t=1781995012668 200 in 1220ms
+ GET /api/matches/live?t=1781995026663 200 in 2140ms
+ GET /api/matches/live?t=1781995041672 200 in 2185ms
+ GET /api/matches/live?t=1781995056665 200 in 2102ms
+ GET /api/matches/live?t=1781995071673 200 in 2285ms
+ GET /api/matches/live?t=1781995086663 200 in 2277ms
+ GET /api/matches/live?t=1781995101672 200 in 2314ms
+ GET /api/matches/live?t=1781995116664 200 in 2185ms
+ GET /api/matches/live?t=1781995131670 200 in 2420ms
+ GET /api/matches/live?t=1781995146670 200 in 2341ms
+ GET /api/matches/live?t=1781995161673 200 in 2270ms
+ GET /api/matches/live?t=1781995176665 200 in 2600ms
+ GET /api/matches/live?t=1781995191661 200 in 2313ms
+ GET /api/matches/live?t=1781995206667 200 in 2631ms
+ GET /api/matches/live?t=1781995221664 200 in 2331ms
+ GET /api/matches/live?t=1781995236664 200 in 2472ms
+ GET /api/matches/live?t=1781995251664 200 in 2310ms
+ GET /api/matches/live?t=1781995266675 200 in 2249ms
+ GET /api/matches/live?t=1781995281671 200 in 2332ms
+ GET /api/matches/live?t=1781995296667 200 in 1861ms
+ GET /api/matches/live?t=1781995310668 200 in 2346ms
+ GET /api/matches/live?t=1781995325662 200 in 2059ms
+ GET /api/matches/live?t=1781995340665 200 in 2093ms
+ GET /api/matches/live?t=1781995355666 200 in 2064ms
+ GET /api/matches/live?t=1781995370669 200 in 1858ms
+ GET /api/matches/live?t=1781995384661 200 in 2183ms
+ GET /api/matches/live?t=1781995399674 200 in 2159ms
+ GET /api/matches/live?t=1781995414670 200 in 1062ms
+ GET /api/matches/live?t=1781995428670 200 in 1216ms
+ GET /api/matches/live?t=1781995442670 200 in 1282ms
+ GET /api/matches/live?t=1781995456669 200 in 1161ms
+ GET /api/matches/live?t=1781995470668 200 in 1041ms
+ GET /api/matches/live?t=1781995484666 200 in 1359ms
+ GET /api/matches/live?t=1781995498664 200 in 1092ms
+ GET /api/matches/live?t=1781995512668 200 in 1206ms
+ GET /api/matches/live?t=1781995526675 200 in 1039ms
+ GET /api/matches/live?t=1781995540664 200 in 1074ms
+ GET /api/matches/live?t=1781995554664 200 in 1092ms
+ GET /api/matches/live?t=1781995568663 200 in 1208ms
+ GET /api/matches/live?t=1781995582661 200 in 1087ms
+ GET /api/matches/live?t=1781995596675 200 in 1139ms
+ GET /api/matches/live?t=1781995610669 200 in 1142ms
+ GET /api/matches/live?t=1781995624670 200 in 1103ms
+ GET /api/matches/live?t=1781995638667 200 in 1146ms
+ GET /api/matches/live?t=1781995652664 200 in 1123ms
+ GET /api/matches/live?t=1781995666670 200 in 1148ms
+ GET /api/matches/live?t=1781995680663 200 in 1113ms
+ GET /api/matches/live?t=1781995694666 200 in 1480ms
+ GET /api/matches/live?t=1781995708663 200 in 1156ms
+ GET /api/matches/live?t=1781995722676 200 in 1216ms
+ GET /api/matches/live?t=1781995736674 200 in 1205ms
+ GET /api/matches/live?t=1781995750664 200 in 1041ms
+ GET /api/matches/live?t=1781995764662 200 in 1165ms
+ GET /api/matches/live?t=1781995778669 200 in 1072ms
+ GET /api/matches/live?t=1781995792669 200 in 1159ms
+ GET /api/matches/live?t=1781995806674 200 in 1187ms
+ GET /api/matches/live?t=1781995820675 200 in 1181ms
+ GET /api/matches/live?t=1781995834667 200 in 1218ms
+ GET /api/matches/live?t=1781995848672 200 in 1260ms
+ GET /api/matches/live?t=1781995862661 200 in 1215ms
+ GET /api/matches/live?t=1781995876661 200 in 1204ms
+ GET /api/matches/live?t=1781995890676 200 in 1131ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 845ms
+ GET /api/matches/live?t=1781995903836 200 in 1232ms
+ GET /api/matches/live?t=1781995917674 200 in 1392ms
+ GET /api/matches/live?t=1781995931667 200 in 1148ms
+ GET /api/matches/live?t=1781995945663 200 in 1197ms
+ GET /api/matches/live?t=1781995959666 200 in 1195ms
+ GET /api/matches/live?t=1781995973670 200 in 1147ms
+ GET /api/matches/live?t=1781995987671 200 in 1093ms
+ GET /api/matches/live?t=1781996001668 200 in 1303ms
+ GET /api/matches/live?t=1781996015671 200 in 1112ms
+ GET /api/matches/live?t=1781996029666 200 in 1149ms
+ GET /api/matches/live?t=1781996043667 200 in 1086ms
+ GET /api/matches/live?t=1781996057664 200 in 1127ms
+ GET /api/matches/live?t=1781996071666 200 in 1194ms
+ GET /api/matches/live?t=1781996085669 200 in 1178ms
+ GET /api/matches/live?t=1781996099673 200 in 1353ms
+ GET /api/matches/live?t=1781996113668 200 in 1133ms
+ GET /api/matches/live?t=1781996127669 200 in 1262ms
+ GET /api/matches/live?t=1781996141676 200 in 1211ms
+ GET /api/matches/live?t=1781996155667 200 in 1106ms
+ GET /api/matches/live?t=1781996169665 200 in 1095ms
+ GET /api/matches/live?t=1781996183667 200 in 1268ms
+ GET /api/matches/live?t=1781996197668 200 in 1213ms
+ GET /api/matches/live?t=1781996211671 200 in 1397ms
+ GET /api/matches/live?t=1781996225668 200 in 1141ms
+ GET /api/matches/live?t=1781996239675 200 in 1040ms
+ GET /api/matches/live?t=1781996253797 200 in 1175ms
+ GET /api/matches/live?t=1781996267668 200 in 1249ms
+ GET /api/matches/live?t=1781996281674 200 in 1200ms
+ GET /api/matches/live?t=1781996295663 200 in 1133ms
+ GET /api/matches/live?t=1781996309670 200 in 1352ms
+ GET /api/matches/live?t=1781996323666 200 in 1321ms
+ GET /api/matches/live?t=1781996337680 200 in 1381ms
+ GET /api/matches/live?t=1781996351699 200 in 1300ms
+ GET /api/matches/live?t=1781996365751 200 in 1097ms
+ GET /api/matches/live?t=1781996379736 200 in 1721ms
+ GET /api/matches/live?t=1781996394668 200 in 1222ms
+ GET /api/matches/live?t=1781996408668 200 in 1666ms
+ GET /api/matches/live?t=1781996422690 200 in 1299ms
+ GET /api/matches/live?t=1781996436727 200 in 1585ms
+ GET /api/matches/live?t=1781996450671 200 in 1236ms
+ ✓ Compiled in 1431ms
+ ✓ Compiled in 322ms
+ ✓ Compiled in 425ms
+ ✓ Compiled in 1656ms
+ ✓ Compiled in 540ms
+ ✓ Compiled in 214ms
+ GET /api/matches/live 200 in 1184ms
+ GET /api/matches/live 200 in 606ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 770ms
+ GET /api/matches/live?t=1781996673771 200 in 1121ms
+ GET /matches 200 in 2847ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 748ms
+ HEAD /matches 200 in 866ms
+ GET /api/matches/live?t=1781996679738 200 in 1825ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 451ms
+ GET /api/matches/live?t=1781996693575 200 in 1116ms
+ GET /api/matches/live?t=1781996706706 200 in 1779ms
+ GET /api/matches/live?t=1781996720499 200 in 1191ms
+ GET /api/matches/live?t=1781996733702 200 in 1342ms
+football-data.org error: Error [FootballApiError]: football-data.org 500: {"message":"This is my fault. Feel free to file a complain to daniel@football-data.org","error":500}
+    at fetchFootballDataMatches (src\lib\football\football-data.ts:210:11)
+    at async fetchFromFootballData (src\lib\football\football-data.ts:244:19)
+    at async fetchFootballDataWithLiveFallback (src\lib\football\client.ts:111:33)
+    at async fetchFromProviders (src\lib\football\client.ts:55:18)
+    at async fetchMatches (src\lib\football\client.ts:159:17)
+    at async GET (src\app\api\matches\live\route.ts:8:16)
+  208 |   if (!res.ok) {
+  209 |     const body = await res.text().catch(() => "");
+> 210 |     throw new FootballApiError(
+      |           ^
+  211 |       `football-data.org ${res.status}: ${body.slice(0, 120)}`,
+  212 |       res.status
+  213 |     ); {
+  status: 500
+}
+Match providers unavailable - serving last successful cache
+ GET /api/matches/live?t=1781996747062 200 in 1331ms
+ POST /api/memories/register 200 in 671ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 483ms
+ GET /api/matches/live?t=1781996759692 200 in 1412ms
+ GET /api/matches/live?t=1781996773669 200 in 1153ms
+ GET /api/matches/live?t=1781996787667 200 in 1232ms
+ GET /api/matches/live?t=1781996801662 200 in 1118ms
+ GET /api/matches/live?t=1781996815667 200 in 1364ms
+ GET /api/matches/live?t=1781996829666 200 in 1103ms
+ GET /api/matches/live?t=1781996843665 200 in 1056ms
+ GET /api/matches/live?t=1781996857672 200 in 1205ms
+ GET /api/matches/live?t=1781996871671 200 in 1247ms
+ GET /api/matches/live?t=1781996885664 200 in 1078ms
+ GET /api/matches/live?t=1781996899670 200 in 1097ms
+ GET /api/matches/live?t=1781996913823 200 in 4636ms
+ GET /api/matches/live?t=1781996930681 200 in 1275ms
+ GET /api/matches/live?t=1781996944673 200 in 1222ms
+ GET /api/matches/live?t=1781996958268 200 in 1169ms
+ GET /api/matches/live?t=1781996972670 200 in 1071ms
+ GET /api/matches/live?t=1781996986664 200 in 999ms
+ GET /matches 200 in 666ms
+ GET /matches 200 in 533ms
+ ✓ Compiled in 1664ms
+ GET /api/matches/live?t=1781997000671 200 in 2726ms
+ ✓ Compiled in 284ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 694ms
+ GET /api/matches/live?t=1781997007551 200 in 1054ms
+ ✓ Compiled in 154ms
+ GET /api/matches/live?t=1781997012251 200 in 691ms
+ ✓ Compiled in 297ms
+ ○ Compiling /api/matches/emoji-reactions ...
+ ✓ Compiled /api/matches/emoji-reactions in 714ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 1100ms
+ GET /api/matches/live?t=1781997018133 200 in 1108ms
+ GET /api/matches/live?t=1781997031672 200 in 1009ms
+ GET /api/matches/live?t=1781997045678 200 in 1147ms
+ GET /api/matches/live?t=1781997059672 200 in 1231ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537353,fd-537359 500 in 376ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537353 500 in 376ms
+ ✓ Compiled in 278ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 1382ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1944ms
+ GET /api/matches/live?t=1781999123331 200 in 9340ms
+ GET /api/matches/live?t=1781999145020 200 in 1290ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 511ms
+ GET /api/matches/live?t=1781999159023 200 in 1395ms
+ GET /matches 200 in 5501ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 764ms
+ HEAD /matches 200 in 1806ms
+ GET /api/matches/live?t=1781999170301 200 in 2873ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 406ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 417ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 376ms
+ GET /api/matches/live?t=1781999185182 200 in 913ms
+ GET /matches 200 in 410ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 472ms
+ GET /api/matches/live?t=1781999187968 200 in 721ms
+ HEAD /matches 200 in 459ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 765ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 508ms
+ GET /api/matches/live?t=1781999189081 200 in 759ms
+ GET /api/news/world-cup 200 in 1355ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 331ms
+ GET /api/matches/live?t=1781999201857 200 in 1003ms
+ GET /api/matches/live?t=1781999215032 200 in 934ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 740ms
+ GET /api/matches/live?t=1781999218606 200 in 1011ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1294ms
+ GET /api/matches/live?t=1781999219790 200 in 1705ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 1712ms
+ GET /api/matches/live?t=1781999222681 200 in 675ms
+ GET /api/matches/live?t=1781999235376 200 in 1215ms
+ GET /api/matches/live?t=1781999248602 200 in 1048ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 337ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 304ms
+ GET /api/matches/live?t=1781999261662 200 in 1078ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 894ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 888ms
+ GET /api/matches/live?t=1781999273263 200 in 1460ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 399ms
+ GET /api/matches/live?t=1781999286800 200 in 1136ms
+ GET /api/matches/live?t=1781999299975 200 in 7428ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 479ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 507ms
+ GET /api/matches/live?t=1781999319424 200 in 1198ms
+ GET /api/matches/live?t=1781999333113 200 in 1086ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 1365ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1459ms
+ GET /api/matches/live?t=1781999339355 200 in 2124ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 653ms
+ GET /matches 200 in 557ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1017ms
+ HEAD /matches 200 in 666ms
+ GET /api/matches/live?t=1781999345629 200 in 1992ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 492ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 358ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 450ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 585ms
+ GET /api/matches/live?t=1781999359721 200 in 1251ms
+ GET / 200 in 684ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 900ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.newsweek.com%2Fsports%2Fcristiano-ronaldo-fans-harass-his-portugal-teammates-online-12097490-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-defeats-scotland-in-fifa-world-cup-group-c-match%2F-1%2Chttps%3A%2F%2Fwww.newsweek.com%2Fsports%2Fbold-prediction-on-cristiano-ronaldos-world-cup-future-made-by-ex-usmnt-coach-12097514-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fsoccer%2Fworld-cup-bracket-scenarios-standings-3%2Chttps%3A%2F%2Fwww.playmakerstats.com%2Fnews%2Fpreview-uruguay-vs-cape-verde-team-news-lineups-predictions-world-cup-21-06%2F1147397-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fworld-cup-2026-what-is-haiti-current-fifa-world-ranking%2F-5 200 in 1188ms
+ GET /api/matches/live?t=1781999361853 200 in 1260ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 353ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.newsweek.com%2Fsports%2Fcristiano-ronaldo-fans-harass-his-portugal-teammates-online-12097490-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-defeats-scotland-in-fifa-world-cup-group-c-match%2F-1%2Chttps%3A%2F%2Fwww.newsweek.com%2Fsports%2Fbold-prediction-on-cristiano-ronaldos-world-cup-future-made-by-ex-usmnt-coach-12097514-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fsoccer%2Fworld-cup-bracket-scenarios-standings-3%2Chttps%3A%2F%2Fwww.playmakerstats.com%2Fnews%2Fpreview-uruguay-vs-cape-verde-team-news-lineups-predictions-world-cup-21-06%2F1147397-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fworld-cup-2026-what-is-haiti-current-fifa-world-ranking%2F-5%2Chttps%3A%2F%2Fbiztoc.com%2Fx%2F12d14a191974a2e5-6%2Chttps%3A%2F%2Fslashdot.org%2Ffirehose.pl%3Fop%3Dview%26amp%3Bid%3D184001120-7%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Falex-freeman-21-old-son-214722500.html-8%2Chttps%3A%2F%2Fnypost.com%2F2026%2F06%2F19%2Flifestyle%2Fus-states-with-highest-bed-bug-risk-revealed%2F-9%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-lineup-world-cup-scotland%2F-10%2Chttps%3A%2F%2Fwww.breitbart.com%2Fsports%2F2026%2F06%2F19%2Fseattle-times-claims-fans-have-mixed-feelings-about-displaying-patriotism-given-trumps-actions-pics-tell-different-story%2F-11%2Chttps%3A%2F%2Fwww.techradar.com%2Fhow-to-watch%2Ffootball%2Fbrazil-vs-haiti-world-cup-2026-free-12%2Chttps%3A%2F%2Fwww.sportingnews.com%2Fus%2Fsoccer%2Fnews%2Ftrinity-rodman-had-usmnt-fans-buzzing-world-cup-win-over-australia%2F376b945d99bc405958135fa0-13%2Chttps%3A%2F%2Fwww.dailymail.com%2Ftvshowbiz%2Farticle-15915001%2FMegan-Pickford-idolised-Coleen-Rooney-KATIE-HIND-reveals.html-14%2Chttps%3A%2F%2Fwww.cnet.com%2Ftech%2Fservices-and-software%2Fbrazil-vs-haiti-stream-fifa-world-cup-2026-group-c-match-live-for-free%2F-15%2Chttps%3A%2F%2Fwww.businessinsider.com%2Fguides%2Fstreaming%2Fwhere-to-watch-brazil-vs-haiti-world-cup-2026%23article-16%2Chttps%3A%2F%2Fwww.profootballnetwork.com%2Fworld-cup-contender-nfl-analysts-usmnt%2F%3Futm_medium%3Drss%26amp%3Butm_source%3Dnordot-17%2Chttps%3A%2F%2Fsports.yahoo.com%2Farticles%2Firan-says-being-treated-unfairly-212721198.html-18 200 in 334ms
+ GET /api/matches/live?t=1781999375183 200 in 987ms
+ GET /api/matches/live?t=1781999388173 200 in 1215ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 330ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 347ms
+ GET /api/matches/live?t=1781999401402 200 in 2746ms
+ GET /api/matches/live?t=1781999416166 200 in 1329ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 351ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 347ms
+ GET /api/matches/live?t=1781999429516 200 in 1269ms
+ GET /api/matches/live?t=1781999443033 200 in 914ms
+ GET /api/matches/live?t=1781999456034 200 in 1124ms
+ GET /api/matches/live?t=1781999470035 200 in 1108ms
+ GET /api/matches/live?t=1781999484031 200 in 1149ms
+ GET /api/matches/live?t=1781999531570 200 in 865ms
+ ✓ Compiled in 796ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 706ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 951ms
+ GET /api/matches/live?t=1781999602824 200 in 1713ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 450ms
+ GET / 200 in 1602ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.newsweek.com%2Fsports%2Fcristiano-ronaldo-fans-harass-his-portugal-teammates-online-12097490-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-defeats-scotland-in-fifa-world-cup-group-c-match%2F-1%2Chttps%3A%2F%2Fwww.newsweek.com%2Fsports%2Fbold-prediction-on-cristiano-ronaldos-world-cup-future-made-by-ex-usmnt-coach-12097514-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fsoccer%2Fworld-cup-bracket-scenarios-standings-3%2Chttps%3A%2F%2Fwww.playmakerstats.com%2Fnews%2Fpreview-uruguay-vs-cape-verde-team-news-lineups-predictions-world-cup-21-06%2F1147397-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fworld-cup-2026-what-is-haiti-current-fifa-world-ranking%2F-5 200 in 2136ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 2102ms
+ HEAD / 200 in 1369ms
+ GET /api/matches/live?t=1781999607881 200 in 3315ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 390ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 339ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 373ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 350ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 554ms
+ GET /api/matches/live?t=1781999623229 200 in 952ms
+ GET /api/matches/live?t=1781999636194 200 in 1088ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 393ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 339ms
+ GET /api/matches/live?t=1781999649300 200 in 1066ms
+ GET /api/matches/live?t=1781999663025 200 in 973ms
+ GET /api/matches/live?t=1781999677038 200 in 917ms
+ GET /api/matches/live?t=1781999693726 200 in 1019ms
+ GET /api/matches/live?t=1781999730120 200 in 1454ms
+ GET /api/matches/live?t=1781999756026 200 in 948ms
+ GET /api/matches/live?t=1781999769468 200 in 2045ms
+ GET /api/matches/live?t=1781999784049 200 in 1123ms
+ GET /api/matches/live?t=1781999797983 200 in 12468ms
+ GET /api/matches/live?t=1781999851274 200 in 4940ms
+ GET /api/matches/live?t=1781999872653 200 in 7996ms
+ ✓ Compiled in 1612ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 1058ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1207ms
+ GET /api/matches/live?t=1781999916062 200 in 1727ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.newsweek.com%2Fsports%2Fcristiano-ronaldo-fans-harass-his-portugal-teammates-online-12097490-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-defeats-scotland-in-fifa-world-cup-group-c-match%2F-1%2Chttps%3A%2F%2Fwww.newsweek.com%2Fsports%2Fbold-prediction-on-cristiano-ronaldos-world-cup-future-made-by-ex-usmnt-coach-12097514-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fsoccer%2Fworld-cup-bracket-scenarios-standings-3%2Chttps%3A%2F%2Fwww.playmakerstats.com%2Fnews%2Fpreview-uruguay-vs-cape-verde-team-news-lineups-predictions-world-cup-21-06%2F1147397-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fworld-cup-2026-what-is-haiti-current-fifa-world-ranking%2F-5 200 in 795ms
+ ✓ Compiled in 2.5s
+   Reload env: .env.local
+ ✓ Compiled in 33.9s
+ ○ Compiling / ...
+ ✓ Compiled / in 1286ms
+ GET / 200 in 20041ms
+ GET / 200 in 666ms
+ GET / 200 in 256ms
+ GET / 200 in 200ms
+ GET / 200 in 195ms
+ GET / 200 in 222ms
+ GET / 200 in 231ms
+ GET / 200 in 207ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537354%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 1198ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1168ms
+ GET /api/matches/live?t=1782000054869 200 in 2138ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537344%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 374ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537344%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 1585ms
+ GET / 200 in 2243ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 743ms
+ GET /api/matches/live?t=1782000061203 200 in 1782ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.newsweek.com%2Fsports%2Fcristiano-ronaldo-fans-harass-his-portugal-teammates-online-12097490-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-defeats-scotland-in-fifa-world-cup-group-c-match%2F-1%2Chttps%3A%2F%2Fwww.newsweek.com%2Fsports%2Fbold-prediction-on-cristiano-ronaldos-world-cup-future-made-by-ex-usmnt-coach-12097514-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fsoccer%2Fworld-cup-bracket-scenarios-standings-3%2Chttps%3A%2F%2Fwww.playmakerstats.com%2Fnews%2Fpreview-uruguay-vs-cape-verde-team-news-lineups-predictions-world-cup-21-06%2F1147397-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fworld-cup-2026-what-is-haiti-current-fifa-world-ranking%2F-5 200 in 1935ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537344%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 489ms
+ HEAD / 200 in 720ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 365ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537344%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 493ms
+ GET /api/matches/live?t=1782000075002 200 in 1292ms
+ ✓ Compiled /create in 140ms
+ GET /create 200 in 515ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 363ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 334ms
+ ✓ Compiled /ghost in 119ms
+ GET /ghost 200 in 726ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 362ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 348ms
+ ✓ Compiled /memories in 156ms
+ GET /memories 200 in 411ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 352ms
+ ✓ Compiled /legacy in 89ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 336ms
+ GET /legacy 200 in 674ms
+ GET /api/legacy/comments 200 in 565ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 421ms
+ GET /api/matches/live?t=1782000098183 200 in 1098ms
+ ✓ Compiled /matches in 104ms
+ GET /matches 200 in 511ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 732ms
+ GET /api/matches/live?t=1782000099425 200 in 991ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537344%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 460ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537344%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 344ms
+ GET /api/matches/live?t=1782000112424 200 in 1218ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 430ms
+ GET /api/matches/live?t=1782000114608 200 in 671ms
+ GET / 200 in 272ms
+ GET /api/matches/live?t=1782000115386 200 in 1037ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537344%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 930ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.newsweek.com%2Fsports%2Fcristiano-ronaldo-fans-harass-his-portugal-teammates-online-12097490-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-defeats-scotland-in-fifa-world-cup-group-c-match%2F-1%2Chttps%3A%2F%2Fwww.newsweek.com%2Fsports%2Fbold-prediction-on-cristiano-ronaldos-world-cup-future-made-by-ex-usmnt-coach-12097514-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fsoccer%2Fworld-cup-bracket-scenarios-standings-3%2Chttps%3A%2F%2Fwww.playmakerstats.com%2Fnews%2Fpreview-uruguay-vs-cape-verde-team-news-lineups-predictions-world-cup-21-06%2F1147397-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fworld-cup-2026-what-is-haiti-current-fifa-world-ranking%2F-5 200 in 929ms
+ GET /api/matches/emoji-reactions?matchIds=fd-537329%2Cfd-537330%2Cfd-537335%2Cfd-537336%2Cfd-537337%2Cfd-537338%2Cfd-537341%2Cfd-537342%2Cfd-537344%2Cfd-537347%2Cfd-537348%2Cfd-537353%2Cfd-537359%2Cfd-537360%2Cfd-537365%2Cfd-537366%2Cfd-537371%2Cfd-537372%2Cfd-537393%2Cfd-537394%2Cfd-537399%2Cfd-537400%2Cfd-537404%2Cfd-537405%2Cfd-537406%2Cfd-537410%2Cfd-537411%2Cfd-537412&wallet=0xed3a4069933365a78C863e21626672e54dC8083f 500 in 668ms
+ GET /api/matches/live?t=1782000129033 200 in 1117ms
+ GET /api/matches/live?t=1782000143034 200 in 1073ms
+ GET /api/matches/live?t=1782000157038 200 in 958ms
+ ✓ Compiled in 231ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.newsweek.com%2Fsports%2Fcristiano-ronaldo-fans-harass-his-portugal-teammates-online-12097490-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-defeats-scotland-in-fifa-world-cup-group-c-match%2F-1%2Chttps%3A%2F%2Fwww.newsweek.com%2Fsports%2Fbold-prediction-on-cristiano-ronaldos-world-cup-future-made-by-ex-usmnt-coach-12097514-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fsoccer%2Fworld-cup-bracket-scenarios-standings-3%2Chttps%3A%2F%2Fwww.playmakerstats.com%2Fnews%2Fpreview-uruguay-vs-cape-verde-team-news-lineups-predictions-world-cup-21-06%2F1147397-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fworld-cup-2026-what-is-haiti-current-fifa-world-ranking%2F-5 200 in 385ms
+ GET /api/matches/live?t=1782000171030 200 in 1015ms
+ GET /api/matches/live?t=1782000185029 200 in 1003ms
+ GET /api/matches/live?t=1782000199033 200 in 878ms
+ GET /api/matches/live?t=1782000212030 200 in 833ms
+ GET /api/matches/live?t=1782000225023 200 in 1011ms
+ ✓ Compiled in 556ms
+ GET /api/news/comments?articleIds=https%3A%2F%2Fwww.newsweek.com%2Fsports%2Fcristiano-ronaldo-fans-harass-his-portugal-teammates-online-12097490-0%2Chttps%3A%2F%2Fcryptobriefing.com%2Fmorocco-defeats-scotland-in-fifa-world-cup-group-c-match%2F-1%2Chttps%3A%2F%2Fwww.newsweek.com%2Fsports%2Fbold-prediction-on-cristiano-ronaldos-world-cup-future-made-by-ex-usmnt-coach-12097514-2%2Chttps%3A%2F%2Fwww.foxsports.com%2Fstories%2Fsoccer%2Fworld-cup-bracket-scenarios-standings-3%2Chttps%3A%2F%2Fwww.playmakerstats.com%2Fnews%2Fpreview-uruguay-vs-cape-verde-team-news-lineups-predictions-world-cup-21-06%2F1147397-4%2Chttps%3A%2F%2Fworldsoccertalk.com%2Fworld-cup%2Fworld-cup-2026-what-is-haiti-current-fifa-world-ranking%2F-5 200 in 692ms
+ GET /api/matches/live?t=1782000239028 200 in 1689ms
+ ✓ Compiled in 924ms
+ ✓ Compiled in 162ms
+ GET /api/matches/live?t=1782000253034 200 in 1002ms
+ GET /api/matches/live?t=1782000267019 200 in 890ms
+

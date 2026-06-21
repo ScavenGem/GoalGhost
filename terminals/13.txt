@@ -1,0 +1,75 @@
+---
+pid: 44576
+cwd: "C:\Users\samue\GoalGhost"
+command: "Set-Location C:\\Users\\samue\\GoalGhost; Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }; npm run dev"
+started_at: 2026-06-18T17:15:27.550Z
+running_for_ms: 8480018  
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.87.95.136:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1433ms
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling /api/compute/create-ghost ...
+ ✓ Compiled /api/compute/create-ghost in 3.1s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.yaa9x4k8r29'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.yaa9x4k8r29'
+}
+ ○ Compiling /_error ...
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+ ✓ Compiled /_error in 3.6s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.hf1imoickhg'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.hf1imoickhg'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.yaa9x4k8r29'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.yaa9x4k8r29'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.3ue1bnplqn3'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.3ue1bnplqn3'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.3av3sx390vo'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.3av3sx390vo'
+}
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+[Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection: [Error: unrecognized HMR message "{"event":"ping"}"]
+ ⨯ unhandledRejection:  [Error: unrecognized HMR message "{"event":"ping"}"]
+

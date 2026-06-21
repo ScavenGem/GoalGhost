@@ -1,0 +1,1 @@
+export { PitchBackground } from "@/components/ui/pitch-background";

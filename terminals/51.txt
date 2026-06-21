@@ -1,0 +1,244 @@
+---
+pid: 44936
+cwd: "C:\Users\samue\GoalGhost"
+command: "cmd /c \"cd /d C:\\Users\\samue\\GoalGhost && npm run dev\""
+started_at: 2026-06-20T15:20:36.867Z
+running_for_ms: 5055004  
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.143.133.136:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1634ms
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling / ...
+ ✓ Compiled / in 7.5s
+ GET / 200 in 8649ms
+ GET / 200 in 291ms
+ GET / 200 in 231ms
+ ✓ Compiled /api/matches/live in 293ms
+ GET /api/matches/live 200 in 1571ms
+ ✓ Compiled /api/ghost/[wallet] in 425ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1990ms
+ GET / 200 in 837ms
+ GET /api/matches/live 200 in 10485ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 10557ms
+ HEAD / 200 in 5763ms
+ GET / 200 in 633ms
+ ○ Compiling /ghost ...
+ ✓ Compiled /ghost in 11.9s
+ GET /ghost 200 in 12772ms
+ GET /ghost 200 in 296ms
+ GET /ghost 200 in 1207ms
+ GET /ghost 200 in 543ms
+ GET /ghost 200 in 481ms
+ GET /ghost 200 in 526ms
+ GET /ghost 200 in 483ms
+ GET /ghost 200 in 295ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 533ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 323ms
+ GET / 200 in 371ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 515ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 560ms
+ GET /ghost 200 in 415ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 486ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 723ms
+ GET / 200 in 389ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 420ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 503ms
+ GET /ghost 200 in 495ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 381ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 520ms
+ ○ Compiling /memories ...
+ ✓ Compiled /memories in 23.5s
+ GET /memories 200 in 24890ms
+ GET /legacy 200 in 23697ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 2547ms
+ GET /legacy 200 in 1905ms
+ HEAD / 200 in 1373ms
+ GET /legacy 200 in 1202ms
+ GET /legacy 200 in 1131ms
+ GET /legacy 200 in 767ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 970ms
+ GET /legacy 200 in 591ms
+ GET /legacy 200 in 840ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 784ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 365ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 700ms
+ ✓ Compiled in 4.8s
+ GET /legacy 200 in 2162ms
+ GET /legacy 200 in 591ms
+ HEAD /legacy 200 in 407ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1337ms
+ GET /legacy 200 in 389ms
+ HEAD /legacy 200 in 384ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 980ms
+ GET /ghost 200 in 409ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 549ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 503ms
+ GET /memories 200 in 252ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 471ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 538ms
+ GET /legacy 200 in 252ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 515ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 704ms
+ ✓ Compiled in 1141ms
+ GET /legacy 200 in 1537ms
+ HEAD /legacy 200 in 815ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1555ms
+ GET /ghost 200 in 628ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 473ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 715ms
+ GET /legacy 200 in 451ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 376ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 521ms
+ ✓ Compiled in 700ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 341ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 295ms
+ GET /legacy 200 in 1256ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 784ms
+ HEAD /legacy 200 in 850ms
+ GET /legacy 200 in 352ms
+ HEAD /legacy 200 in 656ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1205ms
+ ✓ Compiled in 469ms
+ GET /legacy 200 in 1461ms
+ HEAD /legacy 200 in 900ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1930ms
+ ○ Compiling /api/compute/legacy ...
+ ✓ Compiled /api/compute/legacy in 1660ms
+ POST /api/compute/legacy 200 in 2187ms
+ ✓ Compiled /api/memories/register in 393ms
+ POST /api/memories/register 200 in 807ms
+ ✓ Compiled in 845ms
+ ✓ Compiled in 549ms
+ ✓ Compiled in 784ms
+ GET /legacy 200 in 1753ms
+ HEAD /legacy 200 in 1264ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 2018ms
+ ○ Compiling /matches ...
+ GET /ghost 200 in 1005ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 769ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1443ms
+ GET /legacy 200 in 706ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 760ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1013ms
+ ✓ Compiled /matches in 21.4s
+ GET /matches 200 in 23482ms
+ GET /matches 200 in 2858ms
+ ✓ Compiled in 418ms
+ ✓ Compiled in 237ms
+ GET /legacy 200 in 2317ms
+ HEAD /legacy 200 in 1108ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1941ms
+ GET / 200 in 750ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1395ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 593ms
+ GET /api/matches/live 200 in 2456ms
+ GET /ghost 200 in 1040ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 486ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 555ms
+ GET / 200 in 999ms
+ GET / 200 in 798ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 1197ms
+ GET /api/ghost/0xed3a4069933365a78C863e21626672e54dC8083f 200 in 378ms
+ GET /api/matches/live 200 in 2087ms
+ GET /api/matches/live 200 in 376ms
+ GET /api/matches/live 200 in 1402ms
+ ✓ Compiled in 485ms
+ GET /api/matches/live 200 in 1286ms
+ ○ Compiling /create ...
+ ✓ Compiled /create in 11.4s
+ GET /create 200 in 11925ms
+ GET /create 200 in 492ms
+ GET /create 200 in 606ms
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.143.133.136:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 2.1s
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling /create ...
+ ✓ Compiled /create in 51.2s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.pv1k9oe9qzp'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.pv1k9oe9qzp'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 4.3s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.g4cif481xbl'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.g4cif481xbl'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.pv1k9oe9qzp'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.pv1k9oe9qzp'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.ech4clm7be'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.ech4clm7be'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.9d7yvsip6rd'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.9d7yvsip6rd'
+}
+ ○ Compiling / ...
+ ✓ Compiled / in 4.1s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.pkwth3wlsem'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.pkwth3wlsem'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.0wn4smc6y5uq'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.0wn4smc6y5uq'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.pkwth3wlsem'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.pkwth3wlsem'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.oj0ih1lvxe'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.oj0ih1lvxe'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.rl5bk1qtie'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.rl5bk1qtie'
+}
+

@@ -1,0 +1,7 @@
+---
+pid: 24812
+cwd: "C:\Users\samue\GoalGhost"
+command: "$r = Invoke-RestMethod -Uri \"http://localhost:3000/api/matches/live\"; \"matches: count=$($r.matches.Count) source=$($r.source)\""
+started_at: 2026-06-18T17:31:27.931Z
+running_for_ms: 7489999  
+---

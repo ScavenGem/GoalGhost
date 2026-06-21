@@ -1,0 +1,2 @@
+export const COMMENTS_INITIAL_VISIBLE = 3;
+export const COMMENTS_LOAD_MORE_STEP = 10;

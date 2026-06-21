@@ -1,0 +1,648 @@
+---
+pid: 49896
+cwd: "C:\Users\samue\GoalGhost"
+command: "Set-Location C:\\Users\\samue\\GoalGhost; foreach ($port in 3000,3001,3002) { Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue } }; Start-Sleep -Seconds 1; npm run dev"
+started_at: 2026-06-18T18:48:32.361Z
+running_for_ms: 2894931  
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.87.95.136:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1657ms
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling /api/compute/match-reaction ...
+ ✓ Compiled /api/compute/match-reaction in 7s
+ POST /api/compute/match-reaction 200 in 9179ms
+ GET /api/matches/live 200 in 9945ms
+ GET /api/matches/live 200 in 2112ms
+ ○ Compiling / ...
+ ✓ Compiled / in 62.9s
+ GET / 200 in 68764ms
+ ✓ Compiled in 108ms
+ ✓ Compiled in 230ms
+ ✓ Compiled in 117ms
+ ✓ Compiled / in 60ms
+ GET / 200 in 383ms
+ ✓ Compiled in 87ms
+ HEAD / 200 in 4325ms
+ ✓ Compiled in 533ms
+ ✓ Compiled / in 127ms
+ GET / 200 in 623ms
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 6.4s
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.8q08b2sazqk'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.8q08b2sazqk'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.0lj3z000qg1m'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.0lj3z000qg1m'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.yjohymwl0zg'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.yjohymwl0zg'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.mc9n3wej4v'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.mc9n3wej4v'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.xoxci1hvkjb'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.xoxci1hvkjb'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\static\development\_buildManifest.js.tmp.cdkb0ji3l2q'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\static\\development\\_buildManifest.js.tmp.cdkb0ji3l2q'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- C:\Users\samue\GoalGhost\.next\server\pages\_document.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\require.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\load-components.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\build\utils.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\build\swc\options.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\build\swc\index.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\build\next-config-ts\transpile-config.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\config.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\next.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\lib\start-server.js
+    at Object.<anonymous> (C:\Users\samue\GoalGhost\.next\server\pages\_document.js:1:7) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 1059ms
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ⨯ Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- C:\Users\samue\GoalGhost\.next\server\pages\_document.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\require.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\load-components.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\build\utils.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\build\swc\options.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\build\swc\index.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\build\next-config-ts\transpile-config.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\config.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\next.js
+- C:\Users\samue\GoalGhost\node_modules\next\dist\server\lib\start-server.js
+    at Object.<anonymous> (C:\Users\samue\GoalGhost\.next\server\pages\_document.js:1:7) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 1377ms
+ ⨯ ./src/components/ui/button.tsx:2:1
+Module not found: Can't resolve '@radix-ui/react-slot'
+  1 | import * as React from "react";
+> 2 | import { Slot } from "@radix-ui/react-slot";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { cva, type VariantProps } from "class-variance-authority";
+  4 | import { cn } from "@/lib/utils/cn";
+  5 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ui/button.tsx [Client Component Browser]
+    ./src/components/home/hero-section.tsx [Client Component Browser]
+    ./src/components/home/hero-section.tsx [Server Component]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ui/button.tsx [Client Component SSR]
+    ./src/components/home/hero-section.tsx [Client Component SSR]
+    ./src/components/home/hero-section.tsx [Server Component]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/components/ui/button.tsx:2:1
+Module not found: Can't resolve '@radix-ui/react-slot'
+  1 | import * as React from "react";
+> 2 | import { Slot } from "@radix-ui/react-slot";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { cva, type VariantProps } from "class-variance-authority";
+  4 | import { cn } from "@/lib/utils/cn";
+  5 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ui/button.tsx [Client Component Browser]
+    ./src/components/home/hero-section.tsx [Client Component Browser]
+    ./src/components/home/hero-section.tsx [Server Component]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ui/button.tsx [Client Component SSR]
+    ./src/components/home/hero-section.tsx [Client Component SSR]
+    ./src/components/home/hero-section.tsx [Server Component]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/components/ui/button.tsx:2:1
+Module not found: Can't resolve '@radix-ui/react-slot'
+  1 | import * as React from "react";
+> 2 | import { Slot } from "@radix-ui/react-slot";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { cva, type VariantProps } from "class-variance-authority";
+  4 | import { cn } from "@/lib/utils/cn";
+  5 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ui/button.tsx [Client Component Browser]
+    ./src/components/home/hero-section.tsx [Client Component Browser]
+    ./src/components/home/hero-section.tsx [Server Component]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ui/button.tsx [Client Component SSR]
+    ./src/components/home/hero-section.tsx [Client Component SSR]
+    ./src/components/home/hero-section.tsx [Server Component]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/components/ui/button.tsx:2:1
+Module not found: Can't resolve '@radix-ui/react-slot'
+  1 | import * as React from "react";
+> 2 | import { Slot } from "@radix-ui/react-slot";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { cva, type VariantProps } from "class-variance-authority";
+  4 | import { cn } from "@/lib/utils/cn";
+  5 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ui/button.tsx [Client Component Browser]
+    ./src/components/home/hero-section.tsx [Client Component Browser]
+    ./src/components/home/hero-section.tsx [Server Component]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ui/button.tsx [Client Component SSR]
+    ./src/components/home/hero-section.tsx [Client Component SSR]
+    ./src/components/home/hero-section.tsx [Server Component]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/components/layout/app-shell.tsx:3:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  1 | "use client";
+  2 |
+> 3 | import { ConnectButton } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { SidebarNav } from "./sidebar-nav";
+  5 | import { MobileNav } from "./mobile-nav";
+  6 | import { OgPoweredStrip } from "@/components/0g/og-powered-badge";
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/layout/app-shell.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/components/layout/app-shell.tsx:3:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  1 | "use client";
+  2 |
+> 3 | import { ConnectButton } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { SidebarNav } from "./sidebar-nav";
+  5 | import { MobileNav } from "./mobile-nav";
+  6 | import { OgPoweredStrip } from "@/components/0g/og-powered-badge";
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/layout/app-shell.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/components/layout/app-shell.tsx:3:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  1 | "use client";
+  2 |
+> 3 | import { ConnectButton } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { SidebarNav } from "./sidebar-nav";
+  5 | import { MobileNav } from "./mobile-nav";
+  6 | import { OgPoweredStrip } from "@/components/0g/og-powered-badge";
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/layout/app-shell.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/components/layout/app-shell.tsx:3:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  1 | "use client";
+  2 |
+> 3 | import { ConnectButton } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { SidebarNav } from "./sidebar-nav";
+  5 | import { MobileNav } from "./mobile-nav";
+  6 | import { OgPoweredStrip } from "@/components/0g/og-powered-badge";
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/layout/app-shell.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/config.ts:3:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  1 | "use client";
+  2 |
+> 3 | import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { ogAristotle } from "@/lib/0g/chain/config";
+  5 |
+  6 | export const wagmiConfig = getDefaultConfig({
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/lib/wagmi/config.ts [Client Component Browser]
+    ./src/lib/wagmi/provider.tsx [Client Component Browser]
+    ./src/lib/wagmi/provider.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/lib/wagmi/config.ts [Client Component SSR]
+    ./src/lib/wagmi/provider.tsx [Client Component SSR]
+    ./src/lib/wagmi/provider.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/config.ts:3:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  1 |39m "use client";
+  2 |
+> 3 | import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { ogAristotle } from "@/lib/0g/chain/config";
+  5 |
+  6 | export const wagmiConfig = getDefaultConfig({
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/lib/wagmi/config.ts [Client Component Browser]
+    ./src/lib/wagmi/provider.tsx [Client Component Browser]
+    ./src/lib/wagmi/provider.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/lib/wagmi/config.ts [Client Component SSR]
+    ./src/lib/wagmi/provider.tsx [Client Component SSR]
+    ./src/lib/wagmi/provider.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/config.ts:3:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  1 | "use client";
+  2 |
+> 3 | import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { ogAristotle } from "@/lib/0g/chain/config";
+  5 |
+  6 | export const wagmiConfig = getDefaultConfig({
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/lib/wagmi/config.ts [Client Component Browser]
+    ./src/lib/wagmi/provider.tsx [Client Component Browser]
+    ./src/lib/wagmi/provider.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/lib/wagmi/config.ts [Client Component SSR]
+    ./src/lib/wagmi/provider.tsx [Client Component SSR]
+    ./src/lib/wagmi/provider.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/config.ts:3:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  1 | "use client";
+  2 |
+> 3 | import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { ogAristotle } from "@/lib/0g/chain/config";
+  5 |
+  6 | export const wagmiConfig = getDefaultConfig({
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/lib/wagmi/config.ts [Client Component Browser]
+    ./src/lib/wagmi/provider.tsx [Client Component Browser]
+    ./src/lib/wagmi/provider.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/lib/wagmi/config.ts [Client Component SSR]
+    ./src/lib/wagmi/provider.tsx [Client Component SSR]
+    ./src/lib/wagmi/provider.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/provider.tsx:4:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  2 |
+  3 | import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+> 4 | import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^m^^^^^^^^^^^^^^
+  5 | import { WagmiProvider } from "wagmi";
+  6 | import { wagmiConfig } from "./config";
+  7 | import "@rainbow-me/rainbowkit/styles.css";
+
+
+
+Import trace:
+  Server Component:
+    ./src/lib/wagmi/provider.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/provider.tsx:4:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  2 |
+  3 | import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+> 4 | import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { WagmiProvider } from "wagmi";
+  6 | import { wagmiConfig } from "./config";
+  7 | import "@rainbow-me/rainbowkit/styles.css";
+
+
+
+Import trace:
+  Server Component:
+    ./src/lib/wagmi/provider.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/provider.tsx:4:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  2 |
+  3 | import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+> 4 | import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { WagmiProvider } from "wagmi";
+  6 | import { wagmiConfig } from "./config";
+  7 | import "@rainbow-me/rainbowkit/styles.css";
+
+
+
+Import trace:
+  Server Component:
+    ./src/lib/wagmi/provider.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/provider.tsx:4:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  2 |
+  3 | import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+> 4 | import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { WagmiProvider } from "wagmi";
+  6 | import { wagmiConfig } from "./config";
+  7 | import "@rainbow-me/rainbowkit/styles.css";
+
+
+
+Import trace:
+  Server Component:
+    ./src/lib/wagmi/provider.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/provider.tsx:4:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  2 |
+  3 | import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+> 4 | import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+    | ^^9m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { WagmiProvider } from "wagmi";
+  6 | import { wagmiConfig } from "./config";
+  7 | import "@rainbow-me/rainbowkit/styles.css";
+
+
+
+Import trace:
+  Server Component:
+    ./src/lib/wagmi/provider.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/provider.tsx:4:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit'
+  2 |
+  3 | import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+> 4 | import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { WagmiProvider } from "wagmi";
+  6 | import { wagmiConfig } from "./config";
+  7 | import "@rainbow-me/rainbowkit/styles.css";
+
+
+
+Import trace:
+  Server Component:
+    ./src/lib/wagmi/provider.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/provider.tsx:7:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit/styles.css'
+   5 | import { WagmiProvider } from "wagmi";
+   6 | import { wagmiConfig } from "./config";
+>  7 | import "@rainbow-me/rainbowkit/styles.css";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | const queryClient = new QueryClient();
+  10 |
+
+
+
+Import trace:
+  Server Component:
+    ./src/lib/wagmi/provider.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ ./src/lib/wagmi/provider.tsx:7:1
+Module not found: Can't resolve '@rainbow-me/rainbowkit/styles.css'
+   5 | import { WagmiProvider } from "wagmi";
+   6 | import { wagmiConfig } from "./config";
+>  7 | import "@rainbow-me/rainbowkit/styles.css";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | const queryClient = new QueryClient();
+  10 |
+
+
+
+Import trace:
+  Server Component:
+    ./src/lib/wagmi/provider.tsx
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\server-reference-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\server-reference-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\app\page\server-reference-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\app\\page\\server-reference-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\samue\GoalGhost\.next\server\pages\_app\build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\samue\\GoalGhost\\.next\\server\\pages\\_app\\build-manifest.json'
+}
+
+-----
+FATAL: An unexpected Turbopack error occurred. A panic log has been written to C:\Users\samue\AppData\Local\Temp\next-panic-36b26388290a6aba1aeaadd7af6e7f4f.log.
+
+To help make Turbopack better, report this error by clicking here: https://github.com/vercel/next.js/discussions/new?category=turbopack-error-report&title=Turbopack%20Error%3A%20Next.js%20package%20not%20found&body=Turbopack%20version%3A%20%604abb2404%60%0ANext.js%20version%3A%20%600.0.0%60%0A%0AError%20message%3A%0A%60%60%60%0ATurbopack%20Error%3A%20Next.js%20package%20not%20found%0A%60%60%60&labels=Turbopack,Turbopack%20Panic%20Backtrace
+-----
+
+Error [TurbopackInternalError]: Next.js package not found
+
+Debug info:
+- Execution of get_entrypoints_with_issues_operation failed
+- Execution of EntrypointsOperation::new failed
+- Execution of Project::entrypoints failed
+- Execution of AppProject::routes failed
+- Execution of directory_tree_to_entrypoints_internal failed
+- Execution of directory_tree_to_loader_tree failed
+- Execution of get_next_package failed
+- Next.js package not found
+    at <unknown> (TurbopackInternalError: Next.js package not found) {
+  location: undefined
+}
+
