@@ -36,8 +36,7 @@ function normalizeUploadResult(result: SplitUploadResult): BrowserUploadResult {
 
 async function uploadViaUploader(
   uploader: Uploader,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  mem: any,
+  mem: Parameters<Uploader["splitableUpload"]>[0],
   recipientPubKey: string
 ): Promise<BrowserUploadResult> {
   const [result, uploadErr] = await uploader.splitableUpload(mem, {
