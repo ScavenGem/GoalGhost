@@ -3,7 +3,7 @@ pid: 22148
 cwd: "C:\Users\samue\GoalGhost"
 command: "cd C:\\Users\\samue\\GoalGhost; npm run dev"
 started_at: 2026-06-21T00:05:01.811Z
-running_for_ms: 4004998  
+running_for_ms: 7114995  
 ---
 
 > goalghost@0.1.0 dev
