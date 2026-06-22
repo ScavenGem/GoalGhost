@@ -3,7 +3,7 @@ pid: 52180
 cwd: "C:\Users\samue\GoalGhost"
 command: "Set-Location \"C:\\Users\\samue\\GoalGhost\"; npm run dev"
 started_at: 2026-06-22T21:56:30.259Z
-running_for_ms: 1440013  
+running_for_ms: 1500010  
 ---
 
 > goalghost@0.1.0 dev
@@ -23,3 +23,5 @@ running_for_ms: 1440013
   https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
 
  ○ Compiling /legacy ...
+ ✓ Compiled /legacy in 24.1s
+ GET /legacy 200 in 6772ms

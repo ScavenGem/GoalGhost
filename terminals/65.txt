@@ -3,7 +3,7 @@ pid: 23180
 cwd: "C:\Users\samue\GoalGhost"
 command: "Invoke-WebRequest -Uri http://localhost:3001 -UseBasicParsing | Select-Object -ExpandProperty Content | Select-String -Pattern \"Creates Identity|Makes It Yours|verified by 0G|Build Your Fan Identity|identity evolution data|pre-match fan reaction|Fan Journey\""
 started_at: 2026-06-22T13:34:57.309Z
-running_for_ms: 26990003 
+running_for_ms: 31560000 
 ---
 
 <!DOCTYPE html><html lang="en" class="inter_5901b7c6-module__ec5Qua__variable 
