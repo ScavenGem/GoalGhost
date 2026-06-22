@@ -3,7 +3,7 @@ pid: 13392
 cwd: "C:\Users\samue\GoalGhost"
 command: "Set-Location C:\\Users\\samue\\GoalGhost; npm run dev"
 started_at: 2026-06-22T12:54:11.692Z
-running_for_ms: 29465000 
+running_for_ms: 33975005 
 ---
 
 > goalghost@0.1.0 dev
@@ -107,3 +107,4 @@ sending tx with gas price 4000000007n
 [DEBUG] 2026-06-22T20:45:21.816Z - Chat ID: 9f0f6ec8-b61a-455b-8acb-ca8072227a40
 [DEBUG] 2026-06-22T20:45:21.817Z - signing address: 0x4C1b546f5Fc11A9c2428eaFEd1D951Aa13C17ee8
  POST /api/compute/legacy 200 in 30237ms
+ GET /legacy 200 in 7194ms

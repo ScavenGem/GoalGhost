@@ -21,7 +21,7 @@ const TRANSFER_WEI = BigInt(3 * 10 ** 18);
 })().catch(e => console.error('ERR', e.message));
 \""
 started_at: 2026-06-22T20:42:44.514Z
-running_for_ms: 1235011  
+running_for_ms: 5740006  
 ---
 ◇ injected env (15) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
 Detected mainnet (chain ID: 16661)
