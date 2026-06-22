@@ -16,9 +16,6 @@ export const ogAristotle = defineChain({
   },
 });
 
-/** @deprecated Use ogAristotle - kept for import compatibility */
-export const ogGalileo = ogAristotle;
-
 export const AGENTIC_ID_ABI = [
   {
     type: "function",

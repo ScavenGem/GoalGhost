@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { Suspense, useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useAccount,
@@ -38,7 +38,9 @@ import { parseMintedTokenId } from "@/lib/0g/chain/parse-receipt";
 import { walletToTokenId } from "@/lib/ghost/wallet-token-id";
 import type { GhostProfile, GhostTraits } from "@/types/ghost";
 import type { MemoryEvent } from "@/types/memory";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { parsePreMatchFixture } from "@/lib/create/pre-match-fixture";
+import { WC_2026_NATIONS } from "@/lib/football/teams";
 import { storageScanUrl } from "@/lib/0g/network";
 import { ExternalLink, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
@@ -74,9 +76,14 @@ const STEP_INDEX: Record<Step, number> = {
   done: 5,
 };
 
-export default function CreatePage() {
+function CreatePageContent() {
   const { address, isConnected } = useAccount();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const preMatchFixture = useMemo(
+    () => parsePreMatchFixture(searchParams),
+    [searchParams]
+  );
   const queryClient = useQueryClient();
   const [step, setStep] = useState<Step>("wallet");
   const [team, setTeam] = useState<WcNation | null>(null);
@@ -102,6 +109,14 @@ export default function CreatePage() {
   useEffect(() => {
     if (isConnected && step === "wallet") setStep("team");
   }, [isConnected, step]);
+
+  useEffect(() => {
+    if (!preMatchFixture || team) return;
+    const code = preMatchFixture.homeTeamCode;
+    if (!code) return;
+    const nation = WC_2026_NATIONS.find((n) => n.code === code);
+    if (nation) setTeam(nation);
+  }, [preMatchFixture, team]);
 
   useEffect(() => {
     if (step === "traits" || step === "reveal") {
@@ -202,7 +217,7 @@ export default function CreatePage() {
       if (!memoryRegisterRes.ok) {
         const data = await memoryRegisterRes.json().catch(() => ({}));
         throw new Error(
-          (data as { error?: string }).error ?? "Birth memory registration failed"
+          (data as { error?: string }).error ?? "Birth legacy registration failed"
         );
       }
 
@@ -242,7 +257,7 @@ export default function CreatePage() {
       setStep("done");
       setTimeout(() => router.push("/ghost"), 4800);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Birth memory failed");
+        setError(e instanceof Error ? e.message : "Birth legacy seal failed");
         setStep("reveal");
       }
     },
@@ -368,8 +383,8 @@ export default function CreatePage() {
             Birth Your GoalGhost
           </h1>
           <p className="max-w-lg leading-relaxed text-muted">
-            A football soul born on 0G Compute, remembered on 0G Storage, owned by your wallet.
-            Not a profile, but a permanent companion for every match.
+            A fan identity born on 0G Compute, etched on 0G Storage, owned by your wallet.
+            Not a profile, but a fan identity forged for every match.
           </p>
         </motion.div>
 
@@ -394,7 +409,7 @@ export default function CreatePage() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <p className="leading-relaxed text-muted">
-                    Your wallet owns every memory. ECIES encryption means only you can read your ghost&apos;s inner life, stored forever on 0G.
+                    Your wallet owns your entire fan identity. ECIES encryption means only you can read your ghost&apos;s inner life, verified by 0G.
                   </p>
                   <div className="flex justify-center py-4">
                     <ConnectButton />
@@ -413,7 +428,9 @@ export default function CreatePage() {
                 <CardHeader>
                   <CardTitle className="font-display text-2xl">Choose Your Nation</CardTitle>
                   <p className="text-sm text-muted">
-                    One flag. One loyalty. Permanent.
+                    {preMatchFixture
+                      ? `Next fixture: ${preMatchFixture.homeTeam} vs ${preMatchFixture.awayTeam}. Choose your nation.`
+                      : "One flag. One loyalty. Eternal."}
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -431,7 +448,7 @@ export default function CreatePage() {
             <motion.div key="traits" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }}>
               <Card className="border-white/8 bg-surface/40">
                 <CardHeader>
-                  <CardTitle className="font-display text-2xl">Shape the Soul</CardTitle>
+                  <CardTitle className="font-display text-2xl">Shape Your Fan Identity</CardTitle>
                   <p className="text-sm text-muted">
                     Archetype first, then fine-tune. Your ghost&apos;s personality becomes their forever voice.
                   </p>
@@ -515,8 +532,8 @@ export default function CreatePage() {
                   transition={{ duration: 2.5 }}
                 />
               </motion.div>
-              <p className="font-display text-xl text-[#F4C542]">First memory written</p>
-              <p className="mt-2 text-sm text-muted">Permanent · encrypted · yours</p>
+              <p className="font-display text-xl text-[#F4C542]">First evolution chapter written</p>
+              <p className="mt-2 text-sm text-muted">Eternal · encrypted · yours</p>
             </motion.div>
           )}
 
@@ -578,12 +595,12 @@ export default function CreatePage() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 font-mono text-xs text-muted transition-colors hover:text-[#F4C542]"
                   >
-                    Birth memory · {memoryRoot.slice(0, 20)}…
+                    Birth legacy · {memoryRoot.slice(0, 20)}…
                     <ExternalLink className="h-3 w-3 shrink-0" />
                   </a>
                 )}
                 <OgIrreplaceableBanner compact />
-                <p className="text-xs text-muted/70">ECIES-encrypted · wallet-owned · permanent</p>
+                <p className="text-xs text-muted/70">ECIES-encrypted · wallet-owned · eternal</p>
               </motion.div>
 
               <Link href="/ghost">
@@ -594,5 +611,19 @@ export default function CreatePage() {
         </AnimatePresence>
       </div>
     </>
+  );
+}
+
+export default function CreatePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[40vh] items-center justify-center">
+          <GoalGhostLogo size={52} spin />
+        </div>
+      }
+    >
+      <CreatePageContent />
+    </Suspense>
   );
 }

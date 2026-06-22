@@ -20,7 +20,7 @@ const NO_CACHE_HEADERS = {
 const postSchema = z.object({
   matchId: z.string().min(1),
   walletAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/),
-  tokenId: z.number().int().positive(),
+  tokenId: z.number().int().nonnegative(),
   reactionId: z.enum(reactionIds),
   signature: z.string().regex(/^0x[a-fA-F0-9]+$/),
   createdAt: z.string().datetime(),

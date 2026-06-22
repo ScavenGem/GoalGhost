@@ -78,7 +78,7 @@ export function PersonalityCards({
         className="rounded-2xl border border-white/8 bg-[#0A1020]/60 p-5"
       >
         <p className="mb-4 text-xs uppercase tracking-[0.2em] text-[#F4C542]">
-          Fine-tune your soul
+          Fine-tune your fan identity
         </p>
         <div className="space-y-4">
           {TRAIT_LABELS.map((key) => (

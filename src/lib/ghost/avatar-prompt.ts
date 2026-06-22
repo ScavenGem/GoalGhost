@@ -65,6 +65,6 @@ export function buildGhostAvatarImagePrompt(params: {
     .replace("[PERSONALITY]", formatTraits(traits))
     .replace("[MOOD]", params.mood ?? "electric")
     .replace("[STAGE]", ghostEvolutionStage(params.evolutionScore ?? 0))
-    .replace("[MEMORY SUMMARY]", params.memorySummary?.trim() || "Freshly born: no match memories yet.")
+    .replace("[MEMORY SUMMARY]", params.memorySummary?.trim() || "Freshly born: no evolution chapters yet.")
     .replace("[OPTIONAL]", params.vibe?.trim() || "World Cup 2026 football spirit");
 }

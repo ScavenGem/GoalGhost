@@ -98,7 +98,7 @@ export default function GhostPage() {
         </motion.div>
         <p className="font-display text-3xl">No ghost yet</p>
         <p className="text-muted">
-          Birth your GoalGhost: a soul that carries your form, rivalry, and legacy through every match.
+          Birth your GoalGhost: a fan identity that carries your form, rivalry, and legacy through every match.
         </p>
         <Link href="/create">
           <Button size="lg">Birth Your GoalGhost</Button>
@@ -165,7 +165,7 @@ export default function GhostPage() {
                 { label: "Mood", value: ghost.mood, accent: true },
                 { label: "Evolution", value: ghost.evolutionScore, accent: true },
                 { label: "Confidence", value: `${ghost.confidence}%`, accent: false },
-                { label: "Memories", value: memoryCount, accent: true },
+                { label: "Evolution chapters", value: memoryCount, accent: true },
               ].map((stat, i) => (
                 <motion.div
                   key={stat.label}
@@ -209,7 +209,7 @@ export default function GhostPage() {
           <Link href="/memories">
             <Card className="h-full border-white/8 transition-colors hover:border-[#F4C542]/30">
               <CardContent className="flex items-center gap-3 p-5">
-                <span className="text-sm font-medium">Memory Timeline</span>
+                <span className="text-sm font-medium">Fan Journey</span>
               </CardContent>
             </Card>
           </Link>
@@ -235,7 +235,7 @@ export default function GhostPage() {
                 </p>
                 <p className="mt-1 font-display text-lg">Feel a match → grow your legacy</p>
                 <p className="mt-1 text-sm text-muted">
-                  Every comeback, clean sheet, and heartbreak writes permanent proof on 0G Storage.
+                  Every comeback, clean sheet, and heartbreak writes your fan identity evolution on 0G Storage.
                 </p>
               </div>
               <Radio className="h-8 w-8 shrink-0 text-[#F4C542]" />
@@ -251,10 +251,10 @@ export default function GhostPage() {
             animate={{ opacity: 1, y: 0 }}
             className="rounded-2xl border border-white/8 bg-[#0A1020]/50 p-5"
           >
-            <p className="text-[10px] uppercase tracking-wider text-muted">Latest memory</p>
+            <p className="text-[10px] uppercase tracking-wider text-muted">Latest evolution</p>
             <p className="mt-1 font-display text-lg">{latestMemory.title ?? "A moment felt"}</p>
             <Link href="/memories" className="mt-2 inline-block text-xs text-[#F4C542]/80 hover:text-[#F4C542]">
-              View full timeline →
+              View full fan journey →
             </Link>
           </motion.div>
         )}

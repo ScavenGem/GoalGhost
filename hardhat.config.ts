@@ -23,11 +23,6 @@ const config: HardhatUserConfig = {
       chainId: 16661,
       accounts,
     },
-    "og-galileo": {
-      url: "https://evmrpc-testnet.0g.ai",
-      chainId: 16602,
-      accounts,
-    },
   },
 };
 

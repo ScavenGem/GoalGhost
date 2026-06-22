@@ -6,7 +6,7 @@ const { ethers } = require("ethers");
 const SEND_OG = "0.45";
 
 async function main() {
-  const rpc = process.env.OG_COMPUTE_RPC_URL ?? "https://evmrpc-testnet.0g.ai";
+  const rpc = process.env.OG_COMPUTE_RPC_URL ?? "https://evmrpc.0g.ai";
   const provider = new ethers.JsonRpcProvider(rpc);
   const deployer = new ethers.Wallet(process.env.OG_DEPLOYER_PRIVATE_KEY, provider);
   const compute = new ethers.Wallet(process.env.OG_COMPUTE_PRIVATE_KEY, provider);

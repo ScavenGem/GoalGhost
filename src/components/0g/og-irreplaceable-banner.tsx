@@ -19,7 +19,7 @@ export function OgIrreplaceableBanner({ compact = false }: { compact?: boolean }
             0G does irreplaceable work here
           </p>
           <p className={`mt-1 leading-relaxed text-muted ${compact ? "text-[11px]" : "text-xs"}`}>
-            Remove 0G Compute → no intelligence. Remove 0G Storage → no permanent memories.
+            Remove 0G Compute → no intelligence. Remove 0G Storage → no identity evolution.
             Remove 0G Chain → no verifiable ownership.
           </p>
         </div>

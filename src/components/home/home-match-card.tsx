@@ -121,7 +121,6 @@ export const HomeMatchCard = memo(function HomeMatchCard({
             <MatchEmojiReactions
               matchId={match.id}
               compact
-              disabled={!hasGhost}
               reacting={emojiReacting}
               userReaction={userEmojiReaction}
               counts={emojiCounts}

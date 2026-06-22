@@ -134,7 +134,7 @@ async function sealEmojiReactionMemory({
   } catch (e) {
     console.error("Emoji memory seal failed:", e);
     setErrorToast(
-      e instanceof Error ? e.message : "Reaction saved — memory seal pending"
+      e instanceof Error ? e.message : "Reaction saved. Legacy seal pending."
     );
     setTimeout(() => setErrorToast(null), 5000);
   }
@@ -266,14 +266,20 @@ export function useMatchReaction() {
       match: FootballMatch,
       reactionId: MatchEmojiReactionId
     ): Promise<MatchEmojiReactionSummary | null> => {
-      if (!ghost || !address || !isConnected) return null;
+      if (!address || !isConnected) {
+        setErrorToast("Connect your wallet to react");
+        setTimeout(() => setErrorToast(null), 5000);
+        return null;
+      }
+
       setEmojiReacting({ matchId: match.id, reactionId });
 
       try {
         const createdAt = new Date().toISOString();
+        const tokenId = ghost?.tokenId ?? 0;
         const message = buildMatchEmojiReactionMessage({
           address,
-          tokenId: ghost.tokenId,
+          tokenId,
           matchId: match.id,
           reactionId,
           createdAt,
@@ -287,7 +293,7 @@ export function useMatchReaction() {
           body: JSON.stringify({
             matchId: match.id,
             walletAddress: address,
-            tokenId: ghost.tokenId,
+            tokenId,
             reactionId,
             signature,
             createdAt,
@@ -303,25 +309,30 @@ export function useMatchReaction() {
           throw new Error(reactionData.error ?? "Could not save emoji reaction");
         }
 
-        void sealEmojiReactionMemory({
-          match,
-          reactionId,
-          ghost,
-          address,
-          signature,
-          createdAt,
-          setGhost,
-          invalidate,
-          setToast,
-          setErrorToast,
-        });
+        if (ghost) {
+          void sealEmojiReactionMemory({
+            match,
+            reactionId,
+            ghost,
+            address,
+            signature,
+            createdAt,
+            setGhost,
+            invalidate,
+            setToast,
+            setErrorToast,
+          });
+        }
 
         return reactionData.summary;
       } catch (e) {
         console.error("Emoji reaction failed:", e);
-        setErrorToast(
-          e instanceof Error ? e.message : "Could not save emoji reaction"
-        );
+        const msg = e instanceof Error ? e.message : "Could not save emoji reaction";
+        if (msg.toLowerCase().includes("user rejected") || msg.toLowerCase().includes("denied")) {
+          setErrorToast("Wallet signature cancelled");
+        } else {
+          setErrorToast(msg);
+        }
         setTimeout(() => setErrorToast(null), 7000);
         return null;
       } finally {

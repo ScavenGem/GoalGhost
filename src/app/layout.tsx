@@ -14,7 +14,7 @@ const dmSerif = DM_Serif_Display({
 export const metadata: Metadata = {
   title: "GoalGhost - Living Football Identity on 0G",
   description:
-    "Every World Cup creates memories. GoalGhost makes them permanent on 0G Compute, Storage, and Chain.",
+    "Every World Cup creates identity. GoalGhost makes it yours. Evolved through every match, verified by 0G Compute, Storage, and Chain.",
 };
 
 export default function RootLayout({

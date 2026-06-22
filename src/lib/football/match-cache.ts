@@ -1,6 +1,6 @@
 import type { MatchFeedResult } from "./match-feed-types";
 
-/** Stale fallback only on provider errors — never used for live freshness. */
+/** Stale fallback only on provider errors - never used for live freshness. */
 export const MATCH_FEED_CACHE_TTL_MS = 0;
 export const MATCH_FEED_POLL_MS = 12_000;
 

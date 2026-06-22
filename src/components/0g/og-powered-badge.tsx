@@ -16,7 +16,7 @@ const LAYER_CONFIG: Record<
     accent: "border-violet-500/30 bg-violet-500/10 text-violet-100",
   },
   storage: {
-    label: "0G Storage (permanent memories)",
+    label: "0G Storage (identity evolution data)",
     icon: Database,
     accent: "border-[#F4C542]/30 bg-[#F4C542]/10 text-[#F4C542]",
   },

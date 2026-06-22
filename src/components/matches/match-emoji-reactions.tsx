@@ -1,6 +1,8 @@
 "use client";
 
 import { memo, useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { cn } from "@/lib/utils/cn";
 import {
   MATCH_EMOJI_REACTIONS,
@@ -11,7 +13,6 @@ import { EMPTY_EMOJI_COUNTS } from "@/types/match-emoji-reaction";
 
 export const MatchEmojiReactions = memo(function MatchEmojiReactions({
   matchId,
-  disabled,
   reacting,
   userReaction,
   counts = EMPTY_EMOJI_COUNTS,
@@ -19,13 +20,14 @@ export const MatchEmojiReactions = memo(function MatchEmojiReactions({
   compact,
 }: {
   matchId: string;
-  disabled?: boolean;
   reacting: MatchEmojiReactionId | null;
   userReaction?: MatchEmojiReactionId | null;
   counts?: MatchEmojiReactionCounts;
   onReact: (reactionId: MatchEmojiReactionId) => void;
   compact?: boolean;
 }) {
+  const { isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
   const [pendingPick, setPendingPick] = useState<MatchEmojiReactionId | null>(null);
   const selected = userReaction ?? pendingPick;
   const hasVoted = selected != null;
@@ -34,8 +36,18 @@ export const MatchEmojiReactions = memo(function MatchEmojiReactions({
     if (userReaction != null) setPendingPick(null);
   }, [userReaction]);
 
+  useEffect(() => {
+    if (reacting == null && pendingPick != null && userReaction !== pendingPick) {
+      setPendingPick(null);
+    }
+  }, [reacting, pendingPick, userReaction]);
+
   function handleReact(reactionId: MatchEmojiReactionId) {
-    if (disabled || reacting != null) return;
+    if (reacting != null) return;
+    if (!isConnected) {
+      openConnectModal?.();
+      return;
+    }
     if (userReaction === reactionId) return;
     setPendingPick(reactionId);
     onReact(reactionId);
@@ -67,13 +79,12 @@ export const MatchEmojiReactions = memo(function MatchEmojiReactions({
             }`}
             aria-pressed={isSelected}
             aria-busy={isSigning}
-            disabled={disabled}
             onClick={() => handleReact(reaction.id)}
             className={cn(
               "relative inline-flex items-center justify-center gap-1 rounded-full border",
               "transition-[transform,box-shadow,border-color,background-color,opacity] duration-150",
               compact ? "h-7 min-w-[2.1rem] px-1.5" : "h-8 min-w-[2.4rem] px-2",
-              "disabled:cursor-not-allowed disabled:opacity-35",
+              "cursor-pointer",
               isSelected
                 ? cn(
                     "z-[1] border-[#F4C542] bg-[#F4C542]/22",

@@ -11,7 +11,7 @@ const FOOTER_BADGES = [
   },
   {
     key: "storage",
-    label: "0G Storage (permanent memories)",
+    label: "0G Storage (identity evolution data)",
     tint: "border-[#F4C542]/20 bg-[#F4C542]/[0.06]",
   },
   {

@@ -1,0 +1,109 @@
+---
+pid: 13392
+cwd: "C:\Users\samue\GoalGhost"
+command: "Set-Location C:\\Users\\samue\\GoalGhost; npm run dev"
+started_at: 2026-06-22T12:54:11.692Z
+running_for_ms: 29465000 
+---
+
+> goalghost@0.1.0 dev
+> next dev --turbopack
+
+ ⚠ Port 3000 is in use by process 18216, using available port 3001 instead.
+   ▲ Next.js 15.5.19 (Turbopack)
+   - Local:        http://localhost:3001
+   - Network:      http://10.41.221.136:3001
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 2.6s
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+ ○ Compiling / ...
+ ✓ Compiled / in 25.2s
+ GET / 200 in 28181ms
+ ○ Compiling /matches ...
+ ✓ Compiled /matches in 35.7s
+ GET /matches 200 in 37306ms
+ ○ Compiling /api/matches/live ...
+ ✓ Compiled /api/matches/live in 2s
+ GET /api/matches/live 200 in 4083ms
+ ✓ Compiled in 5.4s
+ ○ Compiling /matches ...
+ ✓ Compiled /matches in 516ms
+ GET /matches 200 in 3132ms
+ ○ Compiling /create ...
+ ✓ Compiled /create in 20.8s
+ GET /create?intent=pre-match&matchId=fd-537399&homeTeam=Argentina&awayTeam=Austria&homeTeamCode=ARG&awayTeamCode=AUT 200 in 21592ms
+ ○ Compiling /legacy ...
+ ✓ Compiled /legacy in 12.8s
+ GET /legacy 200 in 14534ms
+ GET /legacy 200 in 475ms
+ GET /legacy 200 in 475ms
+ GET /legacy 200 in 1953ms
+ GET /legacy 200 in 2219ms
+ GET /legacy 200 in 1156ms
+ GET /legacy 200 in 2806ms
+ GET /legacy 200 in 1897ms
+ ✓ Compiled / in 374ms
+ GET / 200 in 1954ms
+ GET /legacy 200 in 750ms
+ GET /create 200 in 376ms
+ GET /legacy 200 in 1255ms
+ GET /legacy 200 in 1047ms
+ GET /legacy 200 in 1436ms
+ GET /legacy 200 in 1204ms
+ ○ Compiling /api/compute/legacy ...
+ ✓ Compiled /api/compute/legacy in 1991ms
+Detected mainnet (chain ID: 16661)
+[DEBUG] 2026-06-22T20:40:13.442Z - Fetched service info from contract: Result(11) [
+  '0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C',
+  'chatbot',
+  'https://compute-network-1.integratenetwork.work',
+  2250000000000n,
+  7210000000000n,
+  1782157691n,
+  'zai-org/GLM-5-FP8',
+  'TeeML',
+  '{"ImageDigest":"","ImageName":"","ProviderIdentity":"openrouter","ProviderType":"centralized","TEEVerifier":"dstack","TargetSeparated":true,"TargetTeeAddress":"","VerifierURL":"https://github.com/Dstack-TEE/dstack/releases/tag/verifier-v0.5.4","cacheTokenBilling":{"divisor":5}}',
+  '0x4C1b546f5Fc11A9c2428eaFEd1D951Aa13C17ee8',
+  true
+]
+[DEBUG] 2026-06-22T20:40:13.453Z - Fetched service info from contract: Result(11) [
+  '0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C',
+  'chatbot',
+  'https://compute-network-1.integratenetwork.work',
+  2250000000000n,
+  7210000000000n,
+  1782157691n,
+  'zai-org/GLM-5-FP8',
+  'TeeML',
+  '{"ImageDigest":"","ImageName":"","ProviderIdentity":"openrouter","ProviderType":"centralized","TEEVerifier":"dstack","TargetSeparated":true,"TargetTeeAddress":"","VerifierURL":"https://github.com/Dstack-TEE/dstack/releases/tag/verifier-v0.5.4","cacheTokenBilling":{"divisor":5}}',
+  '0x4C1b546f5Fc11A9c2428eaFEd1D951Aa13C17ee8',
+  true
+]
+[DEBUG] 2026-06-22T20:40:13.864Z - [Auto-funding] Failed to fetch unsettled fee: Sub-account not found. Initialize it by transferring funds via "transfer-fund" (Address: 0xed3a4069933365a78C863e21626672e54dC8083f, Address: 0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C), using cachedFee fallback
+[DEBUG] 2026-06-22T20:40:13.864Z - [Auto-funding] Check: unsettledFee=0.000000 0G, requiredBalance=2.000000 0G
+sending tx with gas price 4000000007n
+[WARN] 2026-06-22T20:40:16.927Z - [Auto-funding] Failed to transfer 2.0000 0G to provider sub-account: Account does not exist. Please create an account first using "add-account". (Address: 0xed3a4069933365a78C863e21626672e54dC8083f)
+ POST /api/compute/legacy 503 in 9379ms
+[DEBUG] 2026-06-22T20:40:25.013Z - [Auto-funding] Failed to fetch unsettled fee: Sub-account not found. Initialize it by transferring funds via "transfer-fund" (Address: 0xed3a4069933365a78C863e21626672e54dC8083f, Address: 0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C), using cachedFee fallback
+[DEBUG] 2026-06-22T20:40:25.014Z - [Auto-funding] Check: unsettledFee=0.000000 0G, requiredBalance=2.000000 0G
+sending tx with gas price 4000000007n
+[WARN] 2026-06-22T20:40:28.046Z - [Auto-funding] Failed to transfer 2.0000 0G to provider sub-account: Account does not exist. Please create an account first using "add-account". (Address: 0xed3a4069933365a78C863e21626672e54dC8083f)
+ POST /api/compute/legacy 503 in 5405ms
+[DEBUG] 2026-06-22T20:40:35.148Z - [Auto-funding] Failed to fetch unsettled fee: Sub-account not found. Initialize it by transferring funds via "transfer-fund" (Address: 0xed3a4069933365a78C863e21626672e54dC8083f, Address: 0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C), using cachedFee fallback
+[DEBUG] 2026-06-22T20:40:35.149Z - [Auto-funding] Check: unsettledFee=0.000000 0G, requiredBalance=2.000000 0G
+sending tx with gas price 4000000007n
+[WARN] 2026-06-22T20:40:38.153Z - [Auto-funding] Failed to transfer 2.0000 0G to provider sub-account: Account does not exist. Please create an account first using "add-account". (Address: 0xed3a4069933365a78C863e21626672e54dC8083f)
+ POST /api/compute/legacy 503 in 5391ms
+[DEBUG] 2026-06-22T20:44:58.997Z - [Auto-funding] Provider unsettled fee: 0.000000 0G
+[DEBUG] 2026-06-22T20:44:58.997Z - [Auto-funding] Check: unsettledFee=0.000000 0G, requiredBalance=2.000000 0G
+[DEBUG] 2026-06-22T20:44:59.408Z - Locked fund for provider 0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C: 3000000000000000000, required: 2000000000000000000
+[DEBUG] 2026-06-22T20:45:21.816Z - Chat ID: 9f0f6ec8-b61a-455b-8acb-ca8072227a40
+[DEBUG] 2026-06-22T20:45:21.817Z - signing address: 0x4C1b546f5Fc11A9c2428eaFEd1D951Aa13C17ee8
+ POST /api/compute/legacy 200 in 30237ms

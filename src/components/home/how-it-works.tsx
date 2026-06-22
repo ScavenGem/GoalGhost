@@ -10,15 +10,15 @@ const STEPS = [
     step: 1,
     title: "Birth Your GoalGhost",
     description:
-      "Connect your wallet and birth a football soul tied to your nation: intelligence from 0G Compute, identity on 0G Chain.",
+      "Connect your wallet and birth a fan identity tied to your nation: intelligence from 0G Compute, ownership on 0G Chain.",
     icon: Sparkles,
     accent: "from-[#F4C542]/20 to-[#F4C542]/5",
   },
   {
     step: 2,
-    title: "Experience Matches & Build Memories",
+    title: "Experience Matches & Build Your Fan Identity",
     description:
-      "Feel every kickoff, comeback, and final whistle. Each reaction seals permanently to 0G Storage.",
+      "Feel every kickoff, comeback, and final whistle. Each reaction seals your evolution to 0G Storage.",
     icon: Radio,
     accent: "from-red-500/15 to-red-500/5",
   },
@@ -34,7 +34,7 @@ const STEPS = [
     step: 4,
     title: "Claim Your Emotional Legacy",
     description:
-      "Unwrap your World Cup story: a permanent, wallet-owned legacy narrated by 0G Compute and sealed forever.",
+      "Unwrap your World Cup story: a wallet-owned fan identity legacy narrated by 0G Compute and verified on 0G.",
     icon: Trophy,
     accent: "from-[#F4C542]/18 to-transparent",
   },

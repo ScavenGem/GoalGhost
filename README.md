@@ -37,7 +37,7 @@ Plus the banner: **"0G does irreplaceable work here"** - on Home, Create success
 
 1. **Compute** - `POST /api/compute/*` routes use `@0gfoundation/0g-compute-ts-sdk` (live) or structured mock (demo). Search `JUDGE NOTE` in codebase.
 2. **Storage** - Browser-wallet ECIES upload (`upload-browser.ts`). Every memory card links to [storagescan.0g.ai](https://storagescan.0g.ai).
-3. **Chain** - `GoalGhostAgenticID.sol` with `iMint` + `logMilestone` (Galileo deployed; mainnet optional).
+3. **Chain** - `GoalGhostAgenticID.sol` with `iMint` + `logMilestone` on Aristotle mainnet.
 4. **Postgres is disposable** - Drop DB; ghosts survive on Storage. Cache indexes rootHashes only.
 
 ### The full user loop
@@ -172,7 +172,7 @@ npm run dev      # do NOT run build while dev is active
 
 Last verified: **June 18, 2026** - `npm run build` exits 0, all 16 routes compile, types and lint pass.
 
-**Contract (Galileo):** `0xdf091dE4f77cb8E197E1cA7b14B53D7093631EE4`
+**Contract:** deploy on Aristotle mainnet with `npm run contract:deploy`, then set `NEXT_PUBLIC_AGENTIC_ID_CONTRACT`.
 
 ---
 

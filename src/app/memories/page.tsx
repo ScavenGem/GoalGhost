@@ -74,7 +74,7 @@ export default function MemoriesPage() {
       <div className="mx-auto max-w-lg py-32 text-center">
         <p className="font-display text-3xl text-muted">Connect your wallet</p>
         <p className="mt-3 text-sm text-muted/80">
-          Memories encrypt to your keys, not our database.
+          Your legacy encrypts to your keys, not our database.
         </p>
       </div>
     );
@@ -89,15 +89,15 @@ export default function MemoriesPage() {
 
         <PageHeader
           eyebrow="The proof layer"
-          title="Memory Timeline"
+          title="Fan Journey"
           description={
             ghostName
-              ? `Every moment ${ghostName} felt, from first kickoff through extra time to legacy, in chronological order. Each card is permanent proof on 0G Storage.`
-              : "Chronological match diary. Each moment is verifiable proof on 0G Storage."
+              ? `Every moment ${ghostName} felt, from first kickoff through extra time to legacy, in chronological order. Each evolution chapter is verified on 0G Storage.`
+              : "Chronological fan journey. Each evolution is verifiable proof on 0G Storage."
           }
         />
         {refreshing && (
-          <p className="text-center text-xs text-[#F4C542]/60">Refreshing timeline…</p>
+          <p className="text-center text-xs text-[#F4C542]/60">Refreshing journey…</p>
         )}
 
         <OgIrreplaceableBanner compact />
@@ -147,8 +147,8 @@ export default function MemoriesPage() {
             </motion.div>
             <p className="font-display text-3xl text-foreground/85">Pre-match silence</p>
             <p className="mx-auto max-w-sm text-sm text-muted">
-              Birth your ghost, then feel your first kickoff. Every reaction builds momentum here,
-              anchored on mainnet 0G Storage.
+              Birth your ghost, then feel your first kickoff. Every reaction builds your fan identity here,
+              verified on mainnet 0G Storage.
             </p>
             <div className="flex justify-center gap-3">
               <Link href="/create">

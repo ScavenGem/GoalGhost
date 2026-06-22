@@ -83,7 +83,7 @@ export default function MatchesPage() {
             <h1 className="font-display text-4xl md:text-5xl">Match Center</h1>
             <p className="mt-2 max-w-lg leading-relaxed text-muted">
               Live kickoffs, late drama, and full-time heartbreak. Every reaction you feel
-              becomes permanent momentum sealed on 0G Storage.
+              becomes fan identity evolution verified on 0G Storage.
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-[10px] text-emerald-200">
@@ -205,7 +205,7 @@ export default function MatchesPage() {
                       className="mt-2 inline-flex items-center gap-1 text-xs text-[#F4C542]/80 hover:text-[#F4C542]"
                     >
                       <Link2 className="h-3 w-3" />
-                      View in Memory Timeline →
+                      View in Fan Journey →
                     </Link>
                   </>
                 )}
@@ -215,9 +215,14 @@ export default function MatchesPage() {
         </AnimatePresence>
 
         {loading && matches.length === 0 ? (
-          <FootballLoader label="Waiting for kickoff…" />
+          <FootballLoader label="Loading matches…" />
         ) : (
-          <MatchSections matches={matches} renderCard={renderCard} />
+          <MatchSections
+            matches={matches}
+            renderCard={renderCard}
+            finishedPreviewLimit={3}
+            showLiveEmptyState
+          />
         )}
       </div>
     </>

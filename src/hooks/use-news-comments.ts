@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAccount, useSignMessage } from "wagmi";
 import { applyOptimisticCommentReaction } from "@/lib/comments/reaction-optimistic";
@@ -12,7 +12,11 @@ import {
   buildNewsCommentMessage,
   NEWS_COMMENT_MAX_LENGTH,
 } from "@/lib/news/comment-sign";
-import type { CommentEmojiId, CommentPostInput } from "@/types/social-comment";
+import {
+  EMPTY_COMMENT_REACTION_COUNTS,
+  type CommentEmojiId,
+  type CommentPostInput,
+} from "@/types/social-comment";
 import type { NewsComment, NewsCommentsResult } from "@/types/news-comment";
 
 export const NEWS_COMMENTS_QUERY_KEY = "news-comments";
@@ -44,8 +48,10 @@ export function useNewsComments(articleIds: string[]) {
     [articleIds]
   );
 
+  const walletKey = address?.toLowerCase() ?? "";
+
   const query = useQuery({
-    queryKey: [NEWS_COMMENTS_QUERY_KEY, idsKey],
+    queryKey: [NEWS_COMMENTS_QUERY_KEY, idsKey, walletKey],
     queryFn: () => fetchNewsComments(articleIds, address),
     enabled: articleIds.length > 0,
     staleTime: 15_000,
@@ -54,13 +60,6 @@ export function useNewsComments(articleIds: string[]) {
     refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
   });
-
-  useEffect(() => {
-    if (articleIds.length === 0) return;
-    void queryClient.invalidateQueries({
-      queryKey: [NEWS_COMMENTS_QUERY_KEY, idsKey],
-    });
-  }, [address, articleIds.length, idsKey, queryClient]);
 
   const commentsByArticle = useMemo(() => {
     const map = new Map<string, NewsComment[]>();
@@ -75,15 +74,33 @@ export function useNewsComments(articleIds: string[]) {
   const updateCache = useCallback(
     (updater: (comments: NewsComment[]) => NewsComment[]) => {
       queryClient.setQueryData<NewsCommentsResult>(
-        [NEWS_COMMENTS_QUERY_KEY, idsKey],
+        [NEWS_COMMENTS_QUERY_KEY, idsKey, walletKey],
         (old) => ({
           comments: updater(old?.comments ?? []),
           fetchedAt: new Date().toISOString(),
         })
       );
     },
-    [queryClient, idsKey]
+    [queryClient, idsKey, walletKey]
   );
+
+  function normalizeComment(comment: NewsComment): NewsComment {
+    return {
+      ...comment,
+      reactions: comment.reactions ?? {
+        counts: { ...EMPTY_COMMENT_REACTION_COUNTS },
+        userReaction: null,
+      },
+    };
+  }
+
+  function formatPostError(err: Error): string {
+    const msg = err.message.toLowerCase();
+    if (msg.includes("user rejected") || msg.includes("denied") || msg.includes("cancel")) {
+      return "Wallet signature cancelled";
+    }
+    return err.message;
+  }
 
   const postMutation = useMutation({
     mutationFn: async ({
@@ -154,14 +171,17 @@ export function useNewsComments(articleIds: string[]) {
     },
     onSuccess: (data, vars) => {
       setError(null);
-      const comment = data.comment;
+      const comment = normalizeComment(data.comment);
       updateCache((existing) => [
         comment,
         ...existing.filter((c) => c.id !== comment.id),
       ]);
       setReplyToByArticle((prev) => ({ ...prev, [vars.articleId]: null }));
+      void queryClient.invalidateQueries({
+        queryKey: [NEWS_COMMENTS_QUERY_KEY, idsKey],
+      });
     },
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(formatPostError(err)),
   });
 
   const editMutation = useMutation({

@@ -430,7 +430,6 @@ export const MatchCard = memo(function MatchCard({
             <GoalGhostAccent size={18} className="absolute right-[18%] top-2 opacity-40" />
             <MatchEmojiReactions
               matchId={match.id}
-              disabled={!hasGhost}
               reacting={emojiReacting}
               userReaction={userEmojiReaction}
               counts={emojiCounts}

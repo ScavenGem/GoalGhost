@@ -129,14 +129,10 @@ export function HeroSection() {
         <motion.div {...fadeUp(0.1)} className="w-full max-w-4xl">
           <h1 className="font-display text-[1.95rem] font-semibold tracking-tight text-balance sm:text-4xl md:text-5xl lg:text-[3.75rem]">
             <span className="block leading-[1.08] text-[#F4C542] sm:leading-[1.06] lg:leading-[1.04]">
-              Every World Cup Creates Memories.
+              Every World Cup Creates Identity.
             </span>
-            <span className="mt-1.5 block leading-[1.06] sm:mt-2 sm:leading-[1.04] lg:mt-2.5 lg:leading-[1.02]">
-              <span className="text-white">GoalGhost</span>{" "}
-              <span className="font-medium text-white/95">Makes Them </span>
-              <span className="bg-gradient-to-r from-white via-[#F4C542] to-white bg-clip-text font-semibold text-transparent">
-                Permanent.
-              </span>
+            <span className="mt-1.5 block leading-[1.06] text-white sm:mt-2 sm:leading-[1.04] lg:mt-2.5 lg:leading-[1.02]">
+              GoalGhost Makes It Yours.
             </span>
           </h1>
         </motion.div>
@@ -145,8 +141,7 @@ export function HeroSection() {
           {...fadeUp(0.25)}
           className="mt-8 max-w-xl text-base font-light leading-relaxed tracking-wide text-white/65 sm:mt-10 sm:text-lg md:max-w-2xl md:text-xl"
         >
-          A football soul born on 0G Compute: every kickoff, comeback, and final
-          whistle remembered forever on 0G Storage, owned on 0G Chain.
+          Evolved through every match, verified by 0G.
         </motion.p>
 
         <motion.div

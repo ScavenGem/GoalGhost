@@ -121,7 +121,7 @@ export function buildLegacySlides(
       headline: ghost.name,
       body: legacy.story,
       stat: ghost.team,
-      statLabel: "Your nation. Your soul.",
+      statLabel: "Your nation. Your fan identity.",
       gradient: GRADIENTS[0],
       size: "hero",
     },
@@ -130,7 +130,7 @@ export function buildLegacySlides(
       headline: moments.celebration.title,
       body: moments.celebration.body,
       stat: String(legacy.stats.matchesWitnessed),
-      statLabel: "Memories that roared",
+      statLabel: "Legacy that roared",
       gradient: GRADIENTS[1],
     },
     {

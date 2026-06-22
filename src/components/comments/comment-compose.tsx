@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useAccount } from "wagmi";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { ImagePlus, PenLine, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { validateCommentMediaFile } from "@/lib/comments/media";
@@ -29,6 +31,8 @@ export function CommentCompose({
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [mediaError, setMediaError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const { isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
 
   function clearMedia() {
     setMediaFile(null);
@@ -57,10 +61,18 @@ export function CommentCompose({
     e.stopPropagation();
     if (posting) return;
     if (!draft.trim() && !mediaFile) return;
-    await onSubmit({ text: draft, mediaFile });
-    setDraft("");
-    clearMedia();
-    onCancelReply?.();
+    if (!isConnected) {
+      openConnectModal?.();
+      return;
+    }
+    try {
+      await onSubmit({ text: draft, mediaFile });
+      setDraft("");
+      clearMedia();
+      onCancelReply?.();
+    } catch {
+      // Error surfaced by parent hook; keep draft for retry
+    }
   }
 
   const canSubmit = (draft.trim().length > 0 || mediaFile) && !posting;

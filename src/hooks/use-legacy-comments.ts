@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAccount, useSignMessage } from "wagmi";
 import { applyOptimisticCommentReaction } from "@/lib/comments/reaction-optimistic";
@@ -16,7 +16,11 @@ import type {
   LegacyComment,
   LegacyCommentsResult,
 } from "@/types/legacy-comment";
-import type { CommentEmojiId, CommentPostInput } from "@/types/social-comment";
+import {
+  EMPTY_COMMENT_REACTION_COUNTS,
+  type CommentEmojiId,
+  type CommentPostInput,
+} from "@/types/social-comment";
 
 export const LEGACY_COMMENTS_QUERY_KEY = ["legacy-comments"] as const;
 
@@ -38,8 +42,10 @@ export function useLegacyComments() {
   const [error, setError] = useState<string | null>(null);
   const [replyTo, setReplyTo] = useState<LegacyComment | null>(null);
 
+  const walletKey = address?.toLowerCase() ?? "";
+
   const query = useQuery({
-    queryKey: LEGACY_COMMENTS_QUERY_KEY,
+    queryKey: [...LEGACY_COMMENTS_QUERY_KEY, walletKey],
     queryFn: () => fetchLegacyComments(address),
     staleTime: 15_000,
     gcTime: 30 * 60_000,
@@ -48,25 +54,45 @@ export function useLegacyComments() {
     placeholderData: keepPreviousData,
   });
 
-  useEffect(() => {
-    void queryClient.invalidateQueries({ queryKey: LEGACY_COMMENTS_QUERY_KEY });
-  }, [address, queryClient]);
-
   const updateCache = useCallback(
     (updater: (comments: LegacyComment[]) => LegacyComment[]) => {
       queryClient.setQueryData<LegacyCommentsResult>(
-        LEGACY_COMMENTS_QUERY_KEY,
+        [...LEGACY_COMMENTS_QUERY_KEY, walletKey],
         (old) => ({
           comments: updater(old?.comments ?? []),
           fetchedAt: new Date().toISOString(),
         })
       );
     },
-    [queryClient]
+    [queryClient, walletKey]
   );
 
+  function normalizeComment(comment: LegacyComment): LegacyComment {
+    return {
+      ...comment,
+      reactions: comment.reactions ?? {
+        counts: { ...EMPTY_COMMENT_REACTION_COUNTS },
+        userReaction: null,
+      },
+    };
+  }
+
+  function formatPostError(err: Error): string {
+    const msg = err.message.toLowerCase();
+    if (msg.includes("user rejected") || msg.includes("denied") || msg.includes("cancel")) {
+      return "Wallet signature cancelled";
+    }
+    return err.message;
+  }
+
   const postMutation = useMutation({
-    mutationFn: async (input: CommentPostInput) => {
+    mutationFn: async ({
+      input,
+      parentCommentId,
+    }: {
+      input: CommentPostInput;
+      parentCommentId?: string | null;
+    }) => {
       if (!address || !isConnected) {
         throw new Error("Connect your wallet to comment");
       }
@@ -94,7 +120,7 @@ export function useLegacyComments() {
         address,
         text: trimmed,
         createdAt,
-        parentCommentId: replyTo?.commentId ?? null,
+        parentCommentId: parentCommentId ?? null,
         mediaRootHash,
       });
 
@@ -109,7 +135,7 @@ export function useLegacyComments() {
           text: trimmed,
           signature,
           createdAt,
-          parentCommentId: replyTo?.commentId ?? null,
+          parentCommentId: parentCommentId ?? null,
           mediaRootHash,
           mediaType,
         }),
@@ -124,14 +150,15 @@ export function useLegacyComments() {
     },
     onSuccess: (data) => {
       setError(null);
-      const comment = data.comment;
+      const comment = normalizeComment(data.comment);
       updateCache((existing) => [
         comment,
         ...existing.filter((c) => c.id !== comment.id),
       ]);
       setReplyTo(null);
+      void queryClient.invalidateQueries({ queryKey: LEGACY_COMMENTS_QUERY_KEY });
     },
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(formatPostError(err)),
   });
 
   const editMutation = useMutation({
@@ -280,9 +307,12 @@ export function useLegacyComments() {
   const postComment = useCallback(
     async (input: CommentPostInput) => {
       setError(null);
-      await postMutation.mutateAsync(input);
+      await postMutation.mutateAsync({
+        input,
+        parentCommentId: replyTo?.commentId ?? null,
+      });
     },
-    [postMutation]
+    [postMutation, replyTo]
   );
 
   const editComment = useCallback(

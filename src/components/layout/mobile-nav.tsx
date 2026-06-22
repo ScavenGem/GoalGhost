@@ -11,7 +11,7 @@ const NAV = [
   { href: "/create", label: "Create", icon: Sparkles },
   { href: "/ghost", label: "Ghost", icon: Ghost },
   { href: "/matches", label: "Matches", icon: Radio },
-  { href: "/memories", label: "Memories", icon: ScrollText },
+  { href: "/memories", label: "Fan Journey", icon: ScrollText },
   { href: "/legacy", label: "Legacy", icon: Trophy },
 ] as const;
 

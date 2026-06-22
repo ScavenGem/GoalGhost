@@ -6,10 +6,10 @@ import { cn } from "@/lib/utils/cn";
 const STEPS = [
   "Wallet",
   "Nation",
-  "Soul",
+  "Identity",
   "Birth",
   "Mint",
-  "Memory",
+  "Legacy",
 ] as const;
 
 export function StepProgress({ current }: { current: number }) {

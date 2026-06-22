@@ -91,7 +91,7 @@ export function HomeLiveMatches() {
       </div>
 
       {loading && matches.length === 0 ? (
-        <FootballLoader label="Waiting for kickoff…" />
+        <FootballLoader label="No live match yet. Generate a pre-match fan reaction." />
       ) : (
         <MatchSections matches={matches} renderCard={renderCard} compact />
       )}

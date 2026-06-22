@@ -14,6 +14,7 @@ export type MatchEmojiReactionsResult = {
 
 export const EMPTY_EMOJI_COUNTS: MatchEmojiReactionCounts = {
   excited: 0,
+  love: 0,
   great_play: 0,
   heartbreak: 0,
   celebration: 0,

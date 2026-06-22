@@ -13,9 +13,9 @@ export function buildLegacySharePayload(opts: {
     opts.shareText,
     "",
     `👻 ${opts.ghostName} · ${opts.team}`,
-    `${opts.memories} memories · ${opts.evolution} evolution`,
+    `${opts.memories} evolution chapters · ${opts.evolution} evolution`,
     "",
-    `Built on @0G_labs - permanent football identity.`,
+    `Built on @0G_labs - eternal fan identity.`,
     url,
   ].join("\n");
   return { text, url };

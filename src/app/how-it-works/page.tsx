@@ -22,7 +22,7 @@ const JOURNEY_STEPS = [
   {
     step: 1,
     title: "Birth Your GoalGhost",
-    summary: "Connect your wallet and birth a football soul tied to your nation.",
+    summary: "Connect your wallet and birth a fan identity tied to your nation.",
     details: [
       "Choose your nation and complete the birth ritual on /create.",
       "0G Compute crafts your ghost's personality, conviction, and emotional baseline.",
@@ -35,13 +35,13 @@ const JOURNEY_STEPS = [
   },
   {
     step: 2,
-    title: "Experience Matches & Build Memories",
+    title: "Experience Matches & Build Your Fan Identity",
     summary: "Feel every kickoff, comeback, and final whistle across the tournament.",
     details: [
       "Follow live, finished, and upcoming World Cup matches on Home and Match Center.",
       "Tap Feel This Match to let 0G Compute react in real time to the drama on the pitch.",
-      "Each reaction becomes a permanent memory, encrypted and stored on 0G Storage.",
-      "Memories appear in your timeline, building the emotional arc of your tournament.",
+      "Each reaction becomes part of your fan identity evolution, encrypted and verified on 0G Storage.",
+      "Evolution chapters appear in your fan journey, building the emotional arc of your tournament.",
     ],
     icon: Radio,
     href: "/matches",
@@ -54,7 +54,7 @@ const JOURNEY_STEPS = [
     details: [
       "Evolution score and confidence shift after each match reaction you feel.",
       "Visit your Ghost page to see mood, evolution stage, and narrative growth.",
-      "Trigger an evolution briefing: 0G Compute narrates how the tournament is changing your soul.",
+      "Trigger an evolution briefing: 0G Compute narrates how the tournament is shaping your fan identity.",
       "Every milestone is anchored by storage roots and wallet-owned identity on chain.",
     ],
     icon: TrendingUp,
@@ -64,11 +64,11 @@ const JOURNEY_STEPS = [
   {
     step: 4,
     title: "Claim Your Emotional Legacy",
-    summary: "Unwrap your World Cup story: a permanent legacy only you can own.",
+    summary: "Unwrap your World Cup story: a fan identity legacy only you can own.",
     details: [
       "Generate your Legacy wrapped on /legacy, a cinematic recap of your tournament journey.",
-      "0G Compute narrates rivalries, comebacks, and final whistles from your memories.",
-      "The full legacy document is sealed to 0G Storage and indexed in your timeline.",
+      "0G Compute narrates rivalries, comebacks, and final whistles from your fan journey.",
+      "The full legacy document is etched to 0G Storage and indexed in your evolution arc.",
       "Share it, revisit it, and leave wallet-signed comments on the decentralized wall.",
     ],
     icon: Trophy,
@@ -89,9 +89,9 @@ const OG_LAYERS = [
   },
   {
     title: "0G Storage",
-    subtitle: "Permanent memories",
+    subtitle: "Identity evolution data",
     description:
-      "Profiles, match reactions, legacy documents, and signed comments live here. Data is content-addressed by Merkle root: durable, retrievable, and independent of any central database.",
+      "Profiles, match reactions, legacy documents, and signed comments live here. Data is content-addressed by Merkle root: emotionally permanent, retrievable, and independent of any central database.",
     icon: Database,
     tint: "border-[#F4C542]/25 bg-[#F4C542]/[0.07]",
     iconTint: "text-[#F4C542]",
@@ -100,7 +100,7 @@ const OG_LAYERS = [
     title: "0G Chain",
     subtitle: "Verifiable ownership",
     description:
-      "Your GoalGhost identity and storage roots anchor on 0G Chain. Wallet keys prove ownership. Remove the chain and the verifiable link between you and your memories disappears.",
+      "Your GoalGhost identity and storage roots anchor on 0G Chain. Wallet keys prove ownership. Remove the chain and the verifiable link between you and your legacy disappears.",
     icon: Link2,
     tint: "border-sky-500/25 bg-sky-500/[0.07]",
     iconTint: "text-sky-300",
@@ -118,7 +118,7 @@ const COMMUNITY_FEATURES = [
   {
     title: "Evolve Your Ghost",
     description:
-      "As memories accumulate, request an evolution briefing on your Ghost page. 0G Compute reflects on your journey and updates your ghost's narrative voice.",
+      "As your legacy grows, request an evolution briefing on your Ghost page. 0G Compute reflects on your journey and updates your fan identity's narrative voice.",
     icon: TrendingUp,
     href: "/ghost",
   },
@@ -192,7 +192,7 @@ export default function HowItWorksPage() {
       <PageHeader
         eyebrow="The full journey"
         title="How GoalGhost Works"
-        description="From your first kickoff to a permanent emotional legacy: a wallet-owned football soul powered by 0G Compute, Storage, and Chain."
+        description="From your first kickoff to a living fan identity legacy: evolved through every match, verified by 0G Compute, Storage, and Chain."
       />
 
       <OgIrreplaceableBanner />

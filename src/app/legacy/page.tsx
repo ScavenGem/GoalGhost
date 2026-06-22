@@ -25,6 +25,19 @@ import {
   buildLegacySlides,
   type LegacyApiOutput,
 } from "@/lib/legacy/build-legacy";
+import {
+  assertFreshMainnetWalletBalance,
+  buildSubAccountInitHeadline,
+  ensureLegacyComputeSubAccount,
+  fetchFreshMainnetWalletBalance,
+  getLegacyComputeInitStatus,
+  LEGACY_FIRST_TIME_LEDGER_OG,
+  MIN_WALLET_BALANCE_OG,
+  legacyInitMessage,
+  type LegacyComputeInitStatus,
+  type LegacyInitPhase,
+} from "@/lib/0g/compute/ensure-legacy-sub-account";
+import { chainScanAddressUrl } from "@/lib/0g/network";
 
 function parseSharedTokenId(raw: string | null): number | null {
   if (!raw) return null;
@@ -46,10 +59,17 @@ function LegacyPageContent() {
   );
   const [slide, setSlide] = useState(0);
   const [generating, setGenerating] = useState(false);
+  const [initPhase, setInitPhase] = useState<LegacyInitPhase | null>(null);
   const [autoPlay, setAutoPlay] = useState(true);
   const [copied, setCopied] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [generateError, setGenerateError] = useState<string | null>(null);
+  const [mainnetBalanceOg, setMainnetBalanceOg] = useState<number | null>(null);
+  const [balanceLoading, setBalanceLoading] = useState(false);
+  const [initStatus, setInitStatus] = useState<LegacyComputeInitStatus | null>(
+    null
+  );
+  const [showInitNotice, setShowInitNotice] = useState(false);
 
   const viewingOthers =
     sharedTokenId != null &&
@@ -77,6 +97,53 @@ function LegacyPageContent() {
     const t = setInterval(nextSlide, 5500);
     return () => clearInterval(t);
   }, [displayLegacy, autoPlay, nextSlide, slide]);
+
+  useEffect(() => {
+    if (!address || viewingOthers) {
+      setMainnetBalanceOg(null);
+      setBalanceLoading(false);
+      setInitStatus(null);
+      setShowInitNotice(false);
+      return;
+    }
+
+    let cancelled = false;
+    setBalanceLoading(true);
+
+    void (async () => {
+      try {
+        const [balance, status] = await Promise.all([
+          fetchFreshMainnetWalletBalance(address),
+          getLegacyComputeInitStatus().catch(() => null),
+        ]);
+        if (cancelled) return;
+
+        setMainnetBalanceOg(balance);
+        setInitStatus(status);
+        setShowInitNotice(status?.needsInitialization ?? false);
+
+        if (!Number.isFinite(balance) || balance < MIN_WALLET_BALANCE_OG) {
+          setGenerateError(
+            `Insufficient 0G balance on mainnet. You need at least ${MIN_WALLET_BALANCE_OG} OG (current: ${balance.toFixed(4)} OG).`
+          );
+        } else {
+          setGenerateError(null);
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setGenerateError(
+            e instanceof Error ? e.message : "Mainnet balance check failed"
+          );
+        }
+      } finally {
+        if (!cancelled) setBalanceLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [address, viewingOthers]);
 
   async function shareLegacy() {
     if (!displayLegacy || !displayGhost) return;
@@ -125,11 +192,31 @@ function LegacyPageContent() {
   }
 
   async function generateLegacy() {
-    if (!ghost) return;
+    if (!ghost || !address) return;
     setGenerating(true);
     setGenerateError(null);
+    setInitPhase(null);
 
     try {
+      setBalanceLoading(true);
+      const balance = await assertFreshMainnetWalletBalance(address);
+      setMainnetBalanceOg(balance);
+
+      const status = await getLegacyComputeInitStatus().catch(() => null);
+      setInitStatus(status);
+      if (status?.needsInitialization) {
+        setShowInitNotice(true);
+      }
+
+      setBalanceLoading(false);
+
+      await ensureLegacyComputeSubAccount(setInitPhase);
+
+      const refreshedStatus = await getLegacyComputeInitStatus().catch(() => null);
+      setInitStatus(refreshedStatus);
+      setShowInitNotice(refreshedStatus?.needsInitialization ?? false);
+
+      setInitPhase("generating");
       const res = await fetch("/api/compute/legacy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -161,13 +248,24 @@ function LegacyPageContent() {
         /* storage is best-effort; wrapped content still displays */
       });
     } catch (e) {
+      const status = await getLegacyComputeInitStatus().catch(() => null);
+      if (status) {
+        setInitStatus(status);
+        if (status.needsInitialization) {
+          setShowInitNotice(true);
+        }
+      }
       setGenerateError(
         e instanceof Error ? e.message : "Legacy generation failed"
       );
     } finally {
+      setBalanceLoading(false);
+      setInitPhase(null);
       setGenerating(false);
     }
   }
+
+  const initMessage = legacyInitMessage(initPhase);
 
   if (viewingOthers && sharedLoading) {
     return (
@@ -319,7 +417,7 @@ function LegacyPageContent() {
         <PageHeader
           eyebrow="The judge moment"
           title="Your Legacy"
-          description="Your tournament wrapped in emotion: every rivalry, comeback, and final whistle, narrated by 0G Compute and sealed forever on 0G Storage."
+          description="Your tournament wrapped in emotion: every rivalry, comeback, and final whistle, narrated by 0G Compute and verified on 0G Storage."
         />
 
         <OgIrreplaceableBanner />
@@ -336,13 +434,91 @@ function LegacyPageContent() {
                 Ready, <span className="text-[#F4C542]">{displayGhost.name}</span>?
               </p>
               <p className="text-muted">
-                {ghost?.memories?.length ?? 0} memories · {displayGhost.evolutionScore} evolution ·{" "}
+                {ghost?.memories?.length ?? 0} evolution chapters · {displayGhost.evolutionScore} evolution ·{" "}
                 {displayGhost.confidence}% conviction · {displayGhost.team}
               </p>
             </div>
+            {address && (
+              <div className="w-full max-w-md rounded-xl border border-dashed border-[#F4C542]/25 bg-[#0A1020]/90 px-4 py-4 text-left text-xs">
+                <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.2em] text-[#F4C542]/80">
+                  Wallet debug
+                </p>
+                {showInitNotice && initStatus?.needsInitialization && (
+                  <div className="mb-4 space-y-3 rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-3">
+                    <p className="font-mono text-[11px] leading-relaxed text-amber-100/95">
+                      {buildSubAccountInitHeadline(initStatus.providerAddress)}
+                    </p>
+                    <dl className="space-y-2 text-muted">
+                      <div>
+                        <dt className="text-muted/70">Connected main wallet</dt>
+                        <dd className="mt-0.5 break-all font-mono text-sm text-foreground/90">
+                          <a
+                            href={chainScanAddressUrl(initStatus.mainWalletAddress)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#F4C542]/90 hover:text-[#F4C542]"
+                          >
+                            {initStatus.mainWalletAddress}
+                          </a>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-muted/70">Sub-account address (fund this)</dt>
+                        <dd className="mt-0.5 break-all font-mono text-sm text-foreground/90">
+                          <a
+                            href={chainScanAddressUrl(initStatus.providerAddress)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#F4C542]/90 hover:text-[#F4C542]"
+                          >
+                            {initStatus.providerAddress}
+                          </a>
+                        </dd>
+                      </div>
+                    </dl>
+                    <p className="leading-relaxed text-amber-100/90">
+                      Click <span className="font-medium text-amber-50">Unwrap Your Legacy</span>{" "}
+                      to automatically initialize your ledger — we will transfer{" "}
+                      {LEGACY_FIRST_TIME_LEDGER_OG} OG from your connected wallet (approve the
+                      wallet transactions when prompted).
+                    </p>
+                  </div>
+                )}
+                <dl className="space-y-3 text-muted">
+                  <div>
+                    <dt className="text-muted/70">Connected wallet</dt>
+                    <dd className="mt-0.5 break-all font-mono text-sm text-foreground/90">
+                      <a
+                        href={chainScanAddressUrl(address)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#F4C542]/90 hover:text-[#F4C542]"
+                      >
+                        {address}
+                      </a>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted/70">Mainnet 0G balance (live)</dt>
+                    <dd className="mt-0.5 font-mono text-sm text-foreground/90">
+                      {balanceLoading
+                        ? "Fetching from mainnet…"
+                        : mainnetBalanceOg != null
+                          ? `${mainnetBalanceOg.toFixed(4)} OG`
+                          : "Unavailable"}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            )}
             {generateError && (
               <p className="max-w-sm text-center text-sm text-rose-400/90">
                 {generateError}
+              </p>
+            )}
+            {generating && (
+              <p className="max-w-sm text-center text-sm text-[#F4C542]/90">
+                {initMessage ?? "Preparing your legacy…"}
               </p>
             )}
             <Button
@@ -351,7 +527,7 @@ function LegacyPageContent() {
               disabled={generating}
               className="shadow-lg shadow-[#F4C542]/10"
             >
-              Unwrap Your Legacy
+              {generating ? "Unwrapping…" : "Unwrap Your Legacy"}
             </Button>
           </motion.div>
         ) : (
@@ -417,7 +593,7 @@ function LegacyPageContent() {
 
             <div className="flex justify-center rounded-2xl border border-[#F4C542]/10 bg-[#0A1020]/50 py-6">
               <Link href="/memories" className="text-sm text-[#F4C542]/80 hover:text-[#F4C542]">
-                See it in your Memory Timeline →
+                See it in your Fan Journey →
               </Link>
             </div>
           </div>

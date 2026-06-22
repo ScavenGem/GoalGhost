@@ -8,7 +8,7 @@ import type { GhostTraits } from "@/types/ghost";
 const RITUAL_LINES = [
   "Consulting 0G Compute providers…",
   "Forging name from football lore…",
-  "Weaving backstory into soul…",
+  "Weaving backstory into fan identity…",
   "Calibrating mood and voice…",
   "The ghost is almost awake…",
 ];

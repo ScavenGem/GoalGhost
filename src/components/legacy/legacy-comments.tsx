@@ -40,18 +40,14 @@ export function LegacyComments() {
             Legacy Comments
           </h2>
           <p className="mt-1 max-w-lg text-sm text-muted/80">
-            Leave a signed note on the wall. Reply, react, and attach images — all
-            verified by your wallet and stored permanently on 0G Storage.
+            Leave a signed note on the wall. Reply, react, and attach images. All
+            verified by your wallet and stored as identity evolution data on 0G Storage.
           </p>
         </div>
       </div>
 
       {loading ? (
         <FootballLoader label="Loading comments…" />
-      ) : comments.length === 0 && !isConnected ? (
-        <div className="rounded-2xl border border-white/8 bg-[#0A1020]/50 px-6 py-8 text-center text-sm text-muted/80">
-          No comments yet. Connect your wallet to be the first to sign the wall.
-        </div>
       ) : (
         <WalletCommentSection
           comments={comments}
@@ -76,9 +72,11 @@ export function LegacyComments() {
         />
       )}
 
-      {comments.length === 0 && isConnected && !loading && (
+      {comments.length === 0 && !loading && (
         <p className="text-center text-sm text-muted/70">
-          Be the first to leave a signed comment on the wall.
+          {isConnected
+            ? "Be the first to leave a signed comment on the wall."
+            : "No comments yet. Connect your wallet to be the first to sign the wall."}
         </p>
       )}
     </section>

@@ -13,7 +13,6 @@
     "db:push": "prisma db push",
     "contract:compile": "hardhat compile",
     "contract:deploy": "hardhat run contracts/scripts/deploy.js --network og-aristotle",
-    "contract:deploy:testnet": "hardhat run contracts/scripts/deploy.js --network og-galileo",
     "contract:check": "node scripts/fund-and-deploy.js",
     "compute:init": "node scripts/init-compute-ledger.js"
   },

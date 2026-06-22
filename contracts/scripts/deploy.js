@@ -9,7 +9,7 @@ async function main() {
 
   if (balance === 0n) {
     throw new Error(
-      `Deployer ${deployer.address} has 0 OG on this network. Fund with mainnet OG (Aristotle) or testnet faucet, then re-run npm run contract:deploy`
+      `Deployer ${deployer.address} has 0 OG on Aristotle mainnet. Fund with mainnet OG, then re-run npm run contract:deploy`
     );
   }
 

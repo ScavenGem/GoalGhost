@@ -121,7 +121,7 @@ export const MemoryCard = memo(function MemoryCard({
                 </p>
               </div>
               <h3 className="mt-2 font-display text-xl leading-snug sm:text-2xl">
-                {memory.title ?? "Untitled memory"}
+                {memory.title ?? "Untitled evolution"}
               </h3>
               {memory.content && (
                 <p className="mt-3 text-base leading-relaxed text-foreground/75">{memory.content}</p>

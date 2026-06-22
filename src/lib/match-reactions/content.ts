@@ -53,6 +53,15 @@ export function buildEmojiReactionMemory(
         emotionalTone: "charged",
         evolutionDelta: isLive ? 4 : 3,
       };
+    case "love":
+      return {
+        title: teamIn ? "Love for my nation" : "Love for the game",
+        content: teamIn
+          ? `${ghost.name} pours love into ${score}${minute}. ${ghost.team} means everything in this moment.`
+          : `${ghost.name} feels the love around ${score}${minute}. Football at its most human.`,
+        emotionalTone: "tender",
+        evolutionDelta: 3,
+      };
     case "great_play":
       return {
         title: teamIn ? "That move lives in me" : "Beautiful football",
@@ -79,7 +88,7 @@ export function buildEmojiReactionMemory(
       return {
         title: teamIn ? "Pure joy for my nation" : "A moment worth roaring for",
         content: teamIn
-          ? `${ghost.name} erupts${minute} with ${score}. ${ghost.team} gave me something to celebrate and remember on 0G.`
+          ? `${ghost.name} erupts${minute} with ${score}. ${ghost.team} gave me something to celebrate and etch on 0G.`
           : `${ghost.name} joins the noise around ${score}${minute}. Celebration is contagious, even for a ghost.`,
         emotionalTone: "euphoric",
         evolutionDelta: 5,

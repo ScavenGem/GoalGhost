@@ -512,40 +512,39 @@ export function WalletCommentSection<T extends WalletCommentBase>({
         onReply={onReply}
         onReact={onReact}
       />
-      {isConnected ? (
-        <div className={comments.length > 0 ? "mt-3" : undefined}>
-          <CommentCompose
-            placeholder={composePlaceholder}
-            maxLength={maxLength}
-            posting={posting}
-            compact={variant === "compact"}
-            replyTo={
-              replyTo ? shortenWalletAddress(replyTo.walletAddress) : null
-            }
-            onCancelReply={onCancelReply}
-            onSubmit={onPost}
-          />
-          {error && (
-            <p
-              className={cn(
-                "mt-2 text-red-300/90",
-                variant === "compact" ? "text-[10px]" : "text-xs"
-              )}
-            >
-              {error}
-            </p>
-          )}
-        </div>
-      ) : (
-        <p
-          className={cn(
-            "mt-2 text-muted/55",
-            variant === "compact" ? "text-[10px]" : "text-sm"
-          )}
-        >
-          Connect your wallet to comment, reply, and react.
-        </p>
-      )}
+      <div className={comments.length > 0 ? "mt-3" : undefined}>
+        <CommentCompose
+          placeholder={composePlaceholder}
+          maxLength={maxLength}
+          posting={posting}
+          compact={variant === "compact"}
+          replyTo={
+            replyTo ? shortenWalletAddress(replyTo.walletAddress) : null
+          }
+          onCancelReply={onCancelReply}
+          onSubmit={onPost}
+        />
+        {error && (
+          <p
+            className={cn(
+              "mt-2 text-red-300/90",
+              variant === "compact" ? "text-[10px]" : "text-xs"
+            )}
+          >
+            {error}
+          </p>
+        )}
+        {!isConnected && (
+          <p
+            className={cn(
+              "mt-2 text-muted/55",
+              variant === "compact" ? "text-[10px]" : "text-sm"
+            )}
+          >
+            Connect your wallet to sign and post.
+          </p>
+        )}
+      </div>
     </>
   );
 }
