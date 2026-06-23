@@ -124,10 +124,22 @@ export function useEmojiReactionHandler(
     reactionId: MatchEmojiReactionId
   ) => Promise<MatchEmojiReactionSummary | null>
 ) {
+  const queryClient = useQueryClient();
+  const { address } = useAccount();
   const { summaries: polledSummaries, getSummary, setMatchSummary } =
     useMatchEmojiReactions(matchIds);
   const pendingRef = useRef<Map<string, MatchEmojiReactionSummary>>(new Map());
   const [pendingVersion, bumpPending] = useState(0);
+
+  const stableIds = useMemo(
+    () => [...new Set(matchIds)].sort().join(","),
+    [matchIds]
+  );
+  const walletKey = address?.toLowerCase() ?? "";
+  const queryKey = useMemo(
+    () => [...MATCH_EMOJI_REACTIONS_QUERY_KEY, stableIds, walletKey] as const,
+    [stableIds, walletKey]
+  );
 
   const summaries = useMemo(() => {
     if (pendingRef.current.size === 0) return polledSummaries;
@@ -139,22 +151,30 @@ export function useEmojiReactionHandler(
       const previous = getSummary(match.id);
       if (previous.userReaction === reactionId) return;
 
+      await queryClient.cancelQueries({ queryKey });
+
       const optimistic = applyOptimisticEmojiReaction(previous, reactionId);
       pendingRef.current.set(match.id, optimistic);
       bumpPending((n) => n + 1);
       setMatchSummary(match.id, optimistic);
 
       const summary = await reactWithEmoji(match, reactionId);
-      pendingRef.current.delete(match.id);
-      bumpPending((n) => n + 1);
 
       if (summary) {
         setMatchSummary(match.id, summary);
+        pendingRef.current.delete(match.id);
+        bumpPending((n) => n + 1);
+        void queryClient.invalidateQueries({
+          queryKey: MATCH_EMOJI_REACTIONS_QUERY_KEY,
+          refetchType: "active",
+        });
       } else {
+        pendingRef.current.delete(match.id);
+        bumpPending((n) => n + 1);
         setMatchSummary(match.id, previous);
       }
     },
-    [getSummary, reactWithEmoji, setMatchSummary]
+    [getSummary, queryClient, queryKey, reactWithEmoji, setMatchSummary]
   );
 
   return { summaries, handleEmojiReact };
