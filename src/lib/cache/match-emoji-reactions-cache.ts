@@ -1,3 +1,4 @@
+import { assertDatabaseConfigured } from "@/lib/db/config";
 import { prisma } from "@/lib/db/prisma";
 import { MATCH_EMOJI_REACTIONS } from "@/lib/match-reactions/types";
 import type { MatchEmojiReactionId } from "@/lib/match-reactions/types";
@@ -28,6 +29,8 @@ export async function getMatchEmojiReactionSummaries(
 
   if (matchIds.length === 0) return summaries;
 
+  assertDatabaseConfigured();
+
   const rows = await prisma.matchEmojiReaction.findMany({
     where: { matchId: { in: matchIds } },
     select: { matchId: true, reactionId: true, walletAddress: true },
@@ -55,6 +58,8 @@ export async function upsertMatchEmojiReaction(data: {
   rootHash?: string;
   createdAt: Date;
 }) {
+  assertDatabaseConfigured();
+
   const wallet = data.walletAddress.toLowerCase();
 
   return prisma.matchEmojiReaction.upsert({

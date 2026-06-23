@@ -292,7 +292,7 @@ export function useMatchReaction() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             matchId: match.id,
-            walletAddress: address,
+            walletAddress: address.toLowerCase(),
             tokenId,
             reactionId,
             signature,

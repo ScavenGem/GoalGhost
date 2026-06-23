@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
+import { ensureDatabaseEnv } from "@/lib/db/config";
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+ensureDatabaseEnv();
+
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
 
 export const prisma =
   globalForPrisma.prisma ??
@@ -8,4 +11,6 @@ export const prisma =
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
