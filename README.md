@@ -1,94 +1,271 @@
-# GoalGhost - 0G Zero Cup Submission
+<p align="center">
+  <img src="public/goalghost-logo-full.png" alt="GoalGhost" width="280" />
+</p>
 
-**Deadline: June 23, 2026**
+<h1 align="center">GoalGhost</h1>
 
-> *Every World Cup creates memories. GoalGhost makes them permanent.*
+<p align="center">
+  <strong>A living AI football identity built on 0G.</strong><br />
+  Not a profile. Not an NFT.<br />
+  A fan identity that thinks, evolves, remembers, and leaves an onchain legacy.
+</p>
 
-A living football identity where **0G primitives are load-bearing** - not decorative. Remove any layer and the product breaks.
+<p align="center">
+  <a href="https://goalghost.vercel.app"><strong>Live Demo</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/ScavenGem/GoalGhost">GitHub</a>
+  &nbsp;·&nbsp;
+  Built for the <strong>0G Zero Cup</strong>
+</p>
 
 ---
 
-## Zero Cup Compliance Narrative
+## Watch GoalGhost in Action
 
-GoalGhost is built for the 0G Zero Cup thesis: **AI-native applications where 0G Compute, Storage, and Chain each own irreplaceable work.**
+> **Visual asset:** Add a 15–30s demo GIF or MP4 here (Create → Seal → Match Center → Legacy ceremony).  
+> Suggested path: `docs/demo/goalghost-demo.gif`
 
-### What judges see in the UI
+<!--
+<p align="center">
+  <img src="docs/demo/goalghost-demo.gif" alt="GoalGhost demo" width="720" />
+</p>
+-->
 
-Every major action displays explicit judge badges:
+<p align="center">
+  <em>Replace the comment block above with your demo asset when ready.</em>
+</p>
 
-| Badge | Meaning |
-|---|---|
-| **Powered by 0G Compute (intelligence)** | Ghost birth, match reactions, evolution, Legacy Wrapped |
-| **0G Storage (permanent memories)** | ECIES-encrypted profiles, timeline cards, legacy seal |
-| **0G Chain (verifiable ownership)** | Wallet connect, Agentic ID mint, milestone anchoring |
+---
 
-Plus the banner: **"0G does irreplaceable work here"** - on Home, Create success, My Ghost, Memory Timeline, and Legacy.
+## The Problem
 
-### Submission polish (June 2026)
+Football fans generate millions of reactions, comments, and emotions during every tournament.
 
-| Check | Status | Implementation |
-|---|---|---|
-| **Football-themed avatars** | Verified | Procedural SVG ghosts in `src/lib/ghost/avatar.ts` - team kit palettes, jerseys, scarves, captain armbands, boots, pitch, stadium lights. Seeded by name + team + traits + mood so every ghost is unique. Used on Create, My Ghost, and birth ritual. |
-| **Nation flags in Match Center** | Verified | `TeamWithFlag` + `flagForTeam()` in `src/lib/football/flags.ts`. Match cards pass `homeTeamCode` / `awayTeamCode`. Ghost banner on `/matches` shows nation flag. Home live cards use the same component. |
-| **No em dashes in UI copy** | Verified | All `src/` UI strings use hyphens (`-`) or middle dots (`·`). Grep for `\u2013` / `\u2014` in `src/` returns zero matches. |
-| **Production build** | Verified | `npm run build` completes with zero errors (Next.js 15.5.19, June 2026). |
+Yet all of it disappears the moment the final whistle blows.
 
-### What judges verify technically
+Current platforms only store likes and statistics.  
+None preserve a fan's **evolving identity**.
 
-1. **Compute** - `POST /api/compute/*` routes use `@0gfoundation/0g-compute-ts-sdk` (live) or structured mock (demo). Search `JUDGE NOTE` in codebase.
-2. **Storage** - Browser-wallet ECIES upload (`upload-browser.ts`). Every memory card links to [storagescan.0g.ai](https://storagescan.0g.ai).
-3. **Chain** - `GoalGhostAgenticID.sol` with `iMint` + `logMilestone` on Aristotle mainnet.
-4. **Postgres is disposable** - Drop DB; ghosts survive on Storage. Cache indexes rootHashes only.
+When the tournament ends, your story ends too.
 
-### The full user loop
+---
 
-```
-Connect wallet     → 0G Chain (verifiable ownership)
-Choose nation/soul → Premium Create flow
-Awaken Soul        → Powered by 0G Compute (intelligence)
-Seal to Storage    → 0G Storage (permanent memories)
-Match Center       → Feel This Match → Compute + Storage
-Memory Timeline    → Chronological proof layer (earliest → latest)
-Legacy Wrapped     → Auto-play slides → Share link → Confetti
-```
+## Our Solution
+
+**GoalGhost** creates a persistent, living AI football identity that evolves with you throughout the World Cup.
+
+Every reaction, comment, and moment becomes part of your permanent fan history.
+
+### Powered by 0G
+
+| Layer | Role |
+|-------|------|
+| **0G Compute** | Generates and evolves your AI fan personality in real time |
+| **0G Storage** | Permanently stores identity memories, evolution history, and signed media |
+| **0G Chain** | Verifies ownership, wallet signatures, and identity actions |
+
+Instead of owning collectibles…  
+**You own a living football identity.**
+
+<p align="center">
+  <img src="public/goalghost-logo.png" alt="0G-powered identity" width="64" />
+</p>
+
+---
+
+## User Journey
+
+| Step | What happens |
+|------|----------------|
+| **1. Connect Wallet** | Connect your 0G wallet. Ownership starts on Chain. |
+| **2. Birth Your GoalGhost** | Choose your nation, personality, and fan traits. 0G Compute generates your unique football identity. |
+| **3. Seal Identity** | Your ghost is permanently sealed on 0G Storage. Ownership is verified on 0G Chain. |
+| **4. Match Center** | Read live football news, leave wallet-signed comments, upload images, and react to other fans. Every action becomes part of your identity evolution. |
+| **5. Fan Journey** | Watch your GoalGhost evolve over time based on your interactions. |
+| **6. Legacy** | At the end of the tournament, receive your personal football Wrapped: a cinematic, emotional summary of your journey, permanently stored on 0G. |
+
+---
+
+## Product Screenshots
+
+> **Visual assets:** Capture full-page screenshots at `1440×900` and place under `docs/screenshots/`.
+
+| Page | Route | Suggested file |
+|------|-------|----------------|
+| Home | `/` | `docs/screenshots/home.png` |
+| Create | `/create` | `docs/screenshots/create.png` |
+| Match Center | `/matches` | `docs/screenshots/match-center.png` |
+| Fan Journey | `/memories` | `docs/screenshots/fan-journey.png` |
+| Legacy | `/legacy` | `docs/screenshots/legacy.png` |
+
+<!--
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="Home" width="45%" />
+  <img src="docs/screenshots/legacy.png" alt="Legacy" width="45%" />
+</p>
+-->
 
 ---
 
 ## Why 0G Is Irreplaceable
 
-### Remove 0G Compute → intelligence dies
+| Without 0G Compute | Without 0G Storage | Without 0G Chain |
+|--------------------|--------------------|------------------|
+| No living AI identity | No permanent fan memories | No verifiable ownership |
+| Static profiles, no match feelings | Centralized cache that forgets | Anyone could fake your story |
+| No evolution or Legacy narrative | Comments and media vanish | No wallet-signed proof |
 
-Ghosts have no birth story, no match feelings, no evolution narrative, no Legacy Wrapped. Static JSON replaces a living soul.
+GoalGhost only exists because these three components work together.
 
-| Endpoint | Irreplaceable output |
-|---|---|
-| `/api/compute/create-ghost` | Name, backstory, mood, traits, voice |
-| `/api/compute/match-reaction` | Emotional reaction + evolution delta |
-| `/api/compute/evolve` | Transformation narrative |
-| `/api/compute/legacy` | Spotify Wrapped-style summary |
-
-### Remove 0G Storage → memories die
-
-Without Storage, memories live in Postgres - centralized, deletable, not wallet-owned. Judges verify: complete Create → copy rootHash → confirm on Storage Scan → drop Postgres → ghost profile persists.
-
-### Remove 0G Chain → ownership dies
-
-Without Chain, identity is a cache row. No portable Agentic ID, no on-chain milestone proof, no verifiable ownership.
-
-### The irreplaceability matrix
-
-| Remove | GoalGhost becomes… |
-|---|---|
-| 0G Compute only | A static profile with no feelings |
-| 0G Storage only | A centralized app that forgets |
-| 0G Chain only | A database entry anyone could fake |
-| All three | Nothing - the product does not exist |
+Every major surface displays **"0G does irreplaceable work here"** with Compute, Storage, and Chain badges on Home, Create, My Ghost, Fan Journey, and Legacy.
 
 ---
 
-## Quick Start
+## Architecture
+
+```mermaid
+flowchart TB
+  subgraph User["Fan"]
+    W[Wallet]
+  end
+
+  subgraph App["GoalGhost App"]
+    C[Create GoalGhost]
+    M[Match Center + Comments]
+    F[Fan Journey Timeline]
+    L[Legacy Spirit Ceremony]
+  end
+
+  subgraph OG["0G Stack"]
+    COMP[0G Compute<br/>AI identity + evolution]
+    STORE[0G Storage<br/>Memories · media · legacy]
+    CHAIN[0G Chain<br/>Ownership + signatures]
+  end
+
+  W --> C
+  C --> COMP
+  COMP --> STORE
+  STORE --> CHAIN
+  M --> COMP
+  M --> STORE
+  F --> STORE
+  L --> COMP
+  L --> STORE
+  CHAIN -. verifies .-> M
+  CHAIN -. verifies .-> L
+```
+
+**Linear flow (judge view):**
+
+```
+Wallet
+  │
+  ▼
+Create GoalGhost
+  │
+  ▼
+0G Compute  →  Generate fan identity, reactions, evolution, Legacy narrative
+  │
+  ▼
+0G Storage  →  Store memories, comments, images, evolution, Legacy documents
+  │
+  ▼
+0G Chain    →  Ownership, wallet signatures, verification
+```
+
+| Concern | Implementation |
+|---------|----------------|
+| Compute routes | `POST /api/compute/create-ghost`, `match-reaction`, `evolve`, `legacy` |
+| Storage uploads | Browser ECIES seal + server public uploads for signed comments |
+| Chain | Wallet connect, Agentic ID mint, milestone anchoring on Aristotle mainnet |
+| Index cache | Neon Postgres indexes `rootHash` only; Storage remains source of truth |
+
+---
+
+## Features
+
+- Wallet authentication (RainbowKit + Wagmi)
+- AI identity generation via **0G Compute**
+- Identity evolution from match reactions and social activity
+- **Match Center** with live World Cup news
+- Wallet-signed comments (News + Legacy walls)
+- Image and GIF attachments on comments
+- **Fan Journey** chronological timeline with Storage verification links
+- **Cinematic Legacy Wrapped** (full-screen Spirit ceremony, share, download)
+- End-to-end **0G Compute + Storage + Chain** integration
+
+---
+
+## Tech Stack
+
+| Category | Tools |
+|----------|-------|
+| Frontend | Next.js 15, TypeScript, React, Tailwind CSS v4, Framer Motion |
+| Wallet | RainbowKit, Wagmi, ethers.js, viem |
+| Data | Prisma, Neon PostgreSQL (index cache) |
+| 0G | Compute TS SDK, Storage TS SDK, Aristotle mainnet (16661) |
+| Deploy | Vercel |
+
+---
+
+## Demo Flow
+
+1. **Connect Wallet**
+2. **Create GoalGhost** (nation + personality)
+3. **Generate Identity** using 0G Compute
+4. **Seal Identity** to 0G Storage
+5. **Sign Comments** and upload images in Match Center / Legacy
+6. **Watch Identity Evolve** on My Ghost and Fan Journey
+7. **Generate Legacy Wrapped** (cinematic Spirit ceremony)
+
+**Live:** [goalghost.vercel.app](https://goalghost.vercel.app)
+
+---
+
+## Why It Matters
+
+GoalGhost turns football fandom into a **persistent digital identity**.
+
+Instead of remembering the tournament…  
+**The tournament remembers you.**
+
+---
+
+## For Judges
+
+### How 0G is used
+
+| Primitive | Irreplaceable work in GoalGhost |
+|-----------|----------------------------------|
+| **0G Compute** | Powers real-time AI identity generation, match reactions, evolution narratives, and Legacy storytelling |
+| **0G Storage** | Permanently stores profiles, memories, signed comments, media, and Legacy documents (content-addressed) |
+| **0G Chain** | Handles wallet signatures, ownership verification, and on-chain identity actions |
+
+Without any of these three layers, GoalGhost would not be possible.
+
+### What to verify
+
+1. **Compute** · Call `/api/compute/*` with `OG_COMPUTE_MODE=live` (or labeled fallback when offline)
+2. **Storage** · Complete Create → copy `rootHash` → confirm on [storagescan.0g.ai](https://storagescan.0g.ai)
+3. **Chain** · Wallet-owned Agentic ID + signed comment payloads
+4. **Resilience** · Postgres is a cache; drop the DB and ghost data still resolves from Storage roots
+
+### Network (0G Aristotle Mainnet)
+
+| Setting | Value |
+|---------|-------|
+| Chain ID | `16661` |
+| RPC | `https://evmrpc.0g.ai` |
+| Storage Indexer | `https://indexer-storage-turbo.0g.ai` |
+| Explorer | [storagescan.0g.ai](https://storagescan.0g.ai) |
+
+---
+
+## Quick Start (Developers)
 
 ```bash
+git clone https://github.com/ScavenGem/GoalGhost.git
+cd GoalGhost
 npm install
 cp .env.example .env.local
 npx prisma db push
@@ -98,84 +275,26 @@ npm run dev
 
 Open **http://localhost:3000**
 
-### Network: 0G Aristotle Mainnet
+### Key environment variables
 
-| Setting | Value |
-|---|---|
-| Chain ID | `16661` |
-| RPC | `https://evmrpc.0g.ai` |
-| Storage Indexer | `https://indexer-storage-turbo.0g.ai` |
-| Storage Explorer | [storagescan.0g.ai](https://storagescan.0g.ai) |
-
-### Compute modes
-
-| Mode | When |
-|---|---|
-| `mock` (default) | Demo without compute ledger deposit |
-| `live` | Fund compute wallet ≥3 OG → `npm run compute:init` |
-
-Storage uploads are **always real mainnet ECIES** regardless of compute mode.
-
----
-
-## Pages
-
-| Route | Experience |
-|---|---|
-| `/` | Premium hero, live matches with nation flags, irreplaceable banner |
-| `/create` | Magical birth ritual, procedural football avatars, team/personality cards, Storage seal proof |
-| `/ghost` | Breathing ghost avatar, evolution arc, nation flag, next-match teaser |
-| `/matches` | Match Center with nation flags → Feel This Match → Compute + Storage |
-| `/memories` | Proof layer - chronological, scroll animations, Storage verify |
-| `/legacy` | Wrapped auto-play, confetti, share link, emotional chapters |
-
-**Mobile:** Bottom nav on small screens. Responsive padding throughout.
-
----
-
-## 60-Second Demo Video Script
-
-| Time | Visual | Narration |
-|---|---|---|
-| **0-5s** | Home hero `#0A1020` + gold | *"Every World Cup creates memories. GoalGhost makes them permanent on 0G."* |
-| **5-10s** | "0G does irreplaceable work" banner + badges | *"Compute for intelligence. Storage for permanent memories. Chain for verifiable ownership."* |
-| **10-16s** | `/create` → wallet connect | *"Your wallet owns everything."* |
-| **16-24s** | Nation cards hover → Loyal personality → Awaken | *"Choose your nation. Shape your soul. 0G Compute births a unique ghost."* |
-| **24-32s** | Magical birth ritual → football avatar reveal → Seal | *"Watch the birth ritual. Then seal to mainnet Storage - ECIES encrypted."* |
-| **32-36s** | Success proof screen → Storage Scan links | *"Judge proof: verify hashes on storagescan."* |
-| **36-42s** | `/ghost` → breathing avatar, evolution arc | *"Your ghost lives. Evolves with every match you feel."* |
-| **42-48s** | `/matches` → flags on teams → Feel This Match → toast | *"Real football. Real feelings. Permanent memories."* |
-| **48-54s** | `/memories` → scroll chronological timeline | *"The proof layer. Every moment, verifiable on 0G Storage."* |
-| **54-60s** | `/legacy` → confetti → auto-play → Share | *"Your World Cup Wrapped. Share your legacy. Forever on 0G."* |
-
----
-
-## Environment Variables
-
-| Variable | Required | Purpose |
-|---|---|---|
-| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | Yes | RainbowKit |
-| `DATABASE_URL` | Yes | Postgres cache (not source of truth) |
-| `OG_COMPUTE_MODE` | Yes | `mock` or `live` |
-| `NEXT_PUBLIC_OG_COMPUTE_MODE` | Yes | Client mock indicator |
-| `NEXT_PUBLIC_AGENTIC_ID_CONTRACT` | No | Empty = storage-only create |
-| `FOOTBALL_DATA_API_KEY` | Optional | football-data.org live matches |
-
----
-
-## Build
+| Variable | Purpose |
+|----------|---------|
+| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | RainbowKit |
+| `DATABASE_URL` | Neon Postgres (index cache) |
+| `OG_COMPUTE_MODE` | `mock` or `live` |
+| `OG_COMPUTE_PRIVATE_KEY` | Live compute (server) |
+| `OG_STORAGE_PRIVATE_KEY` | Server-side public uploads |
+| `FOOTBALL_DATA_API_KEY` | Live match data (optional) |
+| `NEXT_PUBLIC_NEWS_API_KEY` | World Cup news feed (optional) |
 
 ```bash
-npm run build    # zero errors required for submission
-npm run dev      # do NOT run build while dev is active
+npm run build   # production verify
+npm run dev     # local development
 ```
-
-Last verified: **June 18, 2026** - `npm run build` exits 0, all 16 routes compile, types and lint pass.
-
-**Contract:** deploy on Aristotle mainnet with `npm run contract:deploy`, then set `NEXT_PUBLIC_AGENTIC_ID_CONTRACT`.
 
 ---
 
-## Tech Stack
-
-Next.js 15 · Tailwind v4 · Framer Motion · RainbowKit · Wagmi · Prisma · `@0gfoundation/0g-compute-ts-sdk` · `@0gfoundation/0g-storage-ts-sdk`
+<p align="center">
+  <strong>GoalGhost</strong> · Every World Cup creates identity. GoalGhost makes it yours.<br />
+  <sub>Built for the 0G Zero Cup · June 2026</sub>
+</p>
