@@ -1,8 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
+import {
+  GoalGhostFullLogo,
+  goalGhostLogoHeight,
+} from "@/components/ui/goalghost-full-logo";
 
 export function GoalGhostLogo({
   size = 32,
@@ -17,23 +20,17 @@ export function GoalGhostLogo({
   float?: boolean;
   bounce?: boolean;
 }) {
+  const height = goalGhostLogoHeight(size);
+
   const img = (
     <span
       className={cn(
         "relative inline-flex shrink-0 items-center justify-center overflow-visible",
         className
       )}
-      style={{ width: size, height: size, minWidth: size, minHeight: size }}
+      style={{ width: size, height, minWidth: size, minHeight: height }}
     >
-      <Image
-        src="/goalghost-logo.png"
-        alt="GoalGhost"
-        width={256}
-        height={256}
-        sizes={`${size}px`}
-        className="h-full w-full max-h-full max-w-full object-contain"
-        priority
-      />
+      <GoalGhostFullLogo width={size} />
     </span>
   );
 
@@ -43,7 +40,7 @@ export function GoalGhostLogo({
   return (
     <motion.span
       className="inline-flex overflow-visible"
-      style={{ width: size, height: size }}
+      style={{ width: size, height }}
       animate={{
         rotate: spin ? 360 : 0,
         y: bounce ? [0, -14, 0] : float ? [0, -6, 0] : 0,
