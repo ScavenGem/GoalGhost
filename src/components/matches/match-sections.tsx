@@ -8,6 +8,7 @@ import { groupMatches } from "@/lib/football/group-matches";
 import type { FootballMatch } from "@/types/match";
 import { MatchSectionHeader } from "@/components/matches/match-section-header";
 import { Button } from "@/components/ui/button";
+import { hoverLoadMore } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 const SECTION_SURFACE: Record<string, string> = {
@@ -106,7 +107,7 @@ export const MatchSections = memo(function MatchSections({
                   variant="ghost"
                   size="sm"
                   onClick={() => setFinishedExpanded(true)}
-                  className="text-muted/70 hover:text-[#F4C542]/90"
+                  className={cn("text-muted/70", hoverLoadMore)}
                 >
                   Show More ({items.length - slice.length} remaining)
                 </Button>

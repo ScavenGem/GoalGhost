@@ -13,7 +13,7 @@ import { HomeMatchCard } from "@/components/home/home-match-card";
 import { MatchSections } from "@/components/matches/match-sections";
 import { FootballLoader } from "@/components/ui/football-loader";
 import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
-import { hoverEase, hoverLink } from "@/lib/utils/hover";
+import { hoverIconBtn, hoverLink } from "@/lib/utils/hover";
 import type { FootballMatch } from "@/types/match";
 
 export function HomeLiveMatches() {
@@ -74,7 +74,7 @@ export function HomeLiveMatches() {
           <button
             type="button"
             onClick={loadMatches}
-            className={cn(hoverEase, "text-muted hover:scale-110 hover:text-[#F4C542]")}
+            className={cn("text-muted", hoverIconBtn, "hover:text-[#F4C542]")}
             aria-label="Refresh matches"
           >
             {refreshing ? (

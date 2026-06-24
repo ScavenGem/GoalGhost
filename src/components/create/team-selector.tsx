@@ -57,7 +57,7 @@ export function TeamSelector({
             <p className="relative mt-3 font-semibold leading-tight tracking-tight">
               {nation.name}
             </p>
-            <div className="absolute inset-x-0 bottom-0 h-0.5 scale-x-0 bg-gradient-to-r from-transparent via-[#F4C542] to-transparent transition-transform duration-200 ease group-hover:scale-x-100" />
+            <div className="absolute inset-x-0 bottom-0 h-0.5 scale-x-0 bg-gradient-to-r from-transparent via-[#F4C542] to-transparent transition-transform duration-200 ease-in-out group-hover:scale-x-100" />
             {active && (
               <motion.span
                 initial={{ scale: 0 }}

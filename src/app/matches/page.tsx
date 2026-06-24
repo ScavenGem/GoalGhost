@@ -19,7 +19,7 @@ import { useMatchFeed } from "@/hooks/use-match-feed";
 import { useEmojiReactionHandler } from "@/hooks/use-match-emoji-reactions";
 import { useMatchReaction } from "@/hooks/use-match-reaction";
 import { EMPTY_EMOJI_COUNTS } from "@/types/match-emoji-reaction";
-import { hoverEase, hoverLink } from "@/lib/utils/hover";
+import { hoverIconBtn, hoverLink } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 const SOURCE_LABEL: Record<MatchFeedSource, string> = {
   "api-football": "API-Football · live",
@@ -102,7 +102,7 @@ export default function MatchesPage() {
               <button
                 type="button"
                 onClick={loadMatches}
-                className={cn(hoverEase, "text-muted hover:scale-110 hover:text-[#F4C542]")}
+                className={cn("text-muted", hoverIconBtn, "hover:text-[#F4C542]")}
                 aria-label="Refresh matches"
               >
                 {refreshing ? (

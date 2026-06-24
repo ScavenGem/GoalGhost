@@ -72,7 +72,7 @@ function StepCard({
 
         <div className="relative flex items-start gap-4">
           <div className="flex shrink-0 flex-col items-center gap-2">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#F4C542]/25 bg-[#F4C542]/10 transition-[transform,border-color,background-color] duration-200 ease group-hover:scale-105 group-hover:border-[#F4C542]/40 group-hover:bg-[#F4C542]/15">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#F4C542]/25 bg-[#F4C542]/10 transition-[transform,border-color,background-color] duration-200 ease-in-out group-hover:scale-105 group-hover:border-[#F4C542]/40 group-hover:bg-[#F4C542]/15">
               <Icon className="h-5 w-5 text-[#F4C542]" />
             </div>
             <span className="font-mono text-[10px] text-muted/50">0{step}</span>

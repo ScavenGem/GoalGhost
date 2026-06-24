@@ -111,7 +111,7 @@ export const MemoryCard = memo(function MemoryCard({
         )}
       >
         <div className={`h-1 bg-gradient-to-r ${style.glow} to-transparent`} />
-        <span className="pointer-events-none absolute right-4 top-4 text-2xl opacity-[0.06] transition-opacity duration-200 ease group-hover:scale-110 group-hover:opacity-[0.12]">
+        <span className="pointer-events-none absolute right-4 top-4 text-2xl opacity-[0.06] transition-[opacity,transform] duration-200 ease-in-out group-hover:scale-110 group-hover:opacity-[0.12]">
           {memory.type === "match_reaction" ? "⚽" : "🏟️"}
         </span>
         <CardContent className="p-5 sm:p-7">

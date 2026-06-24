@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import type { NewsArticle } from "@/types/news";
 import type { NewsComment } from "@/types/news-comment";
 import type { CommentEmojiId, CommentPostInput } from "@/types/social-comment";
-import { hoverCardSubtle, hoverEase, hoverLink } from "@/lib/utils/hover";
+import { hoverCardSubtle, hoverEase, hoverIconBtn, hoverLoadMore } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 const DEFAULT_VISIBLE = 6;
@@ -205,7 +205,7 @@ export function HomeWorldCupNews() {
           <button
             type="button"
             onClick={() => void refresh()}
-            className={cn(hoverEase, "text-muted hover:scale-110 hover:text-[#F4C542]")}
+            className={cn("text-muted", hoverIconBtn, "hover:text-[#F4C542]")}
             aria-label="Refresh news"
           >
             {refreshing ? (
@@ -278,7 +278,11 @@ export function HomeWorldCupNews() {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowAll(true)}
-                className="border-[#F4C542]/25 text-[#F4C542]/90 hover:bg-[#F4C542]/10"
+                className={cn(
+                  "border-[#F4C542]/25 text-[#F4C542]/90",
+                  hoverLoadMore,
+                  "hover:bg-[#F4C542]/10"
+                )}
               >
                 <ChevronDown className="mr-1.5 h-3.5 w-3.5" />
                 See More News

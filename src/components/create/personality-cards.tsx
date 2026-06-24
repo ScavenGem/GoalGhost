@@ -56,7 +56,7 @@ export function PersonalityCards({
               )}
               <div className="relative flex items-start gap-3">
                 <motion.span
-                  className="text-2xl transition-transform duration-200 ease group-hover:scale-110 sm:text-3xl"
+                  className="text-2xl transition-transform duration-200 ease-in-out group-hover:scale-110 sm:text-3xl"
                   animate={active ? { rotate: [0, -8, 8, 0] } : {}}
                   transition={{ duration: 0.5 }}
                 >

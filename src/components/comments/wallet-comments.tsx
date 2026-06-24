@@ -24,7 +24,7 @@ import {
   type CommentReactions,
   type SocialCommentFields,
 } from "@/types/social-comment";
-import { hoverEase, hoverEmoji, hoverTextAction } from "@/lib/utils/hover";
+import { hoverEmoji, hoverLoadMore, hoverTextAction } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 export type WalletCommentBase = {
@@ -455,8 +455,7 @@ export function WalletCommentList<T extends WalletCommentBase>({
             }
             className={cn(
               "text-muted/70",
-              hoverEase,
-              "hover:scale-[1.02] hover:text-[#F4C542]/90",
+              hoverLoadMore,
               variant === "compact" && "h-7 text-[10px]"
             )}
           >
