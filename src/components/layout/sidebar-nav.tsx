@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Ghost, Home, Radio, ScrollText, Sparkles, Trophy } from "lucide-react";
 import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
+import { SidebarFooter } from "@/components/layout/sidebar-footer";
 import { useNavPrefetch } from "@/hooks/use-nav-prefetch";
 import { cn } from "@/lib/utils/cn";
 
@@ -21,7 +22,7 @@ export function SidebarNav() {
   const prefetchRoute = useNavPrefetch();
 
   return (
-    <aside className="flex h-screen w-60 shrink-0 flex-col border-r border-white/8 bg-[#0A1020] px-4 py-6">
+    <aside className="flex min-h-full w-60 shrink-0 flex-col border-r border-white/8 bg-[#0A1020] px-4 py-6">
       <div className="mb-10 flex items-center gap-2.5 overflow-visible px-2">
         <GoalGhostLogo size={44} className="shrink-0" />
         <div>
@@ -54,6 +55,8 @@ export function SidebarNav() {
           );
         })}
       </nav>
+
+      <SidebarFooter />
     </aside>
   );
 }

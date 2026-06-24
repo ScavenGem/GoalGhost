@@ -14,7 +14,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative flex min-h-screen bg-[#0A1020] text-foreground">
       <PitchBackground />
-      <div className="relative z-10 hidden md:block">
+      <div className="relative z-10 hidden md:flex md:shrink-0 md:self-stretch">
         <SidebarNav />
       </div>
       <div className="relative z-10 flex min-h-screen flex-1 flex-col">
