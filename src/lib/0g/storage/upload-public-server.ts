@@ -54,6 +54,7 @@ export async function uploadPublicBytesFromServer(
   const rootHash = await computePublicBytesRootHash(bytes);
 
   const privateKey =
+    process.env.OG_STORAGE_PRIVATE_KEY ??
     process.env.OG_STORAGE_UPLOADER_KEY ??
     process.env.OG_DEPLOYER_PRIVATE_KEY ??
     process.env.OG_COMPUTE_PRIVATE_KEY;

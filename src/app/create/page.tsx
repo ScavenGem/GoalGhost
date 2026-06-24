@@ -33,7 +33,8 @@ import {
   prepareEciesSealUpload,
 } from "@/lib/0g/storage/browser-signer";
 
-const uploadBrowserModule = import("@/lib/0g/storage/upload-browser");
+import { sealEciesJsonFromWallet } from "@/lib/0g/storage/seal-ecies-client";
+import { formatStorageError } from "@/lib/0g/storage/storage-errors";
 import { AGENTIC_ID_ABI } from "@/lib/0g/chain/config";
 import { buildIntelligentDataEntries } from "@/lib/0g/chain/hashes";
 import { parseMintedTokenId } from "@/lib/0g/chain/parse-receipt";
@@ -137,7 +138,7 @@ function CreatePageContent() {
   useEffect(() => {
     if (step === "traits" || step === "reveal") {
       void preloadStorageSdk();
-      void uploadBrowserModule;
+
     }
     if (step === "reveal") {
       void prepareEciesSealUpload();
@@ -220,9 +221,7 @@ function CreatePageContent() {
         computeProof: ghost.computeProof,
       };
 
-      const { uploadJsonFromBrowser } = await uploadBrowserModule;
-
-      const { rootHash: birthRoot } = await uploadJsonFromBrowser(birthMemory);
+      const { rootHash: birthRoot } = await sealEciesJsonFromWallet(birthMemory);
       setMemoryRoot(birthRoot);
 
       const ghostRegisterRes = await fetch("/api/ghost/register", {
@@ -304,7 +303,7 @@ function CreatePageContent() {
       setStep("done");
       setTimeout(() => router.push("/ghost"), 4800);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Birth legacy seal failed");
+        setError(formatStorageError(e, "Birth legacy seal failed"));
         setStep("reveal");
       }
     },
@@ -352,9 +351,7 @@ function CreatePageContent() {
         computeProof: ghost.computeProof,
       };
 
-      const { uploadJsonFromBrowser } = await uploadBrowserModule;
-
-      const { rootHash } = await uploadJsonFromBrowser(profile);
+      const { rootHash } = await sealEciesJsonFromWallet(profile);
       profileRootRef.current = rootHash;
       setProfileRoot(rootHash);
 
@@ -405,7 +402,7 @@ function CreatePageContent() {
 
       await finalizeCreation(walletToTokenId(address), rootHash);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Storage seal failed");
+      setError(formatStorageError(e, "Storage seal failed"));
       setStep("reveal");
     }
   }
