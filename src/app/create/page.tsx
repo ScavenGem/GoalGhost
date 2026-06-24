@@ -7,7 +7,7 @@ import {
   useWriteContract,
   useWaitForTransactionReceipt,
 } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton, useConnectModal } from "@rainbow-me/rainbowkit";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "@/lib/motion";
 import { ArrowRight, Sparkles } from "lucide-react";
@@ -46,6 +46,13 @@ import { ExternalLink, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 import { OgIrreplaceableBanner } from "@/components/0g/og-irreplaceable-banner";
+import {
+  fetchWithTimeout,
+  formatClientFetchError,
+  readApiErrorMessage,
+} from "@/lib/api/client-fetch";
+
+const CREATE_GHOST_TIMEOUT_MS = 65_000;
 
 const DEFAULT_TRAITS: GhostTraits = {
   passion: 70,
@@ -78,6 +85,7 @@ const STEP_INDEX: Record<Step, number> = {
 
 function CreatePageContent() {
   const { address, isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
   const router = useRouter();
   const searchParams = useSearchParams();
   const preMatchFixture = useMemo(
@@ -100,8 +108,13 @@ function CreatePageContent() {
     .NEXT_PUBLIC_AGENTIC_ID_CONTRACT as `0x${string}` | undefined;
   const hasContract =
     !!contractAddress && contractAddress.length > 2;
-  const { writeContract, data: txHash, isPending: isMintPending } =
-    useWriteContract();
+  const {
+    writeContract,
+    data: txHash,
+    isPending: isMintPending,
+    error: writeError,
+    reset: resetWriteContract,
+  } = useWriteContract();
   const { data: receipt, isSuccess: minted } = useWaitForTransactionReceipt({
     hash: txHash,
   });
@@ -130,25 +143,46 @@ function CreatePageContent() {
 
   async function generateGhost() {
     if (!team || !archetypeId) return;
-    setStep("generating");
-    setError(null);
 
-    const res = await fetch("/api/compute/create-ghost", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ team: team.name, teamCode: team.code, traits }),
-    });
-
-    if (!res.ok) {
-      const data = await res.json();
-      setError(data.error ?? "0G Compute unavailable");
-      setStep("traits");
+    if (!isConnected || !address) {
+      openConnectModal?.();
+      setError("Connect your wallet to birth your GoalGhost");
+      setStep("wallet");
       return;
     }
 
-    const data = await res.json();
-    setGhost({ ...data.ghost, computeProof: data.proof });
-    setStep("reveal");
+    setStep("generating");
+    setError(null);
+
+    try {
+      const res = await fetchWithTimeout("/api/compute/create-ghost", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ team: team.name, teamCode: team.code, traits }),
+        timeoutMs: CREATE_GHOST_TIMEOUT_MS,
+      });
+
+      if (!res.ok) {
+        throw new Error(
+          await readApiErrorMessage(res, "0G Compute unavailable")
+        );
+      }
+
+      const data = (await res.json()) as {
+        ghost?: Partial<GhostProfile>;
+        proof?: GhostProfile["computeProof"];
+      };
+
+      if (!data.ghost?.name || !data.ghost.backstory) {
+        throw new Error("0G Compute returned an incomplete ghost profile");
+      }
+
+      setGhost({ ...data.ghost, computeProof: data.proof });
+      setStep("reveal");
+    } catch (e) {
+      setError(formatClientFetchError(e, "Failed to generate your GoalGhost"));
+      setStep("traits");
+    }
   }
 
   const finalizeCreation = useCallback(
@@ -274,9 +308,18 @@ function CreatePageContent() {
   );
 
   async function sealGhost() {
-    if (!ghost || !team || !address) return;
+    if (!ghost || !team) return;
+
+    if (!isConnected || !address) {
+      openConnectModal?.();
+      setError("Connect your wallet to seal and mint your GoalGhost");
+      setStep("wallet");
+      return;
+    }
+
     setStep("minting");
     setError(null);
+    resetWriteContract();
 
     try {
       await prepareEciesSealUpload();
@@ -359,9 +402,31 @@ function CreatePageContent() {
     const id = parseMintedTokenId(receipt);
     const root = profileRootRef.current;
     if (id !== null && root) finalizeCreation(id, root);
-    else if (id === null) setError("Mint succeeded but could not parse tokenId from receipt");
-    else setError("Profile root missing - please seal again");
+    else if (id === null) {
+      setError("Mint succeeded but could not parse tokenId from receipt");
+      setStep("reveal");
+    } else {
+      setError("Profile root missing - please seal again");
+      setStep("reveal");
+    }
   }, [minted, receipt, step, finalizeCreation]);
+
+  useEffect(() => {
+    if (!writeError || step !== "minting") return;
+    const msg = writeError.message.split("\n")[0]?.trim();
+    setError(msg || "Wallet transaction failed");
+    setStep("reveal");
+    resetWriteContract();
+  }, [writeError, step, resetWriteContract]);
+
+  useEffect(() => {
+    if (step !== "minting" || !txHash || minted) return;
+    const timer = setTimeout(() => {
+      setError("Mint transaction is taking too long. Check your wallet and try again.");
+      setStep("reveal");
+    }, 120_000);
+    return () => clearTimeout(timer);
+  }, [step, txHash, minted]);
 
   const sealLabel = hasContract
     ? "Encrypt to 0G Storage & Mint Agentic ID"
@@ -396,7 +461,22 @@ function CreatePageContent() {
             animate={{ opacity: 1, y: 0 }}
             className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300"
           >
-            {error}
+            <p>{error}</p>
+            {(step === "traits" || step === "reveal") && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="mt-2 h-7 text-red-200 hover:text-red-100"
+                onClick={() => {
+                  setError(null);
+                  if (step === "traits" && archetypeId) void generateGhost();
+                  else if (step === "reveal") void sealGhost();
+                }}
+              >
+                Try again
+              </Button>
+            )}
           </motion.div>
         )}
 
@@ -481,12 +561,25 @@ function CreatePageContent() {
           )}
 
           {step === "generating" && (
-            <motion.div key="gen" exit={{ opacity: 0 }}>
+            <motion.div key="gen" exit={{ opacity: 0 }} className="space-y-4">
               <BirthRitual
                 team={team?.name}
                 teamCode={team?.code}
                 traits={traits}
               />
+              <div className="flex justify-center">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setError("Generation cancelled");
+                    setStep("traits");
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
             </motion.div>
           )}
 

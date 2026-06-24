@@ -3,6 +3,9 @@ import { z } from "zod";
 import { runGhostInference } from "@/lib/0g/compute/inference";
 import type { GhostTraits } from "@/types/ghost";
 
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
+
 const schema = z.object({
   team: z.string(),
   teamCode: z.string(),
@@ -46,7 +49,10 @@ export async function POST(req: Request) {
       proof,
     });
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "0G Compute failed";
+    const raw = e instanceof Error ? e.message : "0G Compute failed";
+    const msg = raw.includes("OG_COMPUTE_PRIVATE_KEY")
+      ? "0G Compute is not configured for production. Set OG_COMPUTE_PRIVATE_KEY in Vercel environment variables."
+      : raw;
     return NextResponse.json({ error: msg }, { status: 503 });
   }
 }

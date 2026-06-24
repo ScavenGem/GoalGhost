@@ -1,5 +1,7 @@
 import type { OgComputeProof } from "@/types/ghost";
+import { fetchWithTimeout } from "@/lib/api/client-fetch";
 import { getChatbotProvider, getComputeBroker } from "./broker";
+import { withTimeout } from "./timeout";
 import {
   buildCreatePrompt,
   buildEvolvePrompt,
@@ -39,6 +41,10 @@ export type InferenceResult<T> = {
   proof: OgComputeProof;
 };
 
+const INFERENCE_FETCH_TIMEOUT_MS = 45_000;
+const TEE_VERIFY_TIMEOUT_MS = 12_000;
+const BROKER_SETUP_TIMEOUT_MS = 20_000;
+
 /**
  * JUDGE NOTE - 0G COMPUTE INFERENCE
  * Ghost creation, match reactions, evolution narratives, and legacy
@@ -47,8 +53,16 @@ export type InferenceResult<T> = {
 export async function runGhostInference<T extends Record<string, unknown>>(
   params: InferenceTask
 ): Promise<InferenceResult<T>> {
-  const broker = await getComputeBroker();
-  const providerAddress = await getChatbotProvider();
+  const broker = await withTimeout(
+    getComputeBroker(),
+    BROKER_SETUP_TIMEOUT_MS,
+    "0G Compute broker setup"
+  );
+  const providerAddress = await withTimeout(
+    getChatbotProvider(),
+    BROKER_SETUP_TIMEOUT_MS,
+    "0G Compute provider lookup"
+  );
 
   const messages = (() => {
     switch (params.task) {
@@ -63,12 +77,16 @@ export async function runGhostInference<T extends Record<string, unknown>>(
     }
   })();
 
-  const [{ endpoint, model }, headers] = await Promise.all([
-    broker.inference.getServiceMetadata(providerAddress),
-    broker.inference.getRequestHeaders(providerAddress),
-  ]);
+  const [{ endpoint, model }, headers] = await withTimeout(
+    Promise.all([
+      broker.inference.getServiceMetadata(providerAddress),
+      broker.inference.getRequestHeaders(providerAddress),
+    ]),
+    BROKER_SETUP_TIMEOUT_MS,
+    "0G Compute service metadata"
+  );
 
-  const response = await fetch(`${endpoint}/chat/completions`, {
+  const response = await fetchWithTimeout(`${endpoint}/chat/completions`, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...headers },
     body: JSON.stringify({
@@ -77,6 +95,7 @@ export async function runGhostInference<T extends Record<string, unknown>>(
       response_format: { type: "json_object" },
       temperature: 0.85,
     }),
+    timeoutMs: INFERENCE_FETCH_TIMEOUT_MS,
   });
 
   if (!response.ok) {
@@ -90,9 +109,10 @@ export async function runGhostInference<T extends Record<string, unknown>>(
   let teeVerified = false;
   if (chatId) {
     try {
-      const verified = await broker.inference.processResponse(
-        providerAddress,
-        chatId
+      const verified = await withTimeout(
+        broker.inference.processResponse(providerAddress, chatId),
+        TEE_VERIFY_TIMEOUT_MS,
+        "0G Compute TEE verification"
       );
       teeVerified = verified === true;
     } catch {
