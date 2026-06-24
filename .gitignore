@@ -22,6 +22,9 @@
 .DS_Store
 *.pem
 
+# local dev session logs (IDE / agent terminals)
+/terminals/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

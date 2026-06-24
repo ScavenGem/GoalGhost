@@ -1,7 +1,0 @@
----
-pid: 4708
-cwd: "C:\Users\samue\GoalGhost"
-command: "$body = '{\"team\":\"Brazil\",\"teamCode\":\"BRA\",\"traits\":{\"passion\":80,\"loyalty\":90,\"drama\":60,\"hope\":75,\"resilience\":70}}'; $r = Invoke-RestMethod -Uri \"http://localhost:3000/api/compute/create-ghost\" -Method POST -ContentType \"application/json\" -Body $body; \"create-ghost: mockMode=$($r.mockMode) name=$($r.ghost.name)\""
-started_at: 2026-06-18T17:31:27.931Z
-running_for_ms: 7489926  
----
