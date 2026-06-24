@@ -1,7 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "@/lib/motion";
-import { Shield } from "lucide-react";
 
 export function OgIrreplaceableBanner({ compact = false }: { compact?: boolean }) {
   return (
@@ -13,7 +13,13 @@ export function OgIrreplaceableBanner({ compact = false }: { compact?: boolean }
       }`}
     >
       <div className="flex items-start gap-3">
-        <Shield className="mt-0.5 h-4 w-4 shrink-0 text-[#F4C542]" />
+        <Image
+          src="/og-logo.svg"
+          alt="0G"
+          width={32}
+          height={16}
+          className="mt-0.5 h-4 w-auto shrink-0 opacity-90"
+        />
         <div>
           <p className={`font-medium text-[#F4C542] ${compact ? "text-xs" : "text-sm"}`}>
             0G does irreplaceable work here
