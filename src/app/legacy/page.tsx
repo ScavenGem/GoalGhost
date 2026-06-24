@@ -27,6 +27,11 @@ import {
   buildLegacySlides,
   type LegacyApiOutput,
 } from "@/lib/legacy/build-legacy";
+import { gatherLegacyMemories } from "@/lib/legacy/gather-legacy-context";
+import {
+  fetchWithTimeout,
+  readApiErrorMessage,
+} from "@/lib/api/client-fetch";
 import {
   assertFreshMainnetWalletBalance,
   buildSubAccountInitHeadline,
@@ -219,7 +224,9 @@ function LegacyPageContent() {
       setShowInitNotice(refreshedStatus?.needsInitialization ?? false);
 
       setInitPhase("generating");
-      const res = await fetch("/api/compute/legacy", {
+      const memories = await gatherLegacyMemories(address, ghost);
+
+      const res = await fetchWithTimeout("/api/compute/legacy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -229,11 +236,26 @@ function LegacyPageContent() {
             evolutionScore: ghost.evolutionScore,
             tokenId: ghost.tokenId,
           },
-          memories: ghost.memories ?? [],
+          memories,
         }),
+        timeoutMs: 60_000,
       });
 
-      const data = await res.json();
+      let data: {
+        legacy?: LegacyApiOutput;
+        proof?: LegacyDocument["computeProof"];
+        error?: string;
+        source?: string;
+      };
+
+      try {
+        data = (await res.json()) as typeof data;
+      } catch {
+        throw new Error(
+          await readApiErrorMessage(res, "Legacy API returned invalid JSON")
+        );
+      }
+
       if (!res.ok || !data.legacy) {
         throw new Error(data.error ?? "0G Compute unavailable");
       }
