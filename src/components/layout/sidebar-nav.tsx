@@ -6,6 +6,7 @@ import { Ghost, Home, Radio, ScrollText, Sparkles, Trophy } from "lucide-react";
 import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
 import { SidebarFooter } from "@/components/layout/sidebar-footer";
 import { useNavPrefetch } from "@/hooks/use-nav-prefetch";
+import { hoverNavTab, hoverNavTabActive, hoverNavTabInactive } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 const NAV = [
@@ -43,10 +44,11 @@ export function SidebarNav() {
               onMouseEnter={() => prefetchRoute(href)}
               onFocus={() => prefetchRoute(href)}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm",
+                hoverNavTab,
                 active
-                  ? "bg-[#F4C542]/15 text-[#F4C542]"
-                  : "text-muted hover:bg-white/5 hover:text-foreground"
+                  ? cn("bg-[#F4C542]/15 text-[#F4C542]", hoverNavTabActive)
+                  : cn("text-muted", hoverNavTabInactive)
               )}
             >
               <Icon className="h-4 w-4" />

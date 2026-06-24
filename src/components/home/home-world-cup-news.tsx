@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import type { NewsArticle } from "@/types/news";
 import type { NewsComment } from "@/types/news-comment";
 import type { CommentEmojiId, CommentPostInput } from "@/types/social-comment";
+import { hoverCardSubtle, hoverEase, hoverLink } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 const DEFAULT_VISIBLE = 6;
@@ -71,7 +72,10 @@ const NewsArticleCard = memo(function NewsArticleCard({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06, duration: 0.5 }}
-      className="overflow-hidden rounded-2xl border border-white/8 bg-[#0A1020]/75 transition-colors hover:border-[#F4C542]/25 hover:bg-[#0A1020]/90"
+      className={cn(
+        "overflow-hidden rounded-2xl border border-white/8 bg-[#0A1020]/75",
+        hoverCardSubtle
+      )}
     >
       <a
         href={article.url}
@@ -83,9 +87,9 @@ const NewsArticleCard = memo(function NewsArticleCard({
           <span className="rounded-full border border-[#F4C542]/20 bg-[#F4C542]/8 px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-[#F4C542]/85">
             {article.source}
           </span>
-          <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted/40 transition-colors group-hover:text-[#F4C542]/70" />
+          <ExternalLink className={cn("h-3.5 w-3.5 shrink-0 text-muted/40", hoverEase, "group-hover:scale-110 group-hover:text-[#F4C542]/70")} />
         </div>
-        <h3 className="mt-3 font-display text-lg leading-snug text-white/92 transition-colors group-hover:text-[#F4C542]">
+        <h3 className={cn("mt-3 font-display text-lg leading-snug text-white/92", hoverEase, "group-hover:text-[#F4C542]")}>
           {article.title}
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-muted/85 line-clamp-3">
@@ -201,7 +205,7 @@ export function HomeWorldCupNews() {
           <button
             type="button"
             onClick={() => void refresh()}
-            className="text-muted transition-colors hover:text-[#F4C542]"
+            className={cn(hoverEase, "text-muted hover:scale-110 hover:text-[#F4C542]")}
             aria-label="Refresh news"
           >
             {refreshing ? (

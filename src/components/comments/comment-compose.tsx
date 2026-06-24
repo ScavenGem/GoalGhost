@@ -7,6 +7,7 @@ import { ImagePlus, PenLine, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { validateCommentMediaFile } from "@/lib/comments/media";
 import type { CommentPostInput } from "@/types/social-comment";
+import { hoverEase, hoverIconBtn, hoverTextAction } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 export function CommentCompose({
@@ -88,7 +89,7 @@ export function CommentCompose({
             <button
               type="button"
               onClick={onCancelReply}
-              className="text-muted/50 hover:text-white/80"
+              className={cn("text-muted/50", hoverIconBtn, "hover:text-white/80")}
             >
               <X className="h-3 w-3" />
             </button>
@@ -123,7 +124,11 @@ export function CommentCompose({
           <button
             type="button"
             onClick={clearMedia}
-            className="absolute -right-1.5 -top-1.5 rounded-full border border-white/15 bg-[#0A1020] p-0.5 text-muted/70 hover:text-white"
+            className={cn(
+              "absolute -right-1.5 -top-1.5 rounded-full border border-white/15 bg-[#0A1020] p-0.5 text-muted/70",
+              hoverIconBtn,
+              "hover:scale-110 hover:text-white"
+            )}
           >
             <X className="h-3 w-3" />
           </button>
@@ -143,7 +148,9 @@ export function CommentCompose({
             disabled={posting}
             onClick={() => fileRef.current?.click()}
             className={cn(
-              "inline-flex items-center gap-1 text-muted/55 transition-colors hover:text-[#F4C542]/85",
+              "inline-flex items-center gap-1 text-muted/55",
+              hoverTextAction,
+              "hover:text-[#F4C542]/85",
               compact ? "text-[10px]" : "text-xs"
             )}
           >

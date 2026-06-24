@@ -24,6 +24,7 @@ import {
   type CommentReactions,
   type SocialCommentFields,
 } from "@/types/social-comment";
+import { hoverEase, hoverEmoji, hoverTextAction } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 export type WalletCommentBase = {
@@ -109,11 +110,15 @@ function CommentReactionsBar({
             title={emoji.label}
             onClick={() => onReact(emoji.id)}
             className={cn(
-              "inline-flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 transition-colors",
+              "inline-flex items-center gap-0.5 rounded-full border px-1.5 py-0.5",
               compact ? "text-[10px]" : "text-xs",
               selected
                 ? "border-[#F4C542]/55 bg-[#F4C542]/15 text-[#F4C542]"
-                : "border-white/8 bg-white/[0.03] text-white/55 hover:border-white/15 hover:text-white/80",
+                : cn(
+                    "border-white/8 bg-white/[0.03] text-white/55",
+                    hoverEmoji,
+                    "hover:text-white/90"
+                  ),
               disabled && "cursor-not-allowed opacity-40"
             )}
           >
@@ -248,7 +253,11 @@ function WalletCommentRow<T extends WalletCommentBase>({
             <button
               type="button"
               onClick={() => onReply(comment)}
-              className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-muted/60 transition-colors hover:text-[#F4C542]/90"
+              className={cn(
+                "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-muted/60",
+                hoverTextAction,
+                "hover:text-[#F4C542]/90"
+              )}
             >
               <MessageSquareReply className="h-3 w-3" />
               Reply
@@ -263,7 +272,11 @@ function WalletCommentRow<T extends WalletCommentBase>({
                   setDraft(comment.text);
                   setIsEditing(true);
                 }}
-                className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-muted/60 transition-colors hover:text-[#F4C542]/90 disabled:opacity-50"
+                className={cn(
+                  "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-muted/60",
+                  hoverTextAction,
+                  "hover:text-[#F4C542]/90 disabled:opacity-50"
+                )}
               >
                 <Pencil className="h-3 w-3" />
                 Edit
@@ -272,7 +285,11 @@ function WalletCommentRow<T extends WalletCommentBase>({
                 type="button"
                 disabled={busy}
                 onClick={() => void onDelete(comment)}
-                className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-muted/60 transition-colors hover:text-red-300/90 disabled:opacity-50"
+                className={cn(
+                  "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-muted/60",
+                  hoverTextAction,
+                  "hover:text-red-300/90 disabled:opacity-50"
+                )}
               >
                 <Trash2 className="h-3 w-3" />
                 {deleting ? "…" : "Delete"}
@@ -437,7 +454,9 @@ export function WalletCommentList<T extends WalletCommentBase>({
               )
             }
             className={cn(
-              "text-muted/70 hover:text-[#F4C542]/90",
+              "text-muted/70",
+              hoverEase,
+              "hover:scale-[1.02] hover:text-[#F4C542]/90",
               variant === "compact" && "h-7 text-[10px]"
             )}
           >

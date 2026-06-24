@@ -8,10 +8,12 @@ import { useMatchFeed } from "@/hooks/use-match-feed";
 import { useEmojiReactionHandler } from "@/hooks/use-match-emoji-reactions";
 import { useMatchReaction } from "@/hooks/use-match-reaction";
 import { EMPTY_EMOJI_COUNTS } from "@/types/match-emoji-reaction";
+import { cn } from "@/lib/utils/cn";
 import { HomeMatchCard } from "@/components/home/home-match-card";
 import { MatchSections } from "@/components/matches/match-sections";
 import { FootballLoader } from "@/components/ui/football-loader";
 import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
+import { hoverEase, hoverLink } from "@/lib/utils/hover";
 import type { FootballMatch } from "@/types/match";
 
 export function HomeLiveMatches() {
@@ -72,7 +74,7 @@ export function HomeLiveMatches() {
           <button
             type="button"
             onClick={loadMatches}
-            className="text-muted transition-colors hover:text-[#F4C542]"
+            className={cn(hoverEase, "text-muted hover:scale-110 hover:text-[#F4C542]")}
             aria-label="Refresh matches"
           >
             {refreshing ? (
@@ -83,7 +85,7 @@ export function HomeLiveMatches() {
           </button>
           <Link
             href="/matches"
-            className="text-sm text-[#F4C542] transition-colors hover:text-[#F4C542]/80"
+            className={cn("text-sm text-[#F4C542]", hoverLink, "hover:opacity-80")}
           >
             Match Center →
           </Link>

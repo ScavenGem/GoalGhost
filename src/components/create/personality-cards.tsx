@@ -3,6 +3,7 @@
 import { motion } from "@/lib/motion";
 import { PERSONALITY_ARCHETYPES } from "@/lib/create/personalities";
 import type { GhostTraits } from "@/types/ghost";
+import { hoverCardSubtle } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 const TRAIT_LABELS: (keyof GhostTraits)[] = [
@@ -40,10 +41,10 @@ export function PersonalityCards({
               whileTap={{ scale: 0.98 }}
               onClick={() => onSelectArchetype(archetype.id, archetype.traits)}
               className={cn(
-                "relative overflow-hidden rounded-2xl border p-5 text-left transition-shadow",
+                "group relative overflow-hidden rounded-2xl border p-5 text-left",
                 active
                   ? "border-[#F4C542]/50 bg-[#F4C542]/8 shadow-lg shadow-[#F4C542]/10"
-                  : "border-white/8 bg-[#0A1020]/40 hover:border-[#F4C542]/25 hover:shadow-md"
+                  : cn("border-white/8 bg-[#0A1020]/40", hoverCardSubtle)
               )}
             >
               {active && (
@@ -55,7 +56,7 @@ export function PersonalityCards({
               )}
               <div className="relative flex items-start gap-3">
                 <motion.span
-                  className="text-2xl sm:text-3xl"
+                  className="text-2xl transition-transform duration-200 ease group-hover:scale-110 sm:text-3xl"
                   animate={active ? { rotate: [0, -8, 8, 0] } : {}}
                   transition={{ duration: 0.5 }}
                 >

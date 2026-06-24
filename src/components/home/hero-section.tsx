@@ -152,7 +152,7 @@ export function HeroSection() {
             <Link href="/create" className="w-full sm:flex-1">
               <Button
                 size="lg"
-                className="h-14 w-full px-8 text-base font-semibold tracking-wide shadow-lg shadow-[#F4C542]/20 transition-all duration-500 hover:scale-[1.015] hover:shadow-[0_0_40px_rgba(244,197,66,0.35)]"
+                className="h-14 w-full px-8 text-base font-semibold tracking-wide shadow-lg shadow-[#F4C542]/20 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(244,197,66,0.35)]"
               >
                 Birth Your GoalGhost →
               </Button>
@@ -162,7 +162,7 @@ export function HeroSection() {
               size="lg"
               variant="outline"
               onClick={scrollToHowItWorks}
-              className="h-14 w-full border-white/15 bg-transparent px-6 text-sm font-medium tracking-wide text-white/75 transition-all duration-300 hover:border-[#F4C542]/35 hover:bg-[#F4C542]/[0.04] hover:text-[#F4C542] sm:flex-1"
+              className="h-14 w-full border-white/15 bg-transparent px-6 text-sm font-medium tracking-wide text-white/75 hover:border-[#F4C542]/35 hover:bg-[#F4C542]/[0.04] hover:text-[#F4C542] sm:flex-1"
             >
               How GoalGhost Works
             </Button>
@@ -171,7 +171,7 @@ export function HeroSection() {
             <Button
               size="lg"
               variant="outline"
-              className="h-12 w-full border-white/15 bg-transparent px-8 text-sm font-medium tracking-wide text-white/70 transition-all duration-300 hover:border-white/25 hover:bg-white/[0.03] hover:text-white/90"
+              className="h-12 w-full border-white/15 bg-transparent px-8 text-sm font-medium tracking-wide text-white/70 hover:border-white/25 hover:bg-white/[0.03] hover:text-white/90"
             >
               Explore Match Center
             </Button>

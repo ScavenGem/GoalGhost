@@ -13,6 +13,8 @@ import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
 import { OgIrreplaceableBanner } from "@/components/0g/og-irreplaceable-banner";
 import { MEMORY_ADDED_EVENT } from "@/lib/events/memory-sync";
 import { useGhost, type GhostApiRecord } from "@/hooks/use-ghost";
+import { hoverLink } from "@/lib/utils/hover";
+import { cn } from "@/lib/utils/cn";
 
 function groupByDate(memories: MemoryCardData[]): { date: string; items: MemoryCardData[] }[] {
   const groups = new Map<string, MemoryCardData[]>();
@@ -196,7 +198,7 @@ export default function MemoriesPage() {
                 href={OG_NETWORK.storageExplorer}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#F4C542]/60 hover:text-[#F4C542]"
+                className={cn("text-[#F4C542]/60", hoverLink)}
               >
                 verify on 0G Storage Scan
               </a>

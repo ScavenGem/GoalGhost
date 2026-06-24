@@ -3,6 +3,7 @@
 import { motion } from "@/lib/motion";
 import { WC_2026_NATIONS, type WcNation } from "@/lib/football/teams";
 import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
+import { hoverCardSubtle } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 export function TeamSelector({
@@ -27,10 +28,10 @@ export function TeamSelector({
             whileTap={{ scale: 0.97 }}
             onClick={() => onSelect(nation)}
             className={cn(
-              "group relative overflow-hidden rounded-2xl border p-4 text-left transition-shadow duration-300 sm:p-5",
+              "group relative overflow-hidden rounded-2xl border p-4 text-left sm:p-5",
               active
                 ? "border-[#F4C542]/60 bg-[#F4C542]/10 shadow-lg shadow-[#F4C542]/15"
-                : "border-white/8 bg-[#0A1020]/50 hover:border-[#F4C542]/30 hover:shadow-md hover:shadow-[#F4C542]/5"
+                : cn("border-white/8 bg-[#0A1020]/50", hoverCardSubtle)
             )}
           >
             {active && (
@@ -56,7 +57,7 @@ export function TeamSelector({
             <p className="relative mt-3 font-semibold leading-tight tracking-tight">
               {nation.name}
             </p>
-            <div className="absolute inset-x-0 bottom-0 h-0.5 scale-x-0 bg-gradient-to-r from-transparent via-[#F4C542] to-transparent transition-transform duration-300 group-hover:scale-x-100" />
+            <div className="absolute inset-x-0 bottom-0 h-0.5 scale-x-0 bg-gradient-to-r from-transparent via-[#F4C542] to-transparent transition-transform duration-200 ease group-hover:scale-x-100" />
             {active && (
               <motion.span
                 initial={{ scale: 0 }}

@@ -13,6 +13,7 @@ import { statusDisplayLabel } from "@/lib/football/status";
 import { MatchEmojiReactions } from "@/components/matches/match-emoji-reactions";
 import type { MatchEmojiReactionId } from "@/lib/match-reactions/types";
 import type { MatchEmojiReactionCounts } from "@/types/match-emoji-reaction";
+import { hoverCardSubtle } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 
@@ -77,7 +78,8 @@ export const HomeMatchCard = memo(function HomeMatchCard({
       )}
       <Card
         className={cn(
-          "relative z-10 overflow-hidden transition-all duration-300",
+          "relative z-10 overflow-hidden",
+          hoverCardSubtle,
           section === "live" &&
             "border-red-500/30 bg-gradient-to-br from-red-500/10 via-[#0A1020]/95 to-[#0A1020]",
           section === "finished" && "border-white/8 bg-[#0A1020]/80",

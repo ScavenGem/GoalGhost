@@ -20,6 +20,8 @@ import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
 import { OgIrreplaceableBanner } from "@/components/0g/og-irreplaceable-banner";
 import { LegacyComments } from "@/components/legacy/legacy-comments";
 import { buildLegacySharePayload } from "@/lib/legacy/share";
+import { hoverEase, hoverIconBtn, hoverLink } from "@/lib/utils/hover";
+import { cn } from "@/lib/utils/cn";
 import {
   buildLegacyDocument,
   buildLegacySlides,
@@ -324,7 +326,7 @@ function LegacyPageContent() {
                 <button
                   type="button"
                   onClick={() => setAutoPlay((a) => !a)}
-                  className="text-muted transition-colors hover:text-[#F4C542]"
+                  className={cn("text-muted", hoverIconBtn, "hover:text-[#F4C542]")}
                   aria-label={autoPlay ? "Pause" : "Play"}
                 >
                   {autoPlay ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
@@ -335,9 +337,13 @@ function LegacyPageContent() {
                       key={i}
                       type="button"
                       onClick={() => setSlide(i)}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        i === slide ? "w-8 bg-[#F4C542]" : "w-2 bg-white/20 hover:bg-white/35"
-                      }`}
+                      className={cn(
+                        "h-2 rounded-full",
+                        hoverEase,
+                        i === slide
+                          ? "w-8 bg-[#F4C542]"
+                          : "w-2 bg-white/20 hover:scale-125 hover:bg-white/35"
+                      )}
                     />
                   ))}
                 </div>
@@ -456,7 +462,7 @@ function LegacyPageContent() {
                             href={chainScanAddressUrl(initStatus.mainWalletAddress)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#F4C542]/90 hover:text-[#F4C542]"
+                            className={cn("text-[#F4C542]/90", hoverLink)}
                           >
                             {initStatus.mainWalletAddress}
                           </a>
@@ -469,7 +475,7 @@ function LegacyPageContent() {
                             href={chainScanAddressUrl(initStatus.providerAddress)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#F4C542]/90 hover:text-[#F4C542]"
+                            className={cn("text-[#F4C542]/90", hoverLink)}
                           >
                             {initStatus.providerAddress}
                           </a>
@@ -492,7 +498,7 @@ function LegacyPageContent() {
                         href={chainScanAddressUrl(address)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#F4C542]/90 hover:text-[#F4C542]"
+                        className={cn("text-[#F4C542]/90", hoverLink)}
                       >
                         {address}
                       </a>
@@ -553,7 +559,7 @@ function LegacyPageContent() {
                 <button
                   type="button"
                   onClick={() => setAutoPlay((a) => !a)}
-                  className="text-muted transition-colors hover:text-[#F4C542]"
+                  className={cn("text-muted", hoverIconBtn, "hover:text-[#F4C542]")}
                   aria-label={autoPlay ? "Pause" : "Play"}
                 >
                   {autoPlay ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
@@ -564,9 +570,13 @@ function LegacyPageContent() {
                       key={i}
                       type="button"
                       onClick={() => setSlide(i)}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        i === slide ? "w-8 bg-[#F4C542]" : "w-2 bg-white/20 hover:bg-white/35"
-                      }`}
+                      className={cn(
+                        "h-2 rounded-full",
+                        hoverEase,
+                        i === slide
+                          ? "w-8 bg-[#F4C542]"
+                          : "w-2 bg-white/20 hover:scale-125 hover:bg-white/35"
+                      )}
                     />
                   ))}
                 </div>
@@ -592,7 +602,7 @@ function LegacyPageContent() {
             </div>
 
             <div className="flex justify-center rounded-2xl border border-[#F4C542]/10 bg-[#0A1020]/50 py-6">
-              <Link href="/memories" className="text-sm text-[#F4C542]/80 hover:text-[#F4C542]">
+              <Link href="/memories" className={cn("text-sm text-[#F4C542]/80", hoverLink)}>
                 See it in your Fan Journey →
               </Link>
             </div>

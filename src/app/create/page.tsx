@@ -21,6 +21,8 @@ import { BirthRitual } from "@/components/create/birth-ritual";
 import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
 import { GhostReveal } from "@/components/create/ghost-reveal";
 import type { WcNation } from "@/lib/football/teams";
+import { hoverLink } from "@/lib/utils/hover";
+import { cn } from "@/lib/utils/cn";
 import {
   type GhostApiRecord,
   seedGhostCache,
@@ -488,7 +490,7 @@ function CreatePageContent() {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="mt-2 h-7 text-red-200 hover:text-red-100"
+                className={cn("mt-2 h-7 text-red-200", hoverLink, "hover:text-red-100")}
                 onClick={() => {
                   setError(null);
                   if (step === "traits" && archetypeId) void generateGhost();
@@ -696,7 +698,10 @@ function CreatePageContent() {
                     href={storageScanUrl(profileRoot)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 font-mono text-xs text-muted transition-colors hover:text-[#F4C542]"
+                    className={cn(
+                      "flex items-center gap-2 font-mono text-xs text-muted",
+                      hoverLink
+                    )}
                   >
                     Profile · {profileRoot.slice(0, 20)}…
                     <ExternalLink className="h-3 w-3 shrink-0" />
@@ -707,7 +712,10 @@ function CreatePageContent() {
                     href={storageScanUrl(memoryRoot)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 font-mono text-xs text-muted transition-colors hover:text-[#F4C542]"
+                    className={cn(
+                      "flex items-center gap-2 font-mono text-xs text-muted",
+                      hoverLink
+                    )}
                   >
                     Birth legacy · {memoryRoot.slice(0, 20)}…
                     <ExternalLink className="h-3 w-3 shrink-0" />

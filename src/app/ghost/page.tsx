@@ -17,6 +17,8 @@ import { OgIrreplaceableBanner } from "@/components/0g/og-irreplaceable-banner";
 import { GhostAvatar } from "@/components/ghost/ghost-avatar";
 import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
 import { nationByName } from "@/lib/football/teams";
+import { hoverLink } from "@/lib/utils/hover";
+import { cn } from "@/lib/utils/cn";
 
 type GhostData = {
   name: string;
@@ -199,7 +201,7 @@ export default function GhostPage() {
 
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/matches">
-            <Card className="h-full border-white/8 transition-colors hover:border-[#F4C542]/30">
+            <Card interactive className="h-full border-white/8">
               <CardContent className="flex items-center gap-3 p-5">
                 <Radio className="h-5 w-5 text-[#F4C542]" />
                 <span className="text-sm font-medium">Feel the next kickoff</span>
@@ -207,14 +209,14 @@ export default function GhostPage() {
             </Card>
           </Link>
           <Link href="/memories">
-            <Card className="h-full border-white/8 transition-colors hover:border-[#F4C542]/30">
+            <Card interactive className="h-full border-white/8">
               <CardContent className="flex items-center gap-3 p-5">
                 <span className="text-sm font-medium">Fan Journey</span>
               </CardContent>
             </Card>
           </Link>
           <Link href="/legacy">
-            <Card className="h-full border-white/8 transition-colors hover:border-[#F4C542]/30">
+            <Card interactive className="h-full border-white/8">
               <CardContent className="flex items-center gap-3 p-5">
                 <Sparkles className="h-5 w-5 text-[#F4C542]" />
                 <span className="text-sm font-medium">Your Legacy</span>
@@ -253,7 +255,7 @@ export default function GhostPage() {
           >
             <p className="text-[10px] uppercase tracking-wider text-muted">Latest evolution</p>
             <p className="mt-1 font-display text-lg">{latestMemory.title ?? "A moment felt"}</p>
-            <Link href="/memories" className="mt-2 inline-block text-xs text-[#F4C542]/80 hover:text-[#F4C542]">
+            <Link href="/memories" className={cn("mt-2 inline-block text-xs text-[#F4C542]/80", hoverLink)}>
               View full fan journey →
             </Link>
           </motion.div>
@@ -291,7 +293,10 @@ export default function GhostPage() {
               href={storageScanUrl(ghost.profileRoot)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-mono text-xs text-muted/50 hover:text-[#F4C542]"
+              className={cn(
+                "inline-flex items-center gap-1.5 font-mono text-xs text-muted/50",
+                hoverLink
+              )}
             >
               Profile · {ghost.profileRoot.slice(0, 24)}…
               <ExternalLink className="h-3 w-3" />

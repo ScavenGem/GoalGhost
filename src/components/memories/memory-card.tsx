@@ -5,6 +5,8 @@ import { motion } from "@/lib/motion";
 import { memo, useRef } from "react";
 import { ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { hoverLink } from "@/lib/utils/hover";
+import { cn } from "@/lib/utils/cn";
 import { storageScanUrl } from "@/lib/0g/network";
 
 
@@ -101,10 +103,15 @@ export const MemoryCard = memo(function MemoryCard({
       </motion.div>
 
       <Card
-        className={`group relative overflow-hidden border-white/8 bg-gradient-to-br ${style.bg} to-[#0A1020]/80 transition-all duration-300 hover:border-[#F4C542]/30 hover:shadow-xl hover:shadow-[#F4C542]/8`}
+        interactive
+        className={cn(
+          "group relative overflow-hidden border-white/8 bg-gradient-to-br",
+          style.bg,
+          "to-[#0A1020]/80"
+        )}
       >
         <div className={`h-1 bg-gradient-to-r ${style.glow} to-transparent`} />
-        <span className="pointer-events-none absolute right-4 top-4 text-2xl opacity-[0.06] transition-opacity group-hover:opacity-[0.12]">
+        <span className="pointer-events-none absolute right-4 top-4 text-2xl opacity-[0.06] transition-opacity duration-200 ease group-hover:scale-110 group-hover:opacity-[0.12]">
           {memory.type === "match_reaction" ? "⚽" : "🏟️"}
         </span>
         <CardContent className="p-5 sm:p-7">
@@ -156,7 +163,10 @@ export const MemoryCard = memo(function MemoryCard({
               href={storageScanUrl(memory.rootHash)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-mono text-[11px] text-muted/50 transition-colors group-hover:text-[#F4C542]"
+              className={cn(
+                "inline-flex items-center gap-1.5 font-mono text-[11px] text-muted/50",
+                hoverLink
+              )}
             >
               Verify on Storage · {memory.rootHash.slice(0, 14)}…
               <ExternalLink className="h-3 w-3" />

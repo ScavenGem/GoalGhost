@@ -79,3 +79,13 @@ body {
   animation: pitch-parallax-slow 34s ease-in-out infinite;
   will-change: transform;
 }
+
+/* Skip hover transforms on touch-primary devices for performance */
+@media (hover: none) {
+  .hover\:scale-\[1\.02\]:hover,
+  .hover\:scale-105:hover,
+  .hover\:scale-110:hover,
+  .hover\:-translate-y-0\.5:hover {
+    transform: none;
+  }
+}

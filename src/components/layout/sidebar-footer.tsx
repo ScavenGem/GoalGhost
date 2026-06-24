@@ -6,6 +6,7 @@ import { Bell } from "lucide-react";
 import { GoalGhostFullLogo } from "@/components/ui/goalghost-full-logo";
 import { useSidebarNotifications } from "@/hooks/use-sidebar-notifications";
 import { shortenWalletAddress } from "@/lib/legacy/comment-sign";
+import { hoverEase, hoverIconBtn, hoverNavTabInactive } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 /** ~2× OgLayerBadges pill row height (py-2/h-3 ≈ 2.125rem; sm py-2.5/h-3.5 ≈ 2.375rem). */
@@ -48,7 +49,11 @@ function SidebarWalletConnect() {
               <button
                 type="button"
                 onClick={openAccountModal}
-                className="max-w-[8.5rem] truncate font-mono text-xs text-muted/75 transition-colors hover:text-[#F4C542]/90"
+                className={cn(
+                  "max-w-[8.5rem] truncate font-mono text-xs text-muted/75",
+                  hoverEase,
+                  "hover:scale-[1.02] hover:text-[#F4C542]/90"
+                )}
               >
                 {shortenWalletAddress(account.address)}
               </button>
@@ -56,7 +61,11 @@ function SidebarWalletConnect() {
               <button
                 type="button"
                 onClick={openConnectModal}
-                className="rounded-lg border border-[#F4C542]/25 px-3.5 py-2 text-xs font-medium text-[#F4C542]/90 transition-colors hover:bg-[#F4C542]/10"
+                className={cn(
+                  "rounded-lg border border-[#F4C542]/25 px-3.5 py-2 text-xs font-medium text-[#F4C542]/90",
+                  hoverEase,
+                  "hover:-translate-y-0.5 hover:bg-[#F4C542]/10 hover:shadow-[0_0_16px_rgba(244,197,66,0.15)]"
+                )}
               >
                 Connect Wallet
               </button>
@@ -98,8 +107,9 @@ export function SidebarFooter() {
                   : "Fan Journey notifications"
               }
               className={cn(
-                "relative inline-flex shrink-0 items-center justify-center rounded-lg p-2 transition-colors",
-                "text-muted/60 hover:bg-white/5 hover:text-[#F4C542]/90"
+                "relative inline-flex shrink-0 items-center justify-center rounded-lg p-2 text-muted/60",
+                hoverIconBtn,
+                "hover:text-[#F4C542]/90"
               )}
             >
               <Bell className="h-4 w-4" />

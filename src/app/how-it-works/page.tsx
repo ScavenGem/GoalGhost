@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/layout/page-header";
 import { OgIrreplaceableBanner } from "@/components/0g/og-irreplaceable-banner";
+import { hoverLink } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 const JOURNEY_STEPS = [
@@ -183,7 +184,10 @@ export default function HowItWorksPage() {
     <div className="relative mx-auto max-w-3xl space-y-14 pb-16">
       <Link
         href="/"
-        className="inline-flex items-center gap-2 text-sm text-muted/80 transition-colors hover:text-[#F4C542]"
+        className={cn(
+          "inline-flex items-center gap-2 text-sm text-muted/80",
+          hoverLink
+        )}
       >
         <ArrowLeft className="h-4 w-4" />
         Back to Home
@@ -280,7 +284,7 @@ export default function HowItWorksPage() {
                   </p>
                   <Link
                     href={feature.href}
-                    className="mt-2 inline-block text-xs text-[#F4C542]/80 hover:text-[#F4C542]"
+                    className={cn("mt-2 inline-block text-xs text-[#F4C542]/80", hoverLink)}
                   >
                     Explore →
                   </Link>

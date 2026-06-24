@@ -1,14 +1,17 @@
 import * as React from "react";
+import { hoverCard } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 export function Card({
   className,
+  interactive,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+}: React.HTMLAttributes<HTMLDivElement> & { interactive?: boolean }) {
   return (
     <div
       className={cn(
         "rounded-xl border border-white/8 bg-surface/80 backdrop-blur-sm",
+        interactive && hoverCard,
         className
       )}
       {...props}

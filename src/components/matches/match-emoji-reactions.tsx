@@ -3,6 +3,7 @@
 import { memo, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { hoverEase, hoverEmoji } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 import {
   MATCH_EMOJI_REACTIONS,
@@ -82,7 +83,7 @@ export const MatchEmojiReactions = memo(function MatchEmojiReactions({
             onClick={() => handleReact(reaction.id)}
             className={cn(
               "relative inline-flex items-center justify-center gap-1 rounded-full border",
-              "transition-[transform,box-shadow,border-color,background-color,opacity] duration-150",
+              hoverEase,
               compact ? "h-7 min-w-[2.1rem] px-1.5" : "h-8 min-w-[2.4rem] px-2",
               "cursor-pointer",
               isSelected
@@ -93,7 +94,7 @@ export const MatchEmojiReactions = memo(function MatchEmojiReactions({
                   )
                 : cn(
                     "border-white/10 bg-white/[0.04]",
-                    "hover:border-white/20 hover:bg-white/[0.07]",
+                    hoverEmoji,
                     hasVoted && "opacity-60 hover:opacity-100"
                   ),
               isSigning &&

@@ -19,6 +19,7 @@ import { useMatchFeed } from "@/hooks/use-match-feed";
 import { useEmojiReactionHandler } from "@/hooks/use-match-emoji-reactions";
 import { useMatchReaction } from "@/hooks/use-match-reaction";
 import { EMPTY_EMOJI_COUNTS } from "@/types/match-emoji-reaction";
+import { hoverEase, hoverLink } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 const SOURCE_LABEL: Record<MatchFeedSource, string> = {
   "api-football": "API-Football · live",
@@ -101,7 +102,7 @@ export default function MatchesPage() {
               <button
                 type="button"
                 onClick={loadMatches}
-                className="text-muted transition-colors hover:text-[#F4C542]"
+                className={cn(hoverEase, "text-muted hover:scale-110 hover:text-[#F4C542]")}
                 aria-label="Refresh matches"
               >
                 {refreshing ? (
@@ -202,7 +203,10 @@ export default function MatchesPage() {
                     </p>
                     <Link
                       href="/memories"
-                      className="mt-2 inline-flex items-center gap-1 text-xs text-[#F4C542]/80 hover:text-[#F4C542]"
+                      className={cn(
+                        "mt-2 inline-flex items-center gap-1 text-xs text-[#F4C542]/80",
+                        hoverLink
+                      )}
                     >
                       <Link2 className="h-3 w-3" />
                       View in Fan Journey →

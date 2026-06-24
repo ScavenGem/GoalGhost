@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "@/lib/motion";
 import { ArrowRight, Sparkles, Radio, TrendingUp, Trophy } from "lucide-react";
+import { hoverCardSubtle, hoverLink } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 const STEPS = [
@@ -59,7 +60,7 @@ function StepCard({
       <div
         className={cn(
           "relative h-full overflow-hidden rounded-2xl border border-white/8 bg-[#0A1020]/70 p-5",
-          "transition-colors duration-300 hover:border-[#F4C542]/20 hover:bg-[#0A1020]/85"
+          hoverCardSubtle
         )}
       >
         <div
@@ -71,7 +72,7 @@ function StepCard({
 
         <div className="relative flex items-start gap-4">
           <div className="flex shrink-0 flex-col items-center gap-2">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#F4C542]/25 bg-[#F4C542]/10 transition-colors group-hover:border-[#F4C542]/40 group-hover:bg-[#F4C542]/15">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#F4C542]/25 bg-[#F4C542]/10 transition-[transform,border-color,background-color] duration-200 ease group-hover:scale-105 group-hover:border-[#F4C542]/40 group-hover:bg-[#F4C542]/15">
               <Icon className="h-5 w-5 text-[#F4C542]" />
             </div>
             <span className="font-mono text-[10px] text-muted/50">0{step}</span>
@@ -125,7 +126,10 @@ export function HowItWorks() {
       >
         <Link
           href="/how-it-works"
-          className="inline-flex items-center gap-1.5 text-sm text-[#F4C542]/80 transition-colors hover:text-[#F4C542]"
+          className={cn(
+            "inline-flex items-center gap-1.5 text-sm text-[#F4C542]/80",
+            hoverLink
+          )}
         >
           Learn More
           <ArrowRight className="h-3.5 w-3.5" />
