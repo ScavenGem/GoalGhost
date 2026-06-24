@@ -19,6 +19,13 @@ import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
 import { nationByName } from "@/lib/football/teams";
 import { hoverLink } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
+import {
+  assertFreshMainnetWalletBalance,
+  ensureLegacyComputeSubAccount,
+  legacyInitMessage,
+  type LegacyInitPhase,
+} from "@/lib/0g/compute/ensure-legacy-sub-account";
+import { gatherEvolveContext } from "@/lib/ghost/evolve-context";
 
 type GhostData = {
   name: string;
@@ -44,35 +51,66 @@ export default function GhostPage() {
   const { ghost, isLoading: fetching, refetch, invalidate } = useGhost(address);
   const [narrative, setNarrative] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [evolveError, setEvolveError] = useState<string | null>(null);
+  const [initPhase, setInitPhase] = useState<LegacyInitPhase | null>(null);
 
   useEffect(() => {
     if (!address || ghost || fetching) return;
     void refetch();
   }, [address, ghost, fetching, refetch]);
 
+  function evolveInitMessage(phase: LegacyInitPhase | null): string | null {
+    if (!phase) return null;
+    if (phase === "generating") {
+      return "Evolving your narrative with 0G Compute…";
+    }
+    return legacyInitMessage(phase);
+  }
+
   async function evolve() {
-    if (!ghost) return;
+    if (!ghost || !address) return;
     setLoading(true);
-    const res = await fetch("/api/compute/evolve", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ghost: {
-          name: ghost.name,
-          team: ghost.team,
-          evolutionScore: ghost.evolutionScore,
-          mood: ghost.mood,
-          recentMemories: (ghost.memories ?? [])
-            .slice(-5)
-            .map((m) => [m.title, m.content].filter(Boolean).join(": "))
-            .filter((entry) => entry.length > 0),
-        },
-      }),
-    });
-    const data = await res.json();
-    if (data.evolution) setNarrative(data.evolution.narrative);
-    void invalidate();
-    setLoading(false);
+    setEvolveError(null);
+
+    try {
+      await assertFreshMainnetWalletBalance(address);
+      await ensureLegacyComputeSubAccount(setInitPhase);
+      setInitPhase("generating");
+
+      const recentMemories = await gatherEvolveContext(address, ghost);
+      const res = await fetch("/api/compute/evolve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ghost: {
+            name: ghost.name,
+            team: ghost.team,
+            evolutionScore: ghost.evolutionScore,
+            mood: ghost.mood,
+            recentMemories,
+          },
+        }),
+      });
+
+      const data = (await res.json()) as {
+        evolution?: { narrative?: string };
+        error?: string;
+      };
+
+      if (!res.ok || !data.evolution?.narrative?.trim()) {
+        throw new Error(data.error ?? "0G Compute returned no evolution narrative");
+      }
+
+      setNarrative(data.evolution.narrative);
+      void invalidate();
+    } catch (e) {
+      setEvolveError(
+        e instanceof Error ? e.message : "Failed to evolve narrative"
+      );
+    } finally {
+      setInitPhase(null);
+      setLoading(false);
+    }
   }
 
   if (!address) {
@@ -280,6 +318,14 @@ export default function GhostPage() {
               <p className="text-muted">
                 Narrate your ghost&apos;s transformation, powered by 0G Compute.
               </p>
+            )}
+            {evolveInitMessage(initPhase) && (
+              <p className="text-sm text-[#F4C542]/90">
+                {evolveInitMessage(initPhase)}
+              </p>
+            )}
+            {evolveError && (
+              <p className="text-sm text-red-400/90">{evolveError}</p>
             )}
             <Button onClick={evolve} disabled={loading} variant="outline">
               {loading ? "Evolving…" : "Evolve Narrative"}
