@@ -327,7 +327,7 @@ function LegacyPageContent() {
 
   if (viewingOthers && displayLegacy && displayGhost && ghostLegacyInput) {
     return (
-      <>
+      <div className="relative mx-auto max-w-3xl space-y-10 pb-8">
         {showCinematic && (
           <LegacyCinematicUnwrap
             ghost={ghostLegacyInput}
@@ -339,7 +339,7 @@ function LegacyPageContent() {
           />
         )}
         {!showCinematic && (
-          <div className="relative mx-auto max-w-3xl space-y-10 pb-8">
+          <>
             <PageHeader
               eyebrow="Shared legacy"
               title={`${displayGhost.name}'s Legacy`}
@@ -351,10 +351,10 @@ function LegacyPageContent() {
                 Replay the Journey
               </Button>
             </div>
-            <LegacyComments />
-          </div>
+          </>
         )}
-      </>
+        <LegacyComments />
+      </div>
     );
   }
 
@@ -400,7 +400,7 @@ function LegacyPageContent() {
   }
 
   return (
-    <>
+    <div className="relative mx-auto max-w-3xl space-y-10 pb-8">
       {displayLegacy && ghostLegacyInput && showCinematic && (
         <LegacyCinematicUnwrap
           ghost={ghostLegacyInput}
@@ -414,21 +414,19 @@ function LegacyPageContent() {
         />
       )}
 
-      <div
-        className={cn(
-          "relative mx-auto max-w-3xl space-y-10 pb-8",
-          showCinematic && displayLegacy && "hidden"
-        )}
-      >
-        <PageHeader
-          eyebrow="The judge moment"
-          title="Your Legacy"
-          description="Your tournament Spirit, wrapped in emotion: every rivalry, comeback, and final whistle, narrated by 0G Compute and verified on 0G Storage."
-        />
+      {!showCinematic && (
+        <>
+          <PageHeader
+            eyebrow="The judge moment"
+            title="Your Legacy"
+            description="Your tournament Spirit, wrapped in emotion: every rivalry, comeback, and final whistle, narrated by 0G Compute and verified on 0G Storage."
+          />
 
-        <OgIrreplaceableBanner />
+          <OgIrreplaceableBanner />
+        </>
+      )}
 
-        {!displayLegacy ? (
+      {!showCinematic && !displayLegacy ? (
           <motion.div
             className="flex flex-col items-center space-y-10 rounded-3xl border border-[#F4C542]/15 bg-[#0A1020]/70 py-28"
             initial={{ opacity: 0, scale: 0.98 }}
@@ -536,7 +534,7 @@ function LegacyPageContent() {
               {generating ? "Unwrapping…" : "Unwrap Your Legacy"}
             </Button>
           </motion.div>
-        ) : (
+      ) : !showCinematic ? (
           <div className="flex flex-col items-center gap-6 rounded-3xl border border-[#F4C542]/15 bg-[#0A1020]/70 py-16 text-center">
             <p className="font-display text-2xl text-white/90">
               Your Spirit legacy is ready
@@ -553,11 +551,10 @@ function LegacyPageContent() {
               </Link>
             </div>
           </div>
-        )}
+      ) : null}
 
-        <LegacyComments />
-      </div>
-    </>
+      <LegacyComments />
+    </div>
   );
 }
 

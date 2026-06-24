@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "@/lib/motion";
 import {
@@ -10,6 +10,7 @@ import {
   ChevronRight,
   Volume2,
   VolumeX,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
@@ -18,7 +19,10 @@ import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
 import { ConfettiCelebration } from "@/components/ui/confetti";
 import { LegacyCinematicBackdrop } from "@/components/legacy/cinematic/legacy-cinematic-backdrop";
 import { LegacyCinematicParticles } from "@/components/legacy/cinematic/legacy-cinematic-particles";
-import { LegacyCinematicAudio } from "@/components/legacy/cinematic/legacy-cinematic-audio";
+import {
+  LegacyCinematicAudio,
+  type LegacyCinematicAudioHandle,
+} from "@/components/legacy/cinematic/legacy-cinematic-audio";
 import type { LegacyDocument } from "@/types/legacy";
 import type { GhostLegacyInput } from "@/lib/legacy/build-legacy";
 import {
@@ -44,6 +48,8 @@ const PHASE_DWELL_MS: Record<Phase, number> = {
   finale: 0,
 };
 
+const FINALE_AUTO_EXIT_MS = 14_000;
+
 export function LegacyCinematicUnwrap({
   ghost,
   legacy,
@@ -68,6 +74,9 @@ export function LegacyCinematicUnwrap({
   const [phase, setPhase] = useState<Phase>("intro");
   const [showConfetti, setShowConfetti] = useState(false);
   const [audioOn, setAudioOn] = useState(true);
+  const [finaleEngaged, setFinaleEngaged] = useState(false);
+  const audioRef = useRef<LegacyCinematicAudioHandle>(null);
+  const finaleEngagedRef = useRef(false);
   const chapters = useMemo(
     () => buildCinematicChapters(ghost, legacy),
     [ghost, legacy]
@@ -78,7 +87,18 @@ export function LegacyCinematicUnwrap({
   );
   const teamCode = nationByName(ghost.team)?.code;
 
+  const ensureAudio = useCallback(() => {
+    audioRef.current?.start();
+    audioRef.current?.setMuted(!audioOn);
+  }, [audioOn]);
+
+  const exitCinematic = useCallback(() => {
+    audioRef.current?.setMuted(true);
+    onComplete?.();
+  }, [onComplete]);
+
   const advance = useCallback(() => {
+    ensureAudio();
     setPhase((current) => {
       const idx = PHASE_ORDER.indexOf(current);
       const next = PHASE_ORDER[Math.min(idx + 1, PHASE_ORDER.length - 1)];
@@ -88,11 +108,19 @@ export function LegacyCinematicUnwrap({
       }
       return next;
     });
-  }, []);
+  }, [ensureAudio]);
 
   const replay = useCallback(() => {
+    finaleEngagedRef.current = true;
+    setFinaleEngaged(true);
+    ensureAudio();
     setPhase("intro");
     setShowConfetti(false);
+  }, [ensureAudio]);
+
+  const markFinaleEngaged = useCallback(() => {
+    finaleEngagedRef.current = true;
+    setFinaleEngaged(true);
   }, []);
 
   useEffect(() => {
@@ -102,17 +130,32 @@ export function LegacyCinematicUnwrap({
     return () => clearTimeout(t);
   }, [phase, advance]);
 
+  useEffect(() => {
+    if (phase !== "finale" || !onComplete) return;
+    finaleEngagedRef.current = false;
+    setFinaleEngaged(false);
+    const t = setTimeout(() => {
+      if (!finaleEngagedRef.current) onComplete();
+    }, FINALE_AUTO_EXIT_MS);
+    return () => clearTimeout(t);
+  }, [phase, onComplete]);
+
+  useEffect(() => {
+    audioRef.current?.setMuted(!audioOn);
+  }, [audioOn]);
+
   const chapter = chapters.find((c) => c.id === phase);
 
   return (
-    <div
-      className="fixed inset-0 z-[200] flex flex-col bg-[#0A1020] text-foreground"
-      role="dialog"
+    <section
+      className="relative isolate min-h-[100dvh] w-full overflow-hidden rounded-3xl border border-[#F4C542]/20 bg-[#0A1020] text-foreground shadow-2xl shadow-[#F4C542]/10"
+      role="region"
       aria-label="Legacy unwrap ceremony"
+      onPointerDown={ensureAudio}
       onClick={() => phase !== "finale" && advance()}
     >
       <ConfettiCelebration active={showConfetti} duration={5000} />
-      <LegacyCinematicAudio enabled={audioOn} />
+      <LegacyCinematicAudio ref={audioRef} muted={!audioOn} />
       <LegacyCinematicBackdrop intense={phase === "finale" || phase === "legacy"} />
       <LegacyCinematicParticles active={phase !== "intro"} count={phase === "finale" ? 40 : 24} />
 
@@ -120,20 +163,40 @@ export function LegacyCinematicUnwrap({
         <p className="text-[10px] uppercase tracking-[0.35em] text-[#F4C542]/70">
           GoalGhost Spirit Legacy
         </p>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setAudioOn((v) => !v);
-          }}
-          className="rounded-lg p-2 text-muted/60 transition-colors duration-200 hover:bg-white/5 hover:text-[#F4C542]"
-          aria-label={audioOn ? "Mute ambience" : "Enable ambience"}
-        >
-          {audioOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              ensureAudio();
+              setAudioOn((v) => {
+                const next = !v;
+                audioRef.current?.setMuted(!next);
+                return next;
+              });
+            }}
+            className="rounded-lg p-2 text-muted/60 transition-colors duration-200 hover:bg-white/5 hover:text-[#F4C542]"
+            aria-label={audioOn ? "Mute ambience" : "Enable ambience"}
+            title={audioOn ? "Mute stadium ambience" : "Enable stadium ambience"}
+          >
+            {audioOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              exitCinematic();
+            }}
+            className="rounded-lg p-2 text-muted/60 transition-colors duration-200 hover:bg-white/5 hover:text-white"
+            aria-label="Exit cinematic"
+            title="Exit cinematic"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
       </div>
 
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pb-8 sm:px-10">
+      <div className="relative z-10 flex min-h-[calc(100dvh-7rem)] flex-col items-center justify-center px-6 pb-8 sm:px-10">
         <AnimatePresence mode="wait">
           {phase === "intro" && (
             <motion.div
@@ -371,7 +434,10 @@ export function LegacyCinematicUnwrap({
               <div className="mt-10 flex flex-col flex-wrap items-center justify-center gap-3 sm:flex-row">
                 <Button
                   size="lg"
-                  onClick={onShare}
+                  onClick={() => {
+                    markFinaleEngaged();
+                    onShare();
+                  }}
                   className="min-w-[220px] shadow-lg shadow-[#F4C542]/25"
                 >
                   <Share2 className="mr-2 h-4 w-4" />
@@ -382,7 +448,10 @@ export function LegacyCinematicUnwrap({
                     size="lg"
                     variant="outline"
                     disabled={sealing}
-                    onClick={() => void onSeal()}
+                    onClick={() => {
+                      markFinaleEngaged();
+                      void onSeal();
+                    }}
                     className="min-w-[220px] border-[#F4C542]/30"
                   >
                     {sealing ? "Sealing to 0G…" : "Seal to 0G Storage"}
@@ -401,24 +470,38 @@ export function LegacyCinematicUnwrap({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() =>
+                  onClick={() => {
+                    markFinaleEngaged();
                     downloadLegacyFinaleImage({
                       ghostName: ghost.name,
                       team: ghost.team,
                       legacy,
-                    })
-                  }
+                    });
+                  }}
                 >
                   <Download className="mr-1.5 h-3.5 w-3.5" />
                   Download as Image
                 </Button>
                 {onComplete && (
-                  <Button variant="outline" size="sm" onClick={onComplete}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      markFinaleEngaged();
+                      exitCinematic();
+                    }}
+                  >
                     Continue to Comments
                     <ChevronRight className="ml-1 h-3.5 w-3.5" />
                   </Button>
                 )}
               </div>
+
+              {onComplete && !finaleEngaged && (
+                <p className="mt-5 text-[10px] uppercase tracking-wider text-muted/45">
+                  Returning to your legacy page shortly · or scroll for comments
+                </p>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -443,10 +526,10 @@ export function LegacyCinematicUnwrap({
         </div>
         {phase !== "finale" && (
           <p className="mt-3 text-center text-[10px] uppercase tracking-wider text-muted/50">
-            Tap anywhere to continue
+            Tap anywhere to continue · scroll anytime for comments
           </p>
         )}
       </div>
-    </div>
+    </section>
   );
 }
