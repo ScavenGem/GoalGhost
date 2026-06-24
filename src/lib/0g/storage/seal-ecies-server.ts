@@ -1,7 +1,8 @@
 import { MemData } from "@0gfoundation/0g-storage-ts-sdk";
-import { SigningKey, Wallet, hashMessage, verifyMessage } from "ethers";
+import { SigningKey, hashMessage, verifyMessage } from "ethers";
 import { getOgChainRpc, getStorageIndexer } from "@/lib/0g/storage/indexer";
 import {
+  getServerStorageWallet,
   getStorageUploaderPrivateKey,
   storageSignMessage,
 } from "@/lib/0g/storage/storage-env";
@@ -79,7 +80,7 @@ export async function sealEciesJsonOnServer(params: {
   const rootHash = tree?.rootHash();
   if (!rootHash) throw new Error("Failed to compute storage root hash");
 
-  const signer = new Wallet(privateKey);
+  const signer = getServerStorageWallet();
   const indexer = getStorageIndexer();
   const rpcUrl = getOgChainRpc();
 

@@ -1,6 +1,6 @@
 import { MemData } from "@0gfoundation/0g-storage-ts-sdk";
-import { Wallet } from "ethers";
 import { getOgChainRpc, getStorageIndexer } from "./indexer";
+import { getServerStorageWallet } from "./storage-env";
 
 export type ServerPublicUploadResult = {
   rootHash: string;
@@ -67,7 +67,7 @@ export async function uploadPublicBytesFromServer(
 
   try {
     const mem = new MemData(bytes);
-    const signer = new Wallet(privateKey);
+    const signer = getServerStorageWallet();
     const indexer = getStorageIndexer();
     const [tx, uploadErr] = await withTimeout(
       indexer.upload(mem, getOgChainRpc(), signer),

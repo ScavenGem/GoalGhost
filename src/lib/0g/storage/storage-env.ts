@@ -1,3 +1,5 @@
+import { JsonRpcProvider, Wallet } from "ethers";
+import { getOgChainRpc } from "@/lib/0g/storage/indexer";
 import { OG_NETWORK } from "@/lib/0g/network";
 
 export type StorageEnvStatus = {
@@ -44,6 +46,21 @@ export function getStorageEnvStatus(): StorageEnvStatus {
     chainRpc,
     issues,
   };
+}
+
+/**
+ * Server-side wallet for 0G Storage uploads — must include JsonRpcProvider
+ * or ethers v6 throws UNSUPPORTED_OPERATION ("missing provider") on contract calls.
+ */
+export function getServerStorageWallet(): Wallet {
+  const privateKey = getStorageUploaderPrivateKey();
+  if (!privateKey) {
+    throw new Error(
+      "OG_STORAGE_PRIVATE_KEY is not configured on the server (Vercel → Environment Variables)"
+    );
+  }
+  const provider = new JsonRpcProvider(getOgChainRpc());
+  return new Wallet(privateKey, provider);
 }
 
 export const STORAGE_SIGN_MESSAGE_PREFIX = "goalghost-storage:";
