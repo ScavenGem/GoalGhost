@@ -8,7 +8,6 @@ require("dotenv").config();
 const { MemData } = require("@0gfoundation/0g-storage-ts-sdk");
 const { Wallet, SigningKey, hashMessage, verifyMessage } = require("ethers");
 
-const TARGET = "0xd42dfa9338f171e18722459790eeca5a64f1f4c0";
 const STORAGE_SIGN_PREFIX = "goalghost-storage:";
 
 function storageSignMessage(addr) {
@@ -55,11 +54,6 @@ async function main() {
   console.log("Indexer:", indexerRpc);
   console.log("Uploader:", uploader.address);
   console.log("Uploader balance:", require("ethers").formatEther(await provider.getBalance(uploader.address)), "OG");
-
-  if (uploader.address.toLowerCase() !== TARGET.toLowerCase()) {
-    console.error("Uploader address mismatch — expected", TARGET);
-    process.exit(1);
-  }
 
   const user = Wallet.createRandom();
   const message = storageSignMessage(user.address);
