@@ -9,7 +9,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { MatchCard, teamFlagEmoji } from "@/components/matches/match-card";
+import { MatchCard } from "@/components/matches/match-card";
+import { teamFlagEmoji } from "@/lib/football/flags";
 import { MatchSections } from "@/components/matches/match-sections";
 import type { MatchFeedSource } from "@/lib/football/match-feed-types";
 

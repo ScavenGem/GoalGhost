@@ -1,16 +1,7 @@
 "use client";
 
-import { teamFlagEmoji } from "@/components/matches/match-card";
+import { teamFlagEmoji, twemojiFlagSrc } from "@/lib/football/flags";
 import { cn } from "@/lib/utils/cn";
-
-function twemojiFlagSrc(emoji: string): string {
-  const codePoints = Array.from(emoji)
-    .map((char) => char.codePointAt(0))
-    .filter((cp): cp is number => cp !== undefined)
-    .map((cp) => cp.toString(16))
-    .join("-");
-  return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/${codePoints}.png`;
-}
 
 /** Colorful national flag, same Twemoji style as Create / Nation selection */
 export function NationFlagEmoji({

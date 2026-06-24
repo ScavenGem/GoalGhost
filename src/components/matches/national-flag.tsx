@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { isoCodeForTeam } from "@/lib/football/iso-codes";
+import { teamFlagEmoji, twemojiFlagSrc } from "@/lib/football/flags";
 import { cn } from "@/lib/utils/cn";
 
 export function NationalFlag({
@@ -17,26 +16,29 @@ export function NationalFlag({
   className?: string;
   highlight?: boolean;
 }) {
-  const iso = isoCodeForTeam(team, code);
-  const height = Math.round(size * 0.72);
+  const emoji = teamFlagEmoji(team, code);
+  const imgSize = Math.round(size * 0.85);
 
   return (
     <span
       className={cn(
-        "relative inline-flex shrink-0 overflow-hidden rounded-md shadow-md ring-1 ring-white/15",
-        highlight && "ring-[#F4C542]/50 shadow-[#F4C542]/20",
+        "inline-flex shrink-0 items-center justify-center leading-none",
+        highlight && "drop-shadow-[0_0_10px_rgba(244,197,66,0.4)]",
         className
       )}
-      style={{ width: size, height }}
+      style={{ width: size, height: size }}
       aria-hidden
     >
-      <Image
-        src={`https://flagcdn.com/w${Math.min(160, size * 2)}/${iso}.png`}
+      {/* Same Twemoji rendering as Match Center */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={twemojiFlagSrc(emoji)}
         alt=""
-        width={size}
-        height={height}
-        className="h-full w-full object-cover"
-        unoptimized
+        width={imgSize}
+        height={imgSize}
+        className="shrink-0"
+        style={{ width: imgSize, height: imgSize }}
+        draggable={false}
       />
     </span>
   );
