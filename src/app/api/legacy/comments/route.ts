@@ -7,8 +7,16 @@ import {
   listLegacyComments,
   updateLegacyComment,
 } from "@/lib/cache/legacy-comments-cache";
+import { cacheCommentMedia } from "@/lib/cache/comment-media-cache";
 import { warmCommentMediaCache } from "@/lib/cache/warm-comment-media-cache";
-import { uploadPublicJsonFromServer } from "@/lib/0g/storage/upload-public-server";
+import {
+  computePublicBytesRootHash,
+  uploadPublicBytesFromServer,
+  uploadPublicJsonFromServer,
+} from "@/lib/0g/storage/upload-public-server";
+import { COMMENT_MEDIA_MAX_BYTES } from "@/lib/comments/media";
+import { mimeTypeForCommentMedia } from "@/lib/comments/detect-media-type";
+import { sanitizeDatabaseError } from "@/lib/db/config";
 import {
   LEGACY_COMMENT_MAX_LENGTH,
   verifyLegacyCommentDeleteSignature,
@@ -21,20 +29,29 @@ export const revalidate = 0;
 
 const NO_CACHE_HEADERS = { "Cache-Control": "no-store, max-age=0" };
 
+const walletSchema = z
+  .string()
+  .regex(/^0x[a-fA-F0-9]{40}$/)
+  .transform((value) => value.toLowerCase());
+
 const postSchema = z
   .object({
     commentId: z.string().min(1),
-    walletAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/),
+    walletAddress: walletSchema,
     text: z.string().max(LEGACY_COMMENT_MAX_LENGTH).default(""),
     signature: z.string().regex(/^0x[a-fA-F0-9]+$/),
-    createdAt: z.string().datetime(),
+    createdAt: z.string().datetime({ offset: true }),
     parentCommentId: z.string().optional().nullable(),
     mediaRootHash: z.string().optional().nullable(),
     mediaType: z.enum(["image", "gif"]).optional().nullable(),
+    mediaBase64: z.string().max(6_000_000).optional().nullable(),
     rootHash: z.string().optional(),
   })
   .refine((d) => d.text.trim().length > 0 || !!d.mediaRootHash, {
     message: "Comment needs text or an image",
+  })
+  .refine((d) => !d.mediaRootHash || !!d.mediaBase64, {
+    message: "Image data is required when mediaRootHash is set",
   });
 
 const patchSchema = z.object({
@@ -54,6 +71,50 @@ const deleteSchema = z.object({
 
 function isOwner(wallet: string, owner: string): boolean {
   return wallet.toLowerCase() === owner.toLowerCase();
+}
+
+function zodErrorMessage(error: z.ZodError): string {
+  return error.issues.map((issue) => issue.message).join("; ");
+}
+
+async function persistSignedLegacyMedia(body: {
+  mediaRootHash?: string | null;
+  mediaBase64?: string | null;
+  mediaType?: string | null;
+}): Promise<string | null> {
+  if (!body.mediaRootHash || !body.mediaBase64) return null;
+
+  let bytes: Uint8Array;
+  try {
+    bytes = Uint8Array.from(Buffer.from(body.mediaBase64, "base64"));
+  } catch {
+    throw new Error("Invalid image encoding");
+  }
+
+  if (bytes.length === 0) {
+    throw new Error("Image data is empty");
+  }
+  if (bytes.length > COMMENT_MEDIA_MAX_BYTES) {
+    throw new Error("Image must be 4 MB or smaller");
+  }
+
+  const computedHash = await computePublicBytesRootHash(bytes);
+  if (computedHash !== body.mediaRootHash) {
+    throw new Error("Image hash does not match signed mediaRootHash");
+  }
+
+  await cacheCommentMedia({
+    rootHash: body.mediaRootHash,
+    bytes,
+    mimeType: mimeTypeForCommentMedia(body.mediaType),
+  });
+
+  const uploaded = await uploadPublicBytesFromServer(bytes);
+  if (uploaded.rootHash !== body.mediaRootHash) {
+    throw new Error("Image upload hash mismatch");
+  }
+
+  return uploaded.rootHash;
 }
 
 export async function GET(req: Request) {
@@ -95,23 +156,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid wallet signature" }, { status: 401 });
     }
 
-    let rootHash = body.rootHash;
-    if (!rootHash) {
-      const document = {
-        version: 2,
-        type: "legacy_comment",
-        commentId: body.commentId,
-        parentCommentId: body.parentCommentId ?? null,
-        walletAddress: body.walletAddress.toLowerCase(),
-        text: body.text.trim(),
-        signature: body.signature,
-        mediaRootHash: body.mediaRootHash ?? null,
-        mediaType: body.mediaType ?? null,
-        createdAt: body.createdAt,
-      };
-      const uploaded = await uploadPublicJsonFromServer(document);
-      rootHash = uploaded.rootHash;
-    }
+    await persistSignedLegacyMedia(body);
+
+    const document = {
+      version: 2,
+      type: "legacy_comment",
+      commentId: body.commentId,
+      parentCommentId: body.parentCommentId ?? null,
+      walletAddress: body.walletAddress.toLowerCase(),
+      text: body.text.trim(),
+      signature: body.signature,
+      mediaRootHash: body.mediaRootHash ?? null,
+      mediaType: body.mediaType ?? null,
+      createdAt: body.createdAt,
+    };
+
+    const { rootHash } = await uploadPublicJsonFromServer(document);
 
     const comment = await createLegacyComment({
       commentId: body.commentId,
@@ -138,10 +198,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, comment: withReactions ?? comment });
   } catch (e) {
     if (e instanceof z.ZodError) {
-      return NextResponse.json({ error: "Invalid comment payload" }, { status: 400 });
+      return NextResponse.json(
+        { error: `Invalid comment payload: ${zodErrorMessage(e)}` },
+        { status: 400 }
+      );
     }
-    const msg = e instanceof Error ? e.message : "Failed to post comment";
-    const status = msg.includes("Unique constraint") ? 409 : 500;
+    const msg = sanitizeDatabaseError(e);
+    const status =
+      msg.includes("already posted") || msg.includes("Unique constraint")
+        ? 409
+        : 500;
     return NextResponse.json({ error: msg }, { status });
   }
 }

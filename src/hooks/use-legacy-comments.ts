@@ -1,11 +1,20 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount, useSignMessage } from "wagmi";
 import { applyOptimisticCommentReaction } from "@/lib/comments/reaction-optimistic";
 import { buildCommentReactionMessage } from "@/lib/comments/reaction-sign";
-import { uploadCommentMedia } from "@/lib/comments/upload-media";
+import {
+  encodePreparedCommentMediaBase64,
+  prepareCommentMediaForSigning,
+  type PreparedCommentMedia,
+} from "@/lib/comments/upload-media";
+import {
+  formatClientFetchError,
+  readApiErrorMessage,
+} from "@/lib/api/client-fetch";
 import {
   buildLegacyCommentDeleteMessage,
   buildLegacyCommentEditMessage,
@@ -31,16 +40,23 @@ async function fetchLegacyComments(wallet?: string): Promise<LegacyCommentsResul
   const res = await fetch(`/api/legacy/comments${qs ? `?${qs}` : ""}`, {
     cache: "no-store",
   });
-  if (!res.ok) throw new Error("Comments unavailable");
+  if (!res.ok) {
+    throw new Error(await readApiErrorMessage(res, "Comments unavailable"));
+  }
   return res.json();
 }
 
 export function useLegacyComments() {
   const { address, isConnected } = useAccount();
   const { signMessageAsync } = useSignMessage();
+  const { openConnectModal } = useConnectModal();
   const queryClient = useQueryClient();
   const [error, setError] = useState<string | null>(null);
   const [replyTo, setReplyTo] = useState<LegacyComment | null>(null);
+  const [signing, setSigning] = useState(false);
+
+  const signRef = useRef(signMessageAsync);
+  signRef.current = signMessageAsync;
 
   const walletKey = address?.toLowerCase() ?? "";
 
@@ -77,76 +93,66 @@ export function useLegacyComments() {
     };
   }
 
-  function formatPostError(err: Error): string {
-    const msg = err.message.toLowerCase();
-    if (msg.includes("user rejected") || msg.includes("denied") || msg.includes("cancel")) {
-      return "Wallet signature cancelled";
-    }
-    return err.message;
+  function formatPostError(err: unknown): string {
+    return formatClientFetchError(err, "Failed to post comment");
   }
 
   const postMutation = useMutation({
     mutationFn: async ({
-      input,
+      commentId,
+      walletAddress,
+      text,
+      signature,
+      createdAt,
       parentCommentId,
+      mediaRootHash,
+      mediaType,
+      preparedMedia,
     }: {
-      input: CommentPostInput;
+      commentId: string;
+      walletAddress: string;
+      text: string;
+      signature: string;
+      createdAt: string;
       parentCommentId?: string | null;
+      mediaRootHash: string | null;
+      mediaType: string | null;
+      preparedMedia?: PreparedCommentMedia | null;
     }) => {
-      if (!address || !isConnected) {
-        throw new Error("Connect your wallet to comment");
+      let res: Response;
+      try {
+        res = await fetch("/api/legacy/comments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            commentId,
+            walletAddress,
+            text,
+            signature,
+            createdAt,
+            parentCommentId: parentCommentId ?? null,
+            mediaRootHash,
+            mediaType,
+            mediaBase64: preparedMedia
+              ? encodePreparedCommentMediaBase64(preparedMedia)
+              : null,
+          }),
+        });
+      } catch (err) {
+        throw new Error(formatClientFetchError(err, "Failed to post comment"));
       }
-
-      const trimmed = input.text.trim();
-      let mediaRootHash: string | null = null;
-      let mediaType: string | null = null;
-
-      if (input.mediaFile) {
-        const uploaded = await uploadCommentMedia(input.mediaFile);
-        mediaRootHash = uploaded.mediaRootHash;
-        mediaType = uploaded.mediaType;
-      }
-
-      if (!trimmed && !mediaRootHash) {
-        throw new Error("Add text or an image");
-      }
-      if (trimmed.length > LEGACY_COMMENT_MAX_LENGTH) {
-        throw new Error(`Comment must be ${LEGACY_COMMENT_MAX_LENGTH} characters or fewer`);
-      }
-
-      const createdAt = new Date().toISOString();
-      const commentId = `legacy-comment-${Date.now()}-${address.slice(2, 8)}`;
-      const message = buildLegacyCommentMessage({
-        address,
-        text: trimmed,
-        createdAt,
-        parentCommentId: parentCommentId ?? null,
-        mediaRootHash,
-      });
-
-      const signature = await signMessageAsync({ message });
-
-      const res = await fetch("/api/legacy/comments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          commentId,
-          walletAddress: address,
-          text: trimmed,
-          signature,
-          createdAt,
-          parentCommentId: parentCommentId ?? null,
-          mediaRootHash,
-          mediaType,
-        }),
-      });
 
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(data?.error ?? "Failed to post comment");
+        throw new Error(
+          await readApiErrorMessage(res, "Failed to post comment")
+        );
       }
 
-      return res.json() as Promise<{ comment: LegacyComment }>;
+      try {
+        return (await res.json()) as { comment: LegacyComment };
+      } catch {
+        throw new Error("Server returned an invalid response after posting");
+      }
     },
     onSuccess: (data) => {
       setError(null);
@@ -186,8 +192,7 @@ export function useLegacyComments() {
         }),
       });
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(data?.error ?? "Failed to edit comment");
+        throw new Error(await readApiErrorMessage(res, "Failed to edit comment"));
       }
       return res.json() as Promise<{ comment: LegacyComment }>;
     },
@@ -222,8 +227,7 @@ export function useLegacyComments() {
         }),
       });
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(data?.error ?? "Failed to delete comment");
+        throw new Error(await readApiErrorMessage(res, "Failed to delete comment"));
       }
       return comment;
     },
@@ -264,8 +268,7 @@ export function useLegacyComments() {
         }),
       });
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(data?.error ?? "Failed to react");
+        throw new Error(await readApiErrorMessage(res, "Failed to react"));
       }
       return res.json() as Promise<{
         commentId: string;
@@ -307,12 +310,75 @@ export function useLegacyComments() {
   const postComment = useCallback(
     async (input: CommentPostInput) => {
       setError(null);
-      await postMutation.mutateAsync({
-        input,
-        parentCommentId: replyTo?.commentId ?? null,
-      });
+
+      try {
+        if (!address || !isConnected) {
+          openConnectModal?.();
+          throw new Error("Connect your wallet to comment");
+        }
+
+        const trimmed = input.text.trim();
+        let preparedMedia: PreparedCommentMedia | null = null;
+
+        if (input.mediaFile) {
+          preparedMedia = await prepareCommentMediaForSigning(input.mediaFile);
+        }
+
+        const mediaRootHash = preparedMedia?.mediaRootHash ?? null;
+        const mediaType = preparedMedia?.mediaType ?? null;
+
+        if (!trimmed && !mediaRootHash) {
+          throw new Error("Add text or an image");
+        }
+        if (trimmed.length > LEGACY_COMMENT_MAX_LENGTH) {
+          throw new Error(
+            `Comment must be ${LEGACY_COMMENT_MAX_LENGTH} characters or fewer`
+          );
+        }
+
+        const createdAt = new Date().toISOString();
+        const commentId = `legacy-comment-${Date.now()}-${address.slice(2, 8)}`;
+        const message = buildLegacyCommentMessage({
+          address,
+          text: trimmed,
+          createdAt,
+          parentCommentId: replyTo?.commentId ?? null,
+          mediaRootHash,
+        });
+
+        const sign = signRef.current;
+        if (!sign) {
+          throw new Error(
+            "Wallet signer unavailable. Reconnect your wallet and try again."
+          );
+        }
+
+        setSigning(true);
+        let signature: string;
+        try {
+          signature = await sign({ message });
+        } finally {
+          setSigning(false);
+        }
+
+        await postMutation.mutateAsync({
+          commentId,
+          walletAddress: address.toLowerCase(),
+          text: trimmed,
+          signature,
+          createdAt,
+          parentCommentId: replyTo?.commentId ?? null,
+          mediaRootHash,
+          mediaType,
+          preparedMedia,
+        });
+      } catch (err) {
+        const message = formatPostError(err);
+        setError(message);
+        throw new Error(message);
+      }
     },
-    [postMutation, replyTo]
+    [address, isConnected, openConnectModal, postMutation, replyTo]
   );
 
   const editComment = useCallback(
@@ -342,7 +408,7 @@ export function useLegacyComments() {
   return {
     comments: query.data?.comments ?? [],
     loading: query.isLoading && !query.data,
-    posting: postMutation.isPending,
+    posting: signing || postMutation.isPending,
     editingCommentId: editMutation.isPending
       ? (editMutation.variables?.comment.id ?? null)
       : null,
