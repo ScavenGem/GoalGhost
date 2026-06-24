@@ -1,16 +1,22 @@
 <p align="center">
-  <img src="public/goalghost-logo-full.png" alt="GoalGhost" width="300" />
+  <img src="public/goalghost-logo-full.png" alt="GoalGhost" width="320" />
 </p>
 
 <h1 align="center">GoalGhost</h1>
 
 <p align="center">
   <strong>A living AI football identity platform built on 0G.</strong><br />
-  Evolving fan identities. Permanent memories. A Spotify Wrapped-style football legacy.
+  Evolving fan identities. Permanent fan journey records. A Spotify Wrapped-style football legacy.
 </p>
 
 <p align="center">
-  <a href="https://goalghost.vercel.app"><img src="https://img.shields.io/badge/Live%20Demo-goalghost.vercel.app-F4C542?style=for-the-badge" alt="Live Demo" /></a>
+  <a href="https://goalghost.vercel.app"><strong>Live App</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/ScavenGem/GoalGhost"><strong>GitHub</strong></a>
+  &nbsp;·&nbsp;
+  <a href="#judge-walkthrough"><strong>Demo Walkthrough</strong></a>
+  &nbsp;·&nbsp;
+  <strong>0G Zero Cup Submission</strong>
 </p>
 
 <p align="center">
@@ -19,16 +25,6 @@
   <img src="https://img.shields.io/badge/Prisma-ORM-2D3748?logo=prisma&logoColor=white" alt="Prisma" />
   <img src="https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel" alt="Vercel" />
   <img src="https://img.shields.io/badge/Stack-0G%20Compute%20%7C%20Storage%20%7C%20Chain-F4C542" alt="0G Stack" />
-</p>
-
-<p align="center">
-  <a href="https://goalghost.vercel.app"><strong>Live Demo</strong></a>
-  &nbsp;·&nbsp;
-  <a href="#judge-walkthrough"><strong>Demo Video / Walkthrough</strong></a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/ScavenGem/GoalGhost"><strong>GitHub</strong></a>
-  &nbsp;·&nbsp;
-  <a href="https://0g.ai"><strong>0G Zero Cup</strong></a>
 </p>
 
 <p align="center">
@@ -41,61 +37,60 @@
 
 **GoalGhost** turns World Cup fandom into a **persistent, evolving AI football identity**.
 
-Fans connect a wallet, birth a GoalGhost, react across the tournament, and close with a **cinematic Legacy Wrapped** — an emotional, shareable summary of their journey. Every identity, memory, comment, and legacy document is anchored to the **full 0G stack**:
+Fans connect a wallet, birth a GoalGhost, react across the tournament, and close with a **cinematic Legacy Wrapped** — an emotional, shareable summary of their fan journey. Every identity, evolution chapter, comment, and legacy document is anchored to the **full 0G stack**:
 
-| Layer | What GoalGhost uses it for |
-|-------|----------------------------|
+| Layer | Role in GoalGhost |
+| --- | --- |
 | **0G Compute** | AI identity generation, match reactions, evolution narratives, Legacy storytelling |
-| **0G Storage** | Encrypted profiles, memories, signed comments, media, and Legacy documents |
+| **0G Storage** | Encrypted profiles, fan journey records, signed comments, media, Legacy documents |
 | **0G Chain** | Wallet signatures, Agentic ID ownership, verifiable identity actions |
 
-PostgreSQL (Neon) indexes content by `rootHash` for fast reads. **0G Storage remains the source of truth.**
+Neon PostgreSQL indexes content by `rootHash` for fast reads. **0G Storage remains the source of truth.**
 
 ---
 
-## Project Status
+## Final Working Status
 
-| Capability | Status |
-|------------|--------|
-| Wallet Authentication | ✅ |
-| GoalGhost Creation | ✅ |
-| 0G Compute | ✅ |
-| 0G Storage | ✅ |
-| 0G Chain | ✅ |
-| Match Center | ✅ |
-| News Comments | ✅ |
-| Legacy Comments | ✅ |
-| Fan Journey | ✅ |
-| Legacy Wrapped | ✅ |
-| Production Deployment | ✅ |
+Verified on production (**June 24, 2026**):
+
+| Feature | Status |
+| --- | --- |
+| Wallet connect | Working |
+| GoalGhost creation | Working |
+| Wallet signing | Working |
+| Seal to 0G Storage | Working |
+| Evolution stories | Working |
+| Match Center reactions | Working |
+| News comments | Working |
+| Legacy unwrap | Working |
+| Legacy comments | Working |
+| Production deployed on Vercel | Working |
 
 ---
 
-## Why GoalGhost
+## Why GoalGhost Needs the Full 0G Stack
 
 Football platforms capture likes and stats. They do not preserve a fan's **evolving identity** across a tournament.
 
-GoalGhost could only be built with the **full 0G stack**:
-
 | Without 0G Compute | Without 0G Storage | Without 0G Chain |
-|--------------------|--------------------|------------------|
-| No living AI identity | No permanent fan memories | No verifiable ownership |
+| --- | --- | --- |
+| No living AI identity | No permanent fan journey | No verifiable ownership |
 | No match reactions or evolution | Comments and media vanish on refresh | Anyone could fake a fan story |
 | No Legacy narrative | Centralized cache that forgets | No wallet-signed proof |
 
-Remove any one layer and the core experience breaks. Every major surface shows **"0G does irreplaceable work here"** with Compute, Storage, and Chain badges.
+Remove any one layer and the core experience breaks. Key surfaces display **"0G does irreplaceable work here"** with Compute, Storage, and Chain badges.
 
 ---
 
 ## Technical Highlights
 
 | Area | Implementation |
-|------|----------------|
-| **AI identity generation** | `POST /api/compute/create-ghost` — name, traits, mood, and conviction from 0G Compute |
-| **Permanent storage** | Browser ECIES seal for profiles; content-addressed roots on 0G Storage |
-| **Wallet-signed interactions** | News and Legacy comments signed by the connected wallet before upload |
-| **Evolution engine** | Match reactions and emoji activity update mood, confidence, and Fan Journey memories |
-| **Legacy generation** | `POST /api/compute/legacy` produces a Wrapped-style narrative, sealed and presented in a cinematic Spirit ceremony |
+| --- | --- |
+| AI identity generation | `POST /api/compute/create-ghost` — name, traits, mood, conviction |
+| Permanent storage | Browser ECIES seal for profiles; content-addressed roots on 0G Storage |
+| Wallet-signed interactions | News and Legacy comments signed by the connected wallet before upload |
+| Evolution engine | Match reactions and emoji activity update mood, confidence, and Fan Journey |
+| Legacy generation | `POST /api/compute/legacy` — Wrapped-style narrative with cinematic Spirit ceremony |
 
 ---
 
@@ -110,16 +105,16 @@ flowchart TB
 
   subgraph Platform["GoalGhost Platform"]
     API[Route Handlers]
-    IDX[Prisma + Neon Postgres<br/>index cache only]
+    IDX[Prisma + Neon Postgres]
   end
 
   subgraph OG["0G Aristotle Mainnet"]
-    COMP[0G Compute<br/>identity · reactions · evolution · legacy]
-    STORE[0G Storage<br/>profiles · memories · comments · media]
-    CHAIN[0G Chain<br/>Agentic ID · signatures · ownership]
+    COMP[0G Compute]
+    STORE[0G Storage]
+    CHAIN[0G Chain]
   end
 
-  DEPLOY[Vercel Edge / Serverless]
+  DEPLOY[Vercel]
 
   W --> UI
   UI --> API
@@ -133,45 +128,43 @@ flowchart TB
 ```
 
 | Component | Role |
-|-----------|------|
+| --- | --- |
 | **Wallet** | RainbowKit + Wagmi on 0G Aristotle (chain `16661`); signs comments and mints Agentic ID |
 | **0G Compute** | Live inference when `OG_COMPUTE_MODE=live`; powers create, match-reaction, evolve, legacy |
 | **0G Storage** | ECIES-encrypted profiles from wallet; public uploads for signed social content |
 | **0G Chain** | `iMint` on Agentic ID contract; storage roots anchored to wallet-owned identity |
-| **Neon** | Postgres cache for ghosts, comments, reactions — not the canonical data store |
+| **Neon** | Postgres index cache — not the canonical data store |
 | **Vercel** | Production hosting at [goalghost.vercel.app](https://goalghost.vercel.app) |
 
-**Compute API routes:** `POST /api/compute/create-ghost` · `match-reaction` · `evolve` · `legacy`
+**Compute routes:** `POST /api/compute/create-ghost` · `match-reaction` · `evolve` · `legacy`
 
 ---
 
 ## Judge Walkthrough
 
-> **Demo video:** Follow the steps below on the **[live demo](https://goalghost.vercel.app)** — the production deployment is the authoritative walkthrough (≈5 minutes).
+> **Demo video:** No separate YouTube upload — use the **[live app](https://goalghost.vercel.app)** and follow the steps below (≈5 minutes).
 
-Follow this path on the live deployment:
+| Step | Action | Route | Verify |
+| --- | --- | --- | --- |
+| 1 | Connect wallet | Any page | RainbowKit on 0G Aristotle mainnet |
+| 2 | Create GoalGhost | `/create` | Nation + personality selection |
+| 3 | Generate with 0G Compute | `/create` | AI name, traits, mood, conviction |
+| 4 | Sign profile | `/create` | Wallet signs ECIES seal payload |
+| 5 | Seal to 0G Storage | `/create` | `rootHash` visible on [storagescan.0g.ai](https://storagescan.0g.ai) |
+| 6 | Mint on 0G Chain | `/create` | Agentic ID minted; token linked to storage root |
+| 7 | Fan Journey | `/memories` | Chronological evolution timeline with Storage links |
+| 8 | My Ghost | `/ghost` | Evolution score, mood, **Evolve Narrative** |
+| 9 | Match Center | `/matches` | Live feed, emoji reactions, Compute match reactions |
+| 10 | News comments | `/` | Wallet-signed comments with image/GIF attachments |
+| 11 | Legacy unwrap | `/legacy` | Cinematic Spirit ceremony — share, seal, download, replay |
+| 12 | Legacy comments | `/legacy` | Wallet-signed public comments wall |
 
-| Step | Action | Route | What to verify |
-|------|--------|-------|----------------|
-| 1 | **Connect wallet** | Any page | RainbowKit connects to 0G Aristotle mainnet |
-| 2 | **Create GoalGhost** | `/create` | Choose nation + personality; 0G Compute generates identity |
-| 3 | **Generate with 0G Compute** | `/create` | AI name, traits, mood, and conviction returned |
-| 4 | **Sign & seal** | `/create` | Wallet seals ECIES profile to 0G Storage |
-| 5 | **Seal to 0G Storage** | `/create` | Copy `rootHash` → confirm on [storagescan.0g.ai](https://storagescan.0g.ai) |
-| 6 | **Mint on 0G Chain** | `/create` | Agentic ID minted; token linked to storage root |
-| 7 | **Explore Fan Journey** | `/memories` | Chronological timeline with Storage verification links |
-| 8 | **My Ghost** | `/ghost` | Evolution score, mood, and **Evolve Narrative** via 0G Compute |
-| 9 | **Match Center** | `/matches` | Live match feed, emoji reactions, Compute match reactions |
-| 10 | **News comments** | `/` | World Cup news wall — wallet-signed comments with image/GIF attachments |
-| 11 | **Legacy comments** | `/legacy` | Public comments wall below the Legacy ceremony |
-| 12 | **Unwrap Legacy** | `/legacy` | Cinematic Spirit ceremony → share, seal, download, replay |
-
-**Resilience check:** Postgres is a cache. Ghost profiles resolve from 0G Storage `rootHash` even if the index is rebuilt.
+**Resilience check:** Postgres is a cache. Profiles resolve from 0G Storage `rootHash` even if the index is rebuilt.
 
 ### 0G Aristotle Mainnet
 
 | Setting | Value |
-|---------|-------|
+| --- | --- |
 | Chain ID | `16661` |
 | RPC | `https://evmrpc.0g.ai` |
 | Chain explorer | [chainscan.0g.ai](https://chainscan.0g.ai) |
@@ -182,18 +175,18 @@ Follow this path on the live deployment:
 
 ## Features
 
-Everything listed below is implemented in this repository.
+Only shipped, working capabilities are listed here.
 
 - **Wallet authentication** — RainbowKit + Wagmi on 0G Aristotle mainnet
 - **GoalGhost creation** — Nation, personality, birth ritual, AI-generated identity
-- **0G Compute** — Create, match reactions, evolve narrative, Legacy generation
-- **0G Storage** — ECIES profile seal, memories, signed comments, Legacy documents
+- **0G Compute** — Create, match reactions, evolution stories, Legacy generation
+- **0G Storage** — ECIES profile seal, fan journey records, signed comments, Legacy documents
 - **0G Chain** — Agentic ID `iMint`, wallet-signed comment payloads
 - **My Ghost** — Live stats, evolution arc, on-demand narrative evolution
 - **Match Center** — Live/upcoming/finished matches, emoji reactions, Compute reactions
-- **World Cup news** — Headlines on Home with wallet-signed comments and media attachments
-- **Fan Journey** — Memory timeline with type labels and Storage scan links
-- **Legacy Wrapped** — Cinematic Spirit ceremony with share, seal, download, and replay
+- **World Cup news** — Headlines on Home with wallet-signed comments and media
+- **Fan Journey** — Evolution timeline with Storage verification links
+- **Legacy Wrapped** — Cinematic Spirit ceremony with share, seal, download, replay
 - **Legacy comments** — Wallet-signed public wall on `/legacy`
 - **0G irreplaceable banners** — Compute / Storage / Chain callouts on key surfaces
 
@@ -201,7 +194,11 @@ Everything listed below is implemented in this repository.
 
 ## Screenshots
 
-Captured from production at `1440×900`. Regenerate with `node scripts/capture-readme-screenshots.mjs`.
+Production captures at `1440×900`. Regenerate: `node scripts/capture-readme-screenshots.mjs`
+
+<p align="center">
+  <img src="public/goalghost-logo-full.png" alt="GoalGhost" width="120" />
+</p>
 
 <p align="center">
   <img src="docs/screenshots/home.png" alt="Home" width="48%" />
@@ -218,8 +215,8 @@ Captured from production at `1440×900`. Regenerate with `node scripts/capture-r
   <img src="docs/screenshots/legacy.png" alt="Legacy" width="48%" />
 </p>
 
-| Page | Route | Screenshot |
-|------|-------|------------|
+| Page | Route | File |
+| --- | --- | --- |
 | Home | `/` | `docs/screenshots/home.png` |
 | Create | `/create` | `docs/screenshots/create.png` |
 | My Ghost | `/ghost` | `docs/screenshots/my-ghost.png` |
@@ -232,7 +229,7 @@ Captured from production at `1440×900`. Regenerate with `node scripts/capture-r
 ## Tech Stack
 
 | Category | Technology |
-|----------|------------|
+| --- | --- |
 | Framework | Next.js 15 (App Router), TypeScript, React 19 |
 | UI | Tailwind CSS v4, Framer Motion, Radix UI |
 | Wallet | RainbowKit, Wagmi, ethers.js, viem |
@@ -260,7 +257,7 @@ Open **http://localhost:3000**
 ### Key environment variables
 
 | Variable | Purpose |
-|----------|---------|
+| --- | --- |
 | `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | RainbowKit wallet modal |
 | `DATABASE_URL` / `DIRECT_URL` | Neon Postgres index cache |
 | `OG_COMPUTE_MODE` | Set to `live` for real 0G Compute inference |
@@ -271,12 +268,18 @@ Open **http://localhost:3000**
 | `FOOTBALL_DATA_API_KEY` / `API_FOOTBALL_KEY` | Live match data (optional) |
 
 ```bash
-npm run build    # production verify
-npm run dev      # local development
+npm run build       # production verify
+npm run dev         # local development
 npm run compute:init  # initialize 0G Compute ledger (live mode)
 ```
 
+See [CHANGELOG.md](CHANGELOG.md) for release history.
+
 ---
+
+<p align="center">
+  <img src="public/goalghost-logo-full.png" alt="GoalGhost" width="160" />
+</p>
 
 <p align="center">
   <strong>GoalGhost</strong> · The tournament remembers you.<br />
