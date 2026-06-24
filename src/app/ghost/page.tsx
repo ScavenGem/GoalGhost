@@ -19,13 +19,12 @@ import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
 import { nationByName } from "@/lib/football/teams";
 import { hoverLink } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
+import { legacyInitMessage } from "@/lib/0g/compute/ensure-legacy-sub-account";
 import {
-  assertFreshMainnetWalletBalance,
-  ensureLegacyComputeSubAccount,
-  legacyInitMessage,
-  type LegacyInitPhase,
-} from "@/lib/0g/compute/ensure-legacy-sub-account";
-import { gatherEvolveContext } from "@/lib/ghost/evolve-context";
+  runEvolveNarrative,
+  type EvolveNarrativePhase,
+} from "@/lib/ghost/evolve-narrative";
+
 
 type GhostData = {
   name: string;
@@ -48,21 +47,27 @@ function evolutionStage(score: number): string {
 
 export default function GhostPage() {
   const { address } = useAccount();
-  const { ghost, isLoading: fetching, refetch, invalidate } = useGhost(address);
+  const { ghost, isLoading: fetching, refetch, invalidate, setGhost } =
+    useGhost(address);
   const [narrative, setNarrative] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [evolveError, setEvolveError] = useState<string | null>(null);
-  const [initPhase, setInitPhase] = useState<LegacyInitPhase | null>(null);
+  const [evolveSuccess, setEvolveSuccess] = useState<string | null>(null);
+  const [evolveRootHash, setEvolveRootHash] = useState<string | null>(null);
+  const [initPhase, setInitPhase] = useState<EvolveNarrativePhase | null>(null);
 
   useEffect(() => {
     if (!address || ghost || fetching) return;
     void refetch();
   }, [address, ghost, fetching, refetch]);
 
-  function evolveInitMessage(phase: LegacyInitPhase | null): string | null {
+  function evolveInitMessage(phase: EvolveNarrativePhase | null): string | null {
     if (!phase) return null;
     if (phase === "generating") {
       return "Evolving your narrative with 0G Compute…";
+    }
+    if (phase === "sealing") {
+      return "Sign in your wallet to seal this evolution chapter to 0G Storage…";
     }
     return legacyInitMessage(phase);
   }
@@ -71,37 +76,46 @@ export default function GhostPage() {
     if (!ghost || !address) return;
     setLoading(true);
     setEvolveError(null);
+    setEvolveSuccess(null);
+    setEvolveRootHash(null);
 
     try {
-      await assertFreshMainnetWalletBalance(address);
-      await ensureLegacyComputeSubAccount(setInitPhase);
-      setInitPhase("generating");
-
-      const recentMemories = await gatherEvolveContext(address, ghost);
-      const res = await fetch("/api/compute/evolve", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ghost: {
-            name: ghost.name,
-            team: ghost.team,
-            evolutionScore: ghost.evolutionScore,
-            mood: ghost.mood,
-            recentMemories,
-          },
-        }),
+      const result = await runEvolveNarrative({
+        walletAddress: address,
+        ghost,
+        onPhase: setInitPhase,
       });
 
-      const data = (await res.json()) as {
-        evolution?: { narrative?: string };
-        error?: string;
-      };
+      setNarrative(result.narrative);
+      setEvolveRootHash(result.rootHash);
+      setEvolveSuccess(
+        result.source === "0g-compute"
+          ? "Narrative evolved with live 0G Compute and sealed to 0G Storage."
+          : "Narrative evolved and sealed to 0G Storage."
+      );
 
-      if (!res.ok || !data.evolution?.narrative?.trim()) {
-        throw new Error(data.error ?? "0G Compute returned no evolution narrative");
-      }
+      setGhost((g) =>
+        g
+          ? {
+              ...g,
+              mood: result.mood,
+              evolutionScore: g.evolutionScore + 4,
+              confidence: Math.min(100, g.confidence + 3),
+              memories: [
+                ...(g.memories ?? []),
+                {
+                  eventId: result.eventId,
+                  title: "Narrative Evolution",
+                  content: result.narrative,
+                  type: "evolution_checkpoint",
+                  occurredAt: new Date().toISOString(),
+                  rootHash: result.rootHash,
+                },
+              ],
+            }
+          : g
+      );
 
-      setNarrative(data.evolution.narrative);
       void invalidate();
     } catch (e) {
       setEvolveError(
@@ -323,6 +337,23 @@ export default function GhostPage() {
               <p className="text-sm text-[#F4C542]/90">
                 {evolveInitMessage(initPhase)}
               </p>
+            )}
+            {evolveSuccess && (
+              <p className="text-sm text-emerald-400/90">{evolveSuccess}</p>
+            )}
+            {evolveRootHash && (
+              <a
+                href={storageScanUrl(evolveRootHash)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "inline-flex items-center gap-1.5 font-mono text-xs text-muted/60",
+                  hoverLink
+                )}
+              >
+                Evolution chapter · {evolveRootHash.slice(0, 20)}…
+                <ExternalLink className="h-3 w-3" />
+              </a>
             )}
             {evolveError && (
               <p className="text-sm text-red-400/90">{evolveError}</p>

@@ -138,6 +138,78 @@ function formatInitError(error: unknown): string {
   return message || "Failed to initialize 0G Compute sub-account";
 }
 
+async function initializeComputeSubAccount(
+  broker: Awaited<ReturnType<typeof createZGComputeNetworkBroker>>,
+  providerAddress: string,
+  ledgerExists: boolean,
+  subAccountReady: boolean,
+  onPhase?: (phase: LegacyInitPhase | null) => void
+): Promise<void> {
+  onPhase?.("initializing-ledger");
+
+  if (!ledgerExists) {
+    await broker.ledger.depositFund(LEGACY_FIRST_TIME_LEDGER_OG);
+  } else if (!subAccountReady) {
+    const ledger = await broker.ledger.getLedger();
+    if (ledger.availableBalance < LEGACY_INIT_TRANSFER_WEI) {
+      await broker.ledger.depositFund(LEGACY_FIRST_TIME_LEDGER_OG);
+    }
+  }
+
+  if (!subAccountReady) {
+    await broker.ledger.transferFund(
+      providerAddress,
+      "inference",
+      LEGACY_INIT_TRANSFER_WEI
+    );
+  }
+}
+
+/**
+ * Ensures 0G Compute sub-account exists. Skips balance check when already initialized.
+ * Use for Evolve Narrative so production users with an existing ledger still proceed
+ * to wallet-signed storage sealing.
+ */
+export async function ensureComputeSubAccountIfNeeded(
+  onPhase?: (phase: LegacyInitPhase | null) => void
+): Promise<void> {
+  onPhase?.("preparing");
+  const { signer, address } = await getBrowserStorageSigner("public");
+
+  let broker: Awaited<ReturnType<typeof createZGComputeNetworkBroker>>;
+  try {
+    broker = await createZGComputeNetworkBroker(signer);
+  } catch (error) {
+    throw new Error(formatInitError(error));
+  }
+
+  onPhase?.("checking");
+  const providerAddress = await resolveChatbotProvider(broker);
+
+  try {
+    const ledgerExists = await hasComputeLedger(broker);
+    const subAccountReady = await hasProviderSubAccount(
+      broker,
+      providerAddress
+    );
+
+    if (ledgerExists && subAccountReady) {
+      return;
+    }
+
+    await assertFreshMainnetWalletBalance(address);
+    await initializeComputeSubAccount(
+      broker,
+      providerAddress,
+      ledgerExists,
+      subAccountReady,
+      onPhase
+    );
+  } catch (error) {
+    throw new Error(formatInitError(error));
+  }
+}
+
 /**
  * Ensures the connected wallet has a funded 0G Compute provider sub-account
  * before legacy generation. Auto-deposits 3 OG to the ledger and transferFund
@@ -171,24 +243,13 @@ export async function ensureLegacyComputeSubAccount(
       return;
     }
 
-    onPhase?.("initializing-ledger");
-
-    if (!ledgerExists) {
-      await broker.ledger.depositFund(LEGACY_FIRST_TIME_LEDGER_OG);
-    } else if (!subAccountReady) {
-      const ledger = await broker.ledger.getLedger();
-      if (ledger.availableBalance < LEGACY_INIT_TRANSFER_WEI) {
-        await broker.ledger.depositFund(LEGACY_FIRST_TIME_LEDGER_OG);
-      }
-    }
-
-    if (!subAccountReady) {
-      await broker.ledger.transferFund(
-        providerAddress,
-        "inference",
-        LEGACY_INIT_TRANSFER_WEI
-      );
-    }
+    await initializeComputeSubAccount(
+      broker,
+      providerAddress,
+      ledgerExists,
+      subAccountReady,
+      onPhase
+    );
   } catch (error) {
     throw new Error(formatInitError(error));
   }
