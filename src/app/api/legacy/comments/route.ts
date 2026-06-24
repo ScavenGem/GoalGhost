@@ -7,6 +7,7 @@ import {
   listLegacyComments,
   updateLegacyComment,
 } from "@/lib/cache/legacy-comments-cache";
+import { warmCommentMediaCache } from "@/lib/cache/warm-comment-media-cache";
 import { uploadPublicJsonFromServer } from "@/lib/0g/storage/upload-public-server";
 import {
   LEGACY_COMMENT_MAX_LENGTH,
@@ -122,6 +123,11 @@ export async function POST(req: Request) {
       mediaRootHash: body.mediaRootHash ?? null,
       mediaType: body.mediaType ?? null,
       createdAt: new Date(body.createdAt),
+    });
+
+    await warmCommentMediaCache({
+      mediaRootHash: body.mediaRootHash,
+      mediaType: body.mediaType,
     });
 
     const withReactions = await getLegacyCommentByCommentId(

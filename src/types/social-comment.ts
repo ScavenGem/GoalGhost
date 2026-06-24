@@ -34,6 +34,7 @@ export type SocialCommentFields = {
   parentCommentId?: string | null;
   mediaRootHash?: string | null;
   mediaType?: CommentMediaType | null;
+  mediaUrl?: string | null;
   reactions: CommentReactions;
 };
 

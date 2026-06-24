@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db/prisma";
 import { getCommentReactionsForComments } from "@/lib/cache/comment-reactions-cache";
+import { commentMediaUrl } from "@/lib/comments/media";
 import type { NewsComment } from "@/types/news-comment";
 import {
   EMPTY_COMMENT_REACTION_COUNTS,
@@ -40,6 +41,12 @@ function toNewsComment(
     rootHash: row.rootHash,
     mediaRootHash: row.mediaRootHash,
     mediaType: (row.mediaType as CommentMediaType | null) ?? null,
+    mediaUrl: row.mediaRootHash
+      ? commentMediaUrl(
+          row.mediaRootHash,
+          (row.mediaType as CommentMediaType | null) ?? null
+        )
+      : null,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt?.toISOString() ?? null,
     reactions,

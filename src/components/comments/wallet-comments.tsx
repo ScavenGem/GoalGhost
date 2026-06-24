@@ -15,7 +15,7 @@ import {
   COMMENTS_LOAD_MORE_STEP,
 } from "@/lib/comments/constants";
 import { buildCommentThreads, type ThreadedComment } from "@/lib/comments/build-threads";
-import { commentMediaUrl } from "@/lib/comments/media";
+import { CommentAttachment } from "@/components/comments/comment-attachment";
 import { shortenWalletAddress } from "@/lib/legacy/comment-sign";
 import {
   COMMENT_EMOJIS,
@@ -225,17 +225,12 @@ function WalletCommentRow<T extends WalletCommentBase>({
         <>
           {comment.text && <p className={styles.text}>{comment.text}</p>}
           {comment.mediaRootHash && (
-            <div className="mt-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={commentMediaUrl(comment.mediaRootHash)}
-                alt="Comment attachment"
-                className={cn(
-                  "rounded-xl border border-white/10 object-cover",
-                  variant === "compact" ? "max-h-36" : "max-h-52"
-                )}
-              />
-            </div>
+            <CommentAttachment
+              mediaRootHash={comment.mediaRootHash}
+              mediaType={comment.mediaType}
+              mediaUrl={comment.mediaUrl}
+              variant={variant}
+            />
           )}
         </>
       )}

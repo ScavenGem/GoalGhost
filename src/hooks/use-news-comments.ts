@@ -7,10 +7,14 @@ import { useAccount, useSignMessage } from "wagmi";
 import { applyOptimisticCommentReaction } from "@/lib/comments/reaction-optimistic";
 import { buildCommentReactionMessage } from "@/lib/comments/reaction-sign";
 import {
+  encodePreparedCommentMediaBase64,
   prepareCommentMediaForSigning,
-  uploadPreparedCommentMedia,
   type PreparedCommentMedia,
 } from "@/lib/comments/upload-media";
+import {
+  formatClientFetchError,
+  readApiErrorMessage,
+} from "@/lib/api/client-fetch";
 import {
   buildNewsCommentDeleteMessage,
   buildNewsCommentEditMessage,
@@ -107,12 +111,8 @@ export function useNewsComments(articleIds: string[]) {
     };
   }
 
-  function formatPostError(err: Error): string {
-    const msg = err.message.toLowerCase();
-    if (msg.includes("user rejected") || msg.includes("denied") || msg.includes("cancel")) {
-      return "Wallet signature cancelled";
-    }
-    return err.message;
+  function formatPostError(err: unknown): string {
+    return formatClientFetchError(err, "Failed to post comment");
   }
 
   const postMutation = useMutation({
@@ -139,32 +139,41 @@ export function useNewsComments(articleIds: string[]) {
       mediaType: string | null;
       preparedMedia?: PreparedCommentMedia | null;
     }) => {
-      if (preparedMedia) {
-        await uploadPreparedCommentMedia(preparedMedia);
+      let res: Response;
+      try {
+        res = await fetch("/api/news/comments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            commentId,
+            articleId,
+            walletAddress,
+            text,
+            signature,
+            createdAt,
+            parentCommentId: parentCommentId ?? null,
+            mediaRootHash,
+            mediaType,
+            mediaBase64: preparedMedia
+              ? encodePreparedCommentMediaBase64(preparedMedia)
+              : null,
+          }),
+        });
+      } catch (err) {
+        throw new Error(formatClientFetchError(err, "Failed to post comment"));
       }
-
-      const res = await fetch("/api/news/comments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          commentId,
-          articleId,
-          walletAddress,
-          text,
-          signature,
-          createdAt,
-          parentCommentId: parentCommentId ?? null,
-          mediaRootHash,
-          mediaType,
-        }),
-      });
 
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(data?.error ?? "Failed to post comment");
+        throw new Error(
+          await readApiErrorMessage(res, "Failed to post comment")
+        );
       }
 
-      return res.json() as Promise<{ comment: NewsComment }>;
+      try {
+        return (await res.json()) as { comment: NewsComment };
+      } catch {
+        throw new Error("Server returned an invalid response after posting");
+      }
     },
     onSuccess: (data, vars) => {
       setError(null);
@@ -212,8 +221,7 @@ export function useNewsComments(articleIds: string[]) {
         }),
       });
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(data?.error ?? "Failed to edit comment");
+        throw new Error(await readApiErrorMessage(res, "Failed to edit comment"));
       }
       return res.json() as Promise<{ comment: NewsComment }>;
     },
@@ -250,8 +258,7 @@ export function useNewsComments(articleIds: string[]) {
         }),
       });
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(data?.error ?? "Failed to delete comment");
+        throw new Error(await readApiErrorMessage(res, "Failed to delete comment"));
       }
       return comment;
     },
@@ -292,8 +299,7 @@ export function useNewsComments(articleIds: string[]) {
         }),
       });
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(data?.error ?? "Failed to react");
+        throw new Error(await readApiErrorMessage(res, "Failed to react"));
       }
       return res.json() as Promise<{
         commentId: string;

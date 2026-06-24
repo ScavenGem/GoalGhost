@@ -24,6 +24,11 @@ export function validateCommentMediaFile(file: File): string | null {
   return null;
 }
 
-export function commentMediaUrl(rootHash: string): string {
-  return `/api/storage/public?hash=${encodeURIComponent(rootHash)}`;
+export function commentMediaUrl(
+  rootHash: string,
+  mediaType?: CommentMediaType | null
+): string {
+  const params = new URLSearchParams({ hash: rootHash });
+  if (mediaType) params.set("type", mediaType);
+  return `/api/storage/public?${params.toString()}`;
 }

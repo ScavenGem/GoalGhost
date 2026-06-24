@@ -46,6 +46,17 @@ export async function uploadPreparedCommentMedia(
   }
 }
 
+/** Encode prepared media for server-side 0G upload in the news comments API. */
+export function encodePreparedCommentMediaBase64(
+  prepared: PreparedCommentMedia
+): string {
+  let binary = "";
+  for (let i = 0; i < prepared.bytes.length; i++) {
+    binary += String.fromCharCode(prepared.bytes[i]!);
+  }
+  return btoa(binary);
+}
+
 export async function uploadCommentMedia(file: File): Promise<{
   mediaRootHash: string;
   mediaType: CommentMediaType;

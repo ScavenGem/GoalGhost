@@ -25,8 +25,18 @@ export async function downloadJsonFromStorage(
 
 export async function downloadBlobFromStorage(rootHash: string): Promise<Blob> {
   const indexer = getStorageIndexer();
-  const [blob, err] = await indexer.downloadToBlob(rootHash, { proof: true });
-  if (err) throw new Error(`0G Storage download error: ${err}`);
-  if (!blob) throw new Error("Empty blob from 0G Storage");
-  return blob;
+  const normalizedHash = rootHash.trim();
+
+  const attempts: { proof: boolean }[] = [{ proof: false }, { proof: true }];
+  let lastError: string | null = null;
+
+  for (const attempt of attempts) {
+    const [blob, err] = await indexer.downloadToBlob(normalizedHash, attempt);
+    if (!err && blob && blob.size > 0) {
+      return blob;
+    }
+    lastError = err ? String(err) : "Empty blob from 0G Storage";
+  }
+
+  throw new Error(`0G Storage download error: ${lastError}`);
 }

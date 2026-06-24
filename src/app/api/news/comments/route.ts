@@ -7,7 +7,15 @@ import {
   listNewsComments,
   updateNewsComment,
 } from "@/lib/cache/news-comments-cache";
-import { uploadPublicJsonFromServer } from "@/lib/0g/storage/upload-public-server";
+import {
+  computePublicBytesRootHash,
+  uploadPublicBytesFromServer,
+  uploadPublicJsonFromServer,
+} from "@/lib/0g/storage/upload-public-server";
+import { cacheCommentMedia } from "@/lib/cache/comment-media-cache";
+import { COMMENT_MEDIA_MAX_BYTES } from "@/lib/comments/media";
+import { mimeTypeForCommentMedia } from "@/lib/comments/detect-media-type";
+import { sanitizeDatabaseError } from "@/lib/db/config";
 import {
   NEWS_COMMENT_MAX_LENGTH,
   verifyNewsCommentDeleteSignature,
@@ -36,9 +44,13 @@ const postSchema = z
     parentCommentId: z.string().optional().nullable(),
     mediaRootHash: z.string().optional().nullable(),
     mediaType: z.enum(["image", "gif"]).optional().nullable(),
+    mediaBase64: z.string().max(6_000_000).optional().nullable(),
   })
   .refine((d) => d.text.trim().length > 0 || !!d.mediaRootHash, {
     message: "Comment needs text or an image",
+  })
+  .refine((d) => !d.mediaRootHash || !!d.mediaBase64, {
+    message: "Image data is required when mediaRootHash is set",
   });
 
 const patchSchema = z.object({
@@ -62,6 +74,50 @@ function isOwner(wallet: string, owner: string): boolean {
   return wallet.toLowerCase() === owner.toLowerCase();
 }
 
+function zodErrorMessage(error: z.ZodError): string {
+  return error.issues.map((issue) => issue.message).join("; ");
+}
+
+async function persistSignedNewsMedia(body: {
+  mediaRootHash?: string | null;
+  mediaBase64?: string | null;
+  mediaType?: string | null;
+}): Promise<string | null> {
+  if (!body.mediaRootHash || !body.mediaBase64) return null;
+
+  let bytes: Uint8Array;
+  try {
+    bytes = Uint8Array.from(Buffer.from(body.mediaBase64, "base64"));
+  } catch {
+    throw new Error("Invalid image encoding");
+  }
+
+  if (bytes.length === 0) {
+    throw new Error("Image data is empty");
+  }
+  if (bytes.length > COMMENT_MEDIA_MAX_BYTES) {
+    throw new Error("Image must be 4 MB or smaller");
+  }
+
+  const computedHash = await computePublicBytesRootHash(bytes);
+  if (computedHash !== body.mediaRootHash) {
+    throw new Error("Image hash does not match signed mediaRootHash");
+  }
+
+  await cacheCommentMedia({
+    rootHash: body.mediaRootHash,
+    bytes,
+    mimeType: mimeTypeForCommentMedia(body.mediaType),
+  });
+
+  const uploaded = await uploadPublicBytesFromServer(bytes);
+  if (uploaded.rootHash !== body.mediaRootHash) {
+    throw new Error("Image upload hash mismatch");
+  }
+
+  return uploaded.rootHash;
+}
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -78,7 +134,7 @@ export async function GET(req: Request) {
       { headers: NO_CACHE_HEADERS }
     );
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "Failed to load comments";
+    const msg = sanitizeDatabaseError(e);
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
@@ -107,6 +163,8 @@ export async function POST(req: Request) {
     if (!valid) {
       return NextResponse.json({ error: "Invalid wallet signature" }, { status: 401 });
     }
+
+    await persistSignedNewsMedia(body);
 
     const document = {
       version: 2,
@@ -144,10 +202,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, comment: withReactions ?? comment });
   } catch (e) {
     if (e instanceof z.ZodError) {
-      return NextResponse.json({ error: "Invalid comment payload" }, { status: 400 });
+      return NextResponse.json(
+        { error: `Invalid comment payload: ${zodErrorMessage(e)}` },
+        { status: 400 }
+      );
     }
-    const msg = e instanceof Error ? e.message : "Failed to post comment";
-    const status = msg.includes("Unique constraint") ? 409 : 500;
+    const msg = sanitizeDatabaseError(e);
+    const status =
+      msg.includes("already posted") || msg.includes("Unique constraint")
+        ? 409
+        : 500;
     return NextResponse.json({ error: msg }, { status });
   }
 }

@@ -123,3 +123,10 @@ model MatchEmojiReaction {
   @@unique([matchId, walletAddress])
   @@index([matchId])
 }
+
+model CommentMediaCache {
+  rootHash String   @id
+  mimeType String
+  data     Bytes
+  cachedAt DateTime @default(now())
+}

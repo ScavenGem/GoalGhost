@@ -88,7 +88,11 @@ export function sanitizeDatabaseError(error: unknown): string {
 
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === "P2021") {
-      return "Match reactions table is missing in production. Redeploy after running prisma migrate deploy against your hosted database.";
+      const table = String(error.meta?.table ?? "database table");
+      return `${table} is missing in production. Redeploy after running prisma migrate deploy against your hosted Neon database.`;
+    }
+    if (error.code === "P2002") {
+      return "This comment was already posted.";
     }
     if (error.code === "P1001") {
       return "Database is unreachable. Verify DATABASE_URL (or POSTGRES_URL) in Vercel environment variables.";
