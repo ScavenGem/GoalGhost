@@ -1,5 +1,5 @@
 import type { OgComputeProof } from "@/types/ghost";
-import { fetchWithTimeout } from "@/lib/api/client-fetch";
+import { fetchWithTimeout } from "@/lib/api/server-fetch";
 import { getChatbotProvider, getComputeBroker } from "./broker";
 import { withTimeout } from "./timeout";
 import {

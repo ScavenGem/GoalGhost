@@ -26,4 +26,7 @@ export type OgComputeProof = {
   provider: string;
   chatId: string | null;
   teeVerified: boolean;
+  /** True when live 0G Compute was unavailable and a labeled local fallback was used. */
+  fallback?: boolean;
+  fallbackReason?: string;
 };

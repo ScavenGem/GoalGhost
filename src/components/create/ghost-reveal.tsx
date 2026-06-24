@@ -119,12 +119,25 @@ export function GhostReveal({
             ))}
           </div>
 
-          {computeProof?.teeVerified && (
+          {computeProof?.fallback ? (
+            <div className="rounded-lg border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-xs text-amber-200/90">
+              <p className="font-medium">Labeled fallback identity (0G Compute unavailable)</p>
+              {computeProof.fallbackReason && (
+                <p className="mt-1 text-[11px] text-amber-100/70">
+                  {computeProof.fallbackReason}
+                </p>
+              )}
+              <p className="mt-1 text-[11px] text-amber-100/60">
+                You can still seal to 0G Storage and mint. Live TEE inference was not used for
+                this draft.
+              </p>
+            </div>
+          ) : computeProof?.teeVerified ? (
             <div className="flex items-center gap-2 text-xs text-emerald-400">
               <Shield className="h-3.5 w-3.5" />
               TEE-verified 0G Compute inference
             </div>
-          )}
+          ) : null}
           <Button
             onClick={onMint}
             onMouseEnter={primeSealCredentials}

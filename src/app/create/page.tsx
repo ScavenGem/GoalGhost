@@ -52,7 +52,7 @@ import {
   readApiErrorMessage,
 } from "@/lib/api/client-fetch";
 
-const CREATE_GHOST_TIMEOUT_MS = 65_000;
+const CREATE_GHOST_TIMEOUT_MS = 15_000;
 
 const DEFAULT_TRAITS: GhostTraits = {
   passion: 70,
@@ -102,6 +102,7 @@ function CreatePageContent() {
   const [tokenId, setTokenId] = useState<number | null>(null);
   const [memoryRoot, setMemoryRoot] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [computeNotice, setComputeNotice] = useState<string | null>(null);
   const profileRootRef = useRef<string | null>(null);
 
   const contractAddress = process.env
@@ -153,6 +154,7 @@ function CreatePageContent() {
 
     setStep("generating");
     setError(null);
+    setComputeNotice(null);
 
     try {
       const res = await fetchWithTimeout("/api/compute/create-ghost", {
@@ -169,12 +171,21 @@ function CreatePageContent() {
       }
 
       const data = (await res.json()) as {
+        source?: string;
+        fallbackReason?: string;
         ghost?: Partial<GhostProfile>;
         proof?: GhostProfile["computeProof"];
       };
 
       if (!data.ghost?.name || !data.ghost.backstory) {
         throw new Error("0G Compute returned an incomplete ghost profile");
+      }
+
+      if (data.source === "labeled-fallback" || data.proof?.fallback) {
+        setComputeNotice(
+          data.fallbackReason ??
+            "0G Compute was unavailable. A labeled fallback identity was generated so you can continue."
+        );
       }
 
       setGhost({ ...data.ghost, computeProof: data.proof });
@@ -454,6 +465,16 @@ function CreatePageContent() {
         </motion.div>
 
         <StepProgress current={STEP_INDEX[step]} />
+
+        {computeNotice && !error && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100/90"
+          >
+            {computeNotice}
+          </motion.div>
+        )}
 
         {error && (
           <motion.div
