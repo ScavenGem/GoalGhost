@@ -82,10 +82,10 @@ export function buildLegacyPrompt(
   return [
     {
       role: "system",
-      content: `Create a Spotify Wrapped-style World Cup legacy. Return JSON:
+      content: `Create a cinematic World Cup legacy unwrap (premium, emotional, better than Spotify Wrapped). Return JSON:
 { story, highlights (string[]), transformation: { from, to, arc }, shareText, dominantMood,
   celebration: { title, body }, heartbreak: { title, body }, rivalry: { title, body }, fanIdentity: { title, body } }.
-Emotional, shareable, premium sports storytelling. ${NO_EM_DASH_STYLE}`,
+Use "Spirit" not "Soul" for fan identity language. Emotional, shareable, premium sports storytelling. ${NO_EM_DASH_STYLE}`,
     },
     {
       role: "user",

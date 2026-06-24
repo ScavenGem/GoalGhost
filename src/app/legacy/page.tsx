@@ -1,35 +1,27 @@
 "use client";
 
-import { Suspense, useEffect, useState, useCallback, useMemo } from "react";
+import { Suspense, useEffect, useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAccount } from "wagmi";
 import { useGhost } from "@/hooks/use-ghost";
 import { useSharedLegacy } from "@/hooks/use-shared-legacy";
-import { AnimatePresence } from "framer-motion";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { uploadPublicJsonFromBrowser } from "@/lib/0g/storage/upload-public-browser";
 import type { LegacyDocument } from "@/types/legacy";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Share2, Pause, Play } from "lucide-react";
-import { WrappedSlide } from "@/components/legacy/wrapped-slide";
-import { WrappedProgress } from "@/components/legacy/wrapped-progress";
+import { LegacyCinematicUnwrap } from "@/components/legacy/cinematic/legacy-cinematic-unwrap";
 import { PageHeader } from "@/components/layout/page-header";
-import { ConfettiCelebration } from "@/components/ui/confetti";
 import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
 import { OgIrreplaceableBanner } from "@/components/0g/og-irreplaceable-banner";
 import { LegacyComments } from "@/components/legacy/legacy-comments";
 import { buildLegacySharePayload } from "@/lib/legacy/share";
-import {
-  hoverIconBtn,
-  hoverLink,
-  hoverSlideDotActive,
-  hoverSlideDotInactive,
-} from "@/lib/utils/hover";
+import { hoverLink } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 import {
   buildLegacyDocument,
-  buildLegacySlides,
+  type GhostLegacyInput,
+  type GhostMemory,
   type LegacyApiOutput,
 } from "@/lib/legacy/build-legacy";
 import { gatherLegacyMemories } from "@/lib/legacy/gather-legacy-context";
@@ -69,12 +61,12 @@ function LegacyPageContent() {
   const { shared, loading: sharedLoading, error: sharedError } = useSharedLegacy(
     shouldFetchShared ? sharedTokenId : null
   );
-  const [slide, setSlide] = useState(0);
   const [generating, setGenerating] = useState(false);
   const [initPhase, setInitPhase] = useState<LegacyInitPhase | null>(null);
-  const [autoPlay, setAutoPlay] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [showCinematic, setShowCinematic] = useState(false);
+  const [legacySealed, setLegacySealed] = useState(false);
+  const [sealing, setSealing] = useState(false);
   const [generateError, setGenerateError] = useState<string | null>(null);
   const [mainnetBalanceOg, setMainnetBalanceOg] = useState<number | null>(null);
   const [balanceLoading, setBalanceLoading] = useState(false);
@@ -89,26 +81,25 @@ function LegacyPageContent() {
   const displayGhost = ghost ?? shared?.ghost ?? null;
   const displayLegacy = legacy ?? shared?.legacy ?? null;
 
-  const slides = useMemo(
-    () =>
-      displayLegacy && displayGhost
-        ? buildLegacySlides(displayGhost, displayLegacy)
-        : [],
-    [displayLegacy, displayGhost]
-  );
-
-  const nextSlide = useCallback(() => {
-    setSlide((s) => {
-      if (s < slides.length - 1) return s + 1;
-      return autoPlay ? 0 : s;
-    });
-  }, [slides.length, autoPlay]);
+  const ghostLegacyInput = useMemo<GhostLegacyInput | null>(() => {
+    if (!displayGhost) return null;
+    return {
+      name: displayGhost.name,
+      team: displayGhost.team,
+      evolutionScore: displayGhost.evolutionScore,
+      confidence: displayGhost.confidence,
+      mood: displayGhost.mood,
+      tokenId: displayGhost.tokenId,
+      memories:
+        "memories" in displayGhost
+          ? (displayGhost.memories as GhostMemory[] | undefined)
+          : undefined,
+    };
+  }, [displayGhost]);
 
   useEffect(() => {
-    if (!displayLegacy || !autoPlay) return;
-    const t = setInterval(nextSlide, 5500);
-    return () => clearInterval(t);
-  }, [displayLegacy, autoPlay, nextSlide, slide]);
+    if (displayLegacy) setShowCinematic(true);
+  }, [displayLegacy]);
 
   useEffect(() => {
     if (!address || viewingOthers) {
@@ -201,6 +192,22 @@ function LegacyPageContent() {
         content: doc.story,
       }),
     });
+    setLegacySealed(true);
+  }
+
+  async function sealLegacyToStorage() {
+    if (!legacy) return;
+    setSealing(true);
+    setGenerateError(null);
+    try {
+      await persistLegacy(legacy);
+    } catch (e) {
+      setGenerateError(
+        e instanceof Error ? e.message : "Failed to seal legacy to 0G Storage"
+      );
+    } finally {
+      setSealing(false);
+    }
   }
 
   async function generateLegacy() {
@@ -269,12 +276,11 @@ function LegacyPageContent() {
       if (data.proof) doc.computeProof = data.proof;
 
       setLegacy(doc);
-      setSlide(0);
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 4500);
+      setShowCinematic(true);
+      setLegacySealed(false);
 
       void persistLegacy(doc).catch(() => {
-        /* storage is best-effort; wrapped content still displays */
+        /* user can seal from finale; unwrap still displays */
       });
     } catch (e) {
       const status = await getLegacyComputeInitStatus().catch(() => null);
@@ -319,84 +325,35 @@ function LegacyPageContent() {
     );
   }
 
-  if (viewingOthers && displayLegacy && displayGhost) {
+  if (viewingOthers && displayLegacy && displayGhost && ghostLegacyInput) {
     return (
       <>
-        <div className="relative mx-auto max-w-3xl space-y-10 pb-8">
-          <PageHeader
-            eyebrow="Shared legacy"
-            title={`${displayGhost.name}'s Legacy`}
-            description="A wallet-owned World Cup story sealed on 0G Storage. Comments below are public for everyone."
+        {showCinematic && (
+          <LegacyCinematicUnwrap
+            ghost={ghostLegacyInput}
+            legacy={displayLegacy}
+            onShare={shareLegacy}
+            shareCopied={copied}
+            readOnly
+            onComplete={() => setShowCinematic(false)}
           />
-
-          <OgIrreplaceableBanner />
-
-          <div className="space-y-6">
-            <WrappedProgress current={slide} total={slides.length} autoPlay={autoPlay} />
-
-            <AnimatePresence mode="wait">
-              <WrappedSlide key={slide} slide={slides[slide]} active />
-            </AnimatePresence>
-
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                disabled={slide === 0}
-                onClick={() => setSlide((s) => s - 1)}
-              >
-                <ChevronLeft className="mr-1 h-4 w-4" />
-                Back
+        )}
+        {!showCinematic && (
+          <div className="relative mx-auto max-w-3xl space-y-10 pb-8">
+            <PageHeader
+              eyebrow="Shared legacy"
+              title={`${displayGhost.name}'s Legacy`}
+              description="A wallet-owned World Cup story sealed on 0G Storage. Comments below are public for everyone."
+            />
+            <OgIrreplaceableBanner />
+            <div className="flex justify-center">
+              <Button variant="outline" onClick={() => setShowCinematic(true)}>
+                Replay the Journey
               </Button>
-
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setAutoPlay((a) => !a)}
-                  className={cn("text-muted", hoverIconBtn, "hover:text-[#F4C542]")}
-                  aria-label={autoPlay ? "Pause" : "Play"}
-                >
-                  {autoPlay ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                </button>
-                <div className="flex gap-1.5">
-                  {slides.map((_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setSlide(i)}
-                      className={cn(
-                        "h-2 rounded-full",
-                        i === slide
-                          ? cn("w-8 bg-[#F4C542]", hoverSlideDotActive)
-                          : cn("w-2 bg-white/20", hoverSlideDotInactive)
-                      )}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Button
-                  variant={slide === slides.length - 1 ? "default" : "outline"}
-                  size="sm"
-                  onClick={shareLegacy}
-                  className={slide === slides.length - 1 ? "shadow-md shadow-[#F4C542]/15" : ""}
-                >
-                  <Share2 className="mr-1 h-4 w-4" />
-                  {copied ? "Copied!" : "Share Legacy"}
-                </Button>
-                {slide < slides.length - 1 && (
-                  <Button variant="outline" size="sm" onClick={nextSlide}>
-                    Next
-                    <ChevronRight className="ml-1 h-4 w-4" />
-                  </Button>
-                )}
-              </div>
             </div>
+            <LegacyComments />
           </div>
-
-          <LegacyComments />
-        </div>
+        )}
       </>
     );
   }
@@ -444,12 +401,29 @@ function LegacyPageContent() {
 
   return (
     <>
-      <ConfettiCelebration active={showConfetti} />
-      <div className="relative mx-auto max-w-3xl space-y-10 pb-8">
+      {displayLegacy && ghostLegacyInput && showCinematic && (
+        <LegacyCinematicUnwrap
+          ghost={ghostLegacyInput}
+          legacy={displayLegacy}
+          onShare={shareLegacy}
+          onSeal={sealLegacyToStorage}
+          shareCopied={copied}
+          sealing={sealing}
+          sealed={legacySealed}
+          onComplete={() => setShowCinematic(false)}
+        />
+      )}
+
+      <div
+        className={cn(
+          "relative mx-auto max-w-3xl space-y-10 pb-8",
+          showCinematic && displayLegacy && "hidden"
+        )}
+      >
         <PageHeader
           eyebrow="The judge moment"
           title="Your Legacy"
-          description="Your tournament wrapped in emotion: every rivalry, comeback, and final whistle, narrated by 0G Compute and verified on 0G Storage."
+          description="Your tournament Spirit, wrapped in emotion: every rivalry, comeback, and final whistle, narrated by 0G Compute and verified on 0G Storage."
         />
 
         <OgIrreplaceableBanner />
@@ -510,7 +484,7 @@ function LegacyPageContent() {
                     </dl>
                     <p className="leading-relaxed text-amber-100/90">
                       Click <span className="font-medium text-amber-50">Unwrap Your Legacy</span>{" "}
-                      to automatically initialize your ledger — we will transfer{" "}
+                      to automatically initialize your ledger. We will transfer{" "}
                       {LEGACY_FIRST_TIME_LEDGER_OG} OG from your connected wallet (approve the
                       wallet transactions when prompted).
                     </p>
@@ -563,70 +537,17 @@ function LegacyPageContent() {
             </Button>
           </motion.div>
         ) : (
-          <div className="space-y-6">
-            <WrappedProgress current={slide} total={slides.length} autoPlay={autoPlay} />
-
-            <AnimatePresence mode="wait">
-              <WrappedSlide key={slide} slide={slides[slide]} active />
-            </AnimatePresence>
-
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                disabled={slide === 0}
-                onClick={() => setSlide((s) => s - 1)}
-              >
-                <ChevronLeft className="mr-1 h-4 w-4" />
-                Back
+          <div className="flex flex-col items-center gap-6 rounded-3xl border border-[#F4C542]/15 bg-[#0A1020]/70 py-16 text-center">
+            <p className="font-display text-2xl text-white/90">
+              Your Spirit legacy is ready
+            </p>
+            <p className="max-w-md text-sm text-muted/80">
+              Replay the cinematic ceremony or continue to the public comments wall.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Button size="lg" onClick={() => setShowCinematic(true)}>
+                Replay the Journey
               </Button>
-
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setAutoPlay((a) => !a)}
-                  className={cn("text-muted", hoverIconBtn, "hover:text-[#F4C542]")}
-                  aria-label={autoPlay ? "Pause" : "Play"}
-                >
-                  {autoPlay ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                </button>
-                <div className="flex gap-1.5">
-                  {slides.map((_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setSlide(i)}
-                      className={cn(
-                        "h-2 rounded-full",
-                        i === slide
-                          ? cn("w-8 bg-[#F4C542]", hoverSlideDotActive)
-                          : cn("w-2 bg-white/20", hoverSlideDotInactive)
-                      )}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Button
-                  variant={slide === slides.length - 1 ? "default" : "outline"}
-                  size="sm"
-                  onClick={shareLegacy}
-                  className={slide === slides.length - 1 ? "shadow-md shadow-[#F4C542]/15" : ""}
-                >
-                  <Share2 className="mr-1 h-4 w-4" />
-                  {copied ? "Copied!" : "Share Legacy"}
-                </Button>
-                {slide < slides.length - 1 && (
-                  <Button variant="outline" size="sm" onClick={nextSlide}>
-                    Next
-                    <ChevronRight className="ml-1 h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-            </div>
-
-            <div className="flex justify-center rounded-2xl border border-[#F4C542]/10 bg-[#0A1020]/50 py-6">
               <Link href="/memories" className={cn("text-sm text-[#F4C542]/80", hoverLink)}>
                 See it in your Fan Journey →
               </Link>
