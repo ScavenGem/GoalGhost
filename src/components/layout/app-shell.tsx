@@ -1,9 +1,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { SidebarNav } from "./sidebar-nav";
 import { MobileNav } from "./mobile-nav";
+import { WalletConnectButton } from "@/components/wallet/wallet-connect-button";
 import { OgLayerBadges } from "@/components/0g/og-layer-badges";
 import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
 import { PitchBackground } from "@/components/ui/pitch-background";
@@ -23,11 +23,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <GoalGhostLogo size={40} className="shrink-0" />
             <p className="font-display text-lg text-[#F4C542]">GoalGhost</p>
           </div>
-          <ConnectButton
-            showBalance={false}
-            chainStatus="icon"
-            accountStatus={{ smallScreen: "avatar", largeScreen: "address" }}
-          />
+          <WalletConnectButton variant="header" />
         </header>
         <main
           className={

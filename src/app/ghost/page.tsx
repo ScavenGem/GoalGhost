@@ -17,7 +17,7 @@ import { OgIrreplaceableBanner } from "@/components/0g/og-irreplaceable-banner";
 import { GhostAvatar } from "@/components/ghost/ghost-avatar";
 import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
 import { nationByName } from "@/lib/football/teams";
-import { hoverLink } from "@/lib/utils/hover";
+import { hoverLink, hoverPromoBanner } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 import { legacyInitMessage } from "@/lib/0g/compute/ensure-legacy-sub-account";
 import {
@@ -277,10 +277,12 @@ export default function GhostPage() {
           </Link>
         </div>
 
-        <Link href="/matches">
-          <motion.div
-            whileHover={{ scale: 1.01 }}
-            className="rounded-2xl border border-[#F4C542]/20 bg-gradient-to-r from-[#F4C542]/10 to-transparent p-5"
+        <Link href="/matches" className="block">
+          <div
+            className={cn(
+              "rounded-2xl border border-[#F4C542]/20 bg-gradient-to-r from-[#F4C542]/10 to-transparent p-5",
+              hoverPromoBanner
+            )}
           >
             <div className="flex items-center justify-between gap-4">
               <div>
@@ -294,7 +296,7 @@ export default function GhostPage() {
               </div>
               <Radio className="h-8 w-8 shrink-0 text-[#F4C542]" />
             </div>
-          </motion.div>
+          </div>
         </Link>
 
         <OgIrreplaceableBanner compact />

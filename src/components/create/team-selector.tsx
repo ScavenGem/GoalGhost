@@ -3,7 +3,7 @@
 import { motion } from "@/lib/motion";
 import { WC_2026_NATIONS, type WcNation } from "@/lib/football/teams";
 import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
-import { hoverCardSubtle } from "@/lib/utils/hover";
+import { hoverCardSubtle, hoverSelectionActive } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 export function TeamSelector({
@@ -24,13 +24,14 @@ export function TeamSelector({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.02, type: "spring", stiffness: 110 }}
-            whileHover={{ scale: 1.03, y: -4 }}
-            whileTap={{ scale: 0.97 }}
             onClick={() => onSelect(nation)}
             className={cn(
               "group relative overflow-hidden rounded-2xl border p-4 text-left sm:p-5",
               active
-                ? "border-[#F4C542]/60 bg-[#F4C542]/10 shadow-lg shadow-[#F4C542]/15"
+                ? cn(
+                    "border-[#F4C542]/60 bg-[#F4C542]/10 shadow-lg shadow-[#F4C542]/15",
+                    hoverSelectionActive
+                  )
                 : cn("border-white/8 bg-[#0A1020]/50", hoverCardSubtle)
             )}
           >

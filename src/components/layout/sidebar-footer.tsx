@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Bell } from "lucide-react";
 import { GoalGhostFullLogo } from "@/components/ui/goalghost-full-logo";
+import { WalletConnectButton } from "@/components/wallet/wallet-connect-button";
 import { useSidebarNotifications } from "@/hooks/use-sidebar-notifications";
-import { shortenWalletAddress } from "@/lib/legacy/comment-sign";
-import { hoverEase, hoverIconBtn, hoverNavTabInactive } from "@/lib/utils/hover";
+import { hoverIconBtn } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 /** ~2× OgLayerBadges pill row height (py-2/h-3 ≈ 2.125rem; sm py-2.5/h-3.5 ≈ 2.375rem). */
@@ -15,67 +14,6 @@ const SIDEBAR_FOOTER_MIN_H =
 
 /** Matches OgLayerBadges footer bottom inset (py-6 / sm:py-8) for pill-row alignment. */
 const OG_BADGES_SPACER = "min-h-6 flex-1 sm:min-h-8";
-
-function SidebarWalletConnect() {
-  return (
-    <ConnectButton.Custom>
-      {({
-        account,
-        chain,
-        openAccountModal,
-        openConnectModal,
-        authenticationStatus,
-        mounted,
-      }) => {
-        const ready = mounted && authenticationStatus !== "loading";
-        const connected =
-          ready &&
-          account &&
-          chain &&
-          (!authenticationStatus || authenticationStatus === "authenticated");
-
-        return (
-          <div
-            {...(!ready && {
-              "aria-hidden": true,
-              style: {
-                opacity: 0,
-                pointerEvents: "none",
-                userSelect: "none",
-              },
-            })}
-          >
-            {connected ? (
-              <button
-                type="button"
-                onClick={openAccountModal}
-                className={cn(
-                  "max-w-[8.5rem] truncate font-mono text-xs text-muted/75",
-                  hoverEase,
-                  "hover:scale-[1.02] hover:text-[#F4C542]/90"
-                )}
-              >
-                {shortenWalletAddress(account.address)}
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={openConnectModal}
-                className={cn(
-                  "rounded-lg border border-[#F4C542]/25 px-3.5 py-2 text-xs font-medium text-[#F4C542]/90",
-                  hoverEase,
-                  "hover:-translate-y-0.5 hover:bg-[#F4C542]/10 hover:shadow-[0_0_16px_rgba(244,197,66,0.15)]"
-                )}
-              >
-                Connect Wallet
-              </button>
-            )}
-          </div>
-        );
-      }}
-    </ConnectButton.Custom>
-  );
-}
 
 export function SidebarFooter() {
   const { count, markAsSeen } = useSidebarNotifications();
@@ -94,7 +32,7 @@ export function SidebarFooter() {
           <GoalGhostFullLogo width={72} />
 
           <div className="flex w-full items-center justify-center gap-3.5">
-            <SidebarWalletConnect />
+            <WalletConnectButton variant="pill" />
 
             <Link
               href="/memories"

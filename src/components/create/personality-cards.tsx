@@ -3,7 +3,7 @@
 import { motion } from "@/lib/motion";
 import { PERSONALITY_ARCHETYPES } from "@/lib/create/personalities";
 import type { GhostTraits } from "@/types/ghost";
-import { hoverCardSubtle } from "@/lib/utils/hover";
+import { hoverCardSubtle, hoverEase, hoverSelectionActive } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 const TRAIT_LABELS: (keyof GhostTraits)[] = [
@@ -37,13 +37,14 @@ export function PersonalityCards({
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.05, type: "spring", stiffness: 100 }}
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
               onClick={() => onSelectArchetype(archetype.id, archetype.traits)}
               className={cn(
                 "group relative overflow-hidden rounded-2xl border p-5 text-left",
                 active
-                  ? "border-[#F4C542]/50 bg-[#F4C542]/8 shadow-lg shadow-[#F4C542]/10"
+                  ? cn(
+                      "border-[#F4C542]/50 bg-[#F4C542]/8 shadow-lg shadow-[#F4C542]/10",
+                      hoverSelectionActive
+                    )
                   : cn("border-white/8 bg-[#0A1020]/40", hoverCardSubtle)
               )}
             >
@@ -96,7 +97,10 @@ export function PersonalityCards({
                 onChange={(e) =>
                   onTraitChange({ ...traits, [key]: Number(e.target.value) })
                 }
-                className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-white/10 accent-[#F4C542]"
+                className={cn(
+                  "gg-range h-1.5 w-full cursor-pointer appearance-none rounded-full bg-white/10 accent-[#F4C542]",
+                  hoverEase
+                )}
               />
             </div>
           ))}

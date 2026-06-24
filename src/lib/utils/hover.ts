@@ -40,3 +40,31 @@ export const hoverTextAction =
 /** See More / Load More / Show More — bolder text on hover */
 export const hoverLoadMore =
   `${hoverEase} hover:font-semibold hover:text-[#F4C542]`;
+
+/** Connect-wallet CTA (sidebar, create flow) */
+export const hoverConnectWallet =
+  `${hoverEase} hover:-translate-y-0.5 hover:bg-[#F4C542]/10 hover:shadow-[0_0_16px_rgba(244,197,66,0.15)]`;
+
+/** Connected wallet address chip */
+export const hoverWalletChip =
+  `${hoverEase} hover:scale-[1.02] hover:bg-white/[0.04] hover:text-[#F4C542]/90`;
+
+/** Header / mobile wallet connect button */
+export const hoverHeaderConnect =
+  `${hoverEase} hover:scale-[1.02] hover:border-[#F4C542]/35 hover:bg-[#F4C542]/8 hover:shadow-[0_0_12px_rgba(244,197,66,0.12)]`;
+
+/** Gradient promo banners (ghost page, CTAs) */
+export const hoverPromoBanner =
+  `${hoverEase} hover:-translate-y-0.5 hover:border-[#F4C542]/35 hover:from-[#F4C542]/14 hover:shadow-md hover:shadow-[#F4C542]/10`;
+
+/** Legacy wrapped slide indicator — inactive dot */
+export const hoverSlideDotInactive =
+  `${hoverEase} hover:scale-125 hover:bg-white/35`;
+
+/** Legacy wrapped slide indicator — active dot */
+export const hoverSlideDotActive =
+  `${hoverEase} hover:brightness-110`;
+
+/** Selected nation / archetype card — subtle lift on hover */
+export const hoverSelectionActive =
+  `${hoverEase} hover:-translate-y-0.5 hover:border-[#F4C542]/70 hover:shadow-xl hover:shadow-[#F4C542]/20`;

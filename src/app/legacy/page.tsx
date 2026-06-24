@@ -20,7 +20,12 @@ import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
 import { OgIrreplaceableBanner } from "@/components/0g/og-irreplaceable-banner";
 import { LegacyComments } from "@/components/legacy/legacy-comments";
 import { buildLegacySharePayload } from "@/lib/legacy/share";
-import { hoverEase, hoverIconBtn, hoverLink } from "@/lib/utils/hover";
+import {
+  hoverIconBtn,
+  hoverLink,
+  hoverSlideDotActive,
+  hoverSlideDotInactive,
+} from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 import {
   buildLegacyDocument,
@@ -361,10 +366,9 @@ function LegacyPageContent() {
                       onClick={() => setSlide(i)}
                       className={cn(
                         "h-2 rounded-full",
-                        hoverEase,
                         i === slide
-                          ? "w-8 bg-[#F4C542]"
-                          : "w-2 bg-white/20 hover:scale-125 hover:bg-white/35"
+                          ? cn("w-8 bg-[#F4C542]", hoverSlideDotActive)
+                          : cn("w-2 bg-white/20", hoverSlideDotInactive)
                       )}
                     />
                   ))}
@@ -594,10 +598,9 @@ function LegacyPageContent() {
                       onClick={() => setSlide(i)}
                       className={cn(
                         "h-2 rounded-full",
-                        hoverEase,
                         i === slide
-                          ? "w-8 bg-[#F4C542]"
-                          : "w-2 bg-white/20 hover:scale-125 hover:bg-white/35"
+                          ? cn("w-8 bg-[#F4C542]", hoverSlideDotActive)
+                          : cn("w-2 bg-white/20", hoverSlideDotInactive)
                       )}
                     />
                   ))}

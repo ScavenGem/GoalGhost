@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Ghost, Home, Radio, ScrollText, Sparkles, Trophy } from "lucide-react";
 import { useNavPrefetch } from "@/hooks/use-nav-prefetch";
-import { hoverNavTab, hoverNavTabInactive } from "@/lib/utils/hover";
+import { hoverNavTab, hoverNavTabActive, hoverNavTabInactive } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 
 const NAV = [
@@ -34,7 +34,9 @@ export function MobileNav() {
               className={cn(
                 "flex flex-col items-center gap-0.5 rounded-lg px-2 py-1.5 text-[10px]",
                 hoverNavTab,
-                active ? "text-[#F4C542]" : cn("text-muted", hoverNavTabInactive)
+                active
+                  ? cn("text-[#F4C542]", hoverNavTabActive)
+                  : cn("text-muted", hoverNavTabInactive)
               )}
             >
               <Icon className="h-4 w-4" />

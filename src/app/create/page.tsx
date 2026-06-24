@@ -7,7 +7,8 @@ import {
   useWriteContract,
   useWaitForTransactionReceipt,
 } from "wagmi";
-import { ConnectButton, useConnectModal } from "@rainbow-me/rainbowkit";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { WalletConnectButton } from "@/components/wallet/wallet-connect-button";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "@/lib/motion";
 import { ArrowRight, Sparkles } from "lucide-react";
@@ -512,7 +513,7 @@ function CreatePageContent() {
                     Your wallet owns your entire fan identity. ECIES encryption means only you can read your ghost&apos;s inner life, verified by 0G.
                   </p>
                   <div className="flex justify-center py-4">
-                    <ConnectButton />
+                    <WalletConnectButton variant="pill" />
                   </div>
                   <p className="text-center text-xs text-muted">
                     0G Aristotle Mainnet · Chain 16661

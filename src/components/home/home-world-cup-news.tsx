@@ -81,7 +81,7 @@ const NewsArticleCard = memo(function NewsArticleCard({
         href={article.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group block p-5"
+        className={cn("group block p-5 transition-colors duration-200 ease-in-out hover:bg-white/[0.02]")}
       >
         <div className="flex items-start justify-between gap-3">
           <span className="rounded-full border border-[#F4C542]/20 bg-[#F4C542]/8 px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-[#F4C542]/85">
