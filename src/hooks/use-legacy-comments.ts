@@ -162,7 +162,6 @@ export function useLegacyComments() {
         ...existing.filter((c) => c.id !== comment.id),
       ]);
       setReplyTo(null);
-      void queryClient.invalidateQueries({ queryKey: LEGACY_COMMENTS_QUERY_KEY });
     },
     onError: (err: Error) => setError(formatPostError(err)),
   });

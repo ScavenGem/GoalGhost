@@ -46,7 +46,7 @@ export function LegacyComments() {
         </div>
       </div>
 
-      {loading ? (
+      {loading && comments.length === 0 ? (
         <FootballLoader label="Loading comments…" />
       ) : (
         <WalletCommentSection

@@ -1,4 +1,5 @@
 import type { NewsArticle, NewsFeedResult } from "@/types/news";
+import { stableNewsArticleId } from "@/lib/news/article-id";
 import { newsCache, NEWS_CACHE_TTL_MS } from "@/lib/news/news-cache";
 
 const NEWS_QUERY = '"World Cup 2026" OR "FIFA World Cup"';
@@ -35,7 +36,7 @@ function truncate(text: string, max: number): string {
   return `${trimmed.slice(0, max - 1).trimEnd()}…`;
 }
 
-function toArticle(raw: NewsApiArticle, index: number): NewsArticle | null {
+function toArticle(raw: NewsApiArticle): NewsArticle | null {
   const title = raw.title?.trim();
   const url = raw.url?.trim();
   if (!title || !url) return null;
@@ -47,7 +48,7 @@ function toArticle(raw: NewsApiArticle, index: number): NewsArticle | null {
   if (!summary) return null;
 
   return {
-    id: `${url}-${index}`,
+    id: stableNewsArticleId(url),
     title,
     summary: truncate(summary, 160),
     source: raw.source?.name?.trim() || "News",
@@ -78,7 +79,7 @@ async function fetchFromNewsApi(apiKey: string): Promise<NewsArticle[]> {
   if (data.status !== "ok" || !data.articles?.length) return [];
 
   return data.articles
-    .map((article, index) => toArticle(article, index))
+    .map((article) => toArticle(article))
     .filter((article): article is NewsArticle => article !== null)
     .sort(
       (a, b) =>

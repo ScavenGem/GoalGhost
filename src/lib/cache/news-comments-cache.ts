@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db/prisma";
 import { getCommentReactionsForComments } from "@/lib/cache/comment-reactions-cache";
 import { commentMediaUrl } from "@/lib/comments/media";
+import { newsCommentArticleIdWhere } from "@/lib/news/article-id";
 import type { NewsComment } from "@/types/news-comment";
 import {
   EMPTY_COMMENT_REACTION_COUNTS,
@@ -60,7 +61,7 @@ export async function listNewsComments(
   if (articleIds.length === 0) return [];
 
   const rows = await prisma.newsComment.findMany({
-    where: { articleId: { in: articleIds } },
+    where: newsCommentArticleIdWhere(articleIds),
     orderBy: { createdAt: "desc" },
   });
 

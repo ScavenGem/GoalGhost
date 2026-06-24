@@ -26,6 +26,7 @@ import {
   type CommentEmojiId,
   type CommentPostInput,
 } from "@/types/social-comment";
+import { resolveCommentArticleId } from "@/lib/news/article-id";
 import type { NewsComment, NewsCommentsResult } from "@/types/news-comment";
 
 export const NEWS_COMMENTS_QUERY_KEY = "news-comments";
@@ -81,12 +82,13 @@ export function useNewsComments(articleIds: string[]) {
   const commentsByArticle = useMemo(() => {
     const map = new Map<string, NewsComment[]>();
     for (const comment of query.data?.comments ?? []) {
-      const list = map.get(comment.articleId) ?? [];
+      const bucketId = resolveCommentArticleId(comment.articleId, articleIds);
+      const list = map.get(bucketId) ?? [];
       list.push(comment);
-      map.set(comment.articleId, list);
+      map.set(bucketId, list);
     }
     return map;
-  }, [query.data?.comments]);
+  }, [query.data?.comments, articleIds]);
 
   const updateCache = useCallback(
     (updater: (comments: NewsComment[]) => NewsComment[]) => {
@@ -184,9 +186,6 @@ export function useNewsComments(articleIds: string[]) {
         ...existing.filter((c) => c.id !== comment.id),
       ]);
       setReplyToByArticle((prev) => ({ ...prev, [vars.articleId]: null }));
-      void queryClient.invalidateQueries({
-        queryKey: [NEWS_COMMENTS_QUERY_KEY, idsKey, walletKey],
-      });
     },
     onError: (err: Error, vars) => {
       setPostErrorArticleId(vars.articleId);

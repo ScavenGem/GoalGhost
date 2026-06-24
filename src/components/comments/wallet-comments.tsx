@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   MessageSquareReply,
   Pencil,
@@ -419,6 +419,16 @@ export function WalletCommentList<T extends WalletCommentBase>({
   const threads = useMemo(() => buildCommentThreads(comments), [comments]);
   const visible = threads.slice(0, visibleCount);
   const hasMore = threads.length > visibleCount;
+
+  useEffect(() => {
+    setVisibleCount((count) => {
+      if (threads.length === 0) return COMMENTS_INITIAL_VISIBLE;
+      if (count > threads.length) {
+        return Math.max(COMMENTS_INITIAL_VISIBLE, threads.length);
+      }
+      return count;
+    });
+  }, [threads.length]);
 
   if (threads.length === 0) return null;
 

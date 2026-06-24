@@ -151,10 +151,7 @@ export function HomeWorldCupNews() {
     [articles, showAll]
   );
 
-  const visibleIds = useMemo(
-    () => visibleArticles.map((a) => a.id),
-    [visibleArticles]
-  );
+  const allArticleIds = useMemo(() => articles.map((a) => a.id), [articles]);
 
   const {
     commentsByArticle,
@@ -173,7 +170,7 @@ export function HomeWorldCupNews() {
     reactingCommentId,
     reactingEmoji,
     error,
-  } = useNewsComments(visibleIds);
+  } = useNewsComments(allArticleIds);
 
   const hasMore = articles.length > DEFAULT_VISIBLE;
 
