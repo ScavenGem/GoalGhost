@@ -163,6 +163,7 @@ export function HomeWorldCupNews() {
     setReplyTo,
     replyToByArticle,
     postingArticleId,
+    postErrorArticleId,
     editingCommentId,
     deletingCommentId,
     reactingCommentId,
@@ -247,6 +248,7 @@ export function HomeWorldCupNews() {
                 error={
                   error &&
                   (postingArticleId === article.id ||
+                    postErrorArticleId === article.id ||
                     (commentsByArticle.get(article.id) ?? []).some(
                       (c) =>
                         c.id === editingCommentId ||

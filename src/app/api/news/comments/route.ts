@@ -20,14 +20,19 @@ export const revalidate = 0;
 
 const NO_CACHE_HEADERS = { "Cache-Control": "no-store, max-age=0" };
 
+const walletSchema = z
+  .string()
+  .regex(/^0x[a-fA-F0-9]{40}$/)
+  .transform((value) => value.toLowerCase());
+
 const postSchema = z
   .object({
     commentId: z.string().min(1),
     articleId: z.string().min(1),
-    walletAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/),
+    walletAddress: walletSchema,
     text: z.string().max(NEWS_COMMENT_MAX_LENGTH).default(""),
     signature: z.string().regex(/^0x[a-fA-F0-9]+$/),
-    createdAt: z.string().datetime(),
+    createdAt: z.string().datetime({ offset: true }),
     parentCommentId: z.string().optional().nullable(),
     mediaRootHash: z.string().optional().nullable(),
     mediaType: z.enum(["image", "gif"]).optional().nullable(),

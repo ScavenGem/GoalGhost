@@ -1,11 +1,16 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount, useSignMessage } from "wagmi";
 import { applyOptimisticCommentReaction } from "@/lib/comments/reaction-optimistic";
 import { buildCommentReactionMessage } from "@/lib/comments/reaction-sign";
-import { uploadCommentMedia } from "@/lib/comments/upload-media";
+import {
+  prepareCommentMediaForSigning,
+  uploadPreparedCommentMedia,
+  type PreparedCommentMedia,
+} from "@/lib/comments/upload-media";
 import {
   buildNewsCommentDeleteMessage,
   buildNewsCommentEditMessage,
@@ -37,11 +42,19 @@ async function fetchNewsComments(
 export function useNewsComments(articleIds: string[]) {
   const { address, isConnected } = useAccount();
   const { signMessageAsync } = useSignMessage();
+  const { openConnectModal } = useConnectModal();
   const queryClient = useQueryClient();
   const [error, setError] = useState<string | null>(null);
+  const [postErrorArticleId, setPostErrorArticleId] = useState<string | null>(
+    null
+  );
   const [replyToByArticle, setReplyToByArticle] = useState<
     Record<string, NewsComment | null>
   >({});
+  const [signingArticleId, setSigningArticleId] = useState<string | null>(null);
+
+  const signRef = useRef(signMessageAsync);
+  signRef.current = signMessageAsync;
 
   const idsKey = useMemo(
     () => [...articleIds].sort().join(","),
@@ -105,46 +118,30 @@ export function useNewsComments(articleIds: string[]) {
   const postMutation = useMutation({
     mutationFn: async ({
       articleId,
-      input,
+      commentId,
+      walletAddress,
+      text,
+      signature,
+      createdAt,
       parentCommentId,
+      mediaRootHash,
+      mediaType,
+      preparedMedia,
     }: {
       articleId: string;
-      input: CommentPostInput;
+      commentId: string;
+      walletAddress: string;
+      text: string;
+      signature: string;
+      createdAt: string;
       parentCommentId?: string | null;
+      mediaRootHash: string | null;
+      mediaType: string | null;
+      preparedMedia?: PreparedCommentMedia | null;
     }) => {
-      if (!address || !isConnected) {
-        throw new Error("Connect your wallet to comment");
+      if (preparedMedia) {
+        await uploadPreparedCommentMedia(preparedMedia);
       }
-
-      const trimmed = input.text.trim();
-      let mediaRootHash: string | null = null;
-      let mediaType: string | null = null;
-
-      if (input.mediaFile) {
-        const uploaded = await uploadCommentMedia(input.mediaFile);
-        mediaRootHash = uploaded.mediaRootHash;
-        mediaType = uploaded.mediaType;
-      }
-
-      if (!trimmed && !mediaRootHash) {
-        throw new Error("Add text or an image");
-      }
-      if (trimmed.length > NEWS_COMMENT_MAX_LENGTH) {
-        throw new Error(`Comment must be ${NEWS_COMMENT_MAX_LENGTH} characters or fewer`);
-      }
-
-      const createdAt = new Date().toISOString();
-      const commentId = `news-comment-${Date.now()}-${address.slice(2, 8)}`;
-      const message = buildNewsCommentMessage({
-        address,
-        articleId,
-        text: trimmed,
-        createdAt,
-        parentCommentId: parentCommentId ?? null,
-        mediaRootHash,
-      });
-
-      const signature = await signMessageAsync({ message });
 
       const res = await fetch("/api/news/comments", {
         method: "POST",
@@ -152,8 +149,8 @@ export function useNewsComments(articleIds: string[]) {
         body: JSON.stringify({
           commentId,
           articleId,
-          walletAddress: address,
-          text: trimmed,
+          walletAddress,
+          text,
           signature,
           createdAt,
           parentCommentId: parentCommentId ?? null,
@@ -171,6 +168,7 @@ export function useNewsComments(articleIds: string[]) {
     },
     onSuccess: (data, vars) => {
       setError(null);
+      setPostErrorArticleId(null);
       const comment = normalizeComment(data.comment);
       updateCache((existing) => [
         comment,
@@ -178,10 +176,13 @@ export function useNewsComments(articleIds: string[]) {
       ]);
       setReplyToByArticle((prev) => ({ ...prev, [vars.articleId]: null }));
       void queryClient.invalidateQueries({
-        queryKey: [NEWS_COMMENTS_QUERY_KEY, idsKey],
+        queryKey: [NEWS_COMMENTS_QUERY_KEY, idsKey, walletKey],
       });
     },
-    onError: (err: Error) => setError(formatPostError(err)),
+    onError: (err: Error, vars) => {
+      setPostErrorArticleId(vars.articleId);
+      setError(formatPostError(err));
+    },
   });
 
   const editMutation = useMutation({
@@ -334,14 +335,88 @@ export function useNewsComments(articleIds: string[]) {
   const postComment = useCallback(
     async (articleId: string, input: CommentPostInput) => {
       setError(null);
-      const parent = replyToByArticle[articleId];
-      await postMutation.mutateAsync({
-        articleId,
-        input,
-        parentCommentId: parent?.commentId ?? null,
-      });
+      setPostErrorArticleId(null);
+
+      try {
+        if (!address || !isConnected) {
+          openConnectModal?.();
+          throw new Error("Connect your wallet to comment");
+        }
+
+        const trimmed = input.text.trim();
+        let preparedMedia: PreparedCommentMedia | null = null;
+
+        if (input.mediaFile) {
+          preparedMedia = await prepareCommentMediaForSigning(input.mediaFile);
+        }
+
+        const mediaRootHash = preparedMedia?.mediaRootHash ?? null;
+        const mediaType = preparedMedia?.mediaType ?? null;
+
+        if (!trimmed && !mediaRootHash) {
+          throw new Error("Add text or an image");
+        }
+        if (trimmed.length > NEWS_COMMENT_MAX_LENGTH) {
+          throw new Error(
+            `Comment must be ${NEWS_COMMENT_MAX_LENGTH} characters or fewer`
+          );
+        }
+
+        const parent = replyToByArticle[articleId];
+        const createdAt = new Date().toISOString();
+        const commentId = `news-comment-${Date.now()}-${address.slice(2, 8)}`;
+        const message = buildNewsCommentMessage({
+          address,
+          articleId,
+          text: trimmed,
+          createdAt,
+          parentCommentId: parent?.commentId ?? null,
+          mediaRootHash,
+        });
+
+        const sign = signRef.current;
+        if (!sign) {
+          throw new Error(
+            "Wallet signer unavailable. Reconnect your wallet and try again."
+          );
+        }
+
+        setSigningArticleId(articleId);
+        let signature: string;
+        try {
+          signature = await sign({ message });
+        } finally {
+          setSigningArticleId(null);
+        }
+
+        await postMutation.mutateAsync({
+          articleId,
+          commentId,
+          walletAddress: address.toLowerCase(),
+          text: trimmed,
+          signature,
+          createdAt,
+          parentCommentId: parent?.commentId ?? null,
+          mediaRootHash,
+          mediaType,
+          preparedMedia,
+        });
+      } catch (err) {
+        const message = formatPostError(
+          err instanceof Error ? err : new Error("Failed to post comment")
+        );
+        setPostErrorArticleId(articleId);
+        setError(message);
+        throw new Error(message);
+      }
     },
-    [postMutation, replyToByArticle]
+    [
+      address,
+      isConnected,
+      openConnectModal,
+      postMutation,
+      replyToByArticle,
+    ]
   );
 
   const setReplyTo = useCallback((articleId: string, comment: NewsComment | null) => {
@@ -372,9 +447,9 @@ export function useNewsComments(articleIds: string[]) {
     [reactMutation]
   );
 
-  const postingArticleId = postMutation.isPending
-    ? (postMutation.variables?.articleId ?? null)
-    : null;
+  const postingArticleId =
+    signingArticleId ??
+    (postMutation.isPending ? (postMutation.variables?.articleId ?? null) : null);
 
   return {
     commentsByArticle,
@@ -394,6 +469,7 @@ export function useNewsComments(articleIds: string[]) {
       ? (reactMutation.variables?.emojiId ?? null)
       : null,
     replyToByArticle,
+    postErrorArticleId,
     error,
     isConnected,
     address,
