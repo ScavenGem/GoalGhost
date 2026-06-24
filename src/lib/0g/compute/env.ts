@@ -32,6 +32,11 @@ export function getComputeEnvStatus(): ComputeEnvStatus {
   };
 }
 
+/** Live 0G Compute runs only when OG_COMPUTE_MODE=live (server-side). */
+export function isLiveComputeEnabled(): boolean {
+  return process.env.OG_COMPUTE_MODE?.trim().toLowerCase() === "live";
+}
+
 export function getCreateComputeTimeoutMs(): number {
   const raw = process.env.OG_COMPUTE_CREATE_TIMEOUT_MS;
   const parsed = raw ? Number.parseInt(raw, 10) : NaN;
