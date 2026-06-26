@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarNav } from "./sidebar-nav";
 import { MobileNav } from "./mobile-nav";
@@ -19,10 +20,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
       <div className="relative z-10 flex min-h-screen flex-1 flex-col">
         <header className="flex items-center justify-between border-b border-white/8 px-4 py-3 sm:px-6 md:justify-end md:px-8 md:py-4">
-          <div className="flex items-center gap-2 overflow-visible md:hidden">
+          <Link
+            href="/"
+            className="flex items-center gap-2 overflow-visible md:hidden"
+          >
             <GoalGhostLogo size={40} className="shrink-0" />
             <p className="font-display text-lg text-[#F4C542]">GoalGhost</p>
-          </div>
+          </Link>
           <WalletConnectButton variant="header" />
         </header>
         <main

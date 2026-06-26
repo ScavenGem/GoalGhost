@@ -24,7 +24,12 @@ export function SidebarNav() {
 
   return (
     <aside className="flex min-h-full w-60 shrink-0 flex-col border-r border-white/8 bg-[#0A1020] px-4 py-6">
-      <div className="mb-10 flex items-center gap-2.5 overflow-visible px-2">
+      <Link
+        href="/"
+        onMouseEnter={() => prefetchRoute("/")}
+        onFocus={() => prefetchRoute("/")}
+        className="mb-10 flex items-center gap-2.5 overflow-visible px-2"
+      >
         <GoalGhostLogo size={44} className="shrink-0" />
         <div>
           <p className="text-sm font-semibold tracking-wide">GoalGhost</p>
@@ -32,7 +37,7 @@ export function SidebarNav() {
             0G Zero Cup
           </p>
         </div>
-      </div>
+      </Link>
 
       <nav className="flex flex-1 flex-col gap-1">
         {NAV.map(({ href, label, icon: Icon }) => {
