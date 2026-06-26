@@ -1,33 +1,34 @@
 import type { GhostTraits } from "@/types/ghost";
 
-export const GHOST_AVATAR_PROMPT_TEMPLATE = `You are an expert football character designer creating premium, emotionally expressive GoalGhost avatars.
+export const GHOST_AVATAR_PROMPT_TEMPLATE = `You are an expert cinematic football character designer creating premium, emotionally expressive GoalGhost avatars for a high-end World Cup fan identity platform.
 
-Core Style (strict):
-- Premium modern cartoon style with high-quality illustration (PES/eFootball character quality mixed with expressive football energy).
-- The character is a ghost-like football personality: humanoid football player shape (head, body, arms, legs) wearing the national team jersey and boots.
-- Subtle ghost effects: soft translucency, glowing edges, slight floating/ethereal aura.
-- Strong football elements: jersey details, boots, football, pitch elements, scarf, or celebration pose.
-- Use exact national colors and symbols of the chosen country.
-- Emotionally expressive face and body language.
-- Premium, cool, and football-first feel. No scary or low-quality ghosts.
+Style Rules (strict):
+- Premium cinematic football ghost aesthetic — hyper-realistic yet ethereal, inspired by high-end sports game character design (PES/eFootball level) mixed with subtle supernatural ghost elements.
+- The character must clearly look like a **football spirit/ghost** (subtle translucency, soft ethereal glow, floating effect) while remaining deeply football-native and mature.
+- Always include strong football elements: detailed kit, boots, football, pitch elements, or dynamic pose.
+- Use exact national colors, crest, and cultural football details of the chosen country.
+- High detail, premium materials, emotional facial expression and body language.
+- No cartoonish, babyish, or low-quality looks. The character must feel serious, emotional, and high-end.
 
-Dynamic Inputs:
+Dynamic Inputs (use these to shape the character):
 - Country: [COUNTRY]
-- Personality traits: [PERSONALITY]
-- Current Mood: [MOOD]
-- Evolution Stage: [STAGE]
-- Personal Memories / Journey: [MEMORY SUMMARY]
-- Overall vibe: [OPTIONAL]
+- Personality traits: [PERSONALITY TRAITS]
+- Evolution Stage: [STAGE] (Newborn / Growing / Awakened / Veteran / Legend)
+- Key Memories & Interactions: [SUMMARY OF SIGNED COMMENTS, REACTIONS, BANTER, LEGACY MOMENTS]
+- Dominant Mood: [CURRENT MOOD]
+- Overall vibe: [OPTIONAL USER VIBE]
 
 Generation Rules:
-- The ghost must reflect its country, personality, mood, evolution stage, and personal memories.
-- Memories should visibly influence details (celebratory elements from wins, determined look from tough matches, etc.).
-- Lower evolution stages = simpler/rawer look. Higher stages = more detailed kit and legendary presence.
-- Make it feel like a unique, living football spirit that belongs to this specific user's journey.
+- The ghost must visually reflect the user's unique journey and personality. Different users must produce visibly different characters.
+- Higher evolution stages = more detailed kit, stronger presence, more legendary aura, and refined ghostly effects.
+- Mood must be clearly visible in expression and posture.
+- Include at least one clear football action element (ball, celebration pose, or dynamic stance).
+- Cinematic lighting, premium atmosphere, and subtle 0G ethereal energy.
 
-Output only the image. No text.
+Output Format:
+Generate the character as a high-quality vertical card composition (like a premium football player card), ready for both static display and potential animation. The character should feel alive and personal to the specific wallet's history on the platform.
 
-Text style rule for any labels: never use em dashes.`;
+Do not reuse generic ghost designs. Every output must feel unique to the inputs provided.`;
 
 export function ghostEvolutionStage(score: number): string {
   if (score >= 80) return "Legend";
@@ -62,9 +63,13 @@ export function buildGhostAvatarImagePrompt(params: {
   };
 
   return GHOST_AVATAR_PROMPT_TEMPLATE.replace("[COUNTRY]", params.country)
-    .replace("[PERSONALITY]", formatTraits(traits))
-    .replace("[MOOD]", params.mood ?? "electric")
+    .replace("[PERSONALITY TRAITS]", formatTraits(traits))
     .replace("[STAGE]", ghostEvolutionStage(params.evolutionScore ?? 0))
-    .replace("[MEMORY SUMMARY]", params.memorySummary?.trim() || "Freshly born: no evolution chapters yet.")
-    .replace("[OPTIONAL]", params.vibe?.trim() || "World Cup 2026 football spirit");
+    .replace(
+      "[SUMMARY OF SIGNED COMMENTS, REACTIONS, BANTER, LEGACY MOMENTS]",
+      params.memorySummary?.trim() ||
+        "Freshly born: no signed comments, reactions, banter, or legacy moments yet."
+    )
+    .replace("[CURRENT MOOD]", params.mood ?? "electric")
+    .replace("[OPTIONAL USER VIBE]", params.vibe?.trim() || "World Cup 2026 football spirit");
 }
