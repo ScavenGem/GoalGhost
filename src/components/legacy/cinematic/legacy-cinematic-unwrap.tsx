@@ -13,6 +13,7 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ReadMoreText } from "@/components/ui/read-more-text";
 import { GoalGhostLogo } from "@/components/ui/goalghost-logo";
 import { GhostAvatar } from "@/components/ghost/ghost-avatar";
 import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
@@ -343,22 +344,27 @@ export function LegacyCinematicUnwrap({
                       <p className="mt-2 text-sm font-semibold text-white/90">
                         {moment.title}
                       </p>
-                      <p className="mt-1 text-xs leading-relaxed text-muted/80 line-clamp-4">
+                      <ReadMoreText
+                        className="mt-1 text-xs leading-relaxed text-muted/80"
+                        collapsedLines={3}
+                      >
                         {moment.body}
-                      </p>
+                      </ReadMoreText>
                     </motion.div>
                   ))}
                 </div>
               )}
 
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.45 }}
-                className="mt-8 text-base leading-relaxed text-white/82 sm:text-lg"
+                className="mt-8"
               >
-                {chapter.body}
-              </motion.p>
+                <ReadMoreText className="text-base leading-relaxed text-white/82 sm:text-lg">
+                  {chapter.body}
+                </ReadMoreText>
+              </motion.div>
 
               {chapter.stats && (
                 <div className="mt-8 flex flex-wrap gap-8">
@@ -404,9 +410,11 @@ export function LegacyCinematicUnwrap({
               <p className="mt-2 text-sm uppercase tracking-[0.25em] text-muted/70">
                 Dominant Spirit
               </p>
-              <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
-                {legacyDisplayText(legacy.story)}
-              </p>
+              <div className="mx-auto mt-8 max-w-xl">
+                <ReadMoreText className="text-base leading-relaxed text-white/80 sm:text-lg">
+                  {legacyDisplayText(legacy.story)}
+                </ReadMoreText>
+              </div>
 
               <div className="mt-10 grid grid-cols-3 gap-4">
                 {[

@@ -5,6 +5,7 @@ import { motion } from "@/lib/motion";
 import { memo, useRef } from "react";
 import { ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { ReadMoreText } from "@/components/ui/read-more-text";
 import { hoverLink } from "@/lib/utils/hover";
 import { cn } from "@/lib/utils/cn";
 import { storageScanUrl } from "@/lib/0g/network";
@@ -131,7 +132,9 @@ export const MemoryCard = memo(function MemoryCard({
                 {memory.title ?? "Untitled evolution"}
               </h3>
               {memory.content && (
-                <p className="mt-3 text-base leading-relaxed text-foreground/75">{memory.content}</p>
+                <ReadMoreText className="mt-3 text-base leading-relaxed text-foreground/75">
+                  {memory.content}
+                </ReadMoreText>
               )}
               {memory.emotionalTone && (
                 <motion.span
