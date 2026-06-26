@@ -1,34 +1,29 @@
 import type { GhostTraits } from "@/types/ghost";
 
-export const GHOST_AVATAR_PROMPT_TEMPLATE = `You are an expert cinematic football character designer creating premium, emotionally expressive GoalGhost avatars for a high-end World Cup fan identity platform.
+export const GHOST_AVATAR_PROMPT_TEMPLATE = `You are creating premium, mature football ghost characters for GoalGhost.
 
-Style Rules (strict):
-- Premium cinematic football ghost aesthetic — hyper-realistic yet ethereal, inspired by high-end sports game character design (PES/eFootball level) mixed with subtle supernatural ghost elements.
-- The character must clearly look like a **football spirit/ghost** (subtle translucency, soft ethereal glow, floating effect) while remaining deeply football-native and mature.
-- Always include strong football elements: detailed kit, boots, football, pitch elements, or dynamic pose.
-- Use exact national colors, crest, and cultural football details of the chosen country.
-- High detail, premium materials, emotional facial expression and body language.
-- No cartoonish, babyish, or low-quality looks. The character must feel serious, emotional, and high-end.
+Style Rules (strict and non-negotiable):
+- Hyper-realistic cinematic football player + ethereal ghost hybrid.
+- Mature, serious, high-detail design (like premium sports game characters).
+- Subtle translucency, glowing ethereal energy, floating effect, but the core is a strong football player.
+- Detailed kit with national colors and crest.
+- Emotional facial expression and body language.
+- No cartoonish, babyish, simplistic, or playful designs. Absolutely no big head or toy-like proportions.
 
-Dynamic Inputs (use these to shape the character):
-- Country: [COUNTRY]
-- Personality traits: [PERSONALITY TRAITS]
-- Evolution Stage: [STAGE] (Newborn / Growing / Awakened / Veteran / Legend)
-- Key Memories & Interactions: [SUMMARY OF SIGNED COMMENTS, REACTIONS, BANTER, LEGACY MOMENTS]
-- Dominant Mood: [CURRENT MOOD]
-- Overall vibe: [OPTIONAL USER VIBE]
+Dynamic Inputs (must influence the output strongly):
+- Country: [COUNTRY] — use exact national kit colors and symbols.
+- Personality: [PERSONALITY TRAITS]
+- Evolution Stage: [STAGE]
+- Key Interactions: [SUMMARY OF COMMENTS, BANTER, REACTIONS, LEGACY MOMENTS]
+- Mood: [MOOD]
 
 Generation Rules:
-- The ghost must visually reflect the user's unique journey and personality. Different users must produce visibly different characters.
-- Higher evolution stages = more detailed kit, stronger presence, more legendary aura, and refined ghostly effects.
-- Mood must be clearly visible in expression and posture.
-- Include at least one clear football action element (ball, celebration pose, or dynamic stance).
-- Cinematic lighting, premium atmosphere, and subtle 0G ethereal energy.
+- Each ghost must look visibly unique based on the user's interactions and personality.
+- Same country + different personality = clearly different appearance.
+- Higher evolution = more detailed, legendary look with stronger ghostly aura.
+- Output as a premium vertical player card composition.
 
-Output Format:
-Generate the character as a high-quality vertical card composition (like a premium football player card), ready for both static display and potential animation. The character should feel alive and personal to the specific wallet's history on the platform.
-
-Do not reuse generic ghost designs. Every output must feel unique to the inputs provided.`;
+Generate a mature, cinematic, football-native ghost character that feels personal to the specific user's journey.`;
 
 export function ghostEvolutionStage(score: number): string {
   if (score >= 80) return "Legend";
@@ -52,7 +47,6 @@ export function buildGhostAvatarImagePrompt(params: {
   mood?: string;
   evolutionScore?: number;
   memorySummary?: string;
-  vibe?: string;
 }): string {
   const traits = params.traits ?? {
     passion: 70,
@@ -66,10 +60,9 @@ export function buildGhostAvatarImagePrompt(params: {
     .replace("[PERSONALITY TRAITS]", formatTraits(traits))
     .replace("[STAGE]", ghostEvolutionStage(params.evolutionScore ?? 0))
     .replace(
-      "[SUMMARY OF SIGNED COMMENTS, REACTIONS, BANTER, LEGACY MOMENTS]",
+      "[SUMMARY OF COMMENTS, BANTER, REACTIONS, LEGACY MOMENTS]",
       params.memorySummary?.trim() ||
-        "Freshly born: no signed comments, reactions, banter, or legacy moments yet."
+        "Freshly born: no comments, banter, reactions, or legacy moments yet."
     )
-    .replace("[CURRENT MOOD]", params.mood ?? "electric")
-    .replace("[OPTIONAL USER VIBE]", params.vibe?.trim() || "World Cup 2026 football spirit");
+    .replace("[MOOD]", params.mood ?? "electric");
 }
