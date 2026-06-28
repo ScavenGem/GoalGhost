@@ -7,6 +7,7 @@ export type GhostMemory = {
   emotionalTone?: string;
   type?: string;
   occurredAt?: string;
+  evolutionDelta?: number;
 };
 
 export type GhostLegacyInput = {
@@ -19,6 +20,17 @@ export type GhostLegacyInput = {
   memories?: GhostMemory[];
 };
 
+export type LegacyInteractionQuote = {
+  quote: string;
+  context: string;
+};
+
+export type LegacyWrappedStat = {
+  label: string;
+  value: string;
+  insight: string;
+};
+
 export type LegacyApiOutput = {
   story: string;
   highlights: string[];
@@ -29,6 +41,10 @@ export type LegacyApiOutput = {
   heartbreak: { title: string; body: string };
   rivalry: { title: string; body: string };
   fanIdentity: { title: string; body: string };
+  emotionalArc?: string;
+  banterChapter?: { title: string; body: string };
+  interactionQuotes?: LegacyInteractionQuote[];
+  wrappedStats?: LegacyWrappedStat[];
 };
 
 const GRADIENTS = [
@@ -86,6 +102,29 @@ export function buildLegacyDocument(
 
   const memories = ghost.memories ?? [];
 
+  const interactionQuotes = api.interactionQuotes
+    ?.filter((q) => q.quote?.trim() && q.context?.trim())
+    .map((q) => ({
+      quote: q.quote.trim(),
+      context: q.context.trim(),
+    }));
+
+  const wrappedStats = api.wrappedStats
+    ?.filter((s) => s.label?.trim() && s.value?.trim() && s.insight?.trim())
+    .map((s) => ({
+      label: s.label.trim(),
+      value: s.value.trim(),
+      insight: s.insight.trim(),
+    }));
+
+  const banterChapter =
+    api.banterChapter?.title?.trim() && api.banterChapter?.body?.trim()
+      ? {
+          title: api.banterChapter.title.trim(),
+          body: api.banterChapter.body.trim(),
+        }
+      : undefined;
+
   return {
     version: 1,
     tokenId: ghost.tokenId,
@@ -106,6 +145,14 @@ export function buildLegacyDocument(
     shareText,
     generatedAt: new Date().toISOString(),
     moments: { celebration, heartbreak, rivalry, fanIdentity },
+    emotionalArc: api.emotionalArc?.trim() || undefined,
+    banterChapter,
+    interactionQuotes:
+      interactionQuotes && interactionQuotes.length > 0
+        ? interactionQuotes
+        : undefined,
+    wrappedStats:
+      wrappedStats && wrappedStats.length > 0 ? wrappedStats : undefined,
   };
 }
 

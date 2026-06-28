@@ -5,6 +5,17 @@ export type LegacyMoment = {
   body: string;
 };
 
+export type LegacyInteractionQuote = {
+  quote: string;
+  context: string;
+};
+
+export type LegacyWrappedStat = {
+  label: string;
+  value: string;
+  insight: string;
+};
+
 export type LegacyDocument = {
   version: 1;
   tokenId: number;
@@ -31,4 +42,8 @@ export type LegacyDocument = {
   shareText: string;
   generatedAt: string;
   computeProof?: OgComputeProof;
+  emotionalArc?: string;
+  banterChapter?: LegacyMoment;
+  interactionQuotes?: LegacyInteractionQuote[];
+  wrappedStats?: LegacyWrappedStat[];
 };

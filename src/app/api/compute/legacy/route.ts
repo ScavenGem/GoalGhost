@@ -8,6 +8,8 @@ import {
 } from "@/lib/0g/compute/env";
 import type { MemoryEvent } from "@/types/memory";
 import { walletIdentitySchema } from "@/lib/ghost/identity-schema";
+import { buildLegacyJourneyContext } from "@/lib/legacy/build-legacy-journey-context";
+import type { GhostMemory } from "@/lib/legacy/build-legacy";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -35,6 +37,18 @@ function formatComputeError(error: unknown): string {
   return "0G Compute failed";
 }
 
+function toGhostMemories(body: LegacyBody): GhostMemory[] {
+  return body.memories as GhostMemory[];
+}
+
+function buildJourney(body: LegacyBody) {
+  return buildLegacyJourneyContext({
+    memories: toGhostMemories(body),
+    identity: body.identity,
+    ghost: body.ghost,
+  });
+}
+
 function labeledFallbackResponse(
   body: LegacyBody,
   reason: string,
@@ -42,15 +56,13 @@ function labeledFallbackResponse(
 ) {
   console.error("[legacy] Returning labeled fallback:", reason, meta);
 
+  const journey = buildJourney(body);
+
   const fallback = buildLabeledFallbackLegacy({
     ghost: body.ghost,
-    memories: body.memories as {
-      title?: string;
-      content?: string;
-      type?: string;
-      emotionalTone?: string;
-    }[],
+    memories: toGhostMemories(body),
     identity: body.identity,
+    journey,
     reason,
   });
 
@@ -85,6 +97,8 @@ async function tryLiveCompute(body: LegacyBody) {
     import("@/lib/0g/compute/timeout"),
   ]);
 
+  const journey = buildJourney(body);
+
   const { output, proof } = await withTimeout(
     runGhostInference<{
       story: string;
@@ -92,6 +106,10 @@ async function tryLiveCompute(body: LegacyBody) {
       transformation: { from: string; to: string; arc: string };
       shareText: string;
       dominantMood: string;
+      emotionalArc?: string;
+      banterChapter?: { title: string; body: string };
+      interactionQuotes?: { quote: string; context: string }[];
+      wrappedStats?: { label: string; value: string; insight: string }[];
       celebration: { title: string; body: string };
       heartbreak: { title: string; body: string };
       rivalry: { title: string; body: string };
@@ -101,6 +119,7 @@ async function tryLiveCompute(body: LegacyBody) {
       ghost: body.ghost,
       memories: body.memories as MemoryEvent[],
       identity: body.identity,
+      journey,
     }),
     attemptMs,
     "0G Compute legacy generation"
@@ -114,6 +133,8 @@ async function tryLiveCompute(body: LegacyBody) {
     ghost: body.ghost.name,
     attemptMs,
     provider: proof.provider,
+    signedComments: journey.stats.signedComments,
+    keyMoments: journey.keyMoments.length,
   });
 
   return NextResponse.json({

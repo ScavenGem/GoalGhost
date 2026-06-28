@@ -336,6 +336,30 @@ export function LegacyCinematicUnwrap({
                 </div>
               )}
 
+              {chapter.quotes && chapter.quotes.length > 0 && (
+                <div className="mt-8 space-y-3">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#F4C542]/70">
+                    Your signed words
+                  </p>
+                  {chapter.quotes.map((q, i) => (
+                    <motion.blockquote
+                      key={`${q.quote.slice(0, 24)}-${i}`}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.15 + i * 0.12 }}
+                      className="rounded-2xl border border-[#F4C542]/15 bg-[#0A1020]/55 px-5 py-4"
+                    >
+                      <p className="text-sm italic leading-relaxed text-white/90">
+                        &ldquo;{legacyDisplayText(q.quote)}&rdquo;
+                      </p>
+                      <p className="mt-2 text-[10px] uppercase tracking-wider text-muted/60">
+                        {legacyDisplayText(q.context)}
+                      </p>
+                    </motion.blockquote>
+                  ))}
+                </div>
+              )}
+
               {chapter.moments && (
                 <div className="mt-8 grid gap-3 sm:grid-cols-3">
                   {chapter.moments.map((moment, i) => (
@@ -422,12 +446,28 @@ export function LegacyCinematicUnwrap({
                 </ReadMoreText>
               </div>
 
-              <div className="mt-10 grid grid-cols-3 gap-4">
-                {[
-                  { value: String(legacy.stats.peakEvolution), label: "Evolution" },
-                  { value: String(legacy.stats.matchesWitnessed), label: "Chapters" },
-                  { value: ghost.team, label: "Nation" },
-                ].map((stat, i) => (
+              <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                {(legacy.wrappedStats?.length
+                  ? legacy.wrappedStats
+                  : [
+                      {
+                        value: String(legacy.stats.peakEvolution),
+                        label: "Evolution",
+                        insight: "",
+                      },
+                      {
+                        value: String(legacy.stats.matchesWitnessed),
+                        label: "Chapters",
+                        insight: "",
+                      },
+                      { value: ghost.team, label: "Nation", insight: "" },
+                      {
+                        value: legacyDisplayText(legacy.stats.dominantMood),
+                        label: "Spirit",
+                        insight: "",
+                      },
+                    ]
+                ).map((stat, i) => (
                   <motion.div
                     key={stat.label}
                     initial={{ opacity: 0, y: 20 }}
@@ -441,9 +481,30 @@ export function LegacyCinematicUnwrap({
                     <p className="mt-1 text-[10px] uppercase tracking-wider text-muted/70">
                       {stat.label}
                     </p>
+                    {"insight" in stat && stat.insight ? (
+                      <p className="mt-2 text-[11px] leading-relaxed text-muted/65">
+                        {legacyDisplayText(stat.insight)}
+                      </p>
+                    ) : null}
                   </motion.div>
                 ))}
               </div>
+
+              {legacy.interactionQuotes && legacy.interactionQuotes.length > 0 && (
+                <div className="mx-auto mt-8 max-w-xl space-y-2 text-left">
+                  <p className="text-center text-[10px] uppercase tracking-[0.3em] text-[#F4C542]/70">
+                    Quoted from your journey
+                  </p>
+                  {legacy.interactionQuotes.slice(0, 2).map((q, i) => (
+                    <p
+                      key={`finale-quote-${i}`}
+                      className="rounded-xl border border-white/8 bg-white/5 px-4 py-3 text-sm italic text-white/85"
+                    >
+                      &ldquo;{legacyDisplayText(q.quote)}&rdquo;
+                    </p>
+                  ))}
+                </div>
+              )}
 
               <div className="mt-10 flex flex-col flex-wrap items-center justify-center gap-3 sm:flex-row">
                 <Button

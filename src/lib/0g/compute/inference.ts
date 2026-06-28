@@ -12,6 +12,7 @@ import type { GhostTraits } from "@/types/ghost";
 import type { FootballMatch } from "@/types/match";
 import type { MemoryEvent } from "@/types/memory";
 import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
+import type { LegacyJourneyContext } from "@/lib/legacy/build-legacy-journey-context";
 
 export type InferenceTask =
   | {
@@ -52,6 +53,7 @@ export type InferenceTask =
       };
       memories: MemoryEvent[];
       identity?: WalletIdentityProfile;
+      journey?: LegacyJourneyContext;
     };
 
 export type InferenceResult<T> = {
@@ -91,7 +93,12 @@ export async function runGhostInference<T extends Record<string, unknown>>(
       case "evolve":
         return buildEvolvePrompt(params.ghost);
       case "legacy":
-        return buildLegacyPrompt(params.ghost, params.memories, params.identity);
+        return buildLegacyPrompt(
+          params.ghost,
+          params.memories,
+          params.identity,
+          params.journey
+        );
     }
   })();
 

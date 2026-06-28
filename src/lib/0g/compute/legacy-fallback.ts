@@ -1,21 +1,67 @@
 import type { OgComputeProof } from "@/types/ghost";
 import type { LegacyApiOutput } from "@/lib/legacy/build-legacy";
 import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
+import {
+  buildLegacyJourneyContext,
+  defaultWrappedStats,
+  type LegacyJourneyContext,
+} from "@/lib/legacy/build-legacy-journey-context";
 
 type LegacyMemory = {
   title?: string;
   content?: string;
   type?: string;
   emotionalTone?: string;
+  evolutionDelta?: number;
+  occurredAt?: string;
 };
 
-function memoryLines(memories: LegacyMemory[]): string[] {
-  return memories
-    .map((m) => {
-      const line = [m.type, m.title, m.content].filter(Boolean).join(": ");
-      return line.trim();
-    })
-    .filter((line) => line.length > 0);
+function pickQuote(
+  ctx: LegacyJourneyContext
+): { quote: string; context: string }[] {
+  return ctx.signedComments.slice(-4).map((c, i) => ({
+    quote: c.text,
+    context:
+      c.scope === "legacy"
+        ? `Legacy comments wall · signed moment ${i + 1}`
+        : c.scope === "news"
+          ? `News debate thread · signed moment ${i + 1}`
+          : `Fan journey memory · signed moment ${i + 1}`,
+  }));
+}
+
+function buildHighlights(
+  ctx: LegacyJourneyContext,
+  ghost: { team: string; name: string }
+): string[] {
+  const highlights: string[] = [];
+
+  for (const c of ctx.signedComments.slice(-4)) {
+    const scope =
+      c.scope === "legacy" ? "Legacy wall" : c.scope === "news" ? "News thread" : "Journey";
+    highlights.push(`${scope}: you wrote "${c.text.slice(0, 80)}${c.text.length > 80 ? "…" : ""}"`);
+  }
+
+  for (const m of ctx.keyMoments.filter((k) => k.type === "match_reaction").slice(-3)) {
+    highlights.push(
+      `Kickoff felt: ${m.title} — ${m.content.slice(0, 90)}${m.content.length > 90 ? "…" : ""}`
+    );
+  }
+
+  for (const m of ctx.keyMoments.filter((k) => k.type === "social_reaction").slice(-2)) {
+    highlights.push(`Emoji reaction: ${m.title} — ${m.content.slice(0, 80)}`);
+  }
+
+  if (highlights.length < 8) {
+    highlights.push(
+      `${ghost.name} carried ${ghost.team} through ${ctx.stats.totalMoments} indexed chapters`,
+      `${ctx.stats.totalEvolutionGain} evolution points earned across the tournament`,
+      `${ctx.stats.socialReactions} emoji reactions left on the journey`,
+      `${ctx.stats.matchReactions} live kickoffs felt in your skin`
+    );
+  }
+
+  return highlights.slice(0, 12);
 }
 
 /**
@@ -31,28 +77,46 @@ export function buildLabeledFallbackLegacy(params: {
   };
   memories: LegacyMemory[];
   identity?: WalletIdentityProfile;
+  journey?: LegacyJourneyContext;
   reason: string;
 }): { legacy: LegacyApiOutput; proof: OgComputeProof } {
   const { ghost, memories, identity } = params;
-  const lines = memoryLines(memories);
-  const highlightPool =
-    lines.length > 0
-      ? lines.slice(0, 5)
-      : [
-          `Every ${ghost.team} kickoff felt personal`,
-          "Match reactions etched into your fan identity",
-          "Legacy and news conversations shaped your voice",
-        ];
+  const journey =
+    params.journey ??
+    buildLegacyJourneyContext({ memories, identity, ghost });
+
+  const quotes = pickQuote(journey);
+  const highlights = buildHighlights(journey, ghost);
+
+  const banterBody = journey.signedComments.length
+    ? `You left ${journey.stats.signedComments} signed lines on the wall — ${journey.stats.legacyComments} on Legacy, ${journey.stats.newsComments} in news debates.${quotes.length ? ` The thread still echoes: "${quotes[quotes.length - 1]?.quote}".` : ""} That banter is not background noise. It is how your Spirit learned to speak.`
+    : `Your banter chapter is still being written — every signed comment from here will sharpen this legacy.`;
+
+  const matchBeat = journey.keyMoments.find((m) => m.type === "match_reaction");
+  const reactionBeat = journey.keyMoments.find((m) => m.type === "social_reaction");
 
   const identityLine = identity
     ? ` A ${identity.banterStyle.replace(/_/g, " ")} voice with ${identity.reactionPattern.replace(/_/g, " ")} energy — ${identity.journeySignature}.`
     : "";
-  const banterLine =
-    identity?.banterExcerpts?.length
-      ? ` Your signed words still echo: "${identity.banterExcerpts.slice(-3).join('" · "')}".`
-      : "";
 
-  const story = `${ghost.name}'s World Cup was never just scores on a screen. It was ${ghost.team} in the blood, ${memories.length} evolution chapters deep, and a fan identity that grew louder with every reaction, comment, and heartbreak.${identityLine}${banterLine} From the first whistle to the final reflection, this legacy belongs on 0G: permanent, wallet-owned (${identity?.walletFingerprint ?? "your wallet"}), and unmistakably yours. When live 0G Compute could not answer in time, this wrapped story was composed from your indexed journey so the unwrap ritual could continue.`;
+  const quoteLine = quotes.length
+    ? ` Your signed words still echo across the tournament: ${quotes.map((q) => `"${q.quote}"`).join(" · ")}.`
+    : "";
+
+  const story = [
+    `${ghost.name}'s World Cup was never just scores on a screen. It was ${ghost.team} in the blood, ${journey.stats.totalMoments} evolution chapters deep, and a fan identity that grew louder with every reaction, comment, and heartbreak.${identityLine}`,
+    journey.emotionalJourney,
+    matchBeat
+      ? `On the pitch, you felt it: ${matchBeat.title} — "${matchBeat.content.slice(0, 120)}${matchBeat.content.length > 120 ? "…" : ""}". That moment lives in your indexed journey forever.`
+      : `Every kickoff you witness from here will add another line to this story.`,
+    reactionBeat
+      ? `In the threads, your emoji energy spoke too: ${reactionBeat.title} — "${reactionBeat.content.slice(0, 100)}".`
+      : null,
+    `${quoteLine} From the first whistle to the final reflection, this legacy belongs on 0G: permanent, wallet-owned (${identity?.walletFingerprint ?? "your wallet"}), and unmistakably yours.`,
+    `When live 0G Compute could not answer in time, this wrapped story was composed from your verified fan journey so the unwrap ritual could continue.`,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const transformationFrom =
     ghost.evolutionScore >= 50 ? "Hopeful supporter" : "Curious newcomer";
@@ -63,28 +127,51 @@ export function buildLabeledFallbackLegacy(params: {
         ? "Veteran voice"
         : "Awakened fan";
 
+  const celebrationMoment =
+    journey.keyMoments.find((m) =>
+      /euphor|celebrat|victory|goal|win/i.test(`${m.title} ${m.content} ${m.emotionalTone}`)
+    ) ?? journey.keyMoments[0];
+
+  const heartbreakMoment =
+    journey.keyMoments.find((m) =>
+      /loss|heartbreak|deflat|pain|defeat|sad/i.test(`${m.title} ${m.content} ${m.emotionalTone}`)
+    ) ?? journey.keyMoments[journey.keyMoments.length - 1];
+
   return {
     legacy: {
       story,
-      highlights: highlightPool,
+      highlights,
       transformation: {
         from: transformationFrom,
         to: transformationTo,
-        arc: `You arrived carrying ${ghost.team} hope and leave carrying a story only your wallet can prove.`,
+        arc: `You arrived carrying ${ghost.team} hope and leave carrying a story shaped by ${journey.stats.signedComments} signed comments, ${journey.stats.matchReactions} kickoffs felt, and ${journey.stats.socialReactions} reactions — only your wallet can prove.`,
       },
-      shareText: `My GoalGhost legacy for ${ghost.team} is unwrapped. ${ghost.evolutionScore} evolution · ${memories.length} chapters · forever on 0G.`,
+      shareText: `My GoalGhost legacy for ${ghost.team} is unwrapped. ${ghost.evolutionScore} evolution · ${journey.stats.signedComments} signed lines · ${journey.stats.totalMoments} chapters · forever on 0G.`,
       dominantMood: ghost.mood ?? (ghost.evolutionScore >= 50 ? "fierce" : "hopeful"),
+      emotionalArc: journey.emotionalJourney,
+      banterChapter: {
+        title: identity
+          ? `The ${identity.banterStyle.replace(/_/g, " ")} comments wall`
+          : "Your voice on the wall",
+        body: banterBody,
+      },
+      interactionQuotes: quotes,
+      wrappedStats: defaultWrappedStats(journey, ghost),
       celebration: {
-        title: highlightPool[0] ?? "The night everything clicked",
-        body: `A ${ghost.team} moment that still glows in your fan journey, sealed as identity evolution on 0G Storage.`,
+        title: celebrationMoment?.title ?? highlights[0] ?? "The night everything clicked",
+        body: celebrationMoment
+          ? `${celebrationMoment.content} This ${ghost.team} moment still glows in your fan journey, sealed as identity evolution on 0G Storage.`
+          : `A ${ghost.team} moment that still glows in your fan journey, sealed as identity evolution on 0G Storage.`,
       },
       heartbreak: {
-        title: "The result that still stings",
-        body: `Even when the scoreline hurt, your GoalGhost kept the emotion honest and permanent.`,
+        title: heartbreakMoment?.title ?? "The result that still stings",
+        body: heartbreakMoment
+          ? `${heartbreakMoment.content} Even when the scoreline hurt, your GoalGhost kept the emotion honest and permanent.`
+          : `Even when the scoreline hurt, your GoalGhost kept the emotion honest and permanent.`,
       },
       rivalry: {
         title: `${ghost.team} vs the world`,
-        body: `Every debate, every comment thread, every match reaction sharpened who you support and why.`,
+        body: `Every debate, every comment thread, every match reaction sharpened who you support and why.${quotes[0] ? ` You said it yourself: "${quotes[0].quote}".` : ""}`,
       },
       fanIdentity: {
         title: identity

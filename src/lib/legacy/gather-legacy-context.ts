@@ -5,6 +5,8 @@ type CommentRow = {
   walletAddress?: string;
   text?: string;
   createdAt?: string;
+  mediaRootHash?: string | null;
+  mediaType?: string | null;
 };
 
 function toMemory(
@@ -20,20 +22,20 @@ function ownComments(
   comments: CommentRow[] | undefined,
   wallet: string,
   type: string,
-  limit = 6
+  limit = 20
 ): GhostMemory[] {
   if (!comments?.length) return [];
   return comments
     .filter((c) => c.walletAddress?.toLowerCase() === wallet)
-    .slice(0, limit)
-    .map((c) =>
-      toMemory(
-        `${type} moment`,
-        c.text?.trim() ?? "",
-        type,
-        c.createdAt
-      )
-    )
+    .slice(-limit)
+    .map((c) => {
+      const hasMedia = !!c.mediaRootHash;
+      const memoryType = hasMedia ? `${type}_media` : type;
+      const title = hasMedia
+        ? `${type} visual moment`
+        : `${type} moment`;
+      return toMemory(title, c.text?.trim() ?? "", memoryType, c.createdAt);
+    })
     .filter((m) => (m.content?.length ?? 0) > 0);
 }
 
@@ -49,6 +51,7 @@ export async function gatherLegacyMemories(
     type: m.type,
     emotionalTone: m.emotionalTone,
     occurredAt: m.occurredAt,
+    evolutionDelta: m.evolutionDelta,
   }));
 
   const [legacyRes, newsRes] = await Promise.all([

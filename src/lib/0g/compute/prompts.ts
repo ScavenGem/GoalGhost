@@ -2,6 +2,7 @@ import type { GhostTraits } from "@/types/ghost";
 import type { MemoryEvent } from "@/types/memory";
 import type { FootballMatch } from "@/types/match";
 import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
+import type { LegacyJourneyContext } from "@/lib/legacy/build-legacy-journey-context";
 
 type ChatMessage = { role: "system" | "user"; content: string };
 
@@ -114,34 +115,51 @@ export function buildLegacyPrompt(
     confidence?: number;
   },
   memories: MemoryEvent[],
-  identity?: WalletIdentityProfile
+  identity?: WalletIdentityProfile,
+  journey?: LegacyJourneyContext
 ): ChatMessage[] {
-  const summary = memories
-    .slice(0, 24)
-    .map((m) => `${m.type ?? "moment"}: ${m.title}: ${m.content}`)
-    .join("\n");
-
-  const identityBlock = identity
-    ? `Wallet identity for personalization: ${identity.distinctnessDirectives}
-Signed banter excerpts: ${identity.banterExcerpts.join(" · ") || "none yet"}`
-    : "";
+  const journeyBlock =
+    journey?.promptDigest ??
+    memories
+      .slice(0, 32)
+      .map((m) => `${m.type ?? "moment"}: ${m.title}: ${m.content}`)
+      .join("\n");
 
   return [
     {
       role: "system",
-      content: `Create a cinematic World Cup legacy unwrap (premium, emotional, better than Spotify Wrapped) that feels impossible to confuse with any other wallet's journey.
-Return JSON:
-{ story, highlights (string[]), transformation: { from, to, arc }, shareText, dominantMood,
-  celebration: { title, body }, heartbreak: { title, body }, rivalry: { title, body }, fanIdentity: { title, body } }.
-Quote or echo the user's actual banter and reaction patterns where possible.
-Use "Spirit" not "Soul" for fan identity language. ${DISTINCTNESS_RULE} ${NO_EM_DASH_STYLE}`,
+      content: `You are writing a premium "Spotify Wrapped for a football Spirit" — a deeply personal World Cup legacy unwrap.
+This must feel story-rich, emotionally specific, and impossible to confuse with any other wallet.
+
+Rules:
+- Pull HEAVILY from the user's signed comments, emoji reactions, match moments, and evolution chapters provided below.
+- The story must quote or closely paraphrase at least 2-4 actual signed comments when they exist.
+- Name specific emotional beats: what they celebrated, what broke them, what they argued about, how their banter evolved.
+- highlights must be 8-12 vivid lines, each referencing a real interaction or moment (not generic football clichés).
+- interactionQuotes must lift actual user words with context (where/when/why they said it).
+- banterChapter is a dedicated mini-chapter about their comments-wall personality.
+- wrappedStats are 4 "Wrapped card" stats with punchy insights tied to their real numbers.
+- emotionalArc is one rich paragraph tracing their emotional journey through the tournament.
+- celebration, heartbreak, rivalry, fanIdentity bodies must each be 2-4 sentences referencing real moments.
+- story is the main narrative: 4-6 paragraphs, documentary tone, FIFA premium, weaving quotes and reactions throughout.
+- transformation.arc must describe their specific evolution path using their interactions.
+
+Return JSON only:
+{
+  story, highlights (string[]), transformation: { from, to, arc }, shareText, dominantMood,
+  emotionalArc, banterChapter: { title, body },
+  interactionQuotes: [{ quote, context }],
+  wrappedStats: [{ label, value, insight }],
+  celebration: { title, body }, heartbreak: { title, body }, rivalry: { title, body }, fanIdentity: { title, body }
+}
+Use "Spirit" not "Soul". ${DISTINCTNESS_RULE} ${NO_EM_DASH_STYLE}`,
     },
     {
       role: "user",
       content: `GoalGhost: ${ghost.name} (${ghost.team}). Evolution: ${ghost.evolutionScore}. Mood: ${ghost.mood ?? "electric"}. Conviction: ${ghost.confidence ?? 50}%.
-${identityBlock}
-Memories and signed interactions:
-${summary}`,
+
+Full wallet journey (signed banter, reactions, matches, evolution — use ALL of this):
+${journeyBlock}`,
     },
   ];
 }

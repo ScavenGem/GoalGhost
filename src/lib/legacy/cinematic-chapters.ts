@@ -13,6 +13,7 @@ export type CinematicChapter = {
   accent: string;
   stats?: { value: string; label: string }[];
   moments?: { title: string; body: string; emoji: string }[];
+  quotes?: { quote: string; context: string }[];
 };
 
 export type EvolutionStage = {
@@ -72,18 +73,52 @@ export function buildCinematicChapters(
   ];
 
   const highlightLines = legacy.highlights
-    .slice(0, 4)
+    .slice(0, 8)
     .map((h) => legacyDisplayText(h));
 
   const birthBody = identity
     ? `${ghost.name} was born for ${ghost.team} with a ${identity.banterStyle.replace(/_/g, " ")} voice — ${identity.voiceSignature}. A football Spirit shaped by ${ghost.mood} energy and ${ghost.confidence}% conviction, fingerprinted to wallet ${identity.walletFingerprint}.`
     : `${ghost.name} was born for ${ghost.team}. A football Spirit shaped by ${ghost.mood} energy and ${ghost.confidence}% conviction, ready to feel every whistle.`;
 
-  const journeyBody =
-    identity?.banterExcerpts?.length
-      ? `${highlightLines.join(". ") || identity.journeySignature}. Your signed banter: "${identity.banterExcerpts.slice(-2).join('" · "')}".`
-      : highlightLines.join(". ") ||
-        "Match reactions, signed comments, and evolution chapters wrote your tournament in real time.";
+  const journeyLead = legacy.banterChapter?.body
+    ? legacyDisplayText(legacy.banterChapter.body)
+    : identity?.banterExcerpts?.length
+      ? `Your signed banter shaped everything: "${identity.banterExcerpts.slice(-2).join('" · "')}".`
+      : null;
+
+  const journeyBody = [
+    journeyLead,
+    highlightLines.length > 0
+      ? highlightLines.join(". ")
+      : identity?.journeySignature ??
+        "Match reactions, signed comments, and evolution chapters wrote your tournament in real time.",
+    legacy.emotionalArc ? legacyDisplayText(legacy.emotionalArc) : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const evolutionBody = [
+    legacyDisplayText(legacy.transformation.arc),
+    identity ? identity.personalityPresentation : null,
+    legacy.emotionalArc && !journeyLead
+      ? legacyDisplayText(legacy.emotionalArc)
+      : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const legacyBody = [
+    legacyDisplayText(moments.fanIdentity.body),
+    legacy.interactionQuotes?.length
+      ? `The wall remembers: "${legacyDisplayText(legacy.interactionQuotes[legacy.interactionQuotes.length - 1]!.quote)}".`
+      : identity?.banterExcerpts?.length
+        ? `The comments wall remembers: "${identity.banterExcerpts.slice(-1)[0]}".`
+        : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const wrappedStats = legacy.wrappedStats?.slice(0, 4);
 
   return [
     {
@@ -105,22 +140,27 @@ export function buildCinematicChapters(
     {
       id: "journey",
       title: "The Journey",
-      subtitle: identity
-        ? `${identity.reactionPattern.replace(/_/g, " ")} energy across the tournament`
-        : "Every moment that shaped you",
+      subtitle: legacy.banterChapter?.title
+        ? legacyDisplayText(legacy.banterChapter.title)
+        : identity
+          ? `${identity.reactionPattern.replace(/_/g, " ")} energy across the tournament`
+          : "Every moment that shaped you",
       body: legacyDisplayText(journeyBody),
       accent: "from-sky-500/20 via-[#0A1020]/90 to-[#0A1020]",
-      stats: [
-        {
-          value: String(legacy.stats.matchesWitnessed),
-          label: "Chapters witnessed",
-        },
-        {
-          value: String(highlightLines.length),
-          label: "Defining highlights",
-        },
-      ],
+      stats: wrappedStats?.length
+        ? wrappedStats.slice(0, 2).map((s) => ({ value: s.value, label: s.label }))
+        : [
+            {
+              value: String(legacy.stats.matchesWitnessed),
+              label: "Chapters witnessed",
+            },
+            {
+              value: String(highlightLines.length),
+              label: "Defining highlights",
+            },
+          ],
       moments: journeyMoments,
+      quotes: legacy.interactionQuotes?.slice(0, 3),
     },
     {
       id: "evolution",
@@ -128,11 +168,7 @@ export function buildCinematicChapters(
       subtitle: identity
         ? identity.evolutionArchetype
         : "How your Spirit transformed",
-      body: legacyDisplayText(
-        identity
-          ? `${legacy.transformation.arc} ${identity.personalityPresentation}`
-          : legacy.transformation.arc
-      ),
+      body: legacyDisplayText(evolutionBody),
       accent: "from-violet-500/20 via-[#0A1020]/90 to-[#0A1020]",
       stats: [
         {
@@ -151,11 +187,7 @@ export function buildCinematicChapters(
       subtitle: identity
         ? `Wallet ${identity.walletFingerprint} — yours alone`
         : "What remains when the final whistle blows",
-      body: legacyDisplayText(
-        identity?.banterExcerpts?.length
-          ? `${moments.fanIdentity.body} The comments wall remembers: "${identity.banterExcerpts.slice(-1)[0]}".`
-          : moments.fanIdentity.body
-      ),
+      body: legacyDisplayText(legacyBody),
       accent: "from-[#F4C542]/30 via-[#0A1020]/90 to-[#0A1020]",
       stats: [
         {
@@ -167,6 +199,7 @@ export function buildCinematicChapters(
           label: "Final identity",
         },
       ],
+      quotes: legacy.interactionQuotes?.slice(-2),
     },
   ];
 }
