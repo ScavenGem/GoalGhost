@@ -181,9 +181,12 @@ export default function GhostPage() {
             <GhostAvatar
               name={ghost.name}
               team={ghost.team}
+              walletAddress={address}
+              traits={ghost.traits ?? undefined}
               mood={ghost.mood}
               evolutionScore={ghost.evolutionScore}
-              memorySummary={ghost.memories?.map((m) => m.title).filter(Boolean).join("; ")}
+              confidence={ghost.confidence}
+              memories={ghost.memories}
               size={176}
               animate
             />

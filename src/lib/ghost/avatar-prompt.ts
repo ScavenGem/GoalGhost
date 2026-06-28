@@ -1,4 +1,11 @@
 import type { GhostTraits } from "@/types/ghost";
+import { ghostEvolutionStage } from "@/lib/ghost/evolution";
+import {
+  buildAvatarVisualProfile,
+  type GhostMemorySnapshot,
+} from "@/lib/ghost/avatar-visual-profile";
+
+export { ghostEvolutionStage };
 
 export const GHOST_AVATAR_PROMPT_TEMPLATE = `You are creating premium, mature football ghost characters for GoalGhost.
 
@@ -14,55 +21,61 @@ Dynamic Inputs (must influence the output strongly):
 - Country: [COUNTRY] — use exact national kit colors and symbols.
 - Personality: [PERSONALITY TRAITS]
 - Evolution Stage: [STAGE]
+- Conviction: [CONVICTION]%
 - Key Interactions: [SUMMARY OF COMMENTS, BANTER, REACTIONS, LEGACY MOMENTS]
 - Mood: [MOOD]
+- Visual Directives: [VISUAL DIRECTIVES]
 
 Generation Rules:
 - Each ghost must look visibly unique based on the user's interactions and personality.
 - Same country + different personality = clearly different appearance.
 - Higher evolution = more detailed, legendary look with stronger ghostly aura.
+- More intense interactions (strong comments, high conviction reactions, media uploads) = stronger presence and pronounced ethereal effects.
 - Output as a premium vertical player card composition.
 
 Generate a mature, cinematic, football-native ghost character that feels personal to the specific user's journey.`;
 
-export function ghostEvolutionStage(score: number): string {
-  if (score >= 80) return "Legend";
-  if (score >= 50) return "Veteran";
-  if (score >= 25) return "Awakened";
-  if (score > 0) return "Growing";
-  return "Newborn";
-}
-
 function formatTraits(traits: GhostTraits): string {
-  const ranked = Object.entries(traits)
+  return Object.entries(traits)
     .sort((a, b) => b[1] - a[1])
     .map(([k, v]) => `${k} ${v}`)
     .join(", ");
-  return ranked;
 }
 
 export function buildGhostAvatarImagePrompt(params: {
   country: string;
+  team?: string;
+  name?: string;
+  walletAddress?: string;
+  teamCode?: string;
   traits?: GhostTraits;
   mood?: string;
   evolutionScore?: number;
+  confidence?: number;
+  memories?: GhostMemorySnapshot[];
   memorySummary?: string;
 }): string {
-  const traits = params.traits ?? {
-    passion: 70,
-    loyalty: 70,
-    drama: 50,
-    hope: 70,
-    resilience: 65,
-  };
+  const profile = buildAvatarVisualProfile({
+    name: params.name ?? "GoalGhost",
+    team: params.team ?? params.country,
+    teamCode: params.teamCode,
+    walletAddress: params.walletAddress,
+    traits: params.traits,
+    mood: params.mood,
+    evolutionScore: params.evolutionScore,
+    confidence: params.confidence,
+    memories: params.memories,
+    memorySummary: params.memorySummary,
+  });
 
   return GHOST_AVATAR_PROMPT_TEMPLATE.replace("[COUNTRY]", params.country)
-    .replace("[PERSONALITY TRAITS]", formatTraits(traits))
-    .replace("[STAGE]", ghostEvolutionStage(params.evolutionScore ?? 0))
+    .replace("[PERSONALITY TRAITS]", formatTraits(profile.traits))
+    .replace("[STAGE]", profile.stage)
+    .replace("[CONVICTION]", String(profile.conviction))
     .replace(
       "[SUMMARY OF COMMENTS, BANTER, REACTIONS, LEGACY MOMENTS]",
-      params.memorySummary?.trim() ||
-        "Freshly born: no comments, banter, reactions, or legacy moments yet."
+      profile.interactionSummary
     )
-    .replace("[MOOD]", params.mood ?? "electric");
+    .replace("[MOOD]", profile.mood)
+    .replace("[VISUAL DIRECTIVES]", profile.visualDirectives);
 }

@@ -278,6 +278,8 @@ export function LegacyCinematicUnwrap({
                     teamCode={teamCode}
                     mood={ghost.mood}
                     evolutionScore={ghost.evolutionScore}
+                    confidence={ghost.confidence}
+                    memories={ghost.memories}
                     size={96}
                     animate
                   />

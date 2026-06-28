@@ -1,6 +1,10 @@
 import type { GhostTraits } from "@/types/ghost";
 import { WC_2026_NATIONS } from "@/lib/football/teams";
-import { ghostEvolutionStage } from "@/lib/ghost/avatar-prompt";
+import {
+  buildAvatarVisualProfile,
+  seededRandom,
+  type GhostMemorySnapshot,
+} from "@/lib/ghost/avatar-visual-profile";
 
 type TeamPalette = { primary: string; secondary: string; accent: string };
 
@@ -61,273 +65,266 @@ const DEFAULT_PALETTE: TeamPalette = {
   accent: "#94A3B8",
 };
 
-const TRAIT_EXPRESSION: Record<keyof GhostTraits, { eyes: string; aura: string }> = {
-  passion: { eyes: "wide", aura: "flame" },
-  loyalty: { eyes: "steady", aura: "shield" },
-  drama: { eyes: "star", aura: "spotlight" },
-  hope: { eyes: "bright", aura: "glow" },
-  resilience: { eyes: "focused", aura: "steel" },
-};
-
-function hashSeed(input: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-
-function seeded(seed: number) {
-  let s = seed;
-  return () => {
-    s = (s * 1664525 + 1013904223) >>> 0;
-    return s / 0xffffffff;
-  };
-}
-
 function teamCodeFromName(team: string, teamCode?: string): string {
   if (teamCode) return teamCode;
   return WC_2026_NATIONS.find((n) => n.name === team)?.code ?? "UNK";
 }
 
-function dominantTrait(traits: GhostTraits): keyof GhostTraits {
-  return Object.entries(traits).sort((a, b) => b[1] - a[1])[0][0] as keyof GhostTraits;
-}
-
-function evolutionTier(score: number): number {
-  if (score >= 80) return 4;
-  if (score >= 50) return 3;
-  if (score >= 25) return 2;
-  if (score > 0) return 1;
-  return 0;
-}
-
-function memoryVisuals(summary: string) {
-  const s = summary.toLowerCase();
-  return {
-    celebratory: /win|victory|goal|comeback|celebrat|thrill|euphor|champion/.test(s),
-    determined: /loss|defeat|tough|heartbreak|fight|resilien|grit|battle/.test(s),
-    rival: /rival|derby|clasico|enemy|hatred/.test(s),
-  };
-}
-
-function moodExpression(mood: string) {
-  if (["fervent", "charged", "electric"].includes(mood)) {
-    return { eyeY: 36, eyeRx: 5.5, eyeRy: 6.5, mouth: "M 41 50 Q 50 57 59 50" };
+function moodFace(mood: string, headY: number) {
+  const mouthY = headY + 6;
+  if (["fervent", "charged", "electric", "euphoric"].includes(mood)) {
+    return { brow: -1, mouth: `M 44 ${mouthY} Q 50 ${mouthY + 4} 56 ${mouthY}`, eyeH: 1.1 };
   }
-  if (["reflective", "devoted", "calm"].includes(mood)) {
-    return { eyeY: 38, eyeRx: 4, eyeRy: 4.5, mouth: "M 44 51 Q 50 48 56 51" };
+  if (["reflective", "devoted", "calm", "bantering", "debating"].includes(mood)) {
+    return { brow: 0, mouth: `M 45 ${mouthY} Q 50 ${mouthY - 2} 55 ${mouthY}`, eyeH: 0.95 };
   }
-  if (["defiant", "fierce"].includes(mood)) {
-    return { eyeY: 37, eyeRx: 4.5, eyeRy: 5, mouth: "M 43 52 L 57 52" };
+  if (["defiant", "fierce", "legendary"].includes(mood)) {
+    return { brow: 1, mouth: `M 44 ${mouthY + 2} L 56 ${mouthY + 2}`, eyeH: 1 };
   }
-  return { eyeY: 37, eyeRx: 4.5, eyeRy: 5.5, mouth: "M 42 50 Q 50 54 58 50" };
+  return { brow: 0, mouth: `M 44 ${mouthY} Q 50 ${mouthY + 2} 56 ${mouthY}`, eyeH: 1 };
 }
 
 export function buildGhostAvatarDataUri(params: {
   team: string;
   teamCode?: string;
+  walletAddress?: string;
   traits?: GhostTraits;
   mood?: string;
   name: string;
   evolutionScore?: number;
+  confidence?: number;
+  memories?: GhostMemorySnapshot[];
   memorySummary?: string;
 }): string {
-  const traits = params.traits ?? {
-    passion: 70,
-    loyalty: 70,
-    drama: 50,
-    hope: 70,
-    resilience: 65,
-  };
-  const mood = params.mood ?? "electric";
-  const evolutionScore = params.evolutionScore ?? 0;
-  const tier = evolutionTier(evolutionScore);
-  const stage = ghostEvolutionStage(evolutionScore);
-  const memories = memoryVisuals(params.memorySummary ?? "");
-  const seed = hashSeed(
-    `${params.name}|${params.team}|${mood}|${stage}|${params.memorySummary ?? ""}|${JSON.stringify(traits)}`
-  );
-  const rand = seeded(seed);
+  const profile = buildAvatarVisualProfile(params);
+  const rand = seededRandom(profile.seed);
   const code = teamCodeFromName(params.team, params.teamCode);
   const palette = NATION_PALETTES[code] ?? DEFAULT_PALETTE;
-  const trait = dominantTrait(traits);
-  const expr = TRAIT_EXPRESSION[trait];
-  const face = moodExpression(mood);
-
-  const ghostTilt = (rand() - 0.5) * 6;
+  const id = profile.seed;
+  const floatY = -profile.floatHeight;
+  const headY = 30 + floatY * 0.2;
+  const face = moodFace(profile.mood, headY);
+  const op = profile.ghostOpacity;
+  const kit = profile.kitDetailLevel;
+  const tilt = (rand() - 0.5) * 4;
   const jerseyVariant = Math.floor(rand() * 3);
-  const floatOffset = tier >= 2 ? 2 : 0;
-  const bodyOpacity = tier === 0 ? 0.78 : tier === 1 ? 0.86 : 0.92;
-  const glowStrength = 0.06 + tier * 0.05 + (memories.celebratory ? 0.06 : 0);
+  const kitNumber = 7 + Math.floor(rand() * 9);
 
-  const hasScarf = tier >= 3 && (traits.passion >= 70 || memories.celebratory);
-  const hasCaptainBand = tier >= 4 || (tier >= 3 && traits.loyalty >= 80);
-  const hasHeadband = tier >= 2 && (traits.resilience >= 72 || memories.determined);
-  const hasGoldenAura = tier >= 4;
-  const armsUp = memories.celebratory || (mood === "fervent" && tier >= 2);
-  const clutchBall = !armsUp && tier >= 2;
-
-  const stadiumLights =
-    tier >= 1
-      ? Array.from({ length: 5 }, (_, i) => {
-          const x = 10 + i * 20;
-          return `<circle cx="${x}" cy="6" r="2" fill="${palette.accent}" opacity="${0.35 + rand() * 0.45}" />`;
-        }).join("")
-      : "";
-
-  const wisps = Array.from({ length: tier >= 2 ? 4 : 2 }, (_, i) => {
-    const x = 28 + rand() * 44;
-    const h = 10 + rand() * (tier >= 3 ? 20 : 12);
-    return `<path d="M ${x} 88 Q ${x + (rand() - 0.5) * 8} ${88 - h / 2} ${x + (rand() - 0.5) * 5} ${88 - h}" fill="${palette.primary}" opacity="${0.2 + rand() * 0.3}" />`;
-  }).join("");
-
-  const jersey =
-    jerseyVariant === 0
-      ? `<rect x="34" y="52" width="32" height="26" rx="5" fill="${palette.secondary}" opacity="0.95"/>
-         <rect x="34" y="52" width="32" height="9" fill="${palette.primary}" opacity="0.95"/>`
-      : jerseyVariant === 1
-        ? `<rect x="34" y="52" width="32" height="26" rx="5" fill="${palette.primary}" opacity="0.9"/>
-           <rect x="46" y="52" width="8" height="26" fill="${palette.secondary}" opacity="0.92"/>`
-        : `<rect x="34" y="52" width="32" height="26" rx="5" fill="${palette.secondary}" opacity="0.92"/>
-           <path d="M 34 64 H 66" stroke="${palette.primary}" stroke-width="3.5" opacity="0.95"/>`;
-
-  const kitNumber =
-    tier >= 3
-      ? `<text x="50" y="70" text-anchor="middle" font-size="8" font-weight="bold" fill="${palette.accent}" opacity="0.9">${7 + Math.floor(rand() * 9)}</text>`
-      : "";
-
-  const nationBadge =
-    tier >= 2
-      ? `<circle cx="50" cy="58" r="4.5" fill="${palette.accent}" opacity="0.85"/>
-         <text x="50" y="59.5" text-anchor="middle" font-size="4.5" fill="${palette.secondary}" font-weight="bold">${code.slice(0, 2)}</text>`
-      : "";
-
-  const scarf = hasScarf
-    ? `<path d="M 36 50 Q 50 58 64 50 L 62 72 Q 50 66 38 72 Z" fill="${palette.primary}" opacity="0.8"/>
-       <path d="M 38 72 L 34 82 M 62 72 L 66 80" stroke="${palette.secondary}" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>`
-    : "";
-
-  const captainBand = hasCaptainBand
-    ? `<rect x="56" y="54" width="12" height="4.5" rx="1" fill="${hasGoldenAura ? "#F4C542" : palette.accent}" opacity="0.95"/>
-       <text x="62" y="57.5" text-anchor="middle" font-size="3.5" fill="#0A1020" font-weight="bold">C</text>`
-    : "";
-
-  const headband = hasHeadband
-    ? `<rect x="36" y="${28 + floatOffset}" width="28" height="3.5" rx="1.5" fill="${palette.primary}" opacity="0.92"/>`
-    : "";
-
-  const leftArm = armsUp
-    ? `<path d="M 34 56 Q 22 48 18 36" stroke="#E8EEF4" stroke-width="7" stroke-linecap="round" fill="none" opacity="${bodyOpacity}"/>
-       <circle cx="18" cy="36" r="4" fill="#E8EEF4" opacity="${bodyOpacity}"/>`
-    : clutchBall
-      ? `<path d="M 34 58 Q 24 62 20 70" stroke="#E8EEF4" stroke-width="6.5" stroke-linecap="round" fill="none" opacity="${bodyOpacity}"/>`
-      : `<path d="M 34 58 Q 26 66 24 74" stroke="#E8EEF4" stroke-width="6" stroke-linecap="round" fill="none" opacity="${bodyOpacity}"/>`;
-
-  const rightArm = armsUp
-    ? `<path d="M 66 56 Q 78 48 82 36" stroke="#E8EEF4" stroke-width="7" stroke-linecap="round" fill="none" opacity="${bodyOpacity}"/>
-       <circle cx="82" cy="36" r="4" fill="#E8EEF4" opacity="${bodyOpacity}"/>`
-    : clutchBall
-      ? `<path d="M 66 58 Q 74 64 78 68" stroke="#E8EEF4" stroke-width="6.5" stroke-linecap="round" fill="none" opacity="${bodyOpacity}"/>`
-      : `<path d="M 66 58 Q 74 66 76 74" stroke="#E8EEF4" stroke-width="6" stroke-linecap="round" fill="none" opacity="${bodyOpacity}"/>`;
-
-  const legs =
-    tier >= 1
-      ? `<rect x="40" y="76" width="8" height="14" rx="3" fill="#E8EEF4" opacity="${bodyOpacity * 0.9}"/>
-         <rect x="52" y="76" width="8" height="14" rx="3" fill="#E8EEF4" opacity="${bodyOpacity * 0.9}"/>
-         <ellipse cx="44" cy="92" rx="6.5" ry="3.5" fill="${palette.secondary}" opacity="0.9"/>
-         <ellipse cx="56" cy="92" rx="6.5" ry="3.5" fill="${palette.secondary}" opacity="0.9"/>
-         <rect x="38" y="88" width="12" height="5" rx="2" fill="${palette.primary}" opacity="0.92"/>
-         <rect x="50" y="88" width="12" height="5" rx="2" fill="${palette.primary}" opacity="0.92"/>`
-      : `<path d="M 42 78 Q 50 90 58 78" fill="#E8EEF4" opacity="0.55"/>`;
-
-  const headY = tier === 0 ? 38 : 36 + floatOffset;
-  const headShape =
-    tier === 0
-      ? `<ellipse cx="50" cy="${headY}" rx="16" ry="17" fill="#E8EEF4" opacity="0.75"/>`
-      : `<ellipse cx="50" cy="${headY}" rx="15" ry="16" fill="#E8EEF4" opacity="${bodyOpacity}"/>
-         <ellipse cx="50" cy="${headY - 6}" rx="11" ry="7" fill="#FFFFFF" opacity="0.28"/>`;
-
-  const eyeY = (expr.eyes === "wide" ? face.eyeY - 1 : face.eyeY) + (tier === 0 ? 0 : floatOffset);
-  const eyeRx = expr.eyes === "wide" ? face.eyeRx + 1 : face.eyeRx;
-  const eyeRy = expr.eyes === "wide" ? face.eyeRy + 1 : face.eyeRy;
-
-  const eyes =
-    tier >= 1
-      ? `<ellipse cx="43" cy="${eyeY}" rx="${eyeRx}" ry="${eyeRy}" fill="#0A1020"/>
-         <ellipse cx="57" cy="${eyeY}" rx="${eyeRx}" ry="${eyeRy}" fill="#0A1020"/>
-         ${expr.eyes === "star" ? `<circle cx="43" cy="${eyeY - 1}" r="1.2" fill="#F4C542"/><circle cx="57" cy="${eyeY - 1}" r="1.2" fill="#F4C542"/>` : ""}
-         ${memories.rival ? `<path d="M 41 ${eyeY + 2} L 45 ${eyeY}" stroke="#0A1020" stroke-width="1"/><path d="M 55 ${eyeY} L 59 ${eyeY + 2}" stroke="#0A1020" stroke-width="1"/>` : ""}
-         <path d="${face.mouth}" stroke="#0A1020" stroke-width="1.6" fill="none" stroke-linecap="round"/>`
-      : `<circle cx="46" cy="${headY}" r="2" fill="#0A1020" opacity="0.5"/><circle cx="54" cy="${headY}" r="2" fill="#0A1020" opacity="0.5"/>`;
-
-  const football = clutchBall
-    ? `<circle cx="78" cy="70" r="7" fill="#FFFFFF" opacity="0.12"/>
-       <circle cx="78" cy="70" r="7" fill="none" stroke="#FFFFFF" opacity="0.25" stroke-width="0.6"/>
-       <path d="M 78 63 L 80 67 L 84 67 L 81 70 L 82 74 L 78 72 L 74 74 L 75 70 L 72 67 L 76 67 Z" fill="#FFFFFF" opacity="0.35"/>`
-    : `<circle cx="12" cy="96" r="5.5" fill="#FFFFFF" opacity="0.08"/>
-       <circle cx="12" cy="96" r="5.5" fill="none" stroke="#FFFFFF" opacity="0.14" stroke-width="0.5"/>`;
-
-  const confetti = memories.celebratory && tier >= 2
-    ? Array.from({ length: 6 }, (_, i) => {
-        const x = 15 + rand() * 70;
-        const y = 8 + rand() * 25;
-        const c = i % 2 === 0 ? palette.primary : palette.accent;
-        return `<rect x="${x}" y="${y}" width="2" height="2" fill="${c}" opacity="0.55" transform="rotate(${rand() * 90} ${x} ${y})"/>`;
+  const stadiumLights = profile.hasStadiumHaze
+    ? Array.from({ length: 7 }, (_, i) => {
+        const x = 8 + i * 13;
+        const r = 1.2 + rand() * 1.8;
+        return `<circle cx="${x}" cy="${8 + rand() * 6}" r="${r}" fill="${palette.accent}" opacity="${0.2 + rand() * 0.35}" />`;
       }).join("")
     : "";
 
-  const aura =
-    expr.aura === "flame"
-      ? `<ellipse cx="50" cy="58" rx="36" ry="40" fill="url(#aura-${seed})" opacity="${glowStrength + 0.2}"/>`
-      : expr.aura === "spotlight"
-        ? `<ellipse cx="50" cy="32" rx="30" ry="14" fill="${palette.primary}" opacity="0.14"/>`
-        : `<ellipse cx="50" cy="55" rx="34" ry="38" fill="${palette.primary}" opacity="${glowStrength}"/>`;
+  const lightRays =
+    profile.tier >= 2
+      ? `<path d="M 50 0 L 38 55 L 50 48 L 62 55 Z" fill="url(#ray-${id})" opacity="${0.08 + profile.auraIntensity * 0.12}"/>`
+      : "";
 
-  const legendRing = hasGoldenAura
-    ? `<circle cx="50" cy="52" r="42" fill="none" stroke="#F4C542" stroke-width="1.2" opacity="0.35"/>
-       <circle cx="50" cy="52" r="44" fill="none" stroke="#F4C542" stroke-width="0.5" opacity="0.2"/>`
+  const legendHalo = profile.hasLegendHalo
+    ? `<ellipse cx="50" cy="42" rx="34" ry="38" fill="none" stroke="#F4C542" stroke-width="0.8" opacity="0.45"/>
+       <ellipse cx="50" cy="42" rx="36" ry="40" fill="none" stroke="#F4C542" stroke-width="0.35" opacity="0.2"/>`
     : "";
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" role="img">
+  const aura = `<ellipse cx="50" cy="72" rx="${30 + profile.tier * 2}" ry="${38 + profile.tier * 3}" fill="url(#aura-${id})" opacity="${profile.auraIntensity}"/>`;
+
+  const wisps = Array.from(
+    { length: 3 + profile.tier + Math.floor(profile.interactionIntensity / 30) },
+    (_, i) => {
+      const x = 30 + rand() * 40;
+      const h = 12 + rand() * (10 + profile.tier * 6);
+      return `<path d="M ${x} 118 Q ${x + (rand() - 0.5) * 6} ${118 - h / 2} ${x + (rand() - 0.5) * 4} ${118 - h}" stroke="${palette.primary}" stroke-width="1.2" fill="none" opacity="${0.15 + rand() * 0.25}" />`;
+    }
+  ).join("");
+
+  const reactionSparks = profile.hasReactionSparks
+    ? Array.from({ length: 4 + profile.tier }, (_, i) => {
+        const x = 18 + rand() * 64;
+        const y = 20 + rand() * 50;
+        return `<circle cx="${x}" cy="${y}" r="${0.6 + rand()}" fill="${i % 2 ? palette.primary : "#F4C542"}" opacity="${0.35 + rand() * 0.4}"/>`;
+      }).join("")
+    : "";
+
+  const commentWisps = profile.hasCommentEnergy
+    ? `<path d="M 14 52 Q 22 48 18 44" stroke="${palette.accent}" stroke-width="0.8" fill="none" opacity="0.35"/>
+       <path d="M 86 58 Q 78 54 82 50" stroke="${palette.accent}" stroke-width="0.8" fill="none" opacity="0.35"/>`
+    : "";
+
+  const mediaGlow = profile.hasMediaGlow
+    ? `<rect x="38" y="52" width="24" height="28" rx="4" fill="${palette.primary}" opacity="0.08" filter="url(#soft-${id})"/>`
+    : "";
+
+  const collar =
+    kit >= 2
+      ? `<path d="M 42 46 Q 50 50 58 46" stroke="${palette.accent}" stroke-width="1.2" fill="none" opacity="0.85"/>`
+      : "";
+
+  const crest =
+    kit >= 2
+      ? `<circle cx="50" cy="58" r="4.5" fill="${palette.accent}" opacity="0.9"/>
+         <text x="50" y="59.2" text-anchor="middle" font-size="3.8" fill="${palette.secondary}" font-weight="bold">${code.slice(0, 2)}</text>`
+      : "";
+
+  const jerseyBase =
+    jerseyVariant === 0
+      ? `<path d="M 38 48 L 34 56 L 36 82 L 64 82 L 66 56 L 62 48 Z" fill="url(#kit-${id})" opacity="0.96"/>
+         <rect x="38" y="48" width="24" height="8" fill="${palette.primary}" opacity="0.92"/>`
+      : jerseyVariant === 1
+        ? `<path d="M 38 48 L 34 56 L 36 82 L 64 82 L 66 56 L 62 48 Z" fill="${palette.primary}" opacity="0.94"/>
+           <rect x="47" y="48" width="6" height="34" fill="${palette.secondary}" opacity="0.9"/>`
+        : `<path d="M 38 48 L 34 56 L 36 82 L 64 82 L 66 56 L 62 48 Z" fill="url(#kit-${id})" opacity="0.95"/>
+           <line x1="38" y1="62" x2="62" y2="62" stroke="${palette.primary}" stroke-width="2.5" opacity="0.9"/>`;
+
+  const kitNumberMark =
+    kit >= 3
+      ? `<text x="50" y="72" text-anchor="middle" font-size="9" font-weight="bold" fill="${palette.accent}" opacity="0.92">${kitNumber}</text>`
+      : "";
+
+  const sleeveDetail =
+    kit >= 4
+      ? `<line x1="36" y1="58" x2="34" y2="66" stroke="${palette.accent}" stroke-width="1.5" opacity="0.7"/>
+         <line x1="64" y1="58" x2="66" y2="66" stroke="${palette.accent}" stroke-width="1.5" opacity="0.7"/>`
+      : "";
+
+  const goldTrim =
+    kit >= 5
+      ? `<path d="M 38 48 L 62 48" stroke="#F4C542" stroke-width="0.8" opacity="0.65"/>`
+      : "";
+
+  const scarf = profile.hasScarf
+    ? `<path d="M 36 46 Q 50 54 64 46 L 61 68 Q 50 62 39 68 Z" fill="${palette.primary}" opacity="0.75"/>
+       <path d="M 39 68 L 35 78 M 61 68 L 65 76" stroke="${palette.secondary}" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>`
+    : "";
+
+  const captainBand = profile.hasCaptainBand
+    ? `<rect x="57" y="50" width="10" height="3.5" rx="0.8" fill="${profile.hasLegendHalo ? "#F4C542" : palette.accent}" opacity="0.95"/>
+       <text x="62" y="52.6" text-anchor="middle" font-size="2.8" fill="#0A1020" font-weight="bold">C</text>`
+    : "";
+
+  const head = `<ellipse cx="50" cy="${headY}" rx="8.5" ry="9.5" fill="url(#skin-${id})" opacity="${op}"/>
+    <ellipse cx="50" cy="${headY - 4}" rx="7" ry="4" fill="#FFFFFF" opacity="0.12"/>`;
+
+  const browY = headY - 2 + face.brow;
+  const eyes = `<ellipse cx="46" cy="${headY + 1}" rx="1.6" ry="${1.4 * face.eyeH}" fill="#0A1020" opacity="0.9"/>
+    <ellipse cx="54" cy="${headY + 1}" rx="1.6" ry="${1.4 * face.eyeH}" fill="#0A1020" opacity="0.9"/>
+    <path d="M 43 ${browY} Q 46 ${browY - 1} 48 ${browY}" stroke="#0A1020" stroke-width="0.7" fill="none" opacity="0.7"/>
+    <path d="M 52 ${browY} Q 54 ${browY - 1} 57 ${browY}" stroke="#0A1020" stroke-width="0.7" fill="none" opacity="0.7"/>
+    <path d="${face.mouth}" stroke="#0A1020" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.85"/>`;
+
+  const pose = profile.pose;
+  const leftArm =
+    pose === "celebration"
+      ? `<path d="M 36 54 Q 24 46 20 34" stroke="url(#limb-${id})" stroke-width="5" stroke-linecap="round" fill="none" opacity="${op}"/>`
+      : pose === "clutch_ball"
+        ? `<path d="M 36 56 Q 28 64 24 72" stroke="url(#limb-${id})" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="${op}"/>`
+        : `<path d="M 36 56 Q 30 66 28 76" stroke="url(#limb-${id})" stroke-width="4" stroke-linecap="round" fill="none" opacity="${op}"/>`;
+
+  const rightArm =
+    pose === "celebration"
+      ? `<path d="M 64 54 Q 76 46 80 34" stroke="url(#limb-${id})" stroke-width="5" stroke-linecap="round" fill="none" opacity="${op}"/>`
+      : pose === "defiant"
+        ? `<path d="M 64 54 Q 72 50 76 44" stroke="url(#limb-${id})" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="${op}"/>`
+        : pose === "clutch_ball"
+          ? `<path d="M 64 56 Q 70 62 74 68" stroke="url(#limb-${id})" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="${op}"/>`
+          : `<path d="M 64 56 Q 70 66 72 76" stroke="url(#limb-${id})" stroke-width="4" stroke-linecap="round" fill="none" opacity="${op}"/>`;
+
+  const legs = `<rect x="41" y="82" width="7" height="22" rx="2.5" fill="url(#limb-${id})" opacity="${op * 0.95}"/>
+    <rect x="52" y="82" width="7" height="22" rx="2.5" fill="url(#limb-${id})" opacity="${op * 0.95}"/>
+    <ellipse cx="44.5" cy="106" rx="5.5" ry="2.8" fill="${palette.secondary}" opacity="0.92"/>
+    <ellipse cx="55.5" cy="106" rx="5.5" ry="2.8" fill="${palette.secondary}" opacity="0.92"/>
+    <rect x="39" y="103" width="11" height="4" rx="1.5" fill="${palette.primary}" opacity="0.9"/>
+    <rect x="50" y="103" width="11" height="4" rx="1.5" fill="${palette.primary}" opacity="0.9"/>`;
+
+  const football =
+    pose === "clutch_ball" || pose === "match_ready"
+      ? `<circle cx="78" cy="72" r="6" fill="#FFFFFF" opacity="0.1"/>
+         <circle cx="78" cy="72" r="6" fill="none" stroke="#FFFFFF" opacity="0.22" stroke-width="0.5"/>
+         <path d="M 78 66 L 79.5 69.5 L 83 69.5 L 80.2 72 L 81 75.5 L 78 73.8 L 75 75.5 L 75.8 72 L 73 69.5 L 76.5 69.5 Z" fill="#FFFFFF" opacity="0.3"/>`
+      : "";
+
+  const ghostEcho =
+    profile.tier >= 1
+      ? `<g opacity="${0.12 + profile.auraIntensity * 0.15}" transform="translate(2.5 ${3 + floatY * 0.3})">
+           <ellipse cx="50" cy="${headY + 14}" rx="10" ry="22" fill="${palette.primary}" filter="url(#soft-${id})"/>
+         </g>`
+      : "";
+
+  const stageBadge =
+    profile.tier >= 1
+      ? `<text x="50" y="132" text-anchor="middle" font-size="5" fill="#F4C542" opacity="0.55" letter-spacing="0.15em">${profile.stage.toUpperCase()}</text>`
+      : "";
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140" role="img">
   <defs>
-    <linearGradient id="pitch-${seed}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0A1020"/>
-      <stop offset="100%" stop-color="#12243a"/>
+    <linearGradient id="bg-${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1428"/>
+      <stop offset="55%" stop-color="#0A1020"/>
+      <stop offset="100%" stop-color="#142a1c"/>
     </linearGradient>
-    <radialGradient id="aura-${seed}" cx="50%" cy="75%" r="65%">
+    <linearGradient id="kit-${id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="${palette.secondary}"/>
+      <stop offset="100%" stop-color="${palette.secondary}"/>
+    </linearGradient>
+    <linearGradient id="skin-${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8EEF4"/>
+      <stop offset="100%" stop-color="#B8C4D0"/>
+    </linearGradient>
+    <linearGradient id="limb-${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8EEF4"/>
+      <stop offset="100%" stop-color="#C5D0DC"/>
+    </linearGradient>
+    <radialGradient id="aura-${id}" cx="50%" cy="60%" r="65%">
       <stop offset="0%" stop-color="${palette.primary}"/>
       <stop offset="100%" stop-color="transparent"/>
     </radialGradient>
-    <filter id="glow-${seed}">
-      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+    <linearGradient id="ray-${id}" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#F4C542"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </linearGradient>
+    <filter id="glow-${id}">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="soft-${id}">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
   </defs>
-  <rect width="100" height="110" rx="18" fill="url(#pitch-${seed})"/>
+  <rect width="100" height="140" rx="14" fill="url(#bg-${id})"/>
   ${stadiumLights}
-  <rect x="0" y="86" width="100" height="24" fill="#1a3d2a" opacity="0.55"/>
-  <line x1="0" y1="86" x2="100" y2="86" stroke="${palette.primary}" stroke-width="0.5" opacity="0.35"/>
-  ${confetti}
-  ${legendRing}
+  ${lightRays}
+  <rect x="0" y="112" width="100" height="28" fill="#163322" opacity="0.5"/>
+  <line x1="0" y1="112" x2="100" y2="112" stroke="${palette.primary}" stroke-width="0.4" opacity="0.3"/>
+  ${reactionSparks}
+  ${legendHalo}
   ${aura}
-  <g transform="rotate(${ghostTilt.toFixed(1)} 50 52)" filter="url(#glow-${seed})">
-    ${scarf}
+  ${ghostEcho}
+  <g transform="translate(0 ${floatY}) scale(${profile.presenceScale}) rotate(${tilt.toFixed(1)} 50 70)" filter="url(#glow-${id})">
     ${wisps}
+    ${commentWisps}
+    ${scarf}
     ${legs}
     ${leftArm}
     ${rightArm}
-    ${jersey}
-    ${nationBadge}
-    ${kitNumber}
+    ${mediaGlow}
+    ${jerseyBase}
+    ${collar}
+    ${crest}
+    ${sleeveDetail}
+    ${goldTrim}
+    ${kitNumberMark}
     ${captainBand}
-    ${headShape}
-    ${headband}
+    ${head}
     ${eyes}
   </g>
   ${football}
+  ${stageBadge}
 </svg>`;
 
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
+
+export type { GhostMemorySnapshot };
+export { buildAvatarVisualProfile } from "@/lib/ghost/avatar-visual-profile";
+export { buildGhostAvatarImagePrompt } from "@/lib/ghost/avatar-prompt";

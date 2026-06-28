@@ -3,16 +3,22 @@
 import { useMemo } from "react";
 import { motion } from "@/lib/motion";
 import type { GhostTraits } from "@/types/ghost";
-import { buildGhostAvatarDataUri } from "@/lib/ghost/avatar";
+import {
+  buildGhostAvatarDataUri,
+  type GhostMemorySnapshot,
+} from "@/lib/ghost/avatar";
 import { cn } from "@/lib/utils/cn";
 
 export function GhostAvatar({
   name,
   team,
   teamCode,
+  walletAddress,
   traits,
   mood,
   evolutionScore,
+  confidence,
+  memories,
   memorySummary,
   size = 160,
   className,
@@ -21,9 +27,12 @@ export function GhostAvatar({
   name: string;
   team: string;
   teamCode?: string;
+  walletAddress?: string;
   traits?: GhostTraits;
   mood?: string;
   evolutionScore?: number;
+  confidence?: number;
+  memories?: GhostMemorySnapshot[];
   memorySummary?: string;
   size?: number;
   className?: string;
@@ -35,12 +44,26 @@ export function GhostAvatar({
         name,
         team,
         teamCode,
+        walletAddress,
         traits,
         mood,
         evolutionScore,
+        confidence,
+        memories,
         memorySummary,
       }),
-    [name, team, teamCode, traits, mood, evolutionScore, memorySummary]
+    [
+      name,
+      team,
+      teamCode,
+      walletAddress,
+      traits,
+      mood,
+      evolutionScore,
+      confidence,
+      memories,
+      memorySummary,
+    ]
   );
 
   const img = (
@@ -49,7 +72,7 @@ export function GhostAvatar({
       src={src}
       alt={`${name} GoalGhost avatar`}
       width={size}
-      height={size}
+      height={Math.round(size * 1.4)}
       className={cn("rounded-3xl object-cover", className)}
       draggable={false}
     />
