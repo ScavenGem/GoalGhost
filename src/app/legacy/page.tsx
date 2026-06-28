@@ -80,6 +80,7 @@ function LegacyPageContent() {
   const [showInitNotice, setShowInitNotice] = useState(false);
   const [walletIdentity, setWalletIdentity] =
     useState<WalletIdentityProfile | null>(null);
+  const [showTroubleshoot, setShowTroubleshoot] = useState(false);
 
   const viewingOthers =
     sharedTokenId != null &&
@@ -465,9 +466,22 @@ function LegacyPageContent() {
               </p>
             </div>
             {address && (
-              <div className="w-full max-w-md rounded-xl border border-dashed border-[#F4C542]/25 bg-[#0A1020]/90 px-4 py-4 text-left text-xs">
+              <div className="w-full max-w-md text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowTroubleshoot((open) => !open)}
+                  className={cn(
+                    "text-sm text-muted/80 transition-colors duration-200 hover:text-[#F4C542]",
+                    hoverLink
+                  )}
+                  aria-expanded={showTroubleshoot}
+                >
+                  {showTroubleshoot ? "Hide setup details" : "Having trouble?"}
+                </button>
+                {showTroubleshoot && (
+              <div className="mt-3 rounded-xl border border-dashed border-[#F4C542]/25 bg-[#0A1020]/90 px-4 py-4 text-left text-xs">
                 <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.2em] text-[#F4C542]/80">
-                  Wallet debug
+                  Wallet & balance
                 </p>
                 {showInitNotice && initStatus?.needsInitialization && (
                   <div className="mb-4 space-y-3 rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-3">
@@ -535,6 +549,8 @@ function LegacyPageContent() {
                     </dd>
                   </div>
                 </dl>
+              </div>
+                )}
               </div>
             )}
             {generateError && (

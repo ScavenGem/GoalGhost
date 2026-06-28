@@ -1,5 +1,6 @@
 import type { OgComputeProof } from "@/types/ghost";
 import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
+import { FALLBACK_NARRATIVE_NOTE } from "@/lib/0g/compute/fallback-messages";
 
 function evolutionStage(score: number): string {
   if (score >= 80) return "Legend";
@@ -52,7 +53,7 @@ export function buildLabeledFallbackEvolution(params: {
       ? ` Echoes of their signed voice: "${ghost.identity.banterExcerpts.slice(-2).join('" · "')}".`
       : "";
 
-  const narrative = `${ghost.name} is no longer just a fan of ${ghost.team}. They are becoming a ${stage.toLowerCase()} voice in the tournament, shaped by ${memoryHint}. The ${ghost.mood} energy they carry now feels earned at ${ghost.confidence ?? 50}% conviction, built from ${interactionNote} stacking into one unmistakable identity. ${identityNote}${banterEcho} Legacy banter, news debates, emoji reactions, and match-day feelings are all visible in who they are becoming. When 0G Compute could not answer in time, this evolution chapter was narrated locally from your verified fan journey so the ritual could continue.`;
+  const narrative = `${ghost.name} is no longer just a fan of ${ghost.team}. They are becoming a ${stage.toLowerCase()} voice in the tournament, shaped by ${memoryHint}. The ${ghost.mood} energy they carry now feels earned at ${ghost.confidence ?? 50}% conviction, built from ${interactionNote} stacking into one unmistakable identity. ${identityNote}${banterEcho} Legacy banter, news debates, emoji reactions, and match-day feelings are all visible in who they are becoming. ${FALLBACK_NARRATIVE_NOTE}`;
 
   const evolutionInsight =
     ghost.evolutionScore >= 50

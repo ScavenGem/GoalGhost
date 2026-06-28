@@ -55,6 +55,7 @@ import {
   formatClientFetchError,
   readApiErrorMessage,
 } from "@/lib/api/client-fetch";
+import { computeFallbackUserNotice } from "@/lib/0g/compute/fallback-messages";
 
 const CREATE_GHOST_TIMEOUT_MS = 15_000;
 
@@ -191,10 +192,7 @@ function CreatePageContent() {
       }
 
       if (data.source === "labeled-fallback" || data.proof?.fallback) {
-        setComputeNotice(
-          data.fallbackReason ??
-            "0G Compute was unavailable. A labeled fallback identity was generated so you can continue."
-        );
+        setComputeNotice(computeFallbackUserNotice("create", data.fallbackReason));
       }
 
       setGhost({ ...data.ghost, computeProof: data.proof });

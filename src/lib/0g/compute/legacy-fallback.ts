@@ -6,6 +6,7 @@ import {
   defaultWrappedStats,
   type LegacyJourneyContext,
 } from "@/lib/legacy/build-legacy-journey-context";
+import { FALLBACK_NARRATIVE_NOTE } from "@/lib/0g/compute/fallback-messages";
 
 type LegacyMemory = {
   title?: string;
@@ -113,7 +114,7 @@ export function buildLabeledFallbackLegacy(params: {
       ? `In the threads, your emoji energy spoke too: ${reactionBeat.title} — "${reactionBeat.content.slice(0, 100)}".`
       : null,
     `${quoteLine} From the first whistle to the final reflection, this legacy belongs on 0G: permanent, wallet-owned (${identity?.walletFingerprint ?? "your wallet"}), and unmistakably yours.`,
-    `When live 0G Compute could not answer in time, this wrapped story was composed from your verified fan journey so the unwrap ritual could continue.`,
+    FALLBACK_NARRATIVE_NOTE,
   ]
     .filter(Boolean)
     .join(" ");

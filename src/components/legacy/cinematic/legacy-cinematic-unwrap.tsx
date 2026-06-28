@@ -337,7 +337,12 @@ export function LegacyCinematicUnwrap({
               )}
 
               {chapter.quotes && chapter.quotes.length > 0 && (
-                <div className="mt-8 space-y-3">
+                <div
+                  className={cn(
+                    "mt-8 space-y-3",
+                    chapter.id === "journey" && "mt-10 space-y-4 sm:mt-8 sm:space-y-3"
+                  )}
+                >
                   <p className="text-[10px] uppercase tracking-[0.3em] text-[#F4C542]/70">
                     Your signed words
                   </p>
@@ -361,7 +366,12 @@ export function LegacyCinematicUnwrap({
               )}
 
               {chapter.moments && (
-                <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                <div
+                  className={cn(
+                    "mt-8 grid gap-3 sm:grid-cols-3",
+                    chapter.id === "journey" && "mt-10 gap-4 sm:mt-8 sm:gap-3"
+                  )}
+                >
                   {chapter.moments.map((moment, i) => (
                     <motion.div
                       key={moment.title}
@@ -389,7 +399,10 @@ export function LegacyCinematicUnwrap({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.45 }}
-                className="mt-8"
+                className={cn(
+                  "mt-8",
+                  chapter.id === "journey" && "mt-10 sm:mt-8"
+                )}
               >
                 <ReadMoreText className="text-base leading-relaxed text-white/82 sm:text-lg">
                   {chapter.body}
@@ -397,7 +410,12 @@ export function LegacyCinematicUnwrap({
               </motion.div>
 
               {chapter.stats && (
-                <div className="mt-8 flex flex-wrap gap-8">
+                <div
+                  className={cn(
+                    "mt-8 flex flex-wrap gap-8",
+                    chapter.id === "journey" && "mt-10 gap-10 sm:mt-8 sm:gap-8"
+                  )}
+                >
                   {chapter.stats.map((stat) => (
                     <div key={stat.label}>
                       <p className="font-display text-3xl text-[#F4C542] sm:text-4xl">

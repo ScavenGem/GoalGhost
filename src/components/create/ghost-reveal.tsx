@@ -10,6 +10,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { GhostTraits, OgComputeProof } from "@/types/ghost";
 
 import { GhostAvatar } from "@/components/ghost/ghost-avatar";
+import {
+  computeFallbackBody,
+  computeFallbackHeadline,
+} from "@/lib/0g/compute/fallback-messages";
 import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
 import { nationByName } from "@/lib/football/teams";
 
@@ -136,15 +140,9 @@ export function GhostReveal({
 
           {computeProof?.fallback ? (
             <div className="rounded-lg border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-xs text-amber-200/90">
-              <p className="font-medium">Labeled fallback identity (0G Compute unavailable)</p>
-              {computeProof.fallbackReason && (
-                <p className="mt-1 text-[11px] text-amber-100/70">
-                  {computeProof.fallbackReason}
-                </p>
-              )}
-              <p className="mt-1 text-[11px] text-amber-100/60">
-                You can still seal to 0G Storage and mint. Live TEE inference was not used for
-                this draft.
+              <p className="font-medium">{computeFallbackHeadline("create")}</p>
+              <p className="mt-1 text-[11px] leading-relaxed text-amber-100/75">
+                {computeFallbackBody("create")}
               </p>
             </div>
           ) : computeProof?.teeVerified ? (

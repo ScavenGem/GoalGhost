@@ -3,6 +3,7 @@ import {
   creationIdentityName,
   type WalletIdentityProfile,
 } from "@/lib/ghost/identity-distinctness";
+import { FALLBACK_NARRATIVE_NOTE } from "@/lib/0g/compute/fallback-messages";
 
 const MOODS = [
   "electric",
@@ -68,8 +69,8 @@ export function buildLabeledFallbackGhost(params: {
     "Direct and match-day raw, speaking like a supporter who has watched every knockout twice and still believes.";
 
   const backstory = identity
-    ? `Born for ${params.team} with a wallet fingerprint only yours (${identity.walletFingerprint}), ${name} arrives as a ${identity.banterStyle.replace(/_/g, " ")} voice — ${identity.personalityPresentation} When 0G Compute could not answer in time, this identity was shaped locally from your nation, trait sliders, and wallet signature so the birth ritual could continue. No other supporter shares this exact voice or visual accent.`
-    : `Born for ${params.team} on the road to the World Cup, ${name} carries the noise of every terrace, every last-minute prayer, and every heartbreak that came before. When 0G Compute could not answer in time, this identity was shaped locally from your nation and trait sliders so the birth ritual could continue. The loyalty still runs deep, the hope still burns, and every match from here will write the real story on 0G Storage.`;
+    ? `Born for ${params.team} with a wallet fingerprint only yours (${identity.walletFingerprint}), ${name} arrives as a ${identity.banterStyle.replace(/_/g, " ")} voice — ${identity.personalityPresentation} ${FALLBACK_NARRATIVE_NOTE} No other supporter shares this exact voice or visual accent.`
+    : `Born for ${params.team} on the road to the World Cup, ${name} carries the noise of every terrace, every last-minute prayer, and every heartbreak that came before. ${FALLBACK_NARRATIVE_NOTE} The loyalty still runs deep, the hope still burns, and every match from here will write the real story on 0G Storage.`;
 
   return {
     ghost: {
