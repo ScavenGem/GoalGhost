@@ -7,6 +7,7 @@ import {
 } from "@/lib/cache/comment-reactions-cache";
 import { getLegacyCommentByCommentId } from "@/lib/cache/legacy-comments-cache";
 import { verifyCommentReactionSignature } from "@/lib/comments/reaction-sign";
+import { registerInteractionEvolution } from "@/lib/ghost/register-interaction-evolution";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -47,6 +48,8 @@ export async function POST(req: Request) {
     );
     const current = existing[body.commentId];
 
+    let evolution = null;
+
     if (current?.userReaction === body.emojiId) {
       await removeCommentReaction({
         scope: "legacy",
@@ -62,6 +65,16 @@ export async function POST(req: Request) {
         signature: body.signature,
         createdAt: new Date(body.createdAt),
       });
+
+      evolution = await registerInteractionEvolution({
+        walletAddress: body.walletAddress,
+        kind: "comment_emoji_reaction",
+        eventId: `evolution-reaction-legacy-${body.commentId}-${body.walletAddress.toLowerCase()}`,
+        rootHash: comment.rootHash,
+        occurredAt: body.createdAt,
+        scope: "legacy",
+        emojiId: body.emojiId,
+      });
     }
 
     const reactions = await getCommentReactionsForComments(
@@ -74,6 +87,7 @@ export async function POST(req: Request) {
       ok: true,
       commentId: body.commentId,
       reactions: reactions[body.commentId],
+      evolution,
     });
   } catch (e) {
     if (e instanceof z.ZodError) {

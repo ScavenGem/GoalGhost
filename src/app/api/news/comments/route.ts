@@ -22,6 +22,8 @@ import {
   verifyNewsCommentEditSignature,
   verifyNewsCommentSignature,
 } from "@/lib/news/comment-sign";
+import { registerInteractionEvolution } from "@/lib/ghost/register-interaction-evolution";
+import type { InteractionKind } from "@/lib/ghost/evolution";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -199,7 +201,30 @@ export async function POST(req: Request) {
       body.walletAddress
     );
 
-    return NextResponse.json({ ok: true, comment: withReactions ?? comment });
+    const kind: InteractionKind = body.mediaRootHash
+      ? "news_comment_media"
+      : body.parentCommentId
+        ? "news_comment_reply"
+        : "news_comment";
+
+    const evolution = await registerInteractionEvolution({
+      walletAddress: body.walletAddress,
+      kind,
+      eventId: `evolution-${body.commentId}`,
+      rootHash,
+      occurredAt: body.createdAt,
+      text: body.text,
+      scope: "news",
+      isReply: !!body.parentCommentId,
+      hasMedia: !!body.mediaRootHash,
+      mediaType: body.mediaType,
+    });
+
+    return NextResponse.json({
+      ok: true,
+      comment: withReactions ?? comment,
+      evolution,
+    });
   } catch (e) {
     if (e instanceof z.ZodError) {
       return NextResponse.json(

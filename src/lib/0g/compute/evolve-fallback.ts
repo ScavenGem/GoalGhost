@@ -17,7 +17,9 @@ export function buildLabeledFallbackEvolution(params: {
     team: string;
     evolutionScore: number;
     mood: string;
+    confidence?: number;
     recentMemories: string[];
+    interactionCount?: number;
   };
   reason: string;
 }): {
@@ -35,7 +37,12 @@ export function buildLabeledFallbackEvolution(params: {
       ? ghost.recentMemories.slice(-3).join("; ")
       : "every match felt, every comment left, every reaction shared";
 
-  const narrative = `${ghost.name} is no longer just a fan of ${ghost.team}. They are becoming a ${stage.toLowerCase()} voice in the tournament, shaped by ${memoryHint}. The ${ghost.mood} energy they carry now feels earned, not assigned, as legacy comments, news debates, and match-day reactions stack into one unmistakable identity. When 0G Compute could not answer in time, this evolution chapter was narrated locally from your verified fan journey so the ritual could continue.`;
+  const interactionNote =
+    ghost.interactionCount != null && ghost.interactionCount > 0
+      ? `${ghost.interactionCount} signed interactions`
+      : "every comment, reaction, and upload";
+
+  const narrative = `${ghost.name} is no longer just a fan of ${ghost.team}. They are becoming a ${stage.toLowerCase()} voice in the tournament, shaped by ${memoryHint}. The ${ghost.mood} energy they carry now feels earned at ${ghost.confidence ?? 50}% conviction, built from ${interactionNote} stacking into one unmistakable identity. Legacy banter, news debates, emoji reactions, and match-day feelings are all visible in who they are becoming. When 0G Compute could not answer in time, this evolution chapter was narrated locally from your verified fan journey so the ritual could continue.`;
 
   const evolutionInsight =
     ghost.evolutionScore >= 50

@@ -17,6 +17,7 @@ export type MemoryCardData = {
   title?: string;
   content?: string;
   emotionalTone?: string;
+  evolutionDelta?: number;
   rootHash: string;
   occurredAt: string;
 };
@@ -52,6 +53,20 @@ const TYPE_STYLES: Record<
     glow: "from-rose-400/60",
     emoji: "∞",
     bg: "from-rose-500/8",
+  },
+  social_comment: {
+    label: "Signed banter",
+    accent: "text-amber-300",
+    glow: "from-amber-400/60",
+    emoji: "💬",
+    bg: "from-amber-500/8",
+  },
+  social_reaction: {
+    label: "Reaction felt",
+    accent: "text-pink-300",
+    glow: "from-pink-400/60",
+    emoji: "✨",
+    bg: "from-pink-500/8",
   },
 };
 
@@ -131,6 +146,11 @@ export const MemoryCard = memo(function MemoryCard({
               <h3 className="mt-2 font-display text-xl leading-snug sm:text-2xl">
                 {memory.title ?? "Untitled evolution"}
               </h3>
+              {memory.evolutionDelta != null && memory.evolutionDelta > 0 && (
+                <span className="mt-2 inline-flex items-center gap-1 rounded-full border border-[#F4C542]/25 bg-[#F4C542]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#F4C542]">
+                  +{memory.evolutionDelta} evolution
+                </span>
+              )}
               {memory.content && (
                 <ReadMoreText className="mt-3 text-base leading-relaxed text-foreground/75">
                   {memory.content}

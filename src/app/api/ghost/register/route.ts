@@ -10,6 +10,15 @@ const schema = z.object({
   name: z.string(),
   mood: z.string().optional(),
   confidence: z.number().optional(),
+  traits: z
+    .object({
+      passion: z.number(),
+      loyalty: z.number(),
+      drama: z.number(),
+      hope: z.number(),
+      resilience: z.number(),
+    })
+    .optional(),
 });
 
 /**
@@ -26,6 +35,7 @@ export async function POST(req: Request) {
       name: body.name,
       mood: body.mood,
       confidence: body.confidence,
+      traits: body.traits,
     });
 
     return NextResponse.json({ ok: true });

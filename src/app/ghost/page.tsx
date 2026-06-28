@@ -99,8 +99,11 @@ export default function GhostPage() {
           ? {
               ...g,
               mood: result.mood,
-              evolutionScore: g.evolutionScore + 4,
-              confidence: Math.min(100, g.confidence + 3),
+              evolutionScore: g.evolutionScore + result.evolutionDelta,
+              confidence: Math.min(
+                100,
+                g.confidence + Math.round(result.evolutionDelta * 0.8)
+              ),
               memories: [
                 ...(g.memories ?? []),
                 {
@@ -110,6 +113,7 @@ export default function GhostPage() {
                   type: "evolution_checkpoint",
                   occurredAt: new Date().toISOString(),
                   rootHash: result.rootHash,
+                  evolutionDelta: result.evolutionDelta,
                 },
               ],
             }

@@ -54,18 +54,34 @@ export function buildEvolvePrompt(ghost: {
   team: string;
   evolutionScore: number;
   mood: string;
+  confidence?: number;
+  traits?: GhostTraits;
   recentMemories: string[];
+  interactionCount?: number;
 }): ChatMessage[] {
+  const traitsLine = ghost.traits
+    ? `Traits: passion ${ghost.traits.passion}, loyalty ${ghost.traits.loyalty}, drama ${ghost.traits.drama}, hope ${ghost.traits.hope}, resilience ${ghost.traits.resilience}.`
+    : "";
+  const interactionLine =
+    ghost.interactionCount != null
+      ? `${ghost.interactionCount} cumulative interactions (comments, reactions, matches, media) are shaping this evolution.`
+      : "";
+
   return [
     {
       role: "system",
-      content: `Describe who this GoalGhost is becoming. Return JSON: { narrative, mood, evolutionInsight }.
+      content: `Describe who this GoalGhost is becoming based on their full fan journey.
+Every signed comment, emoji reaction, GIF/image upload, and match reaction has contributed to this moment.
+Return JSON: { narrative, mood, evolutionInsight }.
+The narrative must reference how social banter, news debates, legacy wall notes, and match-day feelings compound into identity.
 Premium, emotional, FIFA documentary tone. ${NO_EM_DASH_STYLE}`,
     },
     {
       role: "user",
-      content: `Ghost: ${ghost.name} (${ghost.team}). Score: ${ghost.evolutionScore}. Mood: ${ghost.mood}.
-Recent memories: ${ghost.recentMemories.join(" | ")}`,
+      content: `Ghost: ${ghost.name} (${ghost.team}). Evolution score: ${ghost.evolutionScore}. Mood: ${ghost.mood}. Conviction: ${ghost.confidence ?? 50}%.
+${traitsLine}
+${interactionLine}
+Recent journey (newest last): ${ghost.recentMemories.join(" | ")}`,
     },
   ];
 }

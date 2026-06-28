@@ -27,7 +27,10 @@ export type InferenceTask =
         team: string;
         evolutionScore: number;
         mood: string;
+        confidence?: number;
+        traits?: GhostTraits;
         recentMemories: string[];
+        interactionCount?: number;
       };
     }
   | {

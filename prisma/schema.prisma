@@ -22,6 +22,7 @@ model GhostCache {
   evolutionScore Int      @default(0)
   confidence     Int      @default(50)
   mood           String   @default("calm")
+  traits         Json?
   cachedAt       DateTime @default(now())
   expiresAt      DateTime
 
@@ -36,6 +37,7 @@ model MemoryIndex {
   title      String?
   content    String?
   emotionalTone String?
+  evolutionDelta Int?
   matchId    String?
   rootHash   String
   occurredAt DateTime

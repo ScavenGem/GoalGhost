@@ -45,6 +45,7 @@ function toMemoryCards(memories: GhostApiRecord["memories"]): MemoryCardData[] {
       title: m.title,
       content: m.content,
       emotionalTone: m.emotionalTone,
+      evolutionDelta: m.evolutionDelta,
       rootHash: m.rootHash,
       occurredAt: m.occurredAt,
     }))
@@ -68,8 +69,14 @@ export default function MemoriesPage() {
   const refreshing = isFetching && !!ghost;
 
   const grouped = useMemo(() => groupByDate(memories), [memories]);
-  const milestones = memories.filter((m) => m.type === "milestone").length;
   const reactions = memories.filter((m) => m.type === "match_reaction").length;
+  const socialMoments = memories.filter(
+    (m) => m.type === "social_comment" || m.type === "social_reaction"
+  ).length;
+  const totalEvolutionGain = memories.reduce(
+    (sum, m) => sum + (m.evolutionDelta ?? 0),
+    0
+  );
 
   if (!address) {
     return (
@@ -108,12 +115,13 @@ export default function MemoriesPage() {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative grid grid-cols-3 gap-3 rounded-2xl border border-[#F4C542]/15 bg-[#0A1020]/80 p-6 backdrop-blur-sm"
+            className="relative grid grid-cols-2 gap-3 rounded-2xl border border-[#F4C542]/15 bg-[#0A1020]/80 p-6 backdrop-blur-sm sm:grid-cols-4"
           >
             {[
               { label: "Total moments", value: memories.length },
-              { label: "Birth & milestones", value: milestones },
               { label: "Kickoffs felt", value: reactions },
+              { label: "Signed interactions", value: socialMoments },
+              { label: "Evolution gained", value: `+${totalEvolutionGain}` },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}

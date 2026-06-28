@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { indexMemory, updateGhostStats } from "@/lib/cache/ghost-cache";
+import { computeConfidenceDelta } from "@/lib/ghost/evolution";
 
 const schema = z.object({
   tokenId: z.number(),
@@ -15,6 +16,15 @@ const schema = z.object({
   evolutionDelta: z.number().optional(),
   confidenceDelta: z.number().optional(),
   mood: z.string().optional(),
+  traitDelta: z
+    .object({
+      passion: z.number().optional(),
+      loyalty: z.number().optional(),
+      drama: z.number().optional(),
+      hope: z.number().optional(),
+      resilience: z.number().optional(),
+    })
+    .optional(),
 });
 
 export async function POST(req: Request) {
@@ -28,16 +38,25 @@ export async function POST(req: Request) {
       title: body.title,
       content: body.content,
       emotionalTone: body.emotionalTone,
+      evolutionDelta: body.evolutionDelta,
       matchId: body.matchId,
       rootHash: body.rootHash,
       occurredAt: new Date(body.occurredAt),
     });
 
-    if (body.evolutionDelta || body.confidenceDelta || body.mood) {
+    if (
+      body.evolutionDelta ||
+      body.confidenceDelta ||
+      body.mood ||
+      body.traitDelta
+    ) {
       await updateGhostStats(body.tokenId, {
         evolutionDelta: body.evolutionDelta,
-        confidenceDelta: body.confidenceDelta ?? Math.round((body.evolutionDelta ?? 0) / 2),
+        confidenceDelta:
+          body.confidenceDelta ??
+          computeConfidenceDelta(body.evolutionDelta ?? 0),
         mood: body.mood,
+        traitDelta: body.traitDelta,
       });
     }
 

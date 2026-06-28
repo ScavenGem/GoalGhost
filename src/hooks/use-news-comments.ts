@@ -28,6 +28,8 @@ import {
 } from "@/types/social-comment";
 import { resolveCommentArticleId } from "@/lib/news/article-id";
 import type { NewsComment, NewsCommentsResult } from "@/types/news-comment";
+import { applyClientEvolution } from "@/lib/ghost/apply-client-evolution";
+import type { InteractionEvolutionResult } from "@/lib/ghost/register-interaction-evolution";
 
 export const NEWS_COMMENTS_QUERY_KEY = "news-comments";
 
@@ -172,7 +174,10 @@ export function useNewsComments(articleIds: string[]) {
       }
 
       try {
-        return (await res.json()) as { comment: NewsComment };
+        return (await res.json()) as {
+          comment: NewsComment;
+          evolution?: InteractionEvolutionResult | null;
+        };
       } catch {
         throw new Error("Server returned an invalid response after posting");
       }
@@ -186,6 +191,9 @@ export function useNewsComments(articleIds: string[]) {
         ...existing.filter((c) => c.id !== comment.id),
       ]);
       setReplyToByArticle((prev) => ({ ...prev, [vars.articleId]: null }));
+      if (address) {
+        applyClientEvolution(queryClient, address, data.evolution);
+      }
     },
     onError: (err: Error, vars) => {
       setPostErrorArticleId(vars.articleId);
@@ -303,6 +311,7 @@ export function useNewsComments(articleIds: string[]) {
       return res.json() as Promise<{
         commentId: string;
         reactions: NewsComment["reactions"];
+        evolution?: InteractionEvolutionResult | null;
       }>;
     },
     onMutate: ({ comment, emojiId }) => {
@@ -324,6 +333,9 @@ export function useNewsComments(articleIds: string[]) {
             : c
         )
       );
+      if (address) {
+        applyClientEvolution(queryClient, address, data.evolution);
+      }
     },
     onError: (err: Error, _vars, ctx) => {
       setError(err.message);

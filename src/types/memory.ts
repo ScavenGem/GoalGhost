@@ -4,7 +4,9 @@ export type MemoryType =
   | "match_reaction"
   | "milestone"
   | "evolution_checkpoint"
-  | "legacy";
+  | "legacy"
+  | "social_comment"
+  | "social_reaction";
 
 export type MemoryEvent = {
   version: 1;

@@ -236,6 +236,7 @@ function CreatePageContent() {
           name: ghost.name,
           mood: ghost.mood,
           confidence: 50,
+          traits: ghost.traits ?? traits,
         }),
       });
 
@@ -275,6 +276,7 @@ function CreatePageContent() {
         evolutionScore: 0,
         confidence: 50,
         mood: ghost.mood ?? "electric",
+        traits: ghost.traits ?? traits,
         profileRoot: resolvedProfileRoot,
         memories: [
           {
@@ -368,6 +370,7 @@ function CreatePageContent() {
           name: ghost.name,
           mood: ghost.mood,
           confidence: 50,
+          traits: ghost.traits ?? traits,
         }),
       });
 

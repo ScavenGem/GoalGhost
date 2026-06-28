@@ -16,7 +16,18 @@ const schema = z.object({
     team: z.string(),
     evolutionScore: z.number(),
     mood: z.string(),
+    confidence: z.number().optional(),
+    traits: z
+      .object({
+        passion: z.number(),
+        loyalty: z.number(),
+        drama: z.number(),
+        hope: z.number(),
+        resilience: z.number(),
+      })
+      .optional(),
     recentMemories: z.array(z.string()),
+    interactionCount: z.number().optional(),
   }),
 });
 

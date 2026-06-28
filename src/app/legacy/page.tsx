@@ -42,6 +42,8 @@ import {
   type LegacyInitPhase,
 } from "@/lib/0g/compute/ensure-legacy-sub-account";
 import { chainScanAddressUrl } from "@/lib/0g/network";
+import { buildInteractionEvolution } from "@/lib/ghost/evolution";
+import { notifyMemoryAdded } from "@/lib/events/memory-sync";
 
 function parseSharedTokenId(raw: string | null): number | null {
   if (!raw) return null;
@@ -179,6 +181,7 @@ function LegacyPageContent() {
     const { rootHash } = await uploadPublicJsonFromBrowser(
       doc as unknown as Record<string, unknown>
     );
+    const evolution = buildInteractionEvolution("legacy_seal");
     await fetch("/api/memories/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -188,10 +191,16 @@ function LegacyPageContent() {
         type: "legacy",
         rootHash,
         occurredAt: doc.generatedAt,
-        title: "Your World Cup Legacy",
+        title: evolution.title,
         content: doc.story,
+        emotionalTone: evolution.emotionalTone,
+        evolutionDelta: evolution.evolutionDelta,
+        confidenceDelta: evolution.confidenceDelta,
+        mood: evolution.mood,
+        traitDelta: evolution.traitDelta,
       }),
     });
+    notifyMemoryAdded({ eventId: `legacy-${doc.tokenId}` });
     setLegacySealed(true);
   }
 

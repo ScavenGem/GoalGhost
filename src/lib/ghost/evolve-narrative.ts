@@ -10,9 +10,13 @@ import { sealEciesJsonFromWallet } from "@/lib/0g/storage/seal-ecies-client";
 import type { GhostApiRecord } from "@/hooks/use-ghost";
 import type { OgComputeProof } from "@/types/ghost";
 import { gatherEvolveContext } from "@/lib/ghost/evolve-context";
+import {
+  computeConfidenceDelta,
+  computeEvolveNarrativeDelta,
+  evolveTraitDeltaFromContext,
+} from "@/lib/ghost/evolution";
 
 const EVOLVE_API_TIMEOUT_MS = 60_000;
-const EVOLUTION_DELTA = 4;
 
 export type EvolveNarrativePhase = LegacyInitPhase | "sealing";
 
@@ -21,6 +25,7 @@ export type EvolveNarrativeResult = {
   narrative: string;
   mood: string;
   evolutionInsight: string;
+  evolutionDelta: number;
   rootHash: string;
   source: string;
   proof?: OgComputeProof;
@@ -37,6 +42,8 @@ export async function runEvolveNarrative(params: {
   onPhase?.("generating");
 
   const recentMemories = await gatherEvolveContext(walletAddress, ghost);
+  const evolutionDelta = computeEvolveNarrativeDelta(recentMemories.length);
+  const traitDelta = evolveTraitDeltaFromContext(recentMemories.length);
 
   const res = await fetchWithTimeout("/api/compute/evolve", {
     method: "POST",
@@ -47,7 +54,10 @@ export async function runEvolveNarrative(params: {
         team: ghost.team,
         evolutionScore: ghost.evolutionScore,
         mood: ghost.mood,
+        confidence: ghost.confidence,
+        traits: ghost.traits,
         recentMemories,
+        interactionCount: recentMemories.length,
       },
     }),
     timeoutMs: EVOLVE_API_TIMEOUT_MS,
@@ -74,13 +84,13 @@ export async function runEvolveNarrative(params: {
   const mood = data.evolution.mood?.trim() || ghost.mood;
   const evolutionInsight =
     data.evolution.evolutionInsight?.trim() ||
-    "Your fan identity voice is sharpening with every interaction.";
+    "Your fan identity voice is sharpening with every signed comment, reaction, and match felt.";
 
   onPhase?.("sealing");
 
   const eventId = `evolve-${Date.now()}`;
   const timestamp = new Date().toISOString();
-  const confidenceDelta = Math.round(EVOLUTION_DELTA * 0.8);
+  const confidenceDelta = computeConfidenceDelta(evolutionDelta);
 
   const memory = {
     version: 1 as const,
@@ -90,7 +100,7 @@ export async function runEvolveNarrative(params: {
     title: "Narrative Evolution",
     content: narrative,
     emotionalTone: mood,
-    evolutionDelta: EVOLUTION_DELTA,
+    evolutionDelta,
     timestamp,
     computeProof: data.proof,
     metadata: { evolutionInsight, source: data.source ?? "unknown" },
@@ -110,9 +120,10 @@ export async function runEvolveNarrative(params: {
       title: memory.title,
       content: narrative,
       emotionalTone: mood,
-      evolutionDelta: EVOLUTION_DELTA,
+      evolutionDelta,
       confidenceDelta,
       mood,
+      traitDelta,
     }),
   });
 
@@ -128,6 +139,7 @@ export async function runEvolveNarrative(params: {
     narrative,
     mood,
     evolutionInsight,
+    evolutionDelta,
     rootHash,
     source: data.source ?? "unknown",
     proof: data.proof,

@@ -30,6 +30,8 @@ import {
   type CommentEmojiId,
   type CommentPostInput,
 } from "@/types/social-comment";
+import { applyClientEvolution } from "@/lib/ghost/apply-client-evolution";
+import type { InteractionEvolutionResult } from "@/lib/ghost/register-interaction-evolution";
 
 export const LEGACY_COMMENTS_QUERY_KEY = ["legacy-comments"] as const;
 
@@ -149,7 +151,10 @@ export function useLegacyComments() {
       }
 
       try {
-        return (await res.json()) as { comment: LegacyComment };
+        return (await res.json()) as {
+          comment: LegacyComment;
+          evolution?: InteractionEvolutionResult | null;
+        };
       } catch {
         throw new Error("Server returned an invalid response after posting");
       }
@@ -162,6 +167,9 @@ export function useLegacyComments() {
         ...existing.filter((c) => c.id !== comment.id),
       ]);
       setReplyTo(null);
+      if (address) {
+        applyClientEvolution(queryClient, address, data.evolution);
+      }
     },
     onError: (err: Error) => setError(formatPostError(err)),
   });
@@ -272,6 +280,7 @@ export function useLegacyComments() {
       return res.json() as Promise<{
         commentId: string;
         reactions: LegacyComment["reactions"];
+        evolution?: InteractionEvolutionResult | null;
       }>;
     },
     onMutate: ({ comment, emojiId }) => {
@@ -293,6 +302,9 @@ export function useLegacyComments() {
             : c
         )
       );
+      if (address) {
+        applyClientEvolution(queryClient, address, data.evolution);
+      }
     },
     onError: (err: Error, _vars, ctx) => {
       setError(err.message);

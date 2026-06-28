@@ -5,6 +5,7 @@ import {
   useQueryClient,
   type QueryClient,
 } from "@tanstack/react-query";
+import type { GhostTraits } from "@/types/ghost";
 
 export type GhostApiRecord = {
   name: string;
@@ -14,6 +15,7 @@ export type GhostApiRecord = {
   mood: string;
   tokenId: number;
   profileRoot?: string;
+  traits?: GhostTraits | null;
   memories?: {
     eventId?: string;
     title?: string;
@@ -23,6 +25,7 @@ export type GhostApiRecord = {
     type?: string;
     occurredAt?: string;
     matchId?: string;
+    evolutionDelta?: number;
   }[];
 };
 
