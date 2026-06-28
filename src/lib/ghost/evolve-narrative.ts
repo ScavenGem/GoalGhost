@@ -41,9 +41,12 @@ export async function runEvolveNarrative(params: {
   await ensureComputeSubAccountIfNeeded(onPhase);
   onPhase?.("generating");
 
-  const recentMemories = await gatherEvolveContext(walletAddress, ghost);
-  const evolutionDelta = computeEvolveNarrativeDelta(recentMemories.length);
-  const traitDelta = evolveTraitDeltaFromContext(recentMemories.length);
+  const { memoryLines, identity } = await gatherEvolveContext(
+    walletAddress,
+    ghost
+  );
+  const evolutionDelta = computeEvolveNarrativeDelta(memoryLines.length);
+  const traitDelta = evolveTraitDeltaFromContext(memoryLines.length);
 
   const res = await fetchWithTimeout("/api/compute/evolve", {
     method: "POST",
@@ -56,8 +59,9 @@ export async function runEvolveNarrative(params: {
         mood: ghost.mood,
         confidence: ghost.confidence,
         traits: ghost.traits,
-        recentMemories,
-        interactionCount: recentMemories.length,
+        recentMemories: memoryLines,
+        interactionCount: memoryLines.length,
+        identity,
       },
     }),
     timeoutMs: EVOLVE_API_TIMEOUT_MS,

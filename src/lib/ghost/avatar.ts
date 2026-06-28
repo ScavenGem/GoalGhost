@@ -5,6 +5,7 @@ import {
   seededRandom,
   type GhostMemorySnapshot,
 } from "@/lib/ghost/avatar-visual-profile";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 
 type TeamPalette = { primary: string; secondary: string; accent: string };
 
@@ -84,6 +85,17 @@ function moodFace(mood: string, headY: number) {
   return { brow: 0, mouth: `M 44 ${mouthY} Q 50 ${mouthY + 2} 56 ${mouthY}`, eyeH: 1 };
 }
 
+const ACCENT_GLOWS: Record<string, string> = {
+  gold_rim_kit: "#F4C542",
+  shadow_ghost_trail: "#64748B",
+  ember_reaction_sparks: "#F97316",
+  cool_blue_haze: "#38BDF8",
+  crimson_passion_glow: "#EF4444",
+  emerald_hope_aura: "#22C55E",
+  violet_drama_flare: "#A855F7",
+  silver_resilience_edge: "#CBD5E1",
+};
+
 export function buildGhostAvatarDataUri(params: {
   team: string;
   teamCode?: string;
@@ -95,11 +107,17 @@ export function buildGhostAvatarDataUri(params: {
   confidence?: number;
   memories?: GhostMemorySnapshot[];
   memorySummary?: string;
+  identity?: WalletIdentityProfile;
 }): string {
-  const profile = buildAvatarVisualProfile(params);
+  const profile = buildAvatarVisualProfile({
+    ...params,
+    identity: params.identity,
+  });
   const rand = seededRandom(profile.seed);
   const code = teamCodeFromName(params.team, params.teamCode);
   const palette = NATION_PALETTES[code] ?? DEFAULT_PALETTE;
+  const accentGlow =
+    ACCENT_GLOWS[profile.visualAccentKey] ?? palette.accent;
   const id = profile.seed;
   const floatY = -profile.floatHeight;
   const headY = 30 + floatY * 0.2;
@@ -128,7 +146,8 @@ export function buildGhostAvatarDataUri(params: {
        <ellipse cx="50" cy="42" rx="36" ry="40" fill="none" stroke="#F4C542" stroke-width="0.35" opacity="0.2"/>`
     : "";
 
-  const aura = `<ellipse cx="50" cy="72" rx="${30 + profile.tier * 2}" ry="${38 + profile.tier * 3}" fill="url(#aura-${id})" opacity="${profile.auraIntensity}"/>`;
+  const aura = `<ellipse cx="50" cy="72" rx="${30 + profile.tier * 2}" ry="${38 + profile.tier * 3}" fill="url(#aura-${id})" opacity="${profile.auraIntensity}"/>
+    <ellipse cx="50" cy="68" rx="${22 + profile.tier}" ry="${26 + profile.tier * 2}" fill="none" stroke="${accentGlow}" stroke-width="0.6" opacity="${0.2 + profile.auraIntensity * 0.35}"/>`;
 
   const wisps = Array.from(
     { length: 3 + profile.tier + Math.floor(profile.interactionIntensity / 30) },
@@ -143,7 +162,7 @@ export function buildGhostAvatarDataUri(params: {
     ? Array.from({ length: 4 + profile.tier }, (_, i) => {
         const x = 18 + rand() * 64;
         const y = 20 + rand() * 50;
-        return `<circle cx="${x}" cy="${y}" r="${0.6 + rand()}" fill="${i % 2 ? palette.primary : "#F4C542"}" opacity="${0.35 + rand() * 0.4}"/>`;
+        return `<circle cx="${x}" cy="${y}" r="${0.6 + rand()}" fill="${i % 2 ? accentGlow : palette.primary}" opacity="${0.35 + rand() * 0.4}"/>`;
       }).join("")
     : "";
 
@@ -276,7 +295,8 @@ export function buildGhostAvatarDataUri(params: {
       <stop offset="100%" stop-color="#C5D0DC"/>
     </linearGradient>
     <radialGradient id="aura-${id}" cx="50%" cy="60%" r="65%">
-      <stop offset="0%" stop-color="${palette.primary}"/>
+      <stop offset="0%" stop-color="${accentGlow}"/>
+      <stop offset="45%" stop-color="${palette.primary}"/>
       <stop offset="100%" stop-color="transparent"/>
     </radialGradient>
     <linearGradient id="ray-${id}" x1="0.5" y1="0" x2="0.5" y2="1">

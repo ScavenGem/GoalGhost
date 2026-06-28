@@ -25,6 +25,8 @@ import {
   type LegacyApiOutput,
 } from "@/lib/legacy/build-legacy";
 import { gatherLegacyMemories } from "@/lib/legacy/gather-legacy-context";
+import { gatherIdentityContext } from "@/lib/ghost/gather-identity-context";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 import {
   fetchWithTimeout,
   readApiErrorMessage,
@@ -76,6 +78,8 @@ function LegacyPageContent() {
     null
   );
   const [showInitNotice, setShowInitNotice] = useState(false);
+  const [walletIdentity, setWalletIdentity] =
+    useState<WalletIdentityProfile | null>(null);
 
   const viewingOthers =
     sharedTokenId != null &&
@@ -245,7 +249,11 @@ function LegacyPageContent() {
       setShowInitNotice(refreshedStatus?.needsInitialization ?? false);
 
       setInitPhase("generating");
-      const memories = await gatherLegacyMemories(address, ghost);
+      const [{ identity }, memories] = await Promise.all([
+        gatherIdentityContext(address, ghost),
+        gatherLegacyMemories(address, ghost),
+      ]);
+      setWalletIdentity(identity);
 
       const res = await fetchWithTimeout("/api/compute/legacy", {
         method: "POST",
@@ -256,8 +264,11 @@ function LegacyPageContent() {
             team: ghost.team,
             evolutionScore: ghost.evolutionScore,
             tokenId: ghost.tokenId,
+            mood: ghost.mood,
+            confidence: ghost.confidence,
           },
           memories,
+          identity,
         }),
         timeoutMs: 60_000,
       });
@@ -341,6 +352,7 @@ function LegacyPageContent() {
           <LegacyCinematicUnwrap
             ghost={ghostLegacyInput}
             legacy={displayLegacy}
+            identity={walletIdentity ?? undefined}
             onShare={shareLegacy}
             shareCopied={copied}
             readOnly
@@ -414,6 +426,7 @@ function LegacyPageContent() {
         <LegacyCinematicUnwrap
           ghost={ghostLegacyInput}
           legacy={displayLegacy}
+          identity={walletIdentity ?? undefined}
           onShare={shareLegacy}
           onSeal={sealLegacyToStorage}
           shareCopied={copied}

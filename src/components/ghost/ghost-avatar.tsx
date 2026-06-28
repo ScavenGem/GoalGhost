@@ -7,6 +7,7 @@ import {
   buildGhostAvatarDataUri,
   type GhostMemorySnapshot,
 } from "@/lib/ghost/avatar";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 import { cn } from "@/lib/utils/cn";
 
 export function GhostAvatar({
@@ -20,6 +21,7 @@ export function GhostAvatar({
   confidence,
   memories,
   memorySummary,
+  identity,
   size = 160,
   className,
   animate = false,
@@ -34,6 +36,7 @@ export function GhostAvatar({
   confidence?: number;
   memories?: GhostMemorySnapshot[];
   memorySummary?: string;
+  identity?: WalletIdentityProfile;
   size?: number;
   className?: string;
   animate?: boolean;
@@ -51,6 +54,7 @@ export function GhostAvatar({
         confidence,
         memories,
         memorySummary,
+        identity,
       }),
     [
       name,
@@ -63,6 +67,7 @@ export function GhostAvatar({
       confidence,
       memories,
       memorySummary,
+      identity,
     ]
   );
 

@@ -4,6 +4,7 @@ import {
   ghostEvolutionStage,
   type EvolutionStage,
 } from "@/lib/ghost/evolution";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 
 export type GhostMemorySnapshot = {
   type?: string;
@@ -46,6 +47,10 @@ export type AvatarVisualProfile = {
   interactionSummary: string;
   visualDirectives: string;
   memoryFingerprint: string;
+  expressionStyle: string;
+  visualAccentKey: string;
+  banterStyle: string;
+  reactionPattern: string;
 };
 
 const DEFAULT_TRAITS: GhostTraits = {
@@ -128,8 +133,15 @@ function resolvePose(
   mood: string,
   tier: number,
   memories: GhostMemorySnapshot[],
-  dominant: keyof GhostTraits
+  dominant: keyof GhostTraits,
+  identity?: WalletIdentityProfile
 ): AvatarPose {
+  if (identity?.reactionPattern === "celebration_driven") return "celebration";
+  if (identity?.reactionPattern === "heartbreak_weighted" && tier < 4) {
+    return "defiant";
+  }
+  if (identity?.banterStyle === "visual_banter" && tier >= 2) return "clutch_ball";
+  if (identity?.banterStyle === "fiery_debater") return "defiant";
   const summary = memories
     .map((m) => `${m.title} ${m.content} ${m.emotionalTone}`)
     .join(" ")
@@ -148,6 +160,17 @@ function resolvePose(
   return "match_ready";
 }
 
+function accentMoodFromIdentity(identity?: WalletIdentityProfile): string | null {
+  if (!identity) return null;
+  if (/fervent|euphoric|celebration/i.test(identity.expressionStyle)) {
+    return "euphoric";
+  }
+  if (/defiant|steely|jaw-set/i.test(identity.expressionStyle)) return "defiant";
+  if (/reflective|calm|half-smile/i.test(identity.expressionStyle)) return "calm";
+  if (/smirk|banter/i.test(identity.expressionStyle)) return "fierce";
+  return null;
+}
+
 export function buildAvatarVisualProfile(params: {
   name: string;
   team: string;
@@ -159,9 +182,12 @@ export function buildAvatarVisualProfile(params: {
   confidence?: number;
   memories?: GhostMemorySnapshot[];
   memorySummary?: string;
+  identity?: WalletIdentityProfile;
 }): AvatarVisualProfile {
   const traits = params.traits ?? DEFAULT_TRAITS;
-  const mood = params.mood ?? "electric";
+  const identity = params.identity;
+  const mood =
+    accentMoodFromIdentity(identity) ?? params.mood ?? "electric";
   const evolutionScore = params.evolutionScore ?? 0;
   const conviction = params.confidence ?? 50;
   const memories = params.memories ?? [];
@@ -206,6 +232,11 @@ export function buildAvatarVisualProfile(params: {
       String(conviction),
       memoryFingerprint,
       JSON.stringify(traits),
+      identity?.creationSeed ?? "",
+      identity?.visualAccentKey ?? "",
+      identity?.banterStyle ?? "",
+      identity?.reactionPattern ?? "",
+      identity?.expressionStyle ?? "",
     ].join("::")
   );
 
@@ -221,13 +252,17 @@ export function buildAvatarVisualProfile(params: {
   const floatHeight = tier * 2 + (interactionIntensity >= 40 ? 2 : 0);
   const presenceScale = 1 + tier * 0.015 + interactionIntensity / 2000;
 
-  const hasMediaGlow = memories.some(
-    (m) =>
-      m.type === "social_comment" &&
-      /visual|gif|image|media/i.test(`${m.title} ${m.content}`)
-  );
+  const hasMediaGlow =
+    identity?.banterStyle === "visual_banter" ||
+    memories.some(
+      (m) =>
+        m.type === "social_comment" &&
+        /visual|gif|image|media/i.test(`${m.title} ${m.content}`)
+    );
   const hasCommentEnergy = socialComments >= 2 || socialReactions >= 1;
   const hasReactionSparks =
+    identity?.reactionPattern === "social_reactor" ||
+    identity?.reactionPattern === "celebration_driven" ||
     socialReactions >= 2 ||
     matchReactions >= 3 ||
     memories.some((m) => (m.evolutionDelta ?? 0) >= 5);
@@ -238,10 +273,24 @@ export function buildAvatarVisualProfile(params: {
     tier >= 3 && (traits.passion >= 72 || traits.drama >= 75 || hasCommentEnergy);
   const hasStadiumHaze = tier >= 1;
 
-  const pose = resolvePose(mood, tier, memories, dom);
+  const pose = resolvePose(mood, tier, memories, dom, identity);
   const interactionSummary = buildInteractionSummary(memories);
 
+  const identityDirectives = identity
+    ? [
+        `Wallet fingerprint: ${identity.walletFingerprint}.`,
+        `Banter style: ${identity.banterStyle.replace(/_/g, " ")}.`,
+        `Reaction pattern: ${identity.reactionPattern.replace(/_/g, " ")}.`,
+        `Expression: ${identity.expressionStyle}.`,
+        `Visual accent: ${identity.visualAccentKey.replace(/_/g, " ")}.`,
+        identity.banterExcerpts.length
+          ? `Banter echo: "${identity.banterExcerpts.slice(-2).join('" · "')}".`
+          : null,
+      ]
+    : [];
+
   const visualDirectives = [
+    ...identityDirectives,
     `Evolution stage ${stage} with kit detail level ${kitDetailLevel}/5.`,
     `Conviction ${conviction}% drives posture intensity and facial resolve.`,
     `Dominant personality: ${dom} (${traits[dom]}/100).`,
@@ -284,6 +333,10 @@ export function buildAvatarVisualProfile(params: {
     interactionSummary,
     visualDirectives,
     memoryFingerprint,
+    expressionStyle: identity?.expressionStyle ?? "match-day focused gaze",
+    visualAccentKey: identity?.visualAccentKey ?? "silver_resilience_edge",
+    banterStyle: identity?.banterStyle ?? "loyal_chant_leader",
+    reactionPattern: identity?.reactionPattern ?? "balanced_fan",
   };
 }
 

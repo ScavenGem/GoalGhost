@@ -11,9 +11,16 @@ import {
 import type { GhostTraits } from "@/types/ghost";
 import type { FootballMatch } from "@/types/match";
 import type { MemoryEvent } from "@/types/memory";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 
 export type InferenceTask =
-  | { task: "create"; team: string; traits: GhostTraits }
+  | {
+      task: "create";
+      team: string;
+      traits: GhostTraits;
+      walletAddress?: string;
+      identity?: WalletIdentityProfile;
+    }
   | {
       task: "reaction";
       ghost: { name: string; team: string; mood: string; evolutionScore: number };
@@ -31,12 +38,20 @@ export type InferenceTask =
         traits?: GhostTraits;
         recentMemories: string[];
         interactionCount?: number;
+        identity?: WalletIdentityProfile;
       };
     }
   | {
       task: "legacy";
-      ghost: { name: string; team: string; evolutionScore: number };
+      ghost: {
+        name: string;
+        team: string;
+        evolutionScore: number;
+        mood?: string;
+        confidence?: number;
+      };
       memories: MemoryEvent[];
+      identity?: WalletIdentityProfile;
     };
 
 export type InferenceResult<T> = {
@@ -70,13 +85,13 @@ export async function runGhostInference<T extends Record<string, unknown>>(
   const messages = (() => {
     switch (params.task) {
       case "create":
-        return buildCreatePrompt(params.team, params.traits);
+        return buildCreatePrompt(params.team, params.traits, params.identity);
       case "reaction":
         return buildReactionPrompt(params.ghost, params.match, params.eventType);
       case "evolve":
         return buildEvolvePrompt(params.ghost);
       case "legacy":
-        return buildLegacyPrompt(params.ghost, params.memories);
+        return buildLegacyPrompt(params.ghost, params.memories, params.identity);
     }
   })();
 

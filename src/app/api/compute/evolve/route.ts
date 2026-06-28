@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { buildLabeledFallbackEvolution } from "@/lib/0g/compute/evolve-fallback";
+import { walletIdentitySchema } from "@/lib/ghost/identity-schema";
 import {
   getComputeEnvStatus,
   getCreateComputeTimeoutMs,
@@ -28,6 +29,7 @@ const schema = z.object({
       .optional(),
     recentMemories: z.array(z.string()),
     interactionCount: z.number().optional(),
+    identity: walletIdentitySchema.optional(),
   }),
 });
 

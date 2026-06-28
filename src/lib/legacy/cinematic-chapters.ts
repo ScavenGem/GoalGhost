@@ -1,6 +1,7 @@
 import type { LegacyDocument } from "@/types/legacy";
 import type { GhostLegacyInput } from "@/lib/legacy/build-legacy";
 import { legacyDisplayText } from "@/lib/legacy/cinematic-text";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 
 export type CinematicChapterId = "birth" | "journey" | "evolution" | "legacy";
 
@@ -48,7 +49,8 @@ export function cinematicHighlightStages(score: number): string[] {
 
 export function buildCinematicChapters(
   ghost: GhostLegacyInput,
-  legacy: LegacyDocument
+  legacy: LegacyDocument,
+  identity?: WalletIdentityProfile
 ): CinematicChapter[] {
   const moments = legacy.moments!;
   const journeyMoments = [
@@ -73,28 +75,40 @@ export function buildCinematicChapters(
     .slice(0, 4)
     .map((h) => legacyDisplayText(h));
 
+  const birthBody = identity
+    ? `${ghost.name} was born for ${ghost.team} with a ${identity.banterStyle.replace(/_/g, " ")} voice — ${identity.voiceSignature}. A football Spirit shaped by ${ghost.mood} energy and ${ghost.confidence}% conviction, fingerprinted to wallet ${identity.walletFingerprint}.`
+    : `${ghost.name} was born for ${ghost.team}. A football Spirit shaped by ${ghost.mood} energy and ${ghost.confidence}% conviction, ready to feel every whistle.`;
+
+  const journeyBody =
+    identity?.banterExcerpts?.length
+      ? `${highlightLines.join(". ") || identity.journeySignature}. Your signed banter: "${identity.banterExcerpts.slice(-2).join('" · "')}".`
+      : highlightLines.join(". ") ||
+        "Match reactions, signed comments, and evolution chapters wrote your tournament in real time.";
+
   return [
     {
       id: "birth",
       title: "The Birth",
-      subtitle: `${ghost.name} enters the tournament`,
-      body: legacyDisplayText(
-        `${ghost.name} was born for ${ghost.team}. A football Spirit shaped by ${ghost.mood} energy and ${ghost.confidence}% conviction, ready to feel every whistle.`
-      ),
+      subtitle: identity
+        ? `${ghost.name} — ${identity.nameEpithet} of ${ghost.team}`
+        : `${ghost.name} enters the tournament`,
+      body: legacyDisplayText(birthBody),
       accent: "from-[#F4C542]/25 via-[#0A1020]/90 to-[#0A1020]",
       stats: [
         { value: ghost.team, label: "Nation carried" },
-        { value: ghost.mood, label: "Starting Spirit" },
+        {
+          value: identity?.banterStyle.replace(/_/g, " ") ?? ghost.mood,
+          label: identity ? "Banter style" : "Starting Spirit",
+        },
       ],
     },
     {
       id: "journey",
       title: "The Journey",
-      subtitle: "Every moment that shaped you",
-      body: legacyDisplayText(
-        highlightLines.join(". ") ||
-          "Match reactions, signed comments, and evolution chapters wrote your tournament in real time."
-      ),
+      subtitle: identity
+        ? `${identity.reactionPattern.replace(/_/g, " ")} energy across the tournament`
+        : "Every moment that shaped you",
+      body: legacyDisplayText(journeyBody),
       accent: "from-sky-500/20 via-[#0A1020]/90 to-[#0A1020]",
       stats: [
         {
@@ -111,8 +125,14 @@ export function buildCinematicChapters(
     {
       id: "evolution",
       title: "The Evolution",
-      subtitle: "How your Spirit transformed",
-      body: legacyDisplayText(legacy.transformation.arc),
+      subtitle: identity
+        ? identity.evolutionArchetype
+        : "How your Spirit transformed",
+      body: legacyDisplayText(
+        identity
+          ? `${legacy.transformation.arc} ${identity.personalityPresentation}`
+          : legacy.transformation.arc
+      ),
       accent: "from-violet-500/20 via-[#0A1020]/90 to-[#0A1020]",
       stats: [
         {
@@ -128,8 +148,14 @@ export function buildCinematicChapters(
     {
       id: "legacy",
       title: "The Legacy",
-      subtitle: "What remains when the final whistle blows",
-      body: legacyDisplayText(moments.fanIdentity.body),
+      subtitle: identity
+        ? `Wallet ${identity.walletFingerprint} — yours alone`
+        : "What remains when the final whistle blows",
+      body: legacyDisplayText(
+        identity?.banterExcerpts?.length
+          ? `${moments.fanIdentity.body} The comments wall remembers: "${identity.banterExcerpts.slice(-1)[0]}".`
+          : moments.fanIdentity.body
+      ),
       accent: "from-[#F4C542]/30 via-[#0A1020]/90 to-[#0A1020]",
       stats: [
         {

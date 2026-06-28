@@ -1,67 +1,50 @@
 import type { GhostApiRecord } from "@/hooks/use-ghost";
-
-type CommentRow = {
-  walletAddress?: string;
-  text?: string;
-};
+import { gatherIdentityContext } from "@/lib/ghost/gather-identity-context";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 
 function memoryLine(
   memory: NonNullable<GhostApiRecord["memories"]>[number]
 ): string | null {
-  const line = [memory.type, memory.title, memory.content]
+  const line = [memory.type, memory.title, memory.content, memory.emotionalTone]
     .filter(Boolean)
     .join(": ");
   return line.length > 0 ? line : null;
 }
 
-function ownComments(
-  comments: CommentRow[] | undefined,
-  wallet: string,
-  label: string,
-  limit = 8
-): string[] {
-  if (!comments?.length) return [];
-  return comments
-    .filter((c) => c.walletAddress?.toLowerCase() === wallet)
-    .slice(0, limit)
-    .map((c) => c.text?.trim())
-    .filter((text): text is string => !!text)
-    .map((text) => `${label}: ${text}`);
-}
+export type EvolveContext = {
+  memoryLines: string[];
+  identity: WalletIdentityProfile;
+};
 
-/** Collect match memories, legacy comments, and news comments for evolve prompts. */
+/** Collect memories, comments, and wallet-specific identity for evolve prompts. */
 export async function gatherEvolveContext(
   walletAddress: string,
   ghost: GhostApiRecord
-): Promise<string[]> {
-  const wallet = walletAddress.toLowerCase();
+): Promise<EvolveContext> {
+  const { identity, commentSignals } = await gatherIdentityContext(
+    walletAddress,
+    ghost
+  );
+
   const lines: string[] = [];
 
-  for (const memory of (ghost.memories ?? []).slice(-10)) {
+  for (const memory of (ghost.memories ?? []).slice(-12)) {
     const line = memoryLine(memory);
     if (line) lines.push(line);
   }
 
-  const [legacyRes, newsRes] = await Promise.all([
-    fetch(`/api/legacy/comments?wallet=${wallet}`, { cache: "no-store" }).catch(
-      () => null
-    ),
-    fetch(`/api/news/comments?wallet=${wallet}`, { cache: "no-store" }).catch(
-      () => null
-    ),
-  ]);
-
-  if (legacyRes?.ok) {
-    const data = (await legacyRes.json()) as { comments?: CommentRow[] };
-    lines.push(...ownComments(data.comments, wallet, "legacy comment"));
+  for (const comment of commentSignals.slice(-6)) {
+    const scope = comment.scope === "news" ? "news banter" : "legacy banter";
+    lines.push(`${scope}: ${comment.text}`);
   }
 
-  if (newsRes?.ok) {
-    const data = (await newsRes.json()) as { comments?: CommentRow[] };
-    lines.push(...ownComments(data.comments, wallet, "news comment"));
+  lines.push(`Identity signature: ${identity.journeySignature}`);
+  lines.push(`Banter style: ${identity.banterStyle.replace(/_/g, " ")}`);
+  lines.push(`Reaction pattern: ${identity.reactionPattern.replace(/_/g, " ")}`);
+
+  if (!lines.length) {
+    lines.push("No evolution chapters yet — still becoming.");
   }
 
-  return lines.length > 0
-    ? lines
-    : ["No evolution chapters yet — still becoming."];
+  return { memoryLines: lines, identity };
 }

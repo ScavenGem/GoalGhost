@@ -7,6 +7,7 @@ import {
   isLiveComputeEnabled,
 } from "@/lib/0g/compute/env";
 import type { GhostTraits } from "@/types/ghost";
+import { analyzeWalletIdentity } from "@/lib/ghost/identity-distinctness";
 
 export const dynamic = "force-dynamic";
 /** Vercel Hobby caps at 10s; Pro can raise via OG_COMPUTE_CREATE_TIMEOUT_MS + platform limit. */
@@ -15,6 +16,7 @@ export const maxDuration = 10;
 const schema = z.object({
   team: z.string(),
   teamCode: z.string(),
+  walletAddress: z.string().optional(),
   traits: z.object({
     passion: z.number(),
     loyalty: z.number(),
@@ -41,10 +43,17 @@ function labeledFallbackResponse(
 ) {
   console.error("[create-ghost] Returning labeled fallback:", reason, meta);
 
+  const identity = analyzeWalletIdentity({
+    walletAddress: body.walletAddress,
+    traits: body.traits,
+  });
+
   const fallback = buildLabeledFallbackGhost({
     team: body.team,
     teamCode: body.teamCode,
     traits: body.traits,
+    walletAddress: body.walletAddress,
+    identity,
     reason,
   });
 
@@ -79,6 +88,11 @@ async function tryLiveCompute(body: CreateGhostBody) {
     import("@/lib/0g/compute/timeout"),
   ]);
 
+  const identity = analyzeWalletIdentity({
+    walletAddress: body.walletAddress,
+    traits: body.traits,
+  });
+
   const { output, proof } = await withTimeout(
     runGhostInference<{
       name: string;
@@ -90,6 +104,8 @@ async function tryLiveCompute(body: CreateGhostBody) {
       task: "create",
       team: body.team,
       traits: body.traits,
+      walletAddress: body.walletAddress,
+      identity,
     }),
     attemptMs,
     "0G Compute ghost generation"

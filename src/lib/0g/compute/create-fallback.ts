@@ -1,4 +1,8 @@
 import type { GhostTraits, OgComputeProof } from "@/types/ghost";
+import {
+  creationIdentityName,
+  type WalletIdentityProfile,
+} from "@/lib/ghost/identity-distinctness";
 
 const MOODS = [
   "electric",
@@ -33,6 +37,8 @@ export function buildLabeledFallbackGhost(params: {
   team: string;
   teamCode: string;
   traits: GhostTraits;
+  walletAddress?: string;
+  identity?: WalletIdentityProfile;
   reason: string;
 }): {
   ghost: {
@@ -47,15 +53,23 @@ export function buildLabeledFallbackGhost(params: {
   };
   proof: OgComputeProof;
 } {
-  const seed = hashSeed(`${params.team}:${params.teamCode}:${JSON.stringify(params.traits)}`);
-  const epithets = ["Spirit", "Sentinel", "Chant", "Flame", "Heartbeat", "Echo"];
-  const name = `${titleCase(params.team)} ${pick(epithets, seed)}`;
+  const walletKey = params.walletAddress?.toLowerCase() ?? "";
+  const seed = hashSeed(
+    `${walletKey}:${params.team}:${params.teamCode}:${JSON.stringify(params.traits)}`
+  );
+  const identity = params.identity;
+  const name = identity
+    ? creationIdentityName(params.team, identity)
+    : `${titleCase(params.team)} ${pick(["Spirit", "Sentinel", "Chant", "Flame", "Heartbeat", "Echo"], seed)}`;
   const mood = pick(MOODS, seed, 2);
 
-  const backstory = `Born for ${params.team} on the road to the World Cup, ${name} carries the noise of every terrace, every last-minute prayer, and every heartbreak that came before. When 0G Compute could not answer in time, this identity was shaped locally from your nation and trait sliders so the birth ritual could continue. The loyalty still runs deep, the hope still burns, and every match from here will write the real story on 0G Storage.`;
-
   const voice =
+    identity?.voiceSignature ??
     "Direct and match-day raw, speaking like a supporter who has watched every knockout twice and still believes.";
+
+  const backstory = identity
+    ? `Born for ${params.team} with a wallet fingerprint only yours (${identity.walletFingerprint}), ${name} arrives as a ${identity.banterStyle.replace(/_/g, " ")} voice — ${identity.personalityPresentation} When 0G Compute could not answer in time, this identity was shaped locally from your nation, trait sliders, and wallet signature so the birth ritual could continue. No other supporter shares this exact voice or visual accent.`
+    : `Born for ${params.team} on the road to the World Cup, ${name} carries the noise of every terrace, every last-minute prayer, and every heartbreak that came before. When 0G Compute could not answer in time, this identity was shaped locally from your nation and trait sliders so the birth ritual could continue. The loyalty still runs deep, the hope still burns, and every match from here will write the real story on 0G Storage.`;
 
   return {
     ghost: {

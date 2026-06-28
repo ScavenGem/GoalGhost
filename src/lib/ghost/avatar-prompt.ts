@@ -4,6 +4,7 @@ import {
   buildAvatarVisualProfile,
   type GhostMemorySnapshot,
 } from "@/lib/ghost/avatar-visual-profile";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 
 export { ghostEvolutionStage };
 
@@ -54,6 +55,7 @@ export function buildGhostAvatarImagePrompt(params: {
   confidence?: number;
   memories?: GhostMemorySnapshot[];
   memorySummary?: string;
+  identity?: WalletIdentityProfile;
 }): string {
   const profile = buildAvatarVisualProfile({
     name: params.name ?? "GoalGhost",
@@ -66,6 +68,7 @@ export function buildGhostAvatarImagePrompt(params: {
     confidence: params.confidence,
     memories: params.memories,
     memorySummary: params.memorySummary,
+    identity: params.identity,
   });
 
   return GHOST_AVATAR_PROMPT_TEMPLATE.replace("[COUNTRY]", params.country)

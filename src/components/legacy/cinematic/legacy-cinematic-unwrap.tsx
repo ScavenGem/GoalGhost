@@ -26,6 +26,7 @@ import {
 } from "@/components/legacy/cinematic/legacy-cinematic-audio";
 import type { LegacyDocument } from "@/types/legacy";
 import type { GhostLegacyInput } from "@/lib/legacy/build-legacy";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 import {
   buildCinematicChapters,
   cinematicHighlightStages,
@@ -54,6 +55,7 @@ const FINALE_AUTO_EXIT_MS = 14_000;
 export function LegacyCinematicUnwrap({
   ghost,
   legacy,
+  identity,
   onShare,
   onSeal,
   onComplete,
@@ -64,6 +66,7 @@ export function LegacyCinematicUnwrap({
 }: {
   ghost: GhostLegacyInput;
   legacy: LegacyDocument;
+  identity?: WalletIdentityProfile;
   onShare: () => void;
   onSeal?: () => Promise<void>;
   onComplete?: () => void;
@@ -79,8 +82,8 @@ export function LegacyCinematicUnwrap({
   const audioRef = useRef<LegacyCinematicAudioHandle>(null);
   const finaleEngagedRef = useRef(false);
   const chapters = useMemo(
-    () => buildCinematicChapters(ghost, legacy),
-    [ghost, legacy]
+    () => buildCinematicChapters(ghost, legacy, identity),
+    [ghost, legacy, identity]
   );
   const evolutionArc = useMemo(
     () => cinematicHighlightStages(ghost.evolutionScore),
@@ -280,6 +283,7 @@ export function LegacyCinematicUnwrap({
                     evolutionScore={ghost.evolutionScore}
                     confidence={ghost.confidence}
                     memories={ghost.memories}
+                    identity={identity}
                     size={96}
                     animate
                   />

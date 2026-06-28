@@ -24,6 +24,8 @@ import {
   runEvolveNarrative,
   type EvolveNarrativePhase,
 } from "@/lib/ghost/evolve-narrative";
+import { gatherIdentityContext } from "@/lib/ghost/gather-identity-context";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 
 
 type GhostData = {
@@ -55,11 +57,27 @@ export default function GhostPage() {
   const [evolveSuccess, setEvolveSuccess] = useState<string | null>(null);
   const [evolveRootHash, setEvolveRootHash] = useState<string | null>(null);
   const [initPhase, setInitPhase] = useState<EvolveNarrativePhase | null>(null);
+  const [walletIdentity, setWalletIdentity] =
+    useState<WalletIdentityProfile | null>(null);
 
   useEffect(() => {
     if (!address || ghost || fetching) return;
     void refetch();
   }, [address, ghost, fetching, refetch]);
+
+  useEffect(() => {
+    if (!address || !ghost) {
+      setWalletIdentity(null);
+      return;
+    }
+    let cancelled = false;
+    void gatherIdentityContext(address, ghost).then(({ identity }) => {
+      if (!cancelled) setWalletIdentity(identity);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [address, ghost]);
 
   function evolveInitMessage(phase: EvolveNarrativePhase | null): string | null {
     if (!phase) return null;
@@ -187,6 +205,7 @@ export default function GhostPage() {
               evolutionScore={ghost.evolutionScore}
               confidence={ghost.confidence}
               memories={ghost.memories}
+              identity={walletIdentity ?? undefined}
               size={176}
               animate
             />

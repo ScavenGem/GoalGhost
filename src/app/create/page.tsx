@@ -164,7 +164,12 @@ function CreatePageContent() {
       const res = await fetchWithTimeout("/api/compute/create-ghost", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ team: team.name, teamCode: team.code, traits }),
+        body: JSON.stringify({
+          team: team.name,
+          teamCode: team.code,
+          traits,
+          walletAddress: address,
+        }),
         timeoutMs: CREATE_GHOST_TIMEOUT_MS,
       });
 
@@ -616,6 +621,7 @@ function CreatePageContent() {
                 mood={ghost.mood ?? "electric"}
                 traits={ghost.traits ?? traits}
                 team={team.name}
+                walletAddress={address}
                 computeProof={ghost.computeProof}
                 sealLabel={sealLabel}
                 onMint={sealGhost}

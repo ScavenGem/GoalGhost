@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { analyzeWalletIdentity } from "@/lib/ghost/identity-distinctness";
 import { motion } from "@/lib/motion";
 import { prepareEciesSealUpload } from "@/lib/0g/storage/browser-signer";
 import { Sparkles, Shield, Lock } from "lucide-react";
@@ -19,6 +20,7 @@ type GhostRevealProps = {
   mood: string;
   traits: GhostTraits;
   team: string;
+  walletAddress?: string;
   computeProof?: OgComputeProof;
   sealLabel?: string;
   onMint: () => void;
@@ -39,10 +41,21 @@ export function GhostReveal({
   mood,
   traits,
   team,
+  walletAddress,
   computeProof,
   sealLabel = "Encrypt to 0G Storage & Mint Agentic ID",
   onMint,
 }: GhostRevealProps) {
+  const identity = useMemo(
+    () =>
+      analyzeWalletIdentity({
+        walletAddress,
+        traits,
+        mood,
+      }),
+    [walletAddress, traits, mood]
+  );
+
   useEffect(() => {
     void prepareEciesSealUpload();
   }, []);
@@ -70,8 +83,10 @@ export function GhostReveal({
             <GhostAvatar
               name={name}
               team={team}
+              walletAddress={walletAddress}
               traits={traits}
               mood={mood}
+              identity={identity}
               size={120}
               animate
             />

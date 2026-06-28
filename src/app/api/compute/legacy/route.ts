@@ -7,6 +7,7 @@ import {
   isLiveComputeEnabled,
 } from "@/lib/0g/compute/env";
 import type { MemoryEvent } from "@/types/memory";
+import { walletIdentitySchema } from "@/lib/ghost/identity-schema";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -17,8 +18,11 @@ const schema = z.object({
     team: z.string(),
     evolutionScore: z.number(),
     tokenId: z.number(),
+    mood: z.string().optional(),
+    confidence: z.number().optional(),
   }),
   memories: z.array(z.record(z.unknown())),
+  identity: walletIdentitySchema.optional(),
 });
 
 type LegacyBody = z.infer<typeof schema>;
@@ -46,6 +50,7 @@ function labeledFallbackResponse(
       type?: string;
       emotionalTone?: string;
     }[],
+    identity: body.identity,
     reason,
   });
 
@@ -95,6 +100,7 @@ async function tryLiveCompute(body: LegacyBody) {
       task: "legacy",
       ghost: body.ghost,
       memories: body.memories as MemoryEvent[],
+      identity: body.identity,
     }),
     attemptMs,
     "0G Compute legacy generation"
