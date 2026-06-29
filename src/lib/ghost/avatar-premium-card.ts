@@ -77,9 +77,32 @@ const ACCENT_GLOWS: Record<string, string> = {
   silver_resilience_edge: "#CBD5E1",
 };
 
+const TRAIT_RIM: Record<keyof GhostTraits, string> = {
+  passion: "#EF4444",
+  loyalty: "#3B82F6",
+  drama: "#A855F7",
+  hope: "#22C55E",
+  resilience: "#94A3B8",
+};
+
+const CARD_W = 140;
+const CARD_H = 196;
+
 function teamCode(team: string, teamCode?: string): string {
   if (teamCode) return teamCode;
   return WC_2026_NATIONS.find((n) => n.name === team)?.code ?? "UNK";
+}
+
+function frameStroke(tier: number): { outer: string; inner: string; width: number } {
+  if (tier >= 4) return { outer: "#F4C542", inner: "#FFF3C4", width: 2.2 };
+  if (tier >= 3) return { outer: "#E8C547", inner: "#F4C542", width: 1.6 };
+  if (tier >= 2) return { outer: "#B8C4D4", inner: "#E2E8F0", width: 1.3 };
+  if (tier >= 1) return { outer: "#B87333", inner: "#CD7F32", width: 1.1 };
+  return { outer: accentMuted(), inner: "#475569", width: 0.8 };
+}
+
+function accentMuted(): string {
+  return "#64748B";
 }
 
 export type PremiumCardParams = {
@@ -103,207 +126,317 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   const code = teamCode(params.team, params.teamCode);
   const palette = NATION_PALETTES[code] ?? DEFAULT_PALETTE;
   const accentGlow = ACCENT_GLOWS[profile.visualAccentKey] ?? palette.accent;
+  const traitRim = TRAIT_RIM[profile.dominantTrait];
   const id = profile.seed;
-  const floatY = -profile.floatHeight * 0.6;
   const kit = profile.kitDetailLevel;
-  const op = Math.min(0.88, profile.ghostOpacity * 0.92);
+  const op = Math.min(0.92, profile.ghostOpacity);
+  const ghostEdge = Math.max(0.35, 1 - op);
   const kitNumber = 7 + Math.floor(rand() * 9);
   const pose = profile.pose;
+  const floatY = -profile.floatHeight * 0.75;
+  const frame = frameStroke(profile.tier);
+  const cx = CARD_W / 2;
 
-  const headY = 34 + floatY * 0.15;
-  const shoulderY = headY + 14;
-  const waistY = shoulderY + 22;
-  const hipY = waistY + 8;
+  const headY = 52 + floatY * 0.12;
+  const neckY = headY + 11;
+  const shoulderY = neckY + 5;
+  const chestY = shoulderY + 18;
+  const waistY = chestY + 14;
+  const hipY = waistY + 10;
 
-  const faceIntensity =
+  const moodKey =
     profile.mood === "fierce" || profile.mood === "defiant"
-      ? "focused"
+      ? "fierce"
       : profile.mood === "euphoric" || profile.mood === "electric"
         ? "charged"
-        : "calm";
+        : profile.mood === "calm" || profile.mood === "reflective"
+          ? "calm"
+          : "focused";
 
-  const stadiumBeams = Array.from({ length: 5 }, (_, i) => {
-    const x = 20 + i * 20;
-    return `<line x1="${x}" y1="0" x2="${x + (rand() - 0.5) * 8}" y2="55" stroke="${palette.primary}" stroke-width="0.6" opacity="${0.06 + rand() * 0.08}"/>`;
+  const lightBurst = `<ellipse cx="${cx}" cy="88" rx="58" ry="72" fill="url(#burst-${id})" opacity="0.55"/>
+    <ellipse cx="${cx}" cy="100" rx="42" ry="50" fill="url(#burst-core-${id})" opacity="0.4"/>`;
+
+  const holoFoil = profile.tier >= 3
+    ? `<rect x="8" y="24" width="124" height="140" fill="url(#holo-${id})" opacity="0.08" style="mix-blend-mode:screen"/>`
+    : "";
+
+  const rays = Array.from({ length: 8 }, (_, i) => {
+    const angle = (i / 8) * 360;
+    const rad = (angle * Math.PI) / 180;
+    const x2 = cx + Math.cos(rad) * 70;
+    const y2 = 90 + Math.sin(rad) * 80;
+    return `<line x1="${cx}" y1="90" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${traitRim}" stroke-width="0.5" opacity="0.07"/>`;
   }).join("");
 
-  const legendFrame = profile.hasLegendHalo
-    ? `<rect x="4" y="4" width="112" height="160" rx="12" fill="none" stroke="#F4C542" stroke-width="1.2" opacity="0.55"/>
-       <rect x="7" y="7" width="106" height="154" rx="10" fill="none" stroke="#F4C542" stroke-width="0.4" opacity="0.25"/>`
-    : `<rect x="6" y="6" width="108" height="156" rx="11" fill="none" stroke="${accentGlow}" stroke-width="0.5" opacity="0.35"/>`;
+  const sparks = profile.hasReactionSparks
+    ? Array.from({ length: 5 + profile.tier }, (_, i) => {
+        const x = 12 + rand() * (CARD_W - 24);
+        const y = 30 + rand() * 120;
+        return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(0.6 + rand()).toFixed(2)}" fill="${accentGlow}" opacity="${(0.35 + rand() * 0.4).toFixed(2)}">
+          <animate attributeName="opacity" values="0.2;0.7;0.2" dur="${(3 + rand() * 2).toFixed(1)}s" repeatCount="indefinite"/>
+        </circle>`;
+      }).join("")
+    : "";
 
-  const ghostTrail = `<ellipse cx="60" cy="${hipY + 38}" rx="22" ry="6" fill="${accentGlow}" opacity="${0.12 + profile.auraIntensity * 0.15}" filter="url(#trail-${id})"/>`;
+  const ghostAura = `<ellipse cx="${cx}" cy="${hipY + 52}" rx="${36 + profile.tier * 3}" ry="${14 + profile.tier * 2}" fill="url(#ghost-floor-${id})" opacity="${(0.5 + profile.auraIntensity * 0.4).toFixed(2)}" filter="url(#soft-${id})"/>`;
 
-  const etherealSilhouette = `<g opacity="${0.14 + profile.auraIntensity * 0.12}" transform="translate(3 ${floatY + 4})">
-    <path d="M 42 ${shoulderY - 2} L 38 ${waistY + 18} L 46 ${hipY + 34} L 54 ${hipY + 34} L 62 ${waistY + 18} L 58 ${shoulderY - 2} Z" fill="${accentGlow}" filter="url(#trail-${id})"/>
+  const ghostRimLeft = `<path d="M 38 ${shoulderY} Q 32 ${chestY} 34 ${waistY + 20} L 36 ${hipY + 48}" fill="none" stroke="${accentGlow}" stroke-width="2.5" opacity="${ghostEdge * 0.45}" filter="url(#ghost-glow-${id})"/>`;
+  const ghostRimRight = `<path d="M 102 ${shoulderY} Q 108 ${chestY} 106 ${waistY + 20} L 104 ${hipY + 48}" fill="none" stroke="${accentGlow}" stroke-width="2.5" opacity="${ghostEdge * 0.45}" filter="url(#ghost-glow-${id})"/>`;
+
+  const ghostSilhouette = `<g opacity="${(0.1 + profile.auraIntensity * 0.14).toFixed(2)}" transform="translate(4 ${floatY + 6})">
+    <path d="M 46 ${shoulderY} L 40 ${waistY + 16} L 48 ${hipY + 50} L 92 ${hipY + 50} L 100 ${waistY + 16} L 94 ${shoulderY} Z" fill="${accentGlow}" filter="url(#soft-${id})"/>
   </g>`;
 
-  const torso = `<path d="M 44 ${shoulderY} Q 60 ${shoulderY - 3} 76 ${shoulderY} L 72 ${waistY} Q 60 ${waistY + 4} 48 ${waistY} Z" fill="url(#kit-main-${id})" opacity="${op}"/>
-    <path d="M 48 ${shoulderY + 4} L 72 ${shoulderY + 4} L 70 ${waistY - 2} L 50 ${waistY - 2} Z" fill="url(#kit-highlight-${id})" opacity="${op * 0.85}"/>`;
+  const jersey = `<path d="M 46 ${shoulderY} Q ${cx} ${shoulderY - 4} 94 ${shoulderY} L 98 ${chestY} L 92 ${waistY} Q ${cx} ${waistY + 5} 48 ${waistY} L 42 ${chestY} Z" fill="url(#jersey-${id})" opacity="${op}"/>
+    <path d="M 50 ${shoulderY + 3} L 90 ${shoulderY + 3} L 88 ${chestY - 4} L 52 ${chestY - 4} Z" fill="url(#jersey-light-${id})" opacity="${(op * 0.7).toFixed(2)}"/>
+    <path d="M 42 ${shoulderY + 2} Q 46 ${shoulderY + 8} 48 ${chestY}" fill="none" stroke="${palette.primary}" stroke-width="3" opacity="${(op * 0.85).toFixed(2)}" stroke-linecap="round"/>
+    <path d="M 98 ${shoulderY + 2} Q 94 ${shoulderY + 8} 92 ${chestY}" fill="none" stroke="${palette.primary}" stroke-width="3" opacity="${(op * 0.85).toFixed(2)}" stroke-linecap="round"/>`;
 
-  const kitStripes =
+  const kitStripe =
     kit >= 2
-      ? `<rect x="58" y="${shoulderY + 2}" width="4" height="${waistY - shoulderY - 4}" fill="${palette.primary}" opacity="0.88"/>`
+      ? `<rect x="67" y="${shoulderY + 4}" width="6" height="${waistY - shoulderY - 2}" fill="${palette.primary}" opacity="0.9"/>`
+      : "";
+
+  const kitPanel =
+    kit >= 4
+      ? `<path d="M 52 ${chestY - 2} L 88 ${chestY - 2} L 86 ${waistY - 6} L 54 ${waistY - 6} Z" fill="${palette.accent}" opacity="0.12"/>`
       : "";
 
   const crest =
     kit >= 2
-      ? `<circle cx="60" cy="${shoulderY + 14}" r="5.5" fill="${palette.accent}" opacity="0.95"/>
-         <text x="60" y="${shoulderY + 15.5}" text-anchor="middle" font-size="4.5" font-weight="700" fill="${palette.secondary}">${code.slice(0, 2)}</text>`
+      ? `<circle cx="${cx}" cy="${shoulderY + 16}" r="7" fill="url(#crest-${id})" stroke="${palette.accent}" stroke-width="0.6"/>
+         <text x="${cx}" y="${shoulderY + 18}" text-anchor="middle" font-size="5.5" font-weight="800" fill="${palette.secondary}">${code}</text>`
       : "";
 
-  const kitNumberMark =
+  const kitNum =
     kit >= 3
-      ? `<text x="60" y="${waistY - 4}" text-anchor="middle" font-size="11" font-weight="700" fill="${palette.accent}" opacity="0.95">${kitNumber}</text>`
+      ? `<text x="${cx}" y="${waistY - 6}" text-anchor="middle" font-size="14" font-weight="800" fill="${palette.accent}" opacity="0.95" filter="url(#text-shadow-${id})">${kitNumber}</text>`
       : "";
 
-  const goldTrim =
-    kit >= 5
-      ? `<path d="M 44 ${shoulderY} L 76 ${shoulderY}" stroke="#F4C542" stroke-width="0.9" opacity="0.7"/>`
-      : "";
+  const collar = `<path d="M 54 ${neckY} Q ${cx} ${neckY + 5} 86 ${neckY}" fill="none" stroke="${palette.accent}" stroke-width="1.4" opacity="0.85"/>`;
 
   const captainBand = profile.hasCaptainBand
-    ? `<rect x="70" y="${shoulderY + 6}" width="11" height="4" rx="1" fill="${profile.hasLegendHalo ? "#F4C542" : palette.accent}"/>
-       <text x="75.5" y="${shoulderY + 8.8}" text-anchor="middle" font-size="3.2" font-weight="700" fill="#0A1020">C</text>`
+    ? `<rect x="88" y="${shoulderY + 8}" width="13" height="5" rx="1.2" fill="${profile.hasLegendHalo ? "#F4C542" : palette.accent}" stroke="#0A1020" stroke-width="0.3"/>
+       <text x="94.5" y="${shoulderY + 11.8}" text-anchor="middle" font-size="4" font-weight="800" fill="#0A1020">C</text>`
     : "";
 
-  const head = `<ellipse cx="60" cy="${headY}" rx="9" ry="10" fill="url(#skin-${id})" opacity="${op}"/>
-    <path d="M 52 ${headY + 2} Q 60 ${headY + 8} 68 ${headY + 2}" fill="none" stroke="#0A1020" stroke-width="0.5" opacity="0.25"/>`;
+  const goldTrim =
+    kit >= 5 || profile.hasLegendHalo
+      ? `<path d="M 46 ${shoulderY} L 94 ${shoulderY}" stroke="#F4C542" stroke-width="1.2" opacity="0.8"/>
+         <path d="M 48 ${waistY} L 92 ${waistY}" stroke="#F4C542" stroke-width="0.6" opacity="0.5"/>`
+      : "";
 
-  const eyes =
-    faceIntensity === "focused"
-      ? `<line x1="55" y1="${headY + 1}" x2="57.5" y2="${headY + 1}" stroke="#0A1020" stroke-width="1.1" stroke-linecap="round"/>
-         <line x1="62.5" y1="${headY + 1}" x2="65" y2="${headY + 1}" stroke="#0A1020" stroke-width="1.1" stroke-linecap="round"/>
-         <path d="M 54 ${headY - 2} L 57 ${headY - 3} M 63 ${headY - 3} L 66 ${headY - 2}" stroke="#0A1020" stroke-width="0.6" opacity="0.7"/>`
-      : faceIntensity === "charged"
-        ? `<ellipse cx="56.5" cy="${headY + 1}" rx="1.8" ry="1.2" fill="#0A1020"/>
-           <ellipse cx="63.5" cy="${headY + 1}" rx="1.8" ry="1.2" fill="#0A1020"/>
-           <path d="M 55 ${headY + 5} Q 60 ${headY + 7} 65 ${headY + 5}" stroke="#0A1020" stroke-width="0.8" fill="none"/>`
-        : `<ellipse cx="56.5" cy="${headY + 1}" rx="1.5" ry="1.1" fill="#0A1020" opacity="0.85"/>
-           <ellipse cx="63.5" cy="${headY + 1}" rx="1.5" ry="1.1" fill="#0A1020" opacity="0.85"/>
-           <path d="M 56 ${headY + 5} Q 60 ${headY + 4} 64 ${headY + 5}" stroke="#0A1020" stroke-width="0.7" fill="none" opacity="0.8"/>`;
+  const head = `<ellipse cx="${cx}" cy="${headY}" rx="10.5" ry="11.5" fill="url(#skin-${id})" opacity="${op}"/>
+    <path d="M ${cx - 8} ${headY + 1} Q ${cx} ${headY + 9} ${cx + 8} ${headY + 1}" fill="none" stroke="#1e293b" stroke-width="0.6" opacity="0.3"/>
+    <ellipse cx="${cx - 5}" cy="${headY - 3}" rx="3" ry="1.5" fill="#fff" opacity="0.08"/>`;
+
+  const face =
+    moodKey === "fierce"
+      ? `<path d="M ${cx - 9} ${headY - 1} L ${cx - 5} ${headY - 2.5}" stroke="#1e293b" stroke-width="1" stroke-linecap="round"/>
+         <path d="M ${cx + 5} ${headY - 2.5} L ${cx + 9} ${headY - 1}" stroke="#1e293b" stroke-width="1" stroke-linecap="round"/>
+         <line x1="${cx - 5}" y1="${headY + 1}" x2="${cx - 2}" y2="${headY + 1}" stroke="#1e293b" stroke-width="1.3" stroke-linecap="round"/>
+         <line x1="${cx + 2}" y1="${headY + 1}" x2="${cx + 5}" y2="${headY + 1}" stroke="#1e293b" stroke-width="1.3" stroke-linecap="round"/>
+         <path d="M ${cx - 5} ${headY + 6} L ${cx + 5} ${headY + 6}" stroke="#1e293b" stroke-width="1" stroke-linecap="round"/>`
+      : moodKey === "charged"
+        ? `<ellipse cx="${cx - 4.5}" cy="${headY + 1}" rx="2" ry="1.4" fill="#1e293b"/>
+           <ellipse cx="${cx + 4.5}" cy="${headY + 1}" rx="2" ry="1.4" fill="#1e293b"/>
+           <ellipse cx="${cx - 4}" cy="${headY}" rx="0.6" ry="0.5" fill="#fff" opacity="0.5"/>
+           <ellipse cx="${cx + 5}" cy="${headY}" rx="0.6" ry="0.5" fill="#fff" opacity="0.5"/>
+           <path d="M ${cx - 5} ${headY + 6} Q ${cx} ${headY + 9} ${cx + 5} ${headY + 6}" stroke="#1e293b" stroke-width="1" fill="none"/>`
+        : `<ellipse cx="${cx - 4.5}" cy="${headY + 1}" rx="1.6" ry="1.2" fill="#1e293b" opacity="0.9"/>
+           <ellipse cx="${cx + 4.5}" cy="${headY + 1}" rx="1.6" ry="1.2" fill="#1e293b" opacity="0.9"/>
+           <path d="M ${cx - 4} ${headY + 6} Q ${cx} ${headY + 5} ${cx + 4} ${headY + 6}" stroke="#1e293b" stroke-width="0.8" fill="none" opacity="0.85"/>`;
 
   const leftArm =
     pose === "celebration"
-      ? `<path d="M 44 ${shoulderY + 4} Q 28 ${shoulderY - 6} 22 ${headY - 4}" stroke="url(#limb-${id})" stroke-width="6" stroke-linecap="round" fill="none" opacity="${op}"/>`
+      ? `<path d="M 46 ${shoulderY + 6} L 28 ${shoulderY - 12} L 22 ${headY - 8} L 26 ${headY - 14} L 34 ${shoulderY - 4} Z" fill="url(#arm-${id})" opacity="${op}"/>`
       : pose === "defiant"
-        ? `<path d="M 44 ${shoulderY + 6} Q 32 ${shoulderY + 2} 26 ${shoulderY - 8}" stroke="url(#limb-${id})" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="${op}"/>`
-        : `<path d="M 44 ${shoulderY + 6} Q 36 ${waistY} 34 ${waistY + 14}" stroke="url(#limb-${id})" stroke-width="5" stroke-linecap="round" fill="none" opacity="${op}"/>`;
+        ? `<path d="M 46 ${shoulderY + 8} L 30 ${shoulderY + 2} L 24 ${shoulderY - 10} L 32 ${shoulderY - 6} Z" fill="url(#arm-${id})" opacity="${op}"/>`
+        : `<path d="M 46 ${shoulderY + 8} L 36 ${chestY + 6} L 32 ${waistY + 10} L 40 ${waistY + 8} Z" fill="url(#arm-${id})" opacity="${op}"/>`;
 
   const rightArm =
     pose === "celebration"
-      ? `<path d="M 76 ${shoulderY + 4} Q 92 ${shoulderY - 6} 98 ${headY - 4}" stroke="url(#limb-${id})" stroke-width="6" stroke-linecap="round" fill="none" opacity="${op}"/>`
+      ? `<path d="M 94 ${shoulderY + 6} L 112 ${shoulderY - 12} L 118 ${headY - 8} L 114 ${headY - 14} L 106 ${shoulderY - 4} Z" fill="url(#arm-${id})" opacity="${op}"/>`
       : pose === "clutch_ball"
-        ? `<path d="M 76 ${shoulderY + 6} Q 84 ${waistY + 4} 88 ${waistY + 16}" stroke="url(#limb-${id})" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="${op}"/>`
-        : `<path d="M 76 ${shoulderY + 6} Q 84 ${waistY} 86 ${waistY + 14}" stroke="url(#limb-${id})" stroke-width="5" stroke-linecap="round" fill="none" opacity="${op}"/>`;
+        ? `<path d="M 94 ${shoulderY + 8} L 104 ${chestY + 8} L 108 ${waistY + 14} L 100 ${waistY + 10} Z" fill="url(#arm-${id})" opacity="${op}"/>`
+        : pose === "legendary_float"
+          ? `<path d="M 94 ${shoulderY + 6} L 108 ${shoulderY - 4} L 112 ${chestY} L 100 ${chestY + 4} Z" fill="url(#arm-${id})" opacity="${op}"/>`
+          : `<path d="M 94 ${shoulderY + 8} L 104 ${chestY + 6} L 108 ${waistY + 10} L 100 ${waistY + 8} Z" fill="url(#arm-${id})" opacity="${op}"/>`;
 
-  const shorts = `<path d="M 48 ${waistY} L 72 ${waistY} L 70 ${hipY + 6} Q 60 ${hipY + 10} 50 ${hipY + 6} Z" fill="${palette.secondary}" opacity="${op * 0.96}"/>`;
+  const shorts = `<path d="M 48 ${waistY} L 92 ${waistY} L 90 ${hipY + 8} Q ${cx} ${hipY + 14} 50 ${hipY + 8} Z" fill="${palette.secondary}" opacity="${(op * 0.97).toFixed(2)}"/>
+    <line x1="${cx}" y1="${waistY}" x2="${cx}" y2="${hipY + 8}" stroke="${palette.primary}" stroke-width="1.2" opacity="0.35"/>`;
 
-  const leftLeg = `<path d="M 52 ${hipY + 6} L 50 ${hipY + 28} L 48 ${hipY + 42}" stroke="url(#limb-${id})" stroke-width="7" stroke-linecap="round" fill="none" opacity="${op}"/>
-    <rect x="45" y="${hipY + 24}" width="8" height="10" rx="1" fill="${palette.primary}" opacity="0.9"/>
-    <ellipse cx="47" cy="${hipY + 44}" rx="6" ry="3" fill="#1a1a1a" opacity="0.95"/>`;
+  const leftThigh = `<path d="M 52 ${hipY + 8} L 48 ${hipY + 32} L 44 ${hipY + 48} L 54 ${hipY + 46} L 58 ${hipY + 28} Z" fill="url(#leg-${id})" opacity="${op}"/>`;
+  const rightThigh = `<path d="M 88 ${hipY + 8} L 92 ${hipY + 32} L 96 ${hipY + 48} L 86 ${hipY + 46} L 82 ${hipY + 28} Z" fill="url(#leg-${id})" opacity="${op}"/>`;
 
-  const rightLeg = `<path d="M 68 ${hipY + 6} L 70 ${hipY + 28} L 72 ${hipY + 42}" stroke="url(#limb-${id})" stroke-width="7" stroke-linecap="round" fill="none" opacity="${op}"/>
-    <rect x="67" y="${hipY + 24}" width="8" height="10" rx="1" fill="${palette.primary}" opacity="0.9"/>
-    <ellipse cx="73" cy="${hipY + 44}" rx="6" ry="3" fill="#1a1a1a" opacity="0.95"/>`;
+  const leftSock = `<rect x="43" y="${hipY + 30}" width="12" height="14" rx="1" fill="${palette.primary}" opacity="0.92"/>`;
+  const rightSock = `<rect x="85" y="${hipY + 30}" width="12" height="14" rx="1" fill="${palette.primary}" opacity="0.92"/>`;
 
+  const leftBoot = `<path d="M 40 ${hipY + 46} L 56 ${hipY + 46} L 58 ${hipY + 52} L 38 ${hipY + 52} Z" fill="#111827" opacity="0.95"/>
+    <ellipse cx="48" cy="${hipY + 53}" rx="10" ry="3.5" fill="#0f172a"/>`;
+  const rightBoot = `<path d="M 84 ${hipY + 46} L 100 ${hipY + 46} L 102 ${hipY + 52} L 82 ${hipY + 52} Z" fill="#111827" opacity="0.95"/>
+    <ellipse cx="92" cy="${hipY + 53}" rx="10" ry="3.5" fill="#0f172a"/>`;
+
+  const stanceOffset = pose === "match_ready" || pose === "clutch_ball" ? 4 : 0;
+  const ballX = pose === "clutch_ball" ? 108 : 112;
+  const ballY = hipY + 22;
   const showBall =
-    pose === "clutch_ball" || pose === "match_ready" || pose === "celebration";
-  const ballX = pose === "clutch_ball" ? 90 : 94;
-  const ballY = waistY + 10;
+    pose === "clutch_ball" ||
+    pose === "match_ready" ||
+    pose === "celebration" ||
+    pose === "legendary_float";
+
   const football = showBall
-    ? `<g class="gg-ball" data-animate="bob">
-         <circle cx="${ballX}" cy="${ballY}" r="7" fill="#f8fafc" opacity="0.12"/>
-         <circle cx="${ballX}" cy="${ballY}" r="7" fill="url(#ball-${id})" opacity="0.88"/>
-         <path d="M ${ballX} ${ballY - 5} L ${ballX + 1.8} ${ballY - 1.5} L ${ballX + 5} ${ballY - 1.5} L ${ballX + 2.2} ${ballY + 1} L ${ballX + 3} ${ballY + 4.5} L ${ballX} ${ballY + 2.8} L ${ballX - 3} ${ballY + 4.5} L ${ballX - 2.2} ${ballY + 1} L ${ballX - 5} ${ballY - 1.5} L ${ballX - 1.8} ${ballY - 1.5} Z" fill="#0A1020" opacity="0.2"/>
+    ? `<g class="gg-ball" data-animate="bob" transform="translate(${stanceOffset} 0)">
+         <circle cx="${ballX}" cy="${ballY}" r="9" fill="#000" opacity="0.15" filter="url(#soft-${id})"/>
+         <circle cx="${ballX}" cy="${ballY}" r="8.5" fill="url(#ball-${id})"/>
+         <path d="M ${ballX} ${ballY - 6} L ${ballX + 2.2} ${ballY - 2} L ${ballX + 6} ${ballY - 2} L ${ballX + 2.8} ${ballY + 1.5} L ${ballX + 3.8} ${ballY + 5.5} L ${ballX} ${ballY + 3.5} L ${ballX - 3.8} ${ballY + 5.5} L ${ballX - 2.8} ${ballY + 1.5} L ${ballX - 6} ${ballY - 2} L ${ballX - 2.2} ${ballY - 2} Z" fill="#1e293b" opacity="0.22"/>
+         <ellipse cx="${ballX - 2}" cy="${ballY - 2}" rx="2" ry="1.2" fill="#fff" opacity="0.35"/>
+         <animateTransform attributeName="transform" type="translate" values="0,0; 0,-1.5; 0,0" dur="3.5s" repeatCount="indefinite" additive="sum"/>
        </g>`
     : "";
 
-  const aura = `<ellipse cx="60" cy="${hipY + 30}" rx="${28 + profile.tier * 2}" ry="${10 + profile.tier}" fill="url(#aura-${id})" opacity="${profile.auraIntensity * 0.85}"/>`;
-
-  const sparks = profile.hasReactionSparks
-    ? Array.from({ length: 3 + profile.tier }, (_, i) => {
-        const x = 14 + rand() * 92;
-        const y = 18 + rand() * 60;
-        return `<circle cx="${x}" cy="${y}" r="${0.5 + rand() * 0.8}" fill="${accentGlow}" opacity="${0.3 + rand() * 0.35}"/>`;
-      }).join("")
+  const legendHalo = profile.hasLegendHalo
+    ? `<ellipse cx="${cx}" cy="${headY + 8}" rx="38" ry="44" fill="none" stroke="#F4C542" stroke-width="1" opacity="0.35"/>
+       <ellipse cx="${cx}" cy="${headY + 8}" rx="42" ry="48" fill="none" stroke="#F4C542" stroke-width="0.4" opacity="0.18"/>`
     : "";
 
-  const stageLabel = profile.stage.toUpperCase();
-  const nationLabel = code;
+  const namePlate = params.name.length > 18 ? `${params.name.slice(0, 16)}…` : params.name;
+  const displayName = namePlate.toUpperCase();
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 168" role="img" aria-label="${params.name} premium GoalGhost card">
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${CARD_W} ${CARD_H}" role="img" aria-label="${params.name} premium GoalGhost player card">
   <defs>
     <linearGradient id="bg-${id}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0f1728"/>
-      <stop offset="45%" stop-color="#0A1020"/>
-      <stop offset="100%" stop-color="#122018"/>
+      <stop offset="0%" stop-color="#141c32"/>
+      <stop offset="35%" stop-color="#0A1020"/>
+      <stop offset="100%" stop-color="#0d1a14"/>
     </linearGradient>
-    <linearGradient id="kit-main-${id}" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="${palette.secondary}"/>
-      <stop offset="55%" stop-color="${palette.secondary}"/>
-      <stop offset="100%" stop-color="${palette.primary}"/>
-    </linearGradient>
-    <linearGradient id="kit-highlight-${id}" x1="0.5" y1="0" x2="0.5" y2="1">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.12"/>
-    </linearGradient>
-    <linearGradient id="skin-${id}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#d4dce6"/>
-      <stop offset="100%" stop-color="#9aa8b8"/>
-    </linearGradient>
-    <linearGradient id="limb-${id}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#dce4ec"/>
-      <stop offset="100%" stop-color="#a8b4c2"/>
-    </linearGradient>
-    <radialGradient id="aura-${id}" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="${accentGlow}"/>
+    <radialGradient id="burst-${id}" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="${traitRim}" stop-opacity="0.35"/>
+      <stop offset="55%" stop-color="${palette.secondary}" stop-opacity="0.15"/>
       <stop offset="100%" stop-color="transparent"/>
     </radialGradient>
-    <radialGradient id="ball-${id}" cx="35%" cy="30%" r="65%">
+    <radialGradient id="burst-core-${id}" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="${accentGlow}" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    <linearGradient id="jersey-${id}" x1="0.2" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="${palette.secondary}"/>
+      <stop offset="50%" stop-color="${palette.secondary}"/>
+      <stop offset="100%" stop-color="${palette.primary}"/>
+    </linearGradient>
+    <linearGradient id="jersey-light-${id}" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="skin-${id}" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#e8eef4"/>
+      <stop offset="100%" stop-color="#9aa8b8"/>
+    </linearGradient>
+    <linearGradient id="arm-${id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+    <linearGradient id="leg-${id}" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+    <radialGradient id="crest-${id}" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="${palette.accent}"/>
+    </radialGradient>
+    <radialGradient id="ball-${id}" cx="35%" cy="28%" r="70%">
       <stop offset="0%" stop-color="#ffffff"/>
       <stop offset="100%" stop-color="#cbd5e1"/>
     </radialGradient>
-    <filter id="glow-${id}">
-      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+    <radialGradient id="ghost-floor-${id}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="${accentGlow}"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    <linearGradient id="holo-${id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9945FF" stop-opacity="0.6"/>
+      <stop offset="33%" stop-color="#14F195" stop-opacity="0.4"/>
+      <stop offset="66%" stop-color="#F4C542" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#9945FF" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="name-plate-${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2236"/>
+      <stop offset="100%" stop-color="#0A1020"/>
+    </linearGradient>
+    <filter id="card-shadow-${id}">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.55"/>
+    </filter>
+    <filter id="ghost-glow-${id}">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft-${id}">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+    <filter id="text-shadow-${id}">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="player-glow-${id}">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="trail-${id}">
-      <feGaussianBlur stdDeviation="4"/>
-    </filter>
-    <filter id="card-depth-${id}">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
-    </filter>
   </defs>
-  <rect width="120" height="168" rx="14" fill="url(#bg-${id})" filter="url(#card-depth-${id})"/>
-  ${stadiumBeams}
-  <rect x="0" y="130" width="120" height="38" fill="#142a1c" opacity="0.55"/>
-  <line x1="0" y1="130" x2="120" y2="130" stroke="${palette.primary}" stroke-width="0.5" opacity="0.25"/>
-  ${legendFrame}
+
+  <rect width="${CARD_W}" height="${CARD_H}" rx="16" fill="url(#bg-${id})" filter="url(#card-shadow-${id})"/>
+  ${rays}
+  ${lightBurst}
+  ${holoFoil}
+  <rect x="0" y="152" width="${CARD_W}" height="44" fill="url(#name-plate-${id})" opacity="0.92"/>
+  <line x1="0" y1="152" x2="${CARD_W}" y2="152" stroke="${frame.outer}" stroke-width="0.8" opacity="0.5"/>
+
+  <rect x="5" y="5" width="${CARD_W - 10}" height="${CARD_H - 10}" rx="13" fill="none" stroke="${frame.outer}" stroke-width="${frame.width}"/>
+  <rect x="8" y="8" width="${CARD_W - 16}" height="${CARD_H - 16}" rx="11" fill="none" stroke="${frame.inner}" stroke-width="0.5" opacity="0.6"/>
+
   ${sparks}
-  ${aura}
-  ${etherealSilhouette}
-  ${ghostTrail}
-  <g class="gg-player" data-animate="float" transform="translate(0 ${floatY}) scale(${profile.presenceScale})" filter="url(#glow-${id})">
-    ${leftLeg}
-    ${rightLeg}
+  ${ghostAura}
+  ${ghostSilhouette}
+  ${legendHalo}
+
+  <g class="gg-player" data-animate="float" filter="url(#player-glow-${id})">
+    <animateTransform attributeName="transform" type="translate" values="0,${floatY}; 0,${floatY - 2.5}; 0,${floatY}" dur="5s" repeatCount="indefinite"/>
+    ${leftBoot}
+    ${rightBoot}
+    ${leftSock}
+    ${rightSock}
+    ${leftThigh}
+    ${rightThigh}
     ${shorts}
-    ${torso}
-    ${kitStripes}
+    ${jersey}
+    ${kitStripe}
+    ${kitPanel}
+    ${collar}
     ${crest}
-    ${kitNumberMark}
+    ${kitNum}
     ${goldTrim}
     ${captainBand}
     ${leftArm}
     ${rightArm}
     ${head}
-    ${eyes}
+    ${face}
+    ${ghostRimLeft}
+    ${ghostRimRight}
   </g>
   ${football}
-  <text x="12" y="158" font-size="5.5" fill="#F4C542" opacity="0.7" letter-spacing="0.12em">${stageLabel}</text>
-  <text x="108" y="158" text-anchor="end" font-size="5.5" fill="${palette.primary}" opacity="0.75" letter-spacing="0.1em">${nationLabel}</text>
-  <text x="60" y="18" text-anchor="middle" font-size="4.5" fill="#94a3b8" opacity="0.5" letter-spacing="0.2em">GOALGHOST</text>
+
+  <text x="12" y="22" font-size="5" fill="#64748b" letter-spacing="0.22em" font-weight="600">GOALGHOST</text>
+  <text x="${CARD_W - 12}" y="22" text-anchor="end" font-size="5.5" fill="${traitRim}" font-weight="700" letter-spacing="0.1em">${profile.dominantTrait.toUpperCase()}</text>
+
+  <rect x="10" y="158" width="36" height="14" rx="3" fill="${palette.secondary}" opacity="0.85"/>
+  <text x="28" y="168" text-anchor="middle" font-size="7" font-weight="800" fill="${palette.primary}">${code}</text>
+
+  <rect x="${CARD_W - 46}" y="158" width="36" height="14" rx="3" fill="#1e293b" stroke="${frame.outer}" stroke-width="0.5"/>
+  <text x="${CARD_W - 28}" y="168" text-anchor="middle" font-size="6" font-weight="700" fill="#F4C542" letter-spacing="0.08em">${profile.stage.toUpperCase()}</text>
+
+  <text x="${cx}" y="180" text-anchor="middle" font-size="7.5" font-weight="800" fill="#f8fafc" letter-spacing="0.06em" filter="url(#text-shadow-${id})">${displayName}</text>
+  <text x="${cx}" y="190" text-anchor="middle" font-size="5" fill="#94a3b8" letter-spacing="0.14em">${profile.mood.toUpperCase()} · ${profile.conviction}%</text>
 </svg>`;
 
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
+
+export const PREMIUM_CARD_ASPECT = CARD_H / CARD_W;
