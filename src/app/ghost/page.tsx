@@ -14,7 +14,7 @@ import { ExternalLink, Radio, Sparkles } from "lucide-react";
 import { EvolutionArc } from "@/components/ghost/evolution-arc";
 import { FootballLoader } from "@/components/ui/football-loader";
 import { OgIrreplaceableBanner } from "@/components/0g/og-irreplaceable-banner";
-import { GhostAvatar } from "@/components/ghost/ghost-avatar";
+import { GhostPageAvatar } from "@/components/ghost/ghost-page-avatar";
 import { NationFlagEmoji } from "@/components/ui/nation-flag-emoji";
 import { nationByName } from "@/lib/football/teams";
 import { hoverLink, hoverPromoBanner } from "@/lib/utils/hover";
@@ -196,9 +196,10 @@ export default function GhostPage() {
           className="flex flex-col gap-10 md:flex-row md:items-start"
         >
           <div className="relative mx-auto sm:mx-0">
-            <GhostAvatar
+            <GhostPageAvatar
               name={ghost.name}
               team={ghost.team}
+              teamCode={nationByName(ghost.team)?.code}
               walletAddress={address}
               traits={ghost.traits ?? undefined}
               mood={ghost.mood}
@@ -206,7 +207,7 @@ export default function GhostPage() {
               confidence={ghost.confidence}
               memories={ghost.memories}
               identity={walletIdentity ?? undefined}
-              size={176}
+              size={200}
               animate
             />
             <motion.span
