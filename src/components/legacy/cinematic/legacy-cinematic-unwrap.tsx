@@ -59,8 +59,8 @@ const PHASE_DWELL_MS: Record<Phase, number> = {
   journey: 8000,
   evolution: 8000,
   legacy: 8000,
-  finale: 0,
-  closing: 0,
+  finale: 8000,
+  closing: 6500,
 };
 
 const PHASE_LABELS: Record<Phase, string> = {
@@ -72,8 +72,6 @@ const PHASE_LABELS: Record<Phase, string> = {
   finale: "Finale",
   closing: "The End",
 };
-
-const TERMINAL_PHASES: Phase[] = ["finale", "closing"];
 
 function pauseOnReadMore(expanded: boolean, setPlaying: (v: boolean) => void) {
   if (expanded) setPlaying(false);
@@ -153,6 +151,7 @@ export function LegacyCinematicUnwrap({
   const [showConfetti, setShowConfetti] = useState(false);
   const [audioOn, setAudioOn] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [closingFinished, setClosingFinished] = useState(false);
   const audioRef = useRef<LegacyCinematicAudioHandle>(null);
   const slideScrollRef = useRef<HTMLDivElement>(null);
   const goNextRef = useRef<() => void>(() => {});
@@ -184,6 +183,7 @@ export function LegacyCinematicUnwrap({
       const clamped = Math.max(0, Math.min(index, PHASE_ORDER.length - 1));
       setPhaseIndex(clamped);
       setSlideProgress(0);
+      setClosingFinished(false);
       const next = PHASE_ORDER[clamped];
       if (next === "finale" || (next === "closing" && sealed)) {
         setShowConfetti(true);
@@ -210,6 +210,7 @@ export function LegacyCinematicUnwrap({
   const replay = useCallback(() => {
     ensureAudio();
     setIsPlaying(true);
+    setClosingFinished(false);
     goToPhase(0);
     setShowConfetti(false);
   }, [ensureAudio, goToPhase]);
@@ -231,7 +232,7 @@ export function LegacyCinematicUnwrap({
   }, []);
 
   useEffect(() => {
-    if (!isPlaying || TERMINAL_PHASES.includes(phase)) return;
+    if (!isPlaying) return;
 
     setSlideProgress(0);
     const ms = PHASE_DWELL_MS[phase];
@@ -245,7 +246,16 @@ export function LegacyCinematicUnwrap({
     };
     raf = requestAnimationFrame(tick);
 
-    const t = setTimeout(() => goNextRef.current(), ms);
+    const t = setTimeout(() => {
+      if (phase === "closing") {
+        setSlideProgress(100);
+        setIsPlaying(false);
+        setClosingFinished(true);
+        return;
+      }
+      goNextRef.current();
+    }, ms);
+
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(t);
@@ -864,6 +874,24 @@ export function LegacyCinematicUnwrap({
                     )}
                   </div>
                 </motion.div>
+
+                {closingFinished && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20, scale: 0.94 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                    className="mt-10 flex w-full justify-center"
+                  >
+                    <Button
+                      size="lg"
+                      onClick={replay}
+                      className="h-14 w-full max-w-md text-base shadow-xl shadow-[#F4C542]/35 sm:w-auto sm:min-w-[300px] sm:text-lg"
+                    >
+                      <RotateCcw className="mr-2 h-5 w-5" />
+                      Replay the Journey
+                    </Button>
+                  </motion.div>
+                )}
 
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
