@@ -27,7 +27,7 @@ export function GhostPageAvatar({
   memories,
   memorySummary,
   identity,
-  size = 176,
+  size = 210,
   className,
   animate = true,
 }: {

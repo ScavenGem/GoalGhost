@@ -207,7 +207,7 @@ export default function GhostPage() {
               confidence={ghost.confidence}
               memories={ghost.memories}
               identity={walletIdentity ?? undefined}
-              size={200}
+              size={210}
               animate
             />
             <motion.span
