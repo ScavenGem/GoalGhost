@@ -142,6 +142,7 @@ export function LegacyCinematicUnwrap({
   const [audioOn, setAudioOn] = useState(true);
   const [mounted, setMounted] = useState(false);
   const audioRef = useRef<LegacyCinematicAudioHandle>(null);
+  const slideScrollRef = useRef<HTMLDivElement>(null);
   const goNextRef = useRef<() => void>(() => {});
 
   const phase = PHASE_ORDER[phaseIndex];
@@ -242,6 +243,10 @@ export function LegacyCinematicUnwrap({
   useEffect(() => {
     audioRef.current?.setMuted(!audioOn);
   }, [audioOn]);
+
+  useEffect(() => {
+    slideScrollRef.current?.scrollTo({ top: 0 });
+  }, [phaseIndex]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -373,7 +378,11 @@ export function LegacyCinematicUnwrap({
           </span>
         </button>
 
-        <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto px-4 py-4 sm:px-8 sm:py-6">
+        <div
+          ref={slideScrollRef}
+          className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain scroll-smooth px-4 sm:px-8"
+        >
+          <div className="flex w-full min-h-full flex-col items-center justify-center py-8 pt-10 pb-12 sm:py-10 sm:pt-12 sm:pb-14">
           <AnimatePresence mode="wait">
             {phase === "intro" && (
               <motion.div
@@ -754,6 +763,7 @@ export function LegacyCinematicUnwrap({
               </motion.div>
             )}
           </AnimatePresence>
+          </div>
         </div>
       </div>
 
