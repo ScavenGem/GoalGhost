@@ -41,9 +41,17 @@ import { downloadLegacyFinaleImage } from "@/lib/legacy/download-legacy-image";
 import { nationByName } from "@/lib/football/teams";
 import { cn } from "@/lib/utils/cn";
 
-type Phase = "intro" | CinematicChapter["id"] | "finale";
+type Phase = "intro" | CinematicChapter["id"] | "finale" | "closing";
 
-const PHASE_ORDER: Phase[] = ["intro", "birth", "journey", "evolution", "legacy", "finale"];
+const PHASE_ORDER: Phase[] = [
+  "intro",
+  "birth",
+  "journey",
+  "evolution",
+  "legacy",
+  "finale",
+  "closing",
+];
 
 const PHASE_DWELL_MS: Record<Phase, number> = {
   intro: 6500,
@@ -52,6 +60,7 @@ const PHASE_DWELL_MS: Record<Phase, number> = {
   evolution: 8000,
   legacy: 8000,
   finale: 0,
+  closing: 0,
 };
 
 const PHASE_LABELS: Record<Phase, string> = {
@@ -61,7 +70,10 @@ const PHASE_LABELS: Record<Phase, string> = {
   evolution: "Evolution",
   legacy: "Legacy",
   finale: "Finale",
+  closing: "The End",
 };
+
+const TERMINAL_PHASES: Phase[] = ["finale", "closing"];
 
 function pauseOnReadMore(expanded: boolean, setPlaying: (v: boolean) => void) {
   if (expanded) setPlaying(false);
@@ -173,14 +185,14 @@ export function LegacyCinematicUnwrap({
       setPhaseIndex(clamped);
       setSlideProgress(0);
       const next = PHASE_ORDER[clamped];
-      if (next === "finale") {
+      if (next === "finale" || (next === "closing" && sealed)) {
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 5000);
       } else if (clamped < PHASE_ORDER.indexOf("finale")) {
         setShowConfetti(false);
       }
     },
-    [ensureAudio]
+    [ensureAudio, sealed]
   );
 
   const goNext = useCallback(() => {
@@ -219,7 +231,7 @@ export function LegacyCinematicUnwrap({
   }, []);
 
   useEffect(() => {
-    if (!isPlaying || phase === "finale") return;
+    if (!isPlaying || TERMINAL_PHASES.includes(phase)) return;
 
     setSlideProgress(0);
     const ms = PHASE_DWELL_MS[phase];
@@ -284,6 +296,11 @@ export function LegacyCinematicUnwrap({
     pauseOnReadMore(expanded, setIsPlaying);
   }, []);
 
+  const closingHeadline = sealed ? "Your Legacy is Sealed" : "Your Legacy Lives On";
+  const closingMessage = sealed
+    ? `${ghost.name}, your World Cup Spirit is written into eternity. Every match felt, every word signed, every evolution earned, sealed on 0G Storage, forever yours.`
+    : `${ghost.name}, your tournament chapter closes, but your Spirit endures. Every match felt, every word signed, every evolution earned, this is your GoalGhost legacy.`;
+
   const content = (
     <section
       className="fixed inset-0 z-[200] isolate flex flex-col overflow-hidden bg-[#0A1020] text-foreground"
@@ -293,8 +310,13 @@ export function LegacyCinematicUnwrap({
     >
       <ConfettiCelebration active={showConfetti} duration={5000} />
       <LegacyCinematicAudio ref={audioRef} muted={!audioOn} />
-      <LegacyCinematicBackdrop intense={phase === "finale" || phase === "legacy"} />
-      <LegacyCinematicParticles active={phase !== "intro"} count={phase === "finale" ? 40 : 24} />
+      <LegacyCinematicBackdrop
+        intense={phase === "finale" || phase === "legacy" || phase === "closing"}
+      />
+      <LegacyCinematicParticles
+        active={phase !== "intro"}
+        count={phase === "finale" || phase === "closing" ? 40 : 24}
+      />
 
       {/* Top chrome */}
       <div className="relative z-20 shrink-0 space-y-3 px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-8 sm:pt-5">
@@ -760,6 +782,118 @@ export function LegacyCinematicUnwrap({
                     </Button>
                   )}
                 </div>
+              </motion.div>
+            )}
+
+            {phase === "closing" && (
+              <motion.div
+                key="closing"
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98, filter: "blur(4px)" }}
+                transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                className="flex w-full max-w-2xl flex-col items-center text-center"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15, duration: 0.9 }}
+                  className="relative w-full overflow-hidden rounded-3xl border border-[#F4C542]/25 bg-gradient-to-br from-[#0A1020]/95 via-[#121a2e]/90 to-[#0A1020]/95 px-8 py-14 shadow-2xl shadow-[#F4C542]/10 sm:px-12 sm:py-16"
+                >
+                  <motion.div
+                    className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(244,197,66,0.14),transparent_70%)]"
+                    animate={{ opacity: [0.5, 0.85, 0.5] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  <div className="relative">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-[#F4C542]/80">
+                      Closing Ceremony
+                    </p>
+                    <motion.h2
+                      initial={{ opacity: 0, scale: 0.88 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.35, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                      className="mt-8 font-display text-5xl uppercase tracking-[0.12em] text-white sm:text-6xl md:text-7xl"
+                    >
+                      The End
+                    </motion.h2>
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ delay: 0.55, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                      className="mx-auto mt-6 h-px w-24 origin-center bg-gradient-to-r from-transparent via-[#F4C542]/70 to-transparent"
+                    />
+                    <motion.p
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.65, duration: 0.8 }}
+                      className="mt-6 font-display text-2xl text-[#F4C542] sm:text-3xl"
+                    >
+                      {closingHeadline}
+                    </motion.p>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.8, duration: 0.7 }}
+                      className="mt-3 text-sm uppercase tracking-[0.28em] text-muted/70"
+                    >
+                      {ghost.name} · {ghost.team}
+                    </motion.p>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.95, duration: 0.8 }}
+                      className="mx-auto mt-8 max-w-lg text-left"
+                    >
+                      <ReadMoreText
+                        className="text-center text-base leading-relaxed text-white/82 sm:text-lg"
+                        onToggle={pauseReading}
+                      >
+                        {closingMessage}
+                      </ReadMoreText>
+                    </motion.div>
+                    {sealed && (
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.1, duration: 0.6 }}
+                        className="mt-6 text-xs uppercase tracking-[0.22em] text-emerald-400/90"
+                      >
+                        Verified on 0G Storage
+                      </motion.p>
+                    )}
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.15, duration: 0.7 }}
+                  className="mt-10 flex flex-col flex-wrap items-center justify-center gap-3 sm:flex-row"
+                >
+                  <Button variant="ghost" size="sm" onClick={replay}>
+                    <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                    Replay the Journey
+                  </Button>
+                  {onComplete && (
+                    <Button
+                      size="lg"
+                      onClick={exitCinematic}
+                      className="min-w-[220px] shadow-lg shadow-[#F4C542]/20"
+                    >
+                      Continue to Comments
+                      <ChevronRight className="ml-1.5 h-4 w-4" />
+                    </Button>
+                  )}
+                </motion.div>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.3, duration: 0.6 }}
+                  className="mt-6 text-[10px] uppercase tracking-[0.3em] text-muted/45"
+                >
+                  Thank you for living this World Cup as a Spirit
+                </motion.p>
               </motion.div>
             )}
           </AnimatePresence>
