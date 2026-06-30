@@ -375,7 +375,7 @@ function LegacyPageContent() {
             </div>
           </>
         )}
-        <LegacyComments />
+        {!showCinematic && <LegacyComments />}
       </div>
     );
   }
@@ -591,7 +591,7 @@ function LegacyPageContent() {
           </div>
       ) : null}
 
-      <LegacyComments />
+      {!showCinematic && <LegacyComments />}
     </div>
   );
 }
