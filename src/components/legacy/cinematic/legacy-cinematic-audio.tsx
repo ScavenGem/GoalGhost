@@ -11,6 +11,7 @@ import {
 export type LegacyCinematicAudioHandle = {
   start: () => void;
   setMuted: (muted: boolean) => void;
+  setVolume: (volume: number) => void;
 };
 
 const MASTER_GAIN = 0.28;
@@ -30,11 +31,12 @@ function createCrowdBuffer(ctx: AudioContext): AudioBuffer {
 
 export const LegacyCinematicAudio = forwardRef<
   LegacyCinematicAudioHandle,
-  { muted?: boolean }
->(function LegacyCinematicAudio({ muted = false }, ref) {
+  { muted?: boolean; volume?: number }
+>(function LegacyCinematicAudio({ muted = false, volume = 1 }, ref) {
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
   const mutedRef = useRef(muted);
+  const volumeRef = useRef(volume);
   const startedRef = useRef(false);
   const stopSourcesRef = useRef<(() => void) | null>(null);
 
@@ -42,7 +44,8 @@ export const LegacyCinematicAudio = forwardRef<
     const master = masterGainRef.current;
     const ctx = ctxRef.current;
     if (!master || !ctx) return;
-    const target = mutedRef.current ? 0 : MASTER_GAIN;
+    const level = Math.max(0, Math.min(1, volumeRef.current));
+    const target = mutedRef.current ? 0 : MASTER_GAIN * level;
     master.gain.cancelScheduledValues(ctx.currentTime);
     master.gain.setTargetAtTime(target, ctx.currentTime, 0.12);
   }, []);
@@ -152,6 +155,10 @@ export const LegacyCinematicAudio = forwardRef<
         mutedRef.current = next;
         applyGain();
       },
+      setVolume: (next: number) => {
+        volumeRef.current = Math.max(0, Math.min(1, next));
+        applyGain();
+      },
     }),
     [start, applyGain]
   );
@@ -160,6 +167,11 @@ export const LegacyCinematicAudio = forwardRef<
     mutedRef.current = muted;
     applyGain();
   }, [muted, applyGain]);
+
+  useEffect(() => {
+    volumeRef.current = Math.max(0, Math.min(1, volume));
+    applyGain();
+  }, [volume, applyGain]);
 
   useEffect(() => {
     return () => {

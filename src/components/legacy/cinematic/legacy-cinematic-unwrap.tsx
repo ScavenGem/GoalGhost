@@ -10,8 +10,6 @@ import {
   Share2,
   ChevronRight,
   ChevronLeft,
-  Volume2,
-  VolumeX,
   X,
   Play,
   Pause,
@@ -28,6 +26,7 @@ import {
   LegacyCinematicAudio,
   type LegacyCinematicAudioHandle,
 } from "@/components/legacy/cinematic/legacy-cinematic-audio";
+import { LegacyCinematicVolumeControl } from "@/components/legacy/cinematic/legacy-cinematic-volume-control";
 import type { LegacyDocument } from "@/types/legacy";
 import type { GhostLegacyInput } from "@/lib/legacy/build-legacy";
 import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
@@ -149,7 +148,8 @@ export function LegacyCinematicUnwrap({
   const [isPlaying, setIsPlaying] = useState(true);
   const [slideProgress, setSlideProgress] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [audioOn, setAudioOn] = useState(true);
+  const [audioMuted, setAudioMuted] = useState(false);
+  const [audioVolume, setAudioVolume] = useState(0.85);
   const [mounted, setMounted] = useState(false);
   const [closingFinished, setClosingFinished] = useState(false);
   const audioRef = useRef<LegacyCinematicAudioHandle>(null);
@@ -167,10 +167,11 @@ export function LegacyCinematicUnwrap({
   );
   const teamCode = nationByName(ghost.team)?.code;
 
-  const ensureAudio = useCallback(() => {
+  const syncAudio = useCallback(() => {
     audioRef.current?.start();
-    audioRef.current?.setMuted(!audioOn);
-  }, [audioOn]);
+    audioRef.current?.setVolume(audioVolume);
+    audioRef.current?.setMuted(audioMuted);
+  }, [audioMuted, audioVolume]);
 
   const exitCinematic = useCallback(() => {
     audioRef.current?.setMuted(true);
@@ -179,7 +180,7 @@ export function LegacyCinematicUnwrap({
 
   const goToPhase = useCallback(
     (index: number) => {
-      ensureAudio();
+      syncAudio();
       const clamped = Math.max(0, Math.min(index, PHASE_ORDER.length - 1));
       setPhaseIndex(clamped);
       setSlideProgress(0);
@@ -192,7 +193,7 @@ export function LegacyCinematicUnwrap({
         setShowConfetti(false);
       }
     },
-    [ensureAudio, sealed]
+    [syncAudio, sealed]
   );
 
   const goNext = useCallback(() => {
@@ -208,21 +209,29 @@ export function LegacyCinematicUnwrap({
   goNextRef.current = goNext;
 
   const replay = useCallback(() => {
-    ensureAudio();
+    syncAudio();
     setIsPlaying(true);
     setClosingFinished(false);
     goToPhase(0);
     setShowConfetti(false);
-  }, [ensureAudio, goToPhase]);
+  }, [syncAudio, goToPhase]);
 
   const togglePlay = useCallback(() => {
-    ensureAudio();
+    syncAudio();
     setIsPlaying((v) => !v);
-  }, [ensureAudio]);
+  }, [syncAudio]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    syncAudio();
+    const unlock = () => syncAudio();
+    window.addEventListener("pointerdown", unlock, { once: true });
+    return () => window.removeEventListener("pointerdown", unlock);
+  }, [mounted, syncAudio]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -263,8 +272,9 @@ export function LegacyCinematicUnwrap({
   }, [phaseIndex, isPlaying, phase]);
 
   useEffect(() => {
-    audioRef.current?.setMuted(!audioOn);
-  }, [audioOn]);
+    audioRef.current?.setVolume(audioVolume);
+    audioRef.current?.setMuted(audioMuted);
+  }, [audioVolume, audioMuted]);
 
   useEffect(() => {
     slideScrollRef.current?.scrollTo({ top: 0 });
@@ -319,7 +329,7 @@ export function LegacyCinematicUnwrap({
       aria-label="Legacy unwrap ceremony"
     >
       <ConfettiCelebration active={showConfetti} duration={5000} />
-      <LegacyCinematicAudio ref={audioRef} muted={!audioOn} />
+      <LegacyCinematicAudio ref={audioRef} muted={audioMuted} volume={audioVolume} />
       <LegacyCinematicBackdrop
         intense={phase === "finale" || phase === "legacy" || phase === "closing"}
       />
@@ -347,22 +357,13 @@ export function LegacyCinematicUnwrap({
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-1">
-            <button
-              type="button"
-              onClick={() => {
-                ensureAudio();
-                setAudioOn((v) => {
-                  const next = !v;
-                  audioRef.current?.setMuted(!next);
-                  return next;
-                });
-              }}
-              className="rounded-lg p-2.5 text-muted/60 transition-colors duration-200 hover:bg-white/5 hover:text-[#F4C542]"
-              aria-label={audioOn ? "Mute ambience" : "Enable ambience"}
-              title={audioOn ? "Mute stadium ambience" : "Enable stadium ambience"}
-            >
-              {audioOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
-            </button>
+            <LegacyCinematicVolumeControl
+              volume={audioVolume}
+              muted={audioMuted}
+              onVolumeChange={setAudioVolume}
+              onMutedChange={setAudioMuted}
+              onInteract={syncAudio}
+            />
             <button
               type="button"
               onClick={exitCinematic}
