@@ -1,20 +1,18 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "@/lib/motion";
-import type { GhostTraits } from "@/types/ghost";
-import type { GhostMemorySnapshot } from "@/lib/ghost/avatar-visual-profile";
-import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
 import {
   buildPremiumGhostCardDataUri,
   PREMIUM_CARD_ASPECT,
 } from "@/lib/ghost/avatar-premium-card";
 import { cn } from "@/lib/utils/cn";
+import { GhostAvatarModal } from "@/components/ghost/ghost-avatar-modal";
+import {
+  ghostAvatarStage,
+  type GhostAvatarProps,
+} from "@/components/ghost/ghost-avatar-shared";
 
-/**
- * Premium player-card avatar used only on the My Ghost page.
- * Separate from GhostAvatar so other flows keep their existing visuals.
- */
 export function GhostPageAvatar({
   name,
   team,
@@ -30,22 +28,11 @@ export function GhostPageAvatar({
   size = 210,
   className,
   animate = true,
-}: {
-  name: string;
-  team: string;
-  teamCode?: string;
-  walletAddress?: string;
-  traits?: GhostTraits;
-  mood?: string;
-  evolutionScore?: number;
-  confidence?: number;
-  memories?: GhostMemorySnapshot[];
-  memorySummary?: string;
-  identity?: WalletIdentityProfile;
-  size?: number;
-  className?: string;
-  animate?: boolean;
-}) {
+  expandable = true,
+}: GhostAvatarProps) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const stage = ghostAvatarStage(evolutionScore);
+
   const src = useMemo(
     () =>
       buildPremiumGhostCardDataUri({
@@ -85,23 +72,33 @@ export function GhostPageAvatar({
       alt={`${name} premium GoalGhost player card`}
       width={size}
       height={height}
-      className={cn(
-        "block w-full rounded-[1.1rem] object-cover",
-        className
-      )}
+      className={cn("block w-full rounded-[1.1rem] object-cover", className)}
       draggable={false}
     />
   );
 
-  if (!animate) {
-    return (
-      <div className="relative shrink-0 overflow-hidden rounded-[1.1rem] shadow-2xl shadow-black/50 ring-1 ring-white/15">
-        {card}
-      </div>
-    );
-  }
+  const interactive = expandable ? (
+    <button
+      type="button"
+      onClick={() => setModalOpen(true)}
+      className={cn(
+        "group relative block w-full cursor-zoom-in overflow-hidden rounded-[1.1rem]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4C542]/50"
+      )}
+      aria-label={`View ${name} GoalGhost full size`}
+    >
+      {card}
+      <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+    </button>
+  ) : (
+    card
+  );
 
-  return (
+  const shell = !animate ? (
+    <div className="relative shrink-0 overflow-hidden rounded-[1.1rem] shadow-2xl shadow-black/50 ring-1 ring-white/15">
+      {interactive}
+    </div>
+  ) : (
     <motion.div
       className="relative shrink-0"
       animate={{ y: [0, -5, 0] }}
@@ -118,7 +115,7 @@ export function GhostPageAvatar({
         transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
         className="overflow-hidden rounded-[1.1rem] ring-1 ring-white/15"
       >
-        {card}
+        {interactive}
       </motion.div>
       <motion.div
         className="pointer-events-none absolute inset-0 rounded-[1.1rem] bg-gradient-to-br from-[#9945FF]/8 via-transparent to-[#14F195]/6"
@@ -133,5 +130,29 @@ export function GhostPageAvatar({
         aria-hidden
       />
     </motion.div>
+  );
+
+  return (
+    <>
+      {shell}
+      {expandable && (
+        <GhostAvatarModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          name={name}
+          team={team}
+          stage={stage}
+          mood={mood}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            alt={`${name} GoalGhost full view`}
+            className="block w-full object-cover"
+            draggable={false}
+          />
+        </GhostAvatarModal>
+      )}
+    </>
   );
 }

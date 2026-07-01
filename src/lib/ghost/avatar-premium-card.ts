@@ -3,6 +3,8 @@ import { WC_2026_NATIONS } from "@/lib/football/teams";
 import {
   buildAvatarVisualProfile,
   seededRandom,
+  type AvatarHairStyle,
+  type AvatarKitWear,
   type GhostMemorySnapshot,
 } from "@/lib/ghost/avatar-visual-profile";
 import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
@@ -93,6 +95,99 @@ function teamCode(team: string, teamCode?: string): string {
   return WC_2026_NATIONS.find((n) => n.name === team)?.code ?? "UNK";
 }
 
+function headPath(cx: number, headY: number, jaw: number): string {
+  const j = jaw * 3;
+  return `M ${cx - 10} ${headY - 2}
+    Q ${cx - 11} ${headY - 10} ${cx - 4} ${headY - 14}
+    Q ${cx} ${headY - 16} ${cx + 4} ${headY - 14}
+    Q ${cx + 11} ${headY - 10} ${cx + 10} ${headY - 2}
+    Q ${cx + 9} ${headY + 6 + j} ${cx + 5} ${headY + 10 + j}
+    Q ${cx} ${headY + 11 + j} ${cx - 5} ${headY + 10 + j}
+    Q ${cx - 9} ${headY + 6 + j} ${cx - 10} ${headY - 2} Z`;
+}
+
+function renderHair(
+  cx: number,
+  headY: number,
+  style: AvatarHairStyle,
+  op: number
+): string {
+  const fill = "#141c28";
+  switch (style) {
+    case "swept_back":
+      return `<path d="M ${cx - 10} ${headY - 3} Q ${cx} ${headY - 18} ${cx + 10} ${headY - 3} L ${cx + 8} ${headY - 11} Q ${cx} ${headY - 15} ${cx - 8} ${headY - 11} Z" fill="${fill}" opacity="${op}"/>`;
+    case "textured_crop":
+      return `<path d="M ${cx - 10} ${headY - 2} Q ${cx - 6} ${headY - 15} ${cx} ${headY - 14} Q ${cx + 6} ${headY - 15} ${cx + 10} ${headY - 2} Z" fill="${fill}" opacity="${op}"/>
+        <line x1="${cx - 6}" y1="${headY - 12}" x2="${cx - 4}" y2="${headY - 9}" stroke="#0f172a" stroke-width="0.6" opacity="0.35"/>
+        <line x1="${cx + 2}" y1="${headY - 13}" x2="${cx + 4}" y2="${headY - 10}" stroke="#0f172a" stroke-width="0.6" opacity="0.35"/>`;
+    case "side_part":
+      return `<path d="M ${cx - 10} ${headY - 1} Q ${cx - 2} ${headY - 16} ${cx + 10} ${headY - 2} L ${cx + 7} ${headY - 10} Q ${cx - 1} ${headY - 13} ${cx - 9} ${headY - 8} Z" fill="${fill}" opacity="${op}"/>`;
+    case "athletic_fade":
+      return `<path d="M ${cx - 10} ${headY} Q ${cx - 8} ${headY - 14} ${cx} ${headY - 13} Q ${cx + 8} ${headY - 14} ${cx + 10} ${headY} L ${cx + 9} ${headY - 9} Q ${cx} ${headY - 12} ${cx - 9} ${headY - 9} Z" fill="${fill}" opacity="${op}"/>`;
+    default:
+      return `<path d="M ${cx - 10} ${headY - 1} Q ${cx} ${headY - 15} ${cx + 10} ${headY - 1} L ${cx + 9} ${headY - 10} Q ${cx} ${headY - 13} ${cx - 9} ${headY - 10} Z" fill="${fill}" opacity="${op}"/>`;
+  }
+}
+
+function renderKitWear(
+  cx: number,
+  chestY: number,
+  waistY: number,
+  wear: AvatarKitWear,
+  palette: TeamPalette
+): string {
+  if (wear === "pristine") return "";
+  const streaks =
+    wear === "battle_scarred"
+      ? `<path d="M ${cx - 18} ${chestY + 8} L ${cx - 8} ${chestY + 18} L ${cx - 4} ${chestY + 12}" fill="#3f2e22" opacity="0.22"/>
+         <path d="M ${cx + 20} ${chestY + 6} L ${cx + 10} ${waistY} L ${cx + 6} ${chestY + 14}" fill="#2a2018" opacity="0.18"/>
+         <ellipse cx="${cx + 14}" cy="${chestY + 20}" rx="5" ry="2.5" fill="#1e293b" opacity="0.12"/>`
+      : `<path d="M ${cx - 14} ${chestY + 10} L ${cx - 6} ${chestY + 16}" stroke="#4a3728" stroke-width="1.2" opacity="0.2"/>
+         <path d="M ${cx + 12} ${chestY + 12} L ${cx + 6} ${waistY - 2}" stroke="#4a3728" stroke-width="1" opacity="0.16"/>`;
+  return `${streaks}
+    <path d="M ${cx - 20} ${chestY + 4} Q ${cx} ${chestY + 2} ${cx + 20} ${chestY + 4}" fill="none" stroke="${palette.primary}" stroke-width="0.5" opacity="0.08"/>`;
+}
+
+function renderMuscleLines(
+  cx: number,
+  shoulderY: number,
+  chestY: number,
+  definition: number,
+  op: number
+): string {
+  if (definition < 0.45) return "";
+  const a = (definition * 0.35).toFixed(2);
+  return `<path d="M ${cx - 6} ${shoulderY + 14} Q ${cx - 2} ${chestY + 6} ${cx} ${chestY + 10}" fill="none" stroke="#0f172a" stroke-width="0.5" opacity="${a}"/>
+    <path d="M ${cx + 6} ${shoulderY + 14} Q ${cx + 2} ${chestY + 6} ${cx} ${chestY + 10}" fill="none" stroke="#0f172a" stroke-width="0.5" opacity="${a}"/>`;
+}
+
+function renderFace(
+  cx: number,
+  headY: number,
+  moodKey: string,
+  expressionStyle: string
+): string {
+  const smirk = /smirk|banter/i.test(expressionStyle);
+  const steely = /defiant|steely|jaw/i.test(expressionStyle);
+  if (steely || moodKey === "fierce") {
+    return `<path d="M ${cx - 8} ${headY - 1} L ${cx - 4} ${headY - 3}" stroke="#0f172a" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M ${cx + 4} ${headY - 3} L ${cx + 8} ${headY - 1}" stroke="#0f172a" stroke-width="1.2" stroke-linecap="round"/>
+      <rect x="${cx - 5.5}" y="${headY + 0.5}" width="3.2" height="1.4" rx="0.4" fill="#0f172a"/>
+      <rect x="${cx + 2.3}" y="${headY + 0.5}" width="3.2" height="1.4" rx="0.4" fill="#0f172a"/>
+      <path d="M ${cx - 3.5} ${headY + 7} L ${cx + 3.5} ${headY + 7}" stroke="#0f172a" stroke-width="1" stroke-linecap="round"/>`;
+  }
+  if (moodKey === "charged") {
+    return `<ellipse cx="${cx - 4.5}" cy="${headY + 1.5}" rx="2.4" ry="1.6" fill="#0f172a"/>
+      <ellipse cx="${cx + 4.5}" cy="${headY + 1.5}" rx="2.4" ry="1.6" fill="#0f172a"/>
+      <circle cx="${cx - 3.5}" cy="${headY + 0.5}" r="0.75" fill="#fff" opacity="0.55"/>
+      <circle cx="${cx + 5.5}" cy="${headY + 0.5}" r="0.75" fill="#fff" opacity="0.55"/>
+      <path d="M ${cx - 4} ${headY + 7} Q ${cx} ${headY + (smirk ? 8 : 9)} ${cx + 4} ${headY + 7}" stroke="#0f172a" stroke-width="0.95" fill="none"/>`;
+  }
+  return `<ellipse cx="${cx - 4.5}" cy="${headY + 1.5}" rx="1.9" ry="1.35" fill="#0f172a" opacity="0.92"/>
+    <ellipse cx="${cx + 4.5}" cy="${headY + 1.5}" rx="1.9" ry="1.35" fill="#0f172a" opacity="0.92"/>
+    <path d="M ${cx - 3.5} ${headY + 7} Q ${cx} ${headY + (smirk ? 6 : 5)} ${cx + 3.5} ${headY + 7}" stroke="#0f172a" stroke-width="0.85" fill="none"/>`;
+}
+
 function frameStroke(tier: number): { outer: string; inner: string; width: number } {
   if (tier >= 4) return { outer: "#F4C542", inner: "#FFF3C4", width: 2.4 };
   if (tier >= 3) return { outer: "#D4AF37", inner: "#F4C542", width: 1.8 };
@@ -132,7 +227,7 @@ export type PremiumCardParams = {
   identity?: WalletIdentityProfile;
 };
 
-/** Premium vertical player-card SVG for My Ghost page only. */
+/** Premium vertical player-card SVG — canonical GoalGhost visual across the platform. */
 export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string {
   const profile = buildAvatarVisualProfile({ ...params, identity: params.identity });
   const rand = seededRandom(profile.seed);
@@ -143,7 +238,7 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   const id = profile.seed;
   const kit = profile.kitDetailLevel;
   const bodyOp = Math.min(0.9, profile.ghostOpacity * 0.95);
-  const ghostVeil = Math.max(0.25, 1 - bodyOp);
+  const ghostVeilOpacity = Math.max(0.25, 1 - bodyOp);
   const kitNumber = 7 + Math.floor(rand() * 9);
   const pose = profile.pose;
   const floatY = -profile.floatHeight * 0.85;
@@ -196,12 +291,12 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
     }
   ).join("");
 
-  const ghostEcho = `<g opacity="${(ghostVeil * 0.35).toFixed(2)}" transform="translate(6 ${floatY + 8})">
+  const ghostEcho = `<g opacity="${(ghostVeilOpacity * 0.35).toFixed(2)}" transform="translate(6 ${floatY + 8})">
     <path d="M 48 ${shoulderY} L 42 ${waistY + 18} L 50 ${hipY + 54} L 100 ${hipY + 54} L 108 ${waistY + 18} L 102 ${shoulderY} Z" fill="${accentGlow}" filter="url(#soft-${id})"/>
   </g>`;
 
-  const edgeGlow = `<path d="M 44 ${shoulderY} Q 38 ${chestY} 40 ${waistY + 22} L 42 ${hipY + 50}" fill="none" stroke="${accentGlow}" stroke-width="3" opacity="${(ghostVeil * 0.5).toFixed(2)}" filter="url(#ghost-edge-${id})"/>
-    <path d="M 106 ${shoulderY} Q 112 ${chestY} 110 ${waistY + 22} L 108 ${hipY + 50}" fill="none" stroke="${accentGlow}" stroke-width="3" opacity="${(ghostVeil * 0.5).toFixed(2)}" filter="url(#ghost-edge-${id})"/>`;
+  const edgeGlow = `<path d="M 44 ${shoulderY} Q 38 ${chestY} 40 ${waistY + 22} L 42 ${hipY + 50}" fill="none" stroke="${accentGlow}" stroke-width="3" opacity="${(ghostVeilOpacity * 0.5).toFixed(2)}" filter="url(#ghost-edge-${id})"/>
+    <path d="M 106 ${shoulderY} Q 112 ${chestY} 110 ${waistY + 22} L 108 ${hipY + 50}" fill="none" stroke="${accentGlow}" stroke-width="3" opacity="${(ghostVeilOpacity * 0.5).toFixed(2)}" filter="url(#ghost-edge-${id})"/>`;
 
   const sparks =
     profile.hasReactionSparks || intensityPct >= 30
@@ -223,28 +318,19 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
     ? `<ellipse cx="${cx}" cy="${chestY + 6}" rx="22" ry="28" fill="${palette.primary}" opacity="0.06" filter="url(#soft-${id})"/>`
     : "";
 
-  const neck = `<path d="M ${cx - 5} ${neckY} L ${cx - 7} ${shoulderY} L ${cx + 7} ${shoulderY} L ${cx + 5} ${neckY} Z" fill="url(#skin-${id})" opacity="${bodyOp}"/>`;
+  const skinBase = profile.skinTone;
+  const neck = `<path d="M ${cx - 5.5} ${neckY} L ${cx - 8} ${shoulderY} L ${cx + 8} ${shoulderY} L ${cx + 5.5} ${neckY} Z" fill="url(#skin-${id})" opacity="${bodyOp}"/>`;
 
-  const head = `<path d="M ${cx - 9} ${headY} Q ${cx - 11} ${headY - 8} ${cx} ${headY - 12} Q ${cx + 11} ${headY - 8} ${cx + 9} ${headY} Q ${cx + 8} ${headY + 8} ${cx} ${headY + 9} Q ${cx - 8} ${headY + 8} ${cx - 9} ${headY} Z" fill="url(#skin-${id})" opacity="${bodyOp}"/>
-    <path d="M ${cx - 9} ${headY - 2} Q ${cx - 4} ${headY - 10} ${cx} ${headY - 11} Q ${cx + 5} ${headY - 9} ${cx + 8} ${headY - 2}" fill="#0f172a" opacity="${(0.15 + rand() * 0.1).toFixed(2)}"/>
-    <ellipse cx="${cx - 4}" cy="${headY - 4}" rx="3.5" ry="2" fill="#fff" opacity="0.07"/>`;
+  const head = `<path d="${headPath(cx, headY, profile.jawIntensity)}" fill="url(#skin-${id})" opacity="${bodyOp}"/>
+    <path d="M ${cx - 9} ${headY - 1} Q ${cx - 3} ${headY - 12} ${cx + 2} ${headY - 10}" fill="none" stroke="#fff" stroke-width="0.6" opacity="0.08"/>
+    <ellipse cx="${cx - 5}" cy="${headY - 5}" rx="3.2" ry="2.2" fill="#fff" opacity="0.06"/>`;
 
-  const face =
-    moodKey === "fierce"
-      ? `<path d="M ${cx - 8} ${headY - 1} L ${cx - 4} ${headY - 3}" stroke="#0f172a" stroke-width="1.1" stroke-linecap="round"/>
-         <path d="M ${cx + 4} ${headY - 3} L ${cx + 8} ${headY - 1}" stroke="#0f172a" stroke-width="1.1" stroke-linecap="round"/>
-         <rect x="${cx - 5.5}" y="${headY}" width="3" height="1.2" rx="0.5" fill="#0f172a"/>
-         <rect x="${cx + 2.5}" y="${headY}" width="3" height="1.2" rx="0.5" fill="#0f172a"/>
-         <path d="M ${cx - 4} ${headY + 6} L ${cx + 4} ${headY + 6}" stroke="#0f172a" stroke-width="1" stroke-linecap="round"/>`
-      : moodKey === "charged"
-        ? `<ellipse cx="${cx - 4}" cy="${headY + 1}" rx="2.2" ry="1.5" fill="#0f172a"/>
-           <ellipse cx="${cx + 4}" cy="${headY + 1}" rx="2.2" ry="1.5" fill="#0f172a"/>
-           <circle cx="${cx - 3.2}" cy="${headY}" r="0.7" fill="#fff" opacity="0.55"/>
-           <circle cx="${cx + 4.8}" cy="${headY}" r="0.7" fill="#fff" opacity="0.55"/>
-           <path d="M ${cx - 4} ${headY + 6} Q ${cx} ${headY + 9} ${cx + 4} ${headY + 6}" stroke="#0f172a" stroke-width="0.9" fill="none"/>`
-        : `<ellipse cx="${cx - 4}" cy="${headY + 1}" rx="1.8" ry="1.3" fill="#0f172a" opacity="0.92"/>
-           <ellipse cx="${cx + 4}" cy="${headY + 1}" rx="1.8" ry="1.3" fill="#0f172a" opacity="0.92"/>
-           <path d="M ${cx - 3.5} ${headY + 6} Q ${cx} ${headY + 5} ${cx + 3.5} ${headY + 6}" stroke="#0f172a" stroke-width="0.8" fill="none"/>`;
+  const hair = renderHair(cx, headY, profile.hairStyle, bodyOp * 0.98);
+  const face = renderFace(cx, headY, moodKey, profile.expressionStyle);
+  const muscleLines = renderMuscleLines(cx, shoulderY, chestY, profile.muscleDefinition, bodyOp);
+  const kitWearMarks = renderKitWear(cx, chestY, waistY, profile.kitWear, palette);
+
+  const ghostVeilOverlay = `<rect x="36" y="${shoulderY - 6}" width="78" height="${hipY + 58 - shoulderY + 6}" fill="url(#ghost-veil-${id})" opacity="${(ghostVeilOpacity * 0.55).toFixed(2)}" pointer-events="none"/>`;
 
   const jersey = `<path d="M 44 ${shoulderY} Q ${cx} ${shoulderY - 5} 106 ${shoulderY} L 112 ${chestY + 2} L 104 ${waistY + 2} Q ${cx} ${waistY + 8} 46 ${waistY + 2} L 38 ${chestY + 2} Z" fill="url(#jersey-${id})" opacity="${bodyOp}"/>
     <path d="M 48 ${shoulderY + 4} L 102 ${shoulderY + 4} L 100 ${chestY - 2} L 50 ${chestY - 2} Z" fill="url(#jersey-light-${id})" opacity="${(bodyOp * 0.75).toFixed(2)}"/>
@@ -376,8 +462,14 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
       <stop offset="100%" stop-color="#000" stop-opacity="0.18"/>
     </linearGradient>
     <linearGradient id="skin-${id}" x1="0.35" y1="0" x2="0.65" y2="1">
-      <stop offset="0%" stop-color="#e8edf3"/>
-      <stop offset="100%" stop-color="#8b9aad"/>
+      <stop offset="0%" stop-color="${skinBase}"/>
+      <stop offset="55%" stop-color="${skinBase}"/>
+      <stop offset="100%" stop-color="#6b5d52"/>
+    </linearGradient>
+    <linearGradient id="ghost-veil-${id}" x1="0" y1="0.5" x2="1" y2="0.5">
+      <stop offset="0%" stop-color="${accentGlow}" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="${accentGlow}" stop-opacity="0.35"/>
     </linearGradient>
     <linearGradient id="limb-${id}" x1="0.4" y1="0" x2="0.6" y2="1">
       <stop offset="0%" stop-color="#d8e0ea"/>
@@ -457,8 +549,10 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
     ${shorts}
     ${scarf}
     ${jersey}
+    ${kitWearMarks}
     ${kitStripe}
     ${kitFolds}
+    ${muscleLines}
     ${collar}
     ${crest}
     ${kitNum}
@@ -468,8 +562,10 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
     ${rightArm}
     ${neck}
     ${head}
+    ${hair}
     ${face}
     ${edgeGlow}
+    ${ghostVeilOverlay}
     </g>
   </g>
   ${football}

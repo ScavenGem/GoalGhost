@@ -21,6 +21,15 @@ export type AvatarPose =
   | "defiant"
   | "legendary_float";
 
+export type AvatarHairStyle =
+  | "cropped"
+  | "swept_back"
+  | "textured_crop"
+  | "side_part"
+  | "athletic_fade";
+
+export type AvatarKitWear = "pristine" | "match_worn" | "battle_scarred";
+
 export type AvatarVisualProfile = {
   stage: EvolutionStage;
   tier: 0 | 1 | 2 | 3 | 4;
@@ -51,6 +60,11 @@ export type AvatarVisualProfile = {
   visualAccentKey: string;
   banterStyle: string;
   reactionPattern: string;
+  hairStyle: AvatarHairStyle;
+  kitWear: AvatarKitWear;
+  skinTone: string;
+  jawIntensity: number;
+  muscleDefinition: number;
 };
 
 const DEFAULT_TRAITS: GhostTraits = {
@@ -289,6 +303,34 @@ export function buildAvatarVisualProfile(params: {
       ]
     : [];
 
+  const hairStyles: AvatarHairStyle[] = [
+    "cropped",
+    "swept_back",
+    "textured_crop",
+    "side_part",
+    "athletic_fade",
+  ];
+  const hairStyle = hairStyles[seed % hairStyles.length];
+  const kitWear: AvatarKitWear =
+    matchReactions >= 6 || intensityRaw >= 70
+      ? "battle_scarred"
+      : matchReactions >= 2 || socialComments >= 4
+        ? "match_worn"
+        : "pristine";
+  const skinTones = ["#d4c4b0", "#c9b8a4", "#b8a690", "#a89580", "#9a8878"];
+  const skinTone = skinTones[(seed >> 4) % skinTones.length];
+  const jawIntensity = Math.min(
+    1,
+    0.35 +
+      (identity?.expressionStyle.includes("defiant") ? 0.25 : 0) +
+      conviction / 200 +
+      traits.resilience / 200
+  );
+  const muscleDefinition = Math.min(
+    1,
+    0.3 + tier * 0.12 + interactionIntensity / 250 + traits.passion / 300
+  );
+
   const visualDirectives = [
     ...identityDirectives,
     `Evolution stage ${stage} with kit detail level ${kitDetailLevel}/5.`,
@@ -337,6 +379,11 @@ export function buildAvatarVisualProfile(params: {
     visualAccentKey: identity?.visualAccentKey ?? "silver_resilience_edge",
     banterStyle: identity?.banterStyle ?? "loyal_chant_leader",
     reactionPattern: identity?.reactionPattern ?? "balanced_fan",
+    hairStyle,
+    kitWear,
+    skinTone,
+    jawIntensity,
+    muscleDefinition,
   };
 }
 
