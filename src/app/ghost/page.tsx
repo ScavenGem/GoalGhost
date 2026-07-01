@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { motion } from "@/lib/motion";
 import { useGhost } from "@/hooks/use-ghost";
 import { Button } from "@/components/ui/button";
@@ -49,6 +49,7 @@ function evolutionStage(score: number): string {
 
 export default function GhostPage() {
   const { address } = useAccount();
+  const { signMessageAsync } = useSignMessage();
   const { ghost, isLoading: fetching, refetch, invalidate, setGhost } =
     useGhost(address);
   const [narrative, setNarrative] = useState<string | null>(null);
@@ -81,6 +82,9 @@ export default function GhostPage() {
 
   function evolveInitMessage(phase: EvolveNarrativePhase | null): string | null {
     if (!phase) return null;
+    if (phase === "signing") {
+      return "Sign in your wallet to authorize narrative evolution…";
+    }
     if (phase === "generating") {
       return "Evolving your narrative with 0G Compute…";
     }
@@ -101,6 +105,7 @@ export default function GhostPage() {
       const result = await runEvolveNarrative({
         walletAddress: address,
         ghost,
+        signMessage: (message) => signMessageAsync({ message }),
         onPhase: setInitPhase,
       });
 

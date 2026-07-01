@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { buildLabeledFallbackEvolution } from "@/lib/0g/compute/evolve-fallback";
+import { verifyEvolveNarrativeSignature } from "@/lib/ghost/evolve-sign";
 import { walletIdentitySchema } from "@/lib/ghost/identity-schema";
 import {
   getComputeEnvStatus,
@@ -11,29 +12,78 @@ import {
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-const schema = z.object({
-  ghost: z.object({
-    name: z.string(),
-    team: z.string(),
-    evolutionScore: z.number(),
-    mood: z.string(),
-    confidence: z.number().optional(),
-    traits: z
-      .object({
-        passion: z.number(),
-        loyalty: z.number(),
-        drama: z.number(),
-        hope: z.number(),
-        resilience: z.number(),
-      })
-      .optional(),
-    recentMemories: z.array(z.string()),
-    interactionCount: z.number().optional(),
-    identity: walletIdentitySchema.optional(),
-  }),
+const traitsSchema = z.object({
+  passion: z.number(),
+  loyalty: z.number(),
+  drama: z.number(),
+  hope: z.number(),
+  resilience: z.number(),
 });
 
+const ghostSchema = z.object({
+  name: z.string(),
+  team: z.string(),
+  evolutionScore: z.number(),
+  mood: z.string(),
+  confidence: z.number().optional(),
+  traits: traitsSchema.nullish(),
+  recentMemories: z.array(z.string()),
+  interactionCount: z.number().optional(),
+  identity: walletIdentitySchema.nullish(),
+});
+
+const schema = z.object({
+  walletAddress: z.string(),
+  tokenId: z.number(),
+  signature: z.string(),
+  signedAt: z.string(),
+  ghost: ghostSchema,
+});
+
+function sanitizeEvolveBody(raw: unknown): unknown {
+  if (!raw || typeof raw !== "object") return raw;
+  const body = { ...(raw as Record<string, unknown>) };
+  if (body.ghost && typeof body.ghost === "object" && body.ghost !== null) {
+    const ghost = { ...(body.ghost as Record<string, unknown>) };
+    if (ghost.traits === null) delete ghost.traits;
+    if (ghost.identity === null) delete ghost.identity;
+    body.ghost = ghost;
+  }
+  return body;
+}
+
 type EvolveBody = z.infer<typeof schema>;
+
+type EvolveGhostInput = {
+  name: string;
+  team: string;
+  evolutionScore: number;
+  mood: string;
+  confidence?: number;
+  traits?: z.infer<typeof traitsSchema>;
+  recentMemories: string[];
+  interactionCount?: number;
+  identity?: z.infer<typeof walletIdentitySchema>;
+};
+
+function normalizeEvolveGhost(ghost: EvolveBody["ghost"]): EvolveGhostInput {
+  const normalized: EvolveGhostInput = {
+    name: ghost.name,
+    team: ghost.team,
+    evolutionScore: ghost.evolutionScore,
+    mood: ghost.mood,
+    recentMemories: ghost.recentMemories,
+  };
+
+  if (ghost.confidence != null) normalized.confidence = ghost.confidence;
+  if (ghost.traits) normalized.traits = ghost.traits;
+  if (ghost.interactionCount != null) {
+    normalized.interactionCount = ghost.interactionCount;
+  }
+  if (ghost.identity) normalized.identity = ghost.identity;
+
+  return normalized;
+}
 
 function formatComputeError(error: unknown): string {
   if (error instanceof z.ZodError) {
@@ -51,7 +101,7 @@ function labeledFallbackResponse(
   console.error("[evolve] Returning labeled fallback:", reason, meta);
 
   const fallback = buildLabeledFallbackEvolution({
-    ghost: body.ghost,
+    ghost: normalizeEvolveGhost(body.ghost),
     reason,
   });
 
@@ -93,7 +143,7 @@ async function tryLiveCompute(body: EvolveBody) {
       evolutionInsight: string;
     }>({
       task: "evolve",
-      ghost: body.ghost,
+      ghost: normalizeEvolveGhost(body.ghost),
     }),
     attemptMs,
     "0G Compute evolution narrative"
@@ -120,10 +170,24 @@ export async function POST(req: Request) {
   let body: EvolveBody;
 
   try {
-    body = schema.parse(await req.json());
+    body = schema.parse(sanitizeEvolveBody(await req.json()));
   } catch (e) {
     const msg = formatComputeError(e);
     return NextResponse.json({ error: msg }, { status: 400 });
+  }
+
+  const signatureValid = await verifyEvolveNarrativeSignature({
+    address: body.walletAddress,
+    tokenId: body.tokenId,
+    signedAt: body.signedAt,
+    signature: body.signature,
+  });
+
+  if (!signatureValid) {
+    return NextResponse.json(
+      { error: "Invalid wallet signature for narrative evolution" },
+      { status: 401 }
+    );
   }
 
   const env = getComputeEnvStatus();

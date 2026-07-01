@@ -10,15 +10,18 @@ import { sealEciesJsonFromWallet } from "@/lib/0g/storage/seal-ecies-client";
 import type { GhostApiRecord } from "@/hooks/use-ghost";
 import type { OgComputeProof } from "@/types/ghost";
 import { gatherEvolveContext } from "@/lib/ghost/evolve-context";
+import { buildEvolveNarrativeMessage } from "@/lib/ghost/evolve-sign";
 import {
   computeConfidenceDelta,
   computeEvolveNarrativeDelta,
   evolveTraitDeltaFromContext,
 } from "@/lib/ghost/evolution";
+import type { WalletIdentityProfile } from "@/lib/ghost/identity-distinctness";
+import type { GhostTraits } from "@/types/ghost";
 
 const EVOLVE_API_TIMEOUT_MS = 60_000;
 
-export type EvolveNarrativePhase = LegacyInitPhase | "sealing";
+export type EvolveNarrativePhase = LegacyInitPhase | "signing" | "sealing";
 
 export type EvolveNarrativeResult = {
   eventId: string;
@@ -31,12 +34,69 @@ export type EvolveNarrativeResult = {
   proof?: OgComputeProof;
 };
 
+function buildEvolveGhostPayload(
+  ghost: GhostApiRecord,
+  memoryLines: string[],
+  identity: WalletIdentityProfile
+) {
+  const payload: {
+    name: string;
+    team: string;
+    evolutionScore: number;
+    mood: string;
+    confidence: number;
+    recentMemories: string[];
+    interactionCount: number;
+    identity: WalletIdentityProfile;
+    traits?: GhostTraits;
+  } = {
+    name: ghost.name,
+    team: ghost.team,
+    evolutionScore: ghost.evolutionScore,
+    mood: ghost.mood,
+    confidence: ghost.confidence,
+    recentMemories: memoryLines,
+    interactionCount: memoryLines.length,
+    identity,
+  };
+
+  if (ghost.traits) {
+    payload.traits = ghost.traits;
+  }
+
+  return payload;
+}
+
+function formatSignError(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  if (/user rejected|denied|rejected/i.test(message)) {
+    return "Wallet signature cancelled";
+  }
+  return message || "Wallet signature required to evolve narrative";
+}
+
 export async function runEvolveNarrative(params: {
   walletAddress: string;
   ghost: GhostApiRecord;
+  signMessage: (message: string) => Promise<string>;
   onPhase?: (phase: EvolveNarrativePhase | null) => void;
 }): Promise<EvolveNarrativeResult> {
-  const { walletAddress, ghost, onPhase } = params;
+  const { walletAddress, ghost, signMessage, onPhase } = params;
+
+  onPhase?.("signing");
+  const signedAt = new Date().toISOString();
+  const signPayload = buildEvolveNarrativeMessage({
+    address: walletAddress,
+    tokenId: ghost.tokenId,
+    signedAt,
+  });
+
+  let signature: string;
+  try {
+    signature = await signMessage(signPayload);
+  } catch (error) {
+    throw new Error(formatSignError(error));
+  }
 
   await ensureComputeSubAccountIfNeeded(onPhase);
   onPhase?.("generating");
@@ -52,17 +112,11 @@ export async function runEvolveNarrative(params: {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      ghost: {
-        name: ghost.name,
-        team: ghost.team,
-        evolutionScore: ghost.evolutionScore,
-        mood: ghost.mood,
-        confidence: ghost.confidence,
-        traits: ghost.traits,
-        recentMemories: memoryLines,
-        interactionCount: memoryLines.length,
-        identity,
-      },
+      walletAddress: walletAddress.toLowerCase(),
+      tokenId: ghost.tokenId,
+      signature,
+      signedAt,
+      ghost: buildEvolveGhostPayload(ghost, memoryLines, identity),
     }),
     timeoutMs: EVOLVE_API_TIMEOUT_MS,
   });
