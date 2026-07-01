@@ -3,7 +3,9 @@ import { WC_2026_NATIONS } from "@/lib/football/teams";
 import {
   buildAvatarVisualProfile,
   seededRandom,
+  type AvatarFacialHair,
   type AvatarHairStyle,
+  type AvatarKitPattern,
   type AvatarKitWear,
   type GhostMemorySnapshot,
 } from "@/lib/ghost/avatar-visual-profile";
@@ -95,15 +97,71 @@ function teamCode(team: string, teamCode?: string): string {
   return WC_2026_NATIONS.find((n) => n.name === team)?.code ?? "UNK";
 }
 
+/** Mature male head — late 20s/early 30s, strong jaw, not oversized. */
 function headPath(cx: number, headY: number, jaw: number): string {
-  const j = jaw * 3;
-  return `M ${cx - 10} ${headY - 2}
-    Q ${cx - 11} ${headY - 10} ${cx - 4} ${headY - 14}
-    Q ${cx} ${headY - 16} ${cx + 4} ${headY - 14}
-    Q ${cx + 11} ${headY - 10} ${cx + 10} ${headY - 2}
-    Q ${cx + 9} ${headY + 6 + j} ${cx + 5} ${headY + 10 + j}
-    Q ${cx} ${headY + 11 + j} ${cx - 5} ${headY + 10 + j}
-    Q ${cx - 9} ${headY + 6 + j} ${cx - 10} ${headY - 2} Z`;
+  const j = jaw * 4.5;
+  return `M ${cx - 9.5} ${headY}
+    C ${cx - 10.5} ${headY - 8} ${cx - 6} ${headY - 15} ${cx} ${headY - 15.5}
+    C ${cx + 6} ${headY - 15} ${cx + 10.5} ${headY - 8} ${cx + 9.5} ${headY}
+    C ${cx + 9} ${headY + 5 + j} ${cx + 6} ${headY + 10 + j} ${cx} ${headY + 10.5 + j}
+    C ${cx - 6} ${headY + 10 + j} ${cx - 9} ${headY + 5 + j} ${cx - 9.5} ${headY} Z`;
+}
+
+function renderStubble(
+  cx: number,
+  headY: number,
+  style: AvatarFacialHair,
+  op: number
+): string {
+  if (style === "clean") return "";
+  const density = style === "match_stubble" ? 0.55 : 0.32;
+  return `<g opacity="${(op * density).toFixed(2)}">
+    ${Array.from({ length: style === "match_stubble" ? 14 : 8 }, (_, i) => {
+      const x = cx - 7 + (i % 7) * 2.2;
+      const y = headY + 4 + Math.floor(i / 7) * 2;
+      return `<circle cx="${x.toFixed(1)}" cy="${y}" r="0.35" fill="#2a3444"/>`;
+    }).join("")}
+  </g>`;
+}
+
+function renderKitPattern(
+  cx: number,
+  shoulderY: number,
+  waistY: number,
+  pattern: AvatarKitPattern,
+  palette: TeamPalette,
+  op: number
+): string {
+  switch (pattern) {
+    case "vertical_band":
+      return `<rect x="${cx - 5}" y="${shoulderY + 4}" width="10" height="${waistY - shoulderY}" fill="${palette.primary}" opacity="${(op * 0.88).toFixed(2)}"/>`;
+    case "diagonal_sash":
+      return `<path d="M ${cx - 28} ${shoulderY + 6} L ${cx + 8} ${shoulderY + 6} L ${cx + 22} ${waistY + 2} L ${cx - 14} ${waistY + 2} Z" fill="${palette.primary}" opacity="${(op * 0.75).toFixed(2)}"/>`;
+    case "split_blocks":
+      return `<rect x="44" y="${shoulderY + 5}" width="28" height="${waistY - shoulderY - 2}" fill="${palette.primary}" opacity="${(op * 0.55).toFixed(2)}"/>
+        <rect x="78" y="${shoulderY + 5}" width="28" height="${waistY - shoulderY - 2}" fill="${palette.accent}" opacity="${(op * 0.35).toFixed(2)}"/>`;
+    default:
+      return "";
+  }
+}
+
+function renderBokeh(id: number, rand: () => number, accent: string): string {
+  return Array.from({ length: 10 }, (_, i) => {
+    const x = 8 + rand() * (CARD_W - 16);
+    const y = 44 + rand() * 120;
+    const r = 1.5 + rand() * 4;
+    const fill = i % 3 === 0 ? accent : i % 3 === 1 ? "#F4C542" : "#fff";
+    return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${fill}" opacity="${(0.04 + rand() * 0.1).toFixed(2)}" filter="url(#soft-${id})"/>`;
+  }).join("");
+}
+
+function renderPesRating(cx: number, conviction: number, tier: number, traitColor: string): string {
+  const ovr = Math.min(99, Math.round(62 + conviction * 0.28 + tier * 6));
+  return `<g>
+    <rect x="118" y="46" width="24" height="22" rx="4" fill="#0A1020" stroke="${traitColor}" stroke-width="0.8" opacity="0.92"/>
+    <text x="130" y="56" text-anchor="middle" font-size="4" fill="#94a3b8" font-weight="600">SPI</text>
+    <text x="130" y="66" text-anchor="middle" font-size="11" font-weight="800" fill="${traitColor}">${ovr}</text>
+  </g>`;
 }
 
 function renderHair(
@@ -263,6 +321,7 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
 
   const lean = pose === "defiant" ? -3 : pose === "celebration" ? 2 : 4;
   const playerShellTransform = `translate(${lean} 0) scale(${profile.presenceScale})`;
+  const shoulderScale = profile.physiqueScale;
 
   const interactionBar = `<rect x="14" y="30" width="122" height="3" rx="1.5" fill="#1e293b" opacity="0.8"/>
     <rect x="14" y="30" width="${(intensityPct * 1.22).toFixed(1)}" height="3" rx="1.5" fill="url(#intensity-${id})"/>
@@ -326,13 +385,26 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
     <ellipse cx="${cx - 5}" cy="${headY - 5}" rx="3.2" ry="2.2" fill="#fff" opacity="0.06"/>`;
 
   const hair = renderHair(cx, headY, profile.hairStyle, bodyOp * 0.98);
+  const stubble = renderStubble(cx, headY, profile.facialHair, bodyOp);
   const face = renderFace(cx, headY, moodKey, profile.expressionStyle);
+  const kitPatternMark = renderKitPattern(
+    cx,
+    shoulderY,
+    waistY,
+    profile.kitPattern,
+    palette,
+    bodyOp
+  );
+  const bokeh = renderBokeh(id, rand, accentGlow);
+  const pesRating = renderPesRating(cx, profile.conviction, profile.tier, traitRim);
+  const cardShine = `<path d="M 0 0 L ${CARD_W} 0 L 0 ${CARD_H}" fill="url(#shine-${id})" opacity="0.12"/>`;
   const muscleLines = renderMuscleLines(cx, shoulderY, chestY, profile.muscleDefinition, bodyOp);
   const kitWearMarks = renderKitWear(cx, chestY, waistY, profile.kitWear, palette);
 
   const ghostVeilOverlay = `<rect x="36" y="${shoulderY - 6}" width="78" height="${hipY + 58 - shoulderY + 6}" fill="url(#ghost-veil-${id})" opacity="${(ghostVeilOpacity * 0.55).toFixed(2)}" pointer-events="none"/>`;
 
-  const jersey = `<path d="M 44 ${shoulderY} Q ${cx} ${shoulderY - 5} 106 ${shoulderY} L 112 ${chestY + 2} L 104 ${waistY + 2} Q ${cx} ${waistY + 8} 46 ${waistY + 2} L 38 ${chestY + 2} Z" fill="url(#jersey-${id})" opacity="${bodyOp}"/>
+  const shoulderSpan = 34 * shoulderScale;
+  const jersey = `<path d="M ${cx - shoulderSpan} ${shoulderY} Q ${cx} ${shoulderY - 6} ${cx + shoulderSpan} ${shoulderY} L ${cx + shoulderSpan + 6} ${chestY + 2} L ${cx + shoulderSpan - 2} ${waistY + 2} Q ${cx} ${waistY + 8} ${cx - shoulderSpan + 2} ${waistY + 2} L ${cx - shoulderSpan - 6} ${chestY + 2} Z" fill="url(#jersey-${id})" opacity="${bodyOp}"/>
     <path d="M 48 ${shoulderY + 4} L 102 ${shoulderY + 4} L 100 ${chestY - 2} L 50 ${chestY - 2} Z" fill="url(#jersey-light-${id})" opacity="${(bodyOp * 0.75).toFixed(2)}"/>
     <path d="M 46 ${shoulderY + 8} Q ${cx} ${chestY + 4} 104 ${shoulderY + 8}" fill="none" stroke="#000" stroke-width="0.4" opacity="0.2"/>
     <path d="M 38 ${shoulderY + 2} Q 42 ${shoulderY + 12} 44 ${chestY + 4}" fill="none" stroke="${palette.primary}" stroke-width="3.5" opacity="${(bodyOp * 0.9).toFixed(2)}" stroke-linecap="round"/>
@@ -403,12 +475,30 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   const leftSock = `<rect x="44" y="${hipY + 32}" width="14" height="16" rx="1.2" fill="${palette.primary}" opacity="0.94"/>`;
   const rightSock = `<rect x="92" y="${hipY + 30}" width="14" height="16" rx="1.2" fill="${palette.primary}" opacity="0.94"/>`;
 
-  const leftBoot = `<path d="M 38 ${hipY + 50} L 60 ${hipY + 50} L 62 ${hipY + 58} L 36 ${hipY + 58} Z" fill="#0f172a"/>
-    <ellipse cx="49" cy="${hipY + 59}" rx="12" ry="4" fill="#020617"/>`;
-  const rightBoot = `<path d="M 88 ${hipY + 50} L 110 ${hipY + 50} L 112 ${hipY + 58} L 86 ${hipY + 58} Z" fill="#0f172a"/>
-    <ellipse cx="99" cy="${hipY + 59}" rx="12" ry="4" fill="#020617"/>`;
+  const bootStuds = (bx: number, by: number) =>
+    Array.from({ length: 5 }, (_, i) => {
+      const sx = bx - 8 + i * 4;
+      return `<circle cx="${sx}" cy="${by + 2}" r="0.7" fill="#334155"/>`;
+    }).join("");
 
-  const ballX = pose === "clutch_ball" ? 118 : 46;
+  const leftBoot = `<path d="M 38 ${hipY + 50} L 60 ${hipY + 50} L 62 ${hipY + 58} L 36 ${hipY + 58} Z" fill="url(#boot-${id})"/>
+    <ellipse cx="49" cy="${hipY + 59}" rx="12" ry="4" fill="#020617"/>
+    ${bootStuds(49, hipY + 58)}`;
+  const rightBoot = `<path d="M 88 ${hipY + 50} L 110 ${hipY + 50} L 112 ${hipY + 58} L 86 ${hipY + 58} Z" fill="url(#boot-${id})"/>
+    <ellipse cx="99" cy="${hipY + 59}" rx="12" ry="4" fill="#020617"/>
+    ${bootStuds(99, hipY + 58)}`;
+
+  const celebrationBurst =
+    pose === "celebration" && profile.celebrationEnergy >= 0.35
+      ? `<g opacity="${(0.35 + profile.celebrationEnergy * 0.45).toFixed(2)}">
+          <path d="M ${cx - 30} ${headY - 20} L ${cx - 26} ${headY - 28} L ${cx - 22} ${headY - 20}" fill="${accentGlow}"/>
+          <path d="M ${cx + 30} ${headY - 18} L ${cx + 34} ${headY - 26} L ${cx + 38} ${headY - 18}" fill="${palette.primary}"/>
+          <circle cx="${cx}" cy="${headY - 24}" r="2" fill="#F4C542"/>
+        </g>`
+      : "";
+
+  const ballX =
+    pose === "clutch_ball" ? 118 : pose === "celebration" ? cx + 28 : 46;
   const ballY = hipY + 46;
   const football = `<g class="gg-ball" data-animate="bob">
     <circle cx="${ballX}" cy="${ballY + 1}" r="10" fill="#000" opacity="0.2" filter="url(#soft-${id})"/>
@@ -500,6 +590,17 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
       <stop offset="0%" stop-color="#1a2438"/>
       <stop offset="100%" stop-color="#0A1020"/>
     </linearGradient>
+    <linearGradient id="shine-${id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="boot-${id}" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <pattern id="mesh-${id}" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path d="M 0 4 L 4 0" stroke="#fff" stroke-width="0.25" opacity="0.06"/>
+    </pattern>
     <filter id="card-shadow-${id}">
       <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.6"/>
     </filter>
@@ -518,8 +619,11 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
 
   <rect width="${CARD_W}" height="${CARD_H}" rx="16" fill="url(#bg-${id})" filter="url(#card-shadow-${id})"/>
   ${stadiumLight}
+  ${bokeh}
   ${holoFoil}
+  ${cardShine}
   ${vignette}
+  ${pesRating}
 
   <rect x="6" y="6" width="${CARD_W - 12}" height="${CARD_H - 12}" rx="13" fill="none" stroke="${frame.outer}" stroke-width="${frame.width}"/>
   <rect x="9" y="9" width="${CARD_W - 18}" height="${CARD_H - 18}" rx="11" fill="none" stroke="${frame.inner}" stroke-width="0.6" opacity="0.55"/>
@@ -534,6 +638,7 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   ${wisps}
   ${ghostEcho}
   ${legendHalo}
+  ${celebrationBurst}
   ${mediaGlow}
   ${commentEnergy}
 
@@ -549,6 +654,8 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
     ${shorts}
     ${scarf}
     ${jersey}
+    <rect x="40" y="${shoulderY + 2}" width="70" height="${waistY - shoulderY + 4}" fill="url(#mesh-${id})" opacity="${(bodyOp * 0.5).toFixed(2)}"/>
+    ${kitPatternMark}
     ${kitWearMarks}
     ${kitStripe}
     ${kitFolds}
@@ -564,6 +671,7 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
     ${head}
     ${hair}
     ${face}
+    ${stubble}
     ${edgeGlow}
     ${ghostVeilOverlay}
     </g>

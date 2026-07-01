@@ -30,6 +30,14 @@ export type AvatarHairStyle =
 
 export type AvatarKitWear = "pristine" | "match_worn" | "battle_scarred";
 
+export type AvatarKitPattern =
+  | "solid"
+  | "vertical_band"
+  | "diagonal_sash"
+  | "split_blocks";
+
+export type AvatarFacialHair = "clean" | "light_stubble" | "match_stubble";
+
 export type AvatarVisualProfile = {
   stage: EvolutionStage;
   tier: 0 | 1 | 2 | 3 | 4;
@@ -65,6 +73,10 @@ export type AvatarVisualProfile = {
   skinTone: string;
   jawIntensity: number;
   muscleDefinition: number;
+  physiqueScale: number;
+  kitPattern: AvatarKitPattern;
+  facialHair: AvatarFacialHair;
+  celebrationEnergy: number;
 };
 
 const DEFAULT_TRAITS: GhostTraits = {
@@ -264,7 +276,12 @@ export function buildAvatarVisualProfile(params: {
   );
   const ghostOpacity = Math.min(0.94, 0.62 + tier * 0.07 + conviction / 500);
   const floatHeight = tier * 2 + (interactionIntensity >= 40 ? 2 : 0);
-  const presenceScale = 1 + tier * 0.015 + interactionIntensity / 2000;
+  const presenceScale =
+    1.04 + tier * 0.016 + interactionIntensity / 1800 + conviction / 8000;
+  const physiqueScale = Math.min(
+    1.1,
+    1.03 + tier * 0.012 + traits.passion / 400 + interactionIntensity / 500
+  );
 
   const hasMediaGlow =
     identity?.banterStyle === "visual_banter" ||
@@ -328,7 +345,29 @@ export function buildAvatarVisualProfile(params: {
   );
   const muscleDefinition = Math.min(
     1,
-    0.3 + tier * 0.12 + interactionIntensity / 250 + traits.passion / 300
+    0.42 + tier * 0.11 + interactionIntensity / 220 + traits.passion / 280
+  );
+  const kitPatterns: AvatarKitPattern[] = [
+    "solid",
+    "vertical_band",
+    "diagonal_sash",
+    "split_blocks",
+  ];
+  const kitPattern = kitPatterns[(seed >> 3) % kitPatterns.length];
+  const facialHairOptions: AvatarFacialHair[] = [
+    "clean",
+    "light_stubble",
+    "match_stubble",
+  ];
+  const facialHair =
+    facialHairOptions[(seed >> 6) % facialHairOptions.length];
+  const celebrationEnergy = Math.min(
+    1,
+    (socialReactions * 0.15 +
+      matchReactions * 0.12 +
+      (identity?.reactionPattern === "celebration_driven" ? 0.35 : 0) +
+      (pose === "celebration" ? 0.25 : 0)) /
+      1.2
   );
 
   const visualDirectives = [
@@ -384,6 +423,10 @@ export function buildAvatarVisualProfile(params: {
     skinTone,
     jawIntensity,
     muscleDefinition,
+    physiqueScale,
+    kitPattern,
+    facialHair,
+    celebrationEnergy,
   };
 }
 

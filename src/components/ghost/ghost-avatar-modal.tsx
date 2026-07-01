@@ -75,6 +75,17 @@ export function GhostAvatarModal({
             {stage ? ` · ${stage}` : ""}
             {mood ? ` · ${mood}` : ""}
           </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className={cn(
+              "mt-5 rounded-lg border border-white/12 bg-[#0A1020]/80 px-8 py-2.5",
+              "text-xs font-medium uppercase tracking-[0.2em] text-muted/80",
+              "transition-colors hover:border-[#F4C542]/35 hover:text-[#F4C542]"
+            )}
+          >
+            Exit
+          </button>
         </div>
       </div>
     </div>,

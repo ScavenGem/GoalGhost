@@ -11,12 +11,13 @@ export { ghostEvolutionStage };
 export const GHOST_AVATAR_PROMPT_TEMPLATE = `You are creating premium, mature football ghost characters for GoalGhost.
 
 Style Rules (strict and non-negotiable):
+- PES / eFootball premium player-card illustration quality with subtle ghost energy.
+- Mature athletic male footballer, late 20s to early 30s, strong human proportions.
 - Hyper-realistic cinematic football player + ethereal ghost hybrid.
-- Mature, serious, high-detail design (like premium sports game characters).
-- Subtle translucency, glowing ethereal energy, floating effect, but the core is a strong football player.
-- Detailed kit with national colors and crest.
-- Emotional facial expression and body language.
-- No cartoonish, babyish, simplistic, or playful designs. Absolutely no big head or toy-like proportions.
+- Subtle translucency, glowing ethereal energy, slight floating effect — strongly football-native.
+- Detailed kit with national colors, crest, boots, ball, celebration pose when earned.
+- Emotional facial expression, kit condition, and body language driven by fan journey.
+- No cartoonish, babyish, simplistic, or toy-like designs. No oversized head or chibi proportions.
 
 Dynamic Inputs (must influence the output strongly):
 - Country: [COUNTRY] — use exact national kit colors and symbols.
