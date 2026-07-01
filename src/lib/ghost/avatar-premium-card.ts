@@ -89,8 +89,9 @@ const TRAIT_RIM: Record<keyof GhostTraits, string> = {
   resilience: "#94A3B8",
 };
 
-export const CARD_W = 150;
-export const CARD_H = 210;
+export const CARD_W = 200;
+export const CARD_H = 280;
+const LAYOUT_K = CARD_W / 150;
 
 function teamCode(team: string, teamCode?: string): string {
   if (teamCode) return teamCode;
@@ -155,13 +156,23 @@ function renderBokeh(id: number, rand: () => number, accent: string): string {
   }).join("");
 }
 
-function renderPesRating(cx: number, conviction: number, tier: number, traitColor: string): string {
+function renderPesRating(
+  cardW: number,
+  conviction: number,
+  tier: number,
+  traitColor: string
+): string {
   const ovr = Math.min(99, Math.round(62 + conviction * 0.28 + tier * 6));
+  const x = cardW - 32;
   return `<g>
-    <rect x="118" y="46" width="24" height="22" rx="4" fill="#0A1020" stroke="${traitColor}" stroke-width="0.8" opacity="0.92"/>
-    <text x="130" y="56" text-anchor="middle" font-size="4" fill="#94a3b8" font-weight="600">SPI</text>
-    <text x="130" y="66" text-anchor="middle" font-size="11" font-weight="800" fill="${traitColor}">${ovr}</text>
+    <rect x="${x}" y="58" width="28" height="26" rx="5" fill="#0A1020" stroke="${traitColor}" stroke-width="1" opacity="0.94"/>
+    <text x="${x + 14}" y="70" text-anchor="middle" font-size="5" fill="#94a3b8" font-weight="600">SPI</text>
+    <text x="${x + 14}" y="82" text-anchor="middle" font-size="13" font-weight="800" fill="${traitColor}">${ovr}</text>
   </g>`;
+}
+
+function renderSpotlight(cx: number, cardH: number, id: number): string {
+  return `<ellipse cx="${cx}" cy="${cardH * 0.28}" rx="${cx * 0.85}" ry="${cardH * 0.35}" fill="url(#spot-${id})" opacity="0.9"/>`;
 }
 
 function renderHair(
@@ -219,31 +230,74 @@ function renderMuscleLines(
     <path d="M ${cx + 6} ${shoulderY + 14} Q ${cx + 2} ${chestY + 6} ${cx} ${chestY + 10}" fill="none" stroke="#0f172a" stroke-width="0.5" opacity="${a}"/>`;
 }
 
+function renderPortraitLighting(cx: number, headY: number, id: number): string {
+  return `<ellipse cx="${cx - 6}" cy="${headY - 4}" rx="5" ry="3.5" fill="#fff" opacity="0.09"/>
+    <path d="M ${cx + 2} ${headY - 8} L ${cx + 4} ${headY + 2} L ${cx + 1} ${headY + 6}" fill="#000" opacity="0.08"/>
+    <ellipse cx="${cx + 5}" cy="${headY + 2}" rx="2.5" ry="3.5" fill="#3d2f28" opacity="0.12"/>`;
+}
+
 function renderFace(
   cx: number,
   headY: number,
   moodKey: string,
-  expressionStyle: string
+  expressionStyle: string,
+  eyeIntensity: number
 ): string {
   const smirk = /smirk|banter/i.test(expressionStyle);
   const steely = /defiant|steely|jaw/i.test(expressionStyle);
+  const eyeW = 2 + eyeIntensity * 0.8;
+  const eyeH = 1.3 + eyeIntensity * 0.5;
+  const lighting = renderPortraitLighting(cx, headY, 0);
+
   if (steely || moodKey === "fierce") {
-    return `<path d="M ${cx - 8} ${headY - 1} L ${cx - 4} ${headY - 3}" stroke="#0f172a" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M ${cx + 4} ${headY - 3} L ${cx + 8} ${headY - 1}" stroke="#0f172a" stroke-width="1.2" stroke-linecap="round"/>
-      <rect x="${cx - 5.5}" y="${headY + 0.5}" width="3.2" height="1.4" rx="0.4" fill="#0f172a"/>
-      <rect x="${cx + 2.3}" y="${headY + 0.5}" width="3.2" height="1.4" rx="0.4" fill="#0f172a"/>
-      <path d="M ${cx - 3.5} ${headY + 7} L ${cx + 3.5} ${headY + 7}" stroke="#0f172a" stroke-width="1" stroke-linecap="round"/>`;
+    return `${lighting}
+      <path d="M ${cx - 9} ${headY - 0.5} L ${cx - 5} ${headY - 2.5}" stroke="#1a2030" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M ${cx + 5} ${headY - 2.5} L ${cx + 9} ${headY - 0.5}" stroke="#1a2030" stroke-width="1.4" stroke-linecap="round"/>
+      <ellipse cx="${cx - 5}" cy="${headY + 1.5}" rx="${eyeW}" ry="${eyeH * 0.75}" fill="#0f172a"/>
+      <ellipse cx="${cx + 5}" cy="${headY + 1.5}" rx="${eyeW}" ry="${eyeH * 0.75}" fill="#0f172a"/>
+      <path d="M ${cx - 1} ${headY + 3} L ${cx} ${headY + 5.5} L ${cx + 1} ${headY + 3}" fill="#2a3444" opacity="0.35"/>
+      <path d="M ${cx - 4} ${headY + 8} L ${cx + 4} ${headY + 8}" stroke="#1a2030" stroke-width="1.1" stroke-linecap="round"/>`;
   }
   if (moodKey === "charged") {
-    return `<ellipse cx="${cx - 4.5}" cy="${headY + 1.5}" rx="2.4" ry="1.6" fill="#0f172a"/>
-      <ellipse cx="${cx + 4.5}" cy="${headY + 1.5}" rx="2.4" ry="1.6" fill="#0f172a"/>
-      <circle cx="${cx - 3.5}" cy="${headY + 0.5}" r="0.75" fill="#fff" opacity="0.55"/>
-      <circle cx="${cx + 5.5}" cy="${headY + 0.5}" r="0.75" fill="#fff" opacity="0.55"/>
-      <path d="M ${cx - 4} ${headY + 7} Q ${cx} ${headY + (smirk ? 8 : 9)} ${cx + 4} ${headY + 7}" stroke="#0f172a" stroke-width="0.95" fill="none"/>`;
+    return `${lighting}
+      <ellipse cx="${cx - 5.5}" cy="${headY + 1.5}" rx="${eyeW + 0.3}" ry="${eyeH}" fill="#0f172a"/>
+      <ellipse cx="${cx + 5.5}" cy="${headY + 1.5}" rx="${eyeW + 0.3}" ry="${eyeH}" fill="#0f172a"/>
+      <circle cx="${cx - 4.2}" cy="${headY + 0.5}" r="0.9" fill="#fff" opacity="0.5"/>
+      <circle cx="${cx + 6.2}" cy="${headY + 0.5}" r="0.9" fill="#fff" opacity="0.5"/>
+      <path d="M ${cx - 1} ${headY + 3.5} L ${cx} ${headY + 6} L ${cx + 1} ${headY + 3.5}" fill="#2a3444" opacity="0.3"/>
+      <path d="M ${cx - 4.5} ${headY + 8.5} Q ${cx} ${headY + (smirk ? 10 : 11)} ${cx + 4.5} ${headY + 8.5}" stroke="#1a2030" stroke-width="1" fill="none"/>`;
   }
-  return `<ellipse cx="${cx - 4.5}" cy="${headY + 1.5}" rx="1.9" ry="1.35" fill="#0f172a" opacity="0.92"/>
-    <ellipse cx="${cx + 4.5}" cy="${headY + 1.5}" rx="1.9" ry="1.35" fill="#0f172a" opacity="0.92"/>
-    <path d="M ${cx - 3.5} ${headY + 7} Q ${cx} ${headY + (smirk ? 6 : 5)} ${cx + 3.5} ${headY + 7}" stroke="#0f172a" stroke-width="0.85" fill="none"/>`;
+  return `${lighting}
+    <ellipse cx="${cx - 5.5}" cy="${headY + 1.5}" rx="${eyeW * 0.85}" ry="${eyeH * 0.9}" fill="#0f172a" opacity="0.94"/>
+    <ellipse cx="${cx + 5.5}" cy="${headY + 1.5}" rx="${eyeW * 0.85}" ry="${eyeH * 0.9}" fill="#0f172a" opacity="0.94"/>
+    <path d="M ${cx - 1} ${headY + 3} L ${cx} ${headY + 5} L ${cx + 1} ${headY + 3}" fill="#2a3444" opacity="0.28"/>
+    <path d="M ${cx - 4} ${headY + 8} Q ${cx} ${headY + (smirk ? 7 : 6.5)} ${cx + 4} ${headY + 8}" stroke="#1a2030" stroke-width="0.9" fill="none"/>`;
+}
+
+function renderAthleticArm(
+  side: "left" | "right",
+  pose: string,
+  cx: number,
+  shoulderY: number,
+  chestY: number,
+  waistY: number,
+  headY: number,
+  id: number,
+  op: number,
+  lk: (v: number) => number
+): string {
+  const fill = `url(#limb-${id})`;
+  const attach = cx + (side === "left" ? -lk(48) : lk(48));
+  if (pose === "celebration" && side === "left") {
+    return `<path d="M ${attach} ${shoulderY + lk(10)} C ${cx - lk(66)} ${shoulderY - lk(6)} ${cx - lk(78)} ${headY - lk(6)} ${cx - lk(80)} ${headY - lk(18)} C ${cx - lk(76)} ${headY - lk(24)} ${cx - lk(66)} ${headY - lk(14)} ${cx - lk(58)} ${shoulderY} Z" fill="${fill}" opacity="${op}"/>`;
+  }
+  if (pose === "celebration" && side === "right") {
+    return `<path d="M ${attach} ${shoulderY + lk(10)} C ${cx + lk(66)} ${shoulderY - lk(6)} ${cx + lk(78)} ${headY - lk(6)} ${cx + lk(80)} ${headY - lk(18)} C ${cx + lk(76)} ${headY - lk(24)} ${cx + lk(66)} ${headY - lk(14)} ${cx + lk(58)} ${shoulderY} Z" fill="${fill}" opacity="${op}"/>`;
+  }
+  if (side === "left") {
+    return `<path d="M ${attach} ${shoulderY + lk(12)} C ${cx - lk(60)} ${chestY + lk(8)} ${cx - lk(68)} ${waistY + lk(10)} ${cx - lk(62)} ${waistY + lk(20)} C ${cx - lk(56)} ${waistY + lk(14)} ${cx - lk(52)} ${chestY + lk(6)} ${cx - lk(46)} ${shoulderY + lk(8)} Z" fill="${fill}" opacity="${op}"/>`;
+  }
+  return `<path d="M ${attach} ${shoulderY + lk(12)} C ${cx + lk(60)} ${chestY + lk(6)} ${cx + lk(68)} ${waistY + lk(12)} ${cx + lk(62)} ${waistY + lk(22)} C ${cx + lk(56)} ${waistY + lk(16)} ${cx + lk(52)} ${chestY + lk(4)} ${cx + lk(46)} ${shoulderY + lk(8)} Z" fill="${fill}" opacity="${op}"/>`;
 }
 
 function frameStroke(tier: number): { outer: string; inner: string; width: number } {
@@ -295,8 +349,9 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   const traitRim = TRAIT_RIM[profile.dominantTrait];
   const id = profile.seed;
   const kit = profile.kitDetailLevel;
-  const bodyOp = Math.min(0.9, profile.ghostOpacity * 0.95);
-  const ghostVeilOpacity = Math.max(0.25, 1 - bodyOp);
+  const bodyOp = profile.bodySolidity;
+  const ghostVeilOpacity = Math.min(0.35, profile.ghostOpacity * 0.65);
+  const lk = (v: number) => v * LAYOUT_K;
   const kitNumber = 7 + Math.floor(rand() * 9);
   const pose = profile.pose;
   const floatY = -profile.floatHeight * 0.85;
@@ -305,12 +360,12 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   const counts = interactionCounts(params.memories);
   const intensityPct = Math.min(100, profile.interactionIntensity);
 
-  const headY = 48 + floatY * 0.1;
-  const neckY = headY + 12;
-  const shoulderY = neckY + 6;
-  const chestY = shoulderY + 20;
-  const waistY = chestY + 16;
-  const hipY = waistY + 12;
+  const headY = lk(46) + floatY * 0.1;
+  const neckY = headY + lk(13);
+  const shoulderY = neckY + lk(7);
+  const chestY = shoulderY + lk(22);
+  const waistY = chestY + lk(17);
+  const hipY = waistY + lk(14);
 
   const moodKey =
     profile.mood === "fierce" || profile.mood === "defiant"
@@ -319,23 +374,24 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
         ? "charged"
         : "focused";
 
-  const lean = pose === "defiant" ? -3 : pose === "celebration" ? 2 : 4;
-  const playerShellTransform = `translate(${lean} 0) scale(${profile.presenceScale})`;
-  const shoulderScale = profile.physiqueScale;
+  const lean = pose === "defiant" ? -4 : pose === "celebration" ? 3 : 5;
+  const playerShellTransform = `translate(${lean} ${lk(2)}) rotate(${profile.portraitTilt.toFixed(1)} ${cx} ${chestY}) scale(${profile.presenceScale})`;
+  const shoulderScale = profile.physiqueScale * profile.stanceWidth;
 
-  const interactionBar = `<rect x="14" y="30" width="122" height="3" rx="1.5" fill="#1e293b" opacity="0.8"/>
-    <rect x="14" y="30" width="${(intensityPct * 1.22).toFixed(1)}" height="3" rx="1.5" fill="url(#intensity-${id})"/>
-    <text x="14" y="28" font-size="4" fill="#64748b" letter-spacing="0.12em">JOURNEY ${intensityPct}%</text>`;
+  const interactionBar = `<rect x="${lk(14)}" y="${lk(30)}" width="${lk(122)}" height="4" rx="2" fill="#1e293b" opacity="0.85"/>
+    <rect x="${lk(14)}" y="${lk(30)}" width="${(intensityPct * lk(1.22)).toFixed(1)}" height="4" rx="2" fill="url(#intensity-${id})"/>
+    <text x="${lk(14)}" y="${lk(27)}" font-size="5" fill="#64748b" letter-spacing="0.12em">JOURNEY ${intensityPct}%</text>`;
 
   const statRow = `<g opacity="0.9">
-    <text x="16" y="42" font-size="4.5" fill="#94a3b8">${counts.comments}C</text>
-    <text x="38" y="42" font-size="4.5" fill="#94a3b8">${counts.reactions}R</text>
-    <text x="58" y="42" font-size="4.5" fill="#94a3b8">${counts.matches}M</text>
-    <text x="78" y="42" font-size="4.5" fill="#F4C542">+${profile.totalEvolutionGain} EV</text>
+    <text x="${lk(16)}" y="${lk(42)}" font-size="5.5" fill="#94a3b8">${counts.comments}C</text>
+    <text x="${lk(38)}" y="${lk(42)}" font-size="5.5" fill="#94a3b8">${counts.reactions}R</text>
+    <text x="${lk(58)}" y="${lk(42)}" font-size="5.5" fill="#94a3b8">${counts.matches}M</text>
+    <text x="${lk(78)}" y="${lk(42)}" font-size="5.5" fill="#F4C542">+${profile.totalEvolutionGain} EV</text>
   </g>`;
 
-  const stadiumLight = `<ellipse cx="${cx}" cy="95" rx="62" ry="78" fill="url(#burst-${id})"/>
-    <ellipse cx="${cx}" cy="108" rx="46" ry="54" fill="url(#burst-core-${id})"/>`;
+  const spotlight = renderSpotlight(cx, CARD_H, id);
+  const stadiumLight = `<ellipse cx="${cx}" cy="${lk(95)}" rx="${lk(62)}" ry="${lk(78)}" fill="url(#burst-${id})"/>
+    <ellipse cx="${cx}" cy="${lk(108)}" rx="${lk(46)}" ry="${lk(54)}" fill="url(#burst-core-${id})"/>`;
 
   const vignette = `<rect width="${CARD_W}" height="${CARD_H}" rx="16" fill="url(#vignette-${id})" opacity="0.55"/>`;
 
@@ -350,12 +406,9 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
     }
   ).join("");
 
-  const ghostEcho = `<g opacity="${(ghostVeilOpacity * 0.35).toFixed(2)}" transform="translate(6 ${floatY + 8})">
-    <path d="M 48 ${shoulderY} L 42 ${waistY + 18} L 50 ${hipY + 54} L 100 ${hipY + 54} L 108 ${waistY + 18} L 102 ${shoulderY} Z" fill="${accentGlow}" filter="url(#soft-${id})"/>
-  </g>`;
-
-  const edgeGlow = `<path d="M 44 ${shoulderY} Q 38 ${chestY} 40 ${waistY + 22} L 42 ${hipY + 50}" fill="none" stroke="${accentGlow}" stroke-width="3" opacity="${(ghostVeilOpacity * 0.5).toFixed(2)}" filter="url(#ghost-edge-${id})"/>
-    <path d="M 106 ${shoulderY} Q 112 ${chestY} 110 ${waistY + 22} L 108 ${hipY + 50}" fill="none" stroke="${accentGlow}" stroke-width="3" opacity="${(ghostVeilOpacity * 0.5).toFixed(2)}" filter="url(#ghost-edge-${id})"/>`;
+  const shoulderSpanEarly = lk(34) * shoulderScale;
+  const edgeGlow = `<path d="M ${cx - shoulderSpanEarly} ${shoulderY} Q ${cx - shoulderSpanEarly - lk(4)} ${chestY} ${cx - shoulderSpanEarly - lk(2)} ${waistY + lk(22)}" fill="none" stroke="${accentGlow}" stroke-width="2.5" opacity="${(ghostVeilOpacity * 0.55).toFixed(2)}" filter="url(#ghost-edge-${id})"/>
+    <path d="M ${cx + shoulderSpanEarly} ${shoulderY} Q ${cx + shoulderSpanEarly + lk(4)} ${chestY} ${cx + shoulderSpanEarly + lk(2)} ${waistY + lk(22)}" fill="none" stroke="${accentGlow}" stroke-width="2.5" opacity="${(ghostVeilOpacity * 0.55).toFixed(2)}" filter="url(#ghost-edge-${id})"/>`;
 
   const sparks =
     profile.hasReactionSparks || intensityPct >= 30
@@ -386,7 +439,13 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
 
   const hair = renderHair(cx, headY, profile.hairStyle, bodyOp * 0.98);
   const stubble = renderStubble(cx, headY, profile.facialHair, bodyOp);
-  const face = renderFace(cx, headY, moodKey, profile.expressionStyle);
+  const face = renderFace(
+    cx,
+    headY,
+    moodKey,
+    profile.expressionStyle,
+    profile.eyeIntensity
+  );
   const kitPatternMark = renderKitPattern(
     cx,
     shoulderY,
@@ -396,14 +455,19 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
     bodyOp
   );
   const bokeh = renderBokeh(id, rand, accentGlow);
-  const pesRating = renderPesRating(cx, profile.conviction, profile.tier, traitRim);
+  const pesRating = renderPesRating(
+    CARD_W,
+    profile.conviction,
+    profile.tier,
+    traitRim
+  );
   const cardShine = `<path d="M 0 0 L ${CARD_W} 0 L 0 ${CARD_H}" fill="url(#shine-${id})" opacity="0.12"/>`;
   const muscleLines = renderMuscleLines(cx, shoulderY, chestY, profile.muscleDefinition, bodyOp);
   const kitWearMarks = renderKitWear(cx, chestY, waistY, profile.kitWear, palette);
 
-  const ghostVeilOverlay = `<rect x="36" y="${shoulderY - 6}" width="78" height="${hipY + 58 - shoulderY + 6}" fill="url(#ghost-veil-${id})" opacity="${(ghostVeilOpacity * 0.55).toFixed(2)}" pointer-events="none"/>`;
+  const ghostVeilOverlay = `<rect x="${cx - lk(42)}" y="${shoulderY - lk(6)}" width="${lk(84)}" height="${hipY + lk(58) - shoulderY + lk(6)}" fill="url(#ghost-veil-${id})" opacity="${(ghostVeilOpacity * 0.14).toFixed(2)}" pointer-events="none"/>`;
 
-  const shoulderSpan = 34 * shoulderScale;
+  const shoulderSpan = lk(34) * shoulderScale;
   const jersey = `<path d="M ${cx - shoulderSpan} ${shoulderY} Q ${cx} ${shoulderY - 6} ${cx + shoulderSpan} ${shoulderY} L ${cx + shoulderSpan + 6} ${chestY + 2} L ${cx + shoulderSpan - 2} ${waistY + 2} Q ${cx} ${waistY + 8} ${cx - shoulderSpan + 2} ${waistY + 2} L ${cx - shoulderSpan - 6} ${chestY + 2} Z" fill="url(#jersey-${id})" opacity="${bodyOp}"/>
     <path d="M 48 ${shoulderY + 4} L 102 ${shoulderY + 4} L 100 ${chestY - 2} L 50 ${chestY - 2} Z" fill="url(#jersey-light-${id})" opacity="${(bodyOp * 0.75).toFixed(2)}"/>
     <path d="M 46 ${shoulderY + 8} Q ${cx} ${chestY + 4} 104 ${shoulderY + 8}" fill="none" stroke="#000" stroke-width="0.4" opacity="0.2"/>
@@ -436,44 +500,57 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   const collar = `<path d="M ${cx - 8} ${neckY + 1} Q ${cx} ${neckY + 7} ${cx + 8} ${neckY + 1}" fill="none" stroke="${palette.accent}" stroke-width="1.6" opacity="0.9"/>`;
 
   const captainBand = profile.hasCaptainBand
-    ? `<rect x="94" y="${shoulderY + 10}" width="14" height="5.5" rx="1.2" fill="${profile.hasLegendHalo ? "#F4C542" : palette.accent}" stroke="#0f172a" stroke-width="0.4"/>
-       <text x="101" y="${shoulderY + 14}" text-anchor="middle" font-size="4.5" font-weight="800" fill="#0f172a">C</text>`
+    ? `<rect x="${cx + lk(44)}" y="${shoulderY + lk(10)}" width="${lk(14)}" height="${lk(5.5)}" rx="1.2" fill="${profile.hasLegendHalo ? "#F4C542" : palette.accent}" stroke="#0f172a" stroke-width="0.4"/>
+       <text x="${cx + lk(51)}" y="${shoulderY + lk(14)}" text-anchor="middle" font-size="5" font-weight="800" fill="#0f172a">C</text>`
     : "";
 
   const scarf = profile.hasScarf
-    ? `<path d="M 42 ${shoulderY - 2} Q ${cx} ${shoulderY + 10} 108 ${shoulderY - 2} L 104 ${waistY + 6} Q ${cx} ${waistY} 46 ${waistY + 6} Z" fill="${palette.primary}" opacity="0.55"/>`
+    ? `<path d="M ${cx - lk(58)} ${shoulderY - 2} Q ${cx} ${shoulderY + lk(10)} ${cx + lk(58)} ${shoulderY - 2} L ${cx + lk(54)} ${waistY + lk(6)} Q ${cx} ${waistY} ${cx - lk(54)} ${waistY + lk(6)} Z" fill="${palette.primary}" opacity="0.55"/>`
     : "";
 
   const goldTrim =
     kit >= 5 || profile.hasLegendHalo
-      ? `<path d="M 44 ${shoulderY} L 106 ${shoulderY}" stroke="#F4C542" stroke-width="1.4" opacity="0.85"/>
-         <path d="M 46 ${waistY + 2} L 104 ${waistY + 2}" stroke="#F4C542" stroke-width="0.7" opacity="0.55"/>`
+      ? `<path d="M ${cx - shoulderSpan} ${shoulderY} L ${cx + shoulderSpan} ${shoulderY}" stroke="#F4C542" stroke-width="1.4" opacity="0.85"/>
+         <path d="M ${cx - shoulderSpan + lk(2)} ${waistY + 2} L ${cx + shoulderSpan - lk(2)} ${waistY + 2}" stroke="#F4C542" stroke-width="0.7" opacity="0.55"/>`
       : "";
 
-  const leftArm =
-    pose === "celebration"
-      ? `<path d="M 44 ${shoulderY + 8} L 24 ${shoulderY - 14} L 18 ${headY - 10} L 24 ${headY - 18} L 36 ${shoulderY - 2} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`
-      : `<path d="M 44 ${shoulderY + 10} L 34 ${chestY + 10} L 28 ${waistY + 16} L 38 ${waistY + 12} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`;
+  const leftArm = renderAthleticArm(
+    "left",
+    pose,
+    cx,
+    shoulderY,
+    chestY,
+    waistY,
+    headY,
+    id,
+    bodyOp,
+    lk
+  );
+  const rightArm = renderAthleticArm(
+    "right",
+    pose,
+    cx,
+    shoulderY,
+    chestY,
+    waistY,
+    headY,
+    id,
+    bodyOp,
+    lk
+  );
 
-  const rightArm =
-    pose === "clutch_ball" || pose === "match_ready"
-      ? `<path d="M 106 ${shoulderY + 10} L 116 ${chestY + 12} L 120 ${waistY + 20} L 110 ${waistY + 14} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`
-      : pose === "celebration"
-        ? `<path d="M 106 ${shoulderY + 8} L 126 ${shoulderY - 14} L 132 ${headY - 10} L 126 ${headY - 18} L 114 ${shoulderY - 2} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`
-        : `<path d="M 106 ${shoulderY + 10} L 116 ${chestY + 8} L 122 ${waistY + 14} L 112 ${waistY + 10} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`;
-
-  const shorts = `<path d="M 46 ${waistY + 2} L 104 ${waistY + 2} L 100 ${hipY + 10} Q ${cx} ${hipY + 18} 50 ${hipY + 10} Z" fill="${palette.secondary}" opacity="${(bodyOp * 0.98).toFixed(2)}"/>
-    <path d="M 50 ${waistY + 8} L 100 ${waistY + 8} L 98 ${hipY + 4} L 52 ${hipY + 4} Z" fill="#000" opacity="0.08"/>`;
+  const shorts = `<path d="M ${cx - lk(54)} ${waistY + 2} L ${cx + lk(54)} ${waistY + 2} L ${cx + lk(50)} ${hipY + lk(10)} Q ${cx} ${hipY + lk(18)} ${cx - lk(50)} ${hipY + lk(10)} Z" fill="${palette.secondary}" opacity="${(bodyOp * 0.98).toFixed(2)}"/>
+    <path d="M ${cx - lk(50)} ${waistY + lk(8)} L ${cx + lk(50)} ${waistY + lk(8)} L ${cx + lk(48)} ${hipY + lk(4)} L ${cx - lk(48)} ${hipY + lk(4)} Z" fill="#000" opacity="0.08"/>`;
 
   const leftLeg =
     pose === "match_ready" || pose === "clutch_ball"
-      ? `<path d="M 54 ${hipY + 10} L 46 ${hipY + 36} L 42 ${hipY + 52} L 56 ${hipY + 50} L 62 ${hipY + 28} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`
-      : `<path d="M 56 ${hipY + 10} L 52 ${hipY + 36} L 48 ${hipY + 52} L 60 ${hipY + 50} L 64 ${hipY + 28} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`;
+      ? `<path d="M ${cx - lk(46)} ${hipY + lk(10)} L ${cx - lk(54)} ${hipY + lk(36)} L ${cx - lk(58)} ${hipY + lk(52)} L ${cx - lk(44)} ${hipY + lk(50)} L ${cx - lk(38)} ${hipY + lk(28)} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`
+      : `<path d="M ${cx - lk(44)} ${hipY + lk(10)} L ${cx - lk(48)} ${hipY + lk(36)} L ${cx - lk(52)} ${hipY + lk(52)} L ${cx - lk(40)} ${hipY + lk(50)} L ${cx - lk(36)} ${hipY + lk(28)} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`;
 
-  const rightLeg = `<path d="M 94 ${hipY + 10} L 100 ${hipY + 34} L 104 ${hipY + 52} L 90 ${hipY + 50} L 86 ${hipY + 28} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`;
+  const rightLeg = `<path d="M ${cx + lk(44)} ${hipY + lk(10)} L ${cx + lk(50)} ${hipY + lk(34)} L ${cx + lk(54)} ${hipY + lk(52)} L ${cx + lk(40)} ${hipY + lk(50)} L ${cx + lk(36)} ${hipY + lk(28)} Z" fill="url(#limb-${id})" opacity="${bodyOp}"/>`;
 
-  const leftSock = `<rect x="44" y="${hipY + 32}" width="14" height="16" rx="1.2" fill="${palette.primary}" opacity="0.94"/>`;
-  const rightSock = `<rect x="92" y="${hipY + 30}" width="14" height="16" rx="1.2" fill="${palette.primary}" opacity="0.94"/>`;
+  const leftSock = `<rect x="${cx - lk(56)}" y="${hipY + lk(32)}" width="${lk(14)}" height="${lk(16)}" rx="1.2" fill="${palette.primary}" opacity="0.94"/>`;
+  const rightSock = `<rect x="${cx + lk(42)}" y="${hipY + lk(30)}" width="${lk(14)}" height="${lk(16)}" rx="1.2" fill="${palette.primary}" opacity="0.94"/>`;
 
   const bootStuds = (bx: number, by: number) =>
     Array.from({ length: 5 }, (_, i) => {
@@ -481,12 +558,15 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
       return `<circle cx="${sx}" cy="${by + 2}" r="0.7" fill="#334155"/>`;
     }).join("");
 
-  const leftBoot = `<path d="M 38 ${hipY + 50} L 60 ${hipY + 50} L 62 ${hipY + 58} L 36 ${hipY + 58} Z" fill="url(#boot-${id})"/>
-    <ellipse cx="49" cy="${hipY + 59}" rx="12" ry="4" fill="#020617"/>
-    ${bootStuds(49, hipY + 58)}`;
-  const rightBoot = `<path d="M 88 ${hipY + 50} L 110 ${hipY + 50} L 112 ${hipY + 58} L 86 ${hipY + 58} Z" fill="url(#boot-${id})"/>
-    <ellipse cx="99" cy="${hipY + 59}" rx="12" ry="4" fill="#020617"/>
-    ${bootStuds(99, hipY + 58)}`;
+  const leftBootX = cx - lk(51);
+  const rightBootX = cx + lk(49);
+  const bootY = hipY + lk(50);
+  const leftBoot = `<path d="M ${leftBootX - lk(12)} ${bootY} L ${leftBootX + lk(10)} ${bootY} L ${leftBootX + lk(12)} ${bootY + lk(8)} L ${leftBootX - lk(14)} ${bootY + lk(8)} Z" fill="url(#boot-${id})"/>
+    <ellipse cx="${leftBootX}" cy="${bootY + lk(9)}" rx="${lk(12)}" ry="4" fill="#020617"/>
+    ${bootStuds(leftBootX, bootY + lk(8))}`;
+  const rightBoot = `<path d="M ${rightBootX - lk(12)} ${bootY} L ${rightBootX + lk(10)} ${bootY} L ${rightBootX + lk(12)} ${bootY + lk(8)} L ${rightBootX - lk(14)} ${bootY + lk(8)} Z" fill="url(#boot-${id})"/>
+    <ellipse cx="${rightBootX}" cy="${bootY + lk(9)}" rx="${lk(12)}" ry="4" fill="#020617"/>
+    ${bootStuds(rightBootX, bootY + lk(8))}`;
 
   const celebrationBurst =
     pose === "celebration" && profile.celebrationEnergy >= 0.35
@@ -497,16 +577,18 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
         </g>`
       : "";
 
-  const ballX =
-    pose === "clutch_ball" ? 118 : pose === "celebration" ? cx + 28 : 46;
-  const ballY = hipY + 46;
-  const football = `<g class="gg-ball" data-animate="bob">
+  const showBall = pose === "clutch_ball" || pose === "celebration";
+  const ballX = pose === "clutch_ball" ? cx + lk(38) : cx + lk(24);
+  const ballY = hipY + lk(42);
+  const football = showBall
+    ? `<g class="gg-ball" data-animate="bob">
     <circle cx="${ballX}" cy="${ballY + 1}" r="10" fill="#000" opacity="0.2" filter="url(#soft-${id})"/>
     <circle cx="${ballX}" cy="${ballY}" r="9.5" fill="url(#ball-${id})"/>
     <path d="M ${ballX} ${ballY - 6.5} L ${ballX + 2.5} ${ballY - 2.2} L ${ballX + 6.5} ${ballY - 2.2} L ${ballX + 3} ${ballY + 1.8} L ${ballX + 4.2} ${ballY + 6} L ${ballX} ${ballY + 3.8} L ${ballX - 4.2} ${ballY + 6} L ${ballX - 3} ${ballY + 1.8} L ${ballX - 6.5} ${ballY - 2.2} L ${ballX - 2.5} ${ballY - 2.2} Z" fill="#1e293b" opacity="0.25"/>
     <ellipse cx="${ballX - 2.5}" cy="${ballY - 2}" rx="2.5" ry="1.5" fill="#fff" opacity="0.4"/>
     <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2; 0,0" dur="3.2s" repeatCount="indefinite"/>
-  </g>`;
+  </g>`
+    : "";
 
   const legendHalo = profile.hasLegendHalo
     ? `<ellipse cx="${cx}" cy="${headY + 6}" rx="42" ry="48" fill="none" stroke="#F4C542" stroke-width="1.2" opacity="0.4"/>
@@ -594,6 +676,11 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
       <stop offset="0%" stop-color="#fff" stop-opacity="0.35"/>
       <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
     </linearGradient>
+    <radialGradient id="spot-${id}" cx="50%" cy="0%" r="85%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.22"/>
+      <stop offset="45%" stop-color="#fff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
     <linearGradient id="boot-${id}" x1="0.3" y1="0" x2="0.7" y2="1">
       <stop offset="0%" stop-color="#1e293b"/>
       <stop offset="100%" stop-color="#020617"/>
@@ -618,6 +705,7 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   </defs>
 
   <rect width="${CARD_W}" height="${CARD_H}" rx="16" fill="url(#bg-${id})" filter="url(#card-shadow-${id})"/>
+  ${spotlight}
   ${stadiumLight}
   ${bokeh}
   ${holoFoil}
@@ -636,7 +724,6 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   ${sparks}
   ${ghostFloor}
   ${wisps}
-  ${ghostEcho}
   ${legendHalo}
   ${celebrationBurst}
   ${mediaGlow}
@@ -678,17 +765,17 @@ export function buildPremiumGhostCardDataUri(params: PremiumCardParams): string 
   </g>
   ${football}
 
-  <rect x="0" y="168" width="${CARD_W}" height="42" fill="url(#plate-${id})"/>
-  <line x1="0" y1="168" x2="${CARD_W}" y2="168" stroke="${frame.outer}" stroke-width="0.8" opacity="0.45"/>
+  <rect x="0" y="${lk(168)}" width="${CARD_W}" height="${lk(42)}" fill="url(#plate-${id})"/>
+  <line x1="0" y1="${lk(168)}" x2="${CARD_W}" y2="${lk(168)}" stroke="${frame.outer}" stroke-width="0.8" opacity="0.45"/>
 
-  <rect x="12" y="174" width="40" height="16" rx="4" fill="${palette.secondary}" opacity="0.9"/>
-  <text x="32" y="185" text-anchor="middle" font-size="8" font-weight="800" fill="${palette.primary}">${code}</text>
+  <rect x="${lk(12)}" y="${lk(174)}" width="${lk(40)}" height="${lk(16)}" rx="5" fill="${palette.secondary}" opacity="0.9"/>
+  <text x="${lk(32)}" y="${lk(185)}" text-anchor="middle" font-size="9" font-weight="800" fill="${palette.primary}">${code}</text>
 
-  <rect x="${CARD_W - 52}" y="174" width="40" height="16" rx="4" fill="#1e293b" stroke="${frame.outer}" stroke-width="0.5"/>
-  <text x="${CARD_W - 32}" y="185" text-anchor="middle" font-size="6.5" font-weight="700" fill="#F4C542">${profile.stage.toUpperCase()}</text>
+  <rect x="${CARD_W - lk(52)}" y="${lk(174)}" width="${lk(40)}" height="${lk(16)}" rx="5" fill="#1e293b" stroke="${frame.outer}" stroke-width="0.5"/>
+  <text x="${CARD_W - lk(32)}" y="${lk(185)}" text-anchor="middle" font-size="7.5" font-weight="700" fill="#F4C542">${profile.stage.toUpperCase()}</text>
 
-  <text x="${cx}" y="198" text-anchor="middle" font-size="8" font-weight="800" fill="#f8fafc" letter-spacing="0.05em" filter="url(#text-shadow-${id})">${displayName}</text>
-  <text x="${cx}" y="206" text-anchor="middle" font-size="5" fill="#94a3b8" letter-spacing="0.12em">${profile.mood.toUpperCase()} · ${profile.conviction}% · T${profile.tier}</text>
+  <text x="${cx}" y="${lk(198)}" text-anchor="middle" font-size="9" font-weight="800" fill="#f8fafc" letter-spacing="0.05em" filter="url(#text-shadow-${id})">${displayName}</text>
+  <text x="${cx}" y="${lk(206)}" text-anchor="middle" font-size="5.5" fill="#94a3b8" letter-spacing="0.12em">${profile.mood.toUpperCase()} · ${profile.conviction}% · T${profile.tier}</text>
 </svg>`;
 
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;

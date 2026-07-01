@@ -77,6 +77,10 @@ export type AvatarVisualProfile = {
   kitPattern: AvatarKitPattern;
   facialHair: AvatarFacialHair;
   celebrationEnergy: number;
+  bodySolidity: number;
+  portraitTilt: number;
+  stanceWidth: number;
+  eyeIntensity: number;
 };
 
 const DEFAULT_TRAITS: GhostTraits = {
@@ -274,7 +278,14 @@ export function buildAvatarVisualProfile(params: {
     1,
     0.12 + tier * 0.12 + interactionIntensity / 200 + (conviction >= 80 ? 0.1 : 0)
   );
-  const ghostOpacity = Math.min(0.94, 0.62 + tier * 0.07 + conviction / 500);
+  const ghostOpacity = Math.min(
+    0.5,
+    0.15 + tier * 0.05 + interactionIntensity / 450
+  );
+  const bodySolidity = Math.min(
+    0.98,
+    0.9 + tier * 0.018 + conviction / 600 + interactionIntensity / 800
+  );
   const floatHeight = tier * 2 + (interactionIntensity >= 40 ? 2 : 0);
   const presenceScale =
     1.04 + tier * 0.016 + interactionIntensity / 1800 + conviction / 8000;
@@ -369,6 +380,12 @@ export function buildAvatarVisualProfile(params: {
       (pose === "celebration" ? 0.25 : 0)) /
       1.2
   );
+  const portraitTilt = ((seed % 9) - 4) * 0.6;
+  const stanceWidth = 0.9 + ((seed >> 2) % 6) * 0.035;
+  const eyeIntensity = Math.min(
+    1,
+    0.45 + conviction / 140 + traits.drama / 200 + interactionIntensity / 300
+  );
 
   const visualDirectives = [
     ...identityDirectives,
@@ -427,6 +444,10 @@ export function buildAvatarVisualProfile(params: {
     kitPattern,
     facialHair,
     celebrationEnergy,
+    bodySolidity,
+    portraitTilt,
+    stanceWidth,
+    eyeIntensity,
   };
 }
 
